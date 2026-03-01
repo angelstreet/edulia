@@ -38,7 +38,7 @@ export function AcceptInvitePage() {
       <div className="login-card">
         <h1 className="login-title">{t('acceptInviteTitle', 'Set your password')}</h1>
         <p className="form-hint">
-          {t('acceptInviteHint', 'You have been invited to join EduCore. Choose a password to get started.')}
+          {t('acceptInviteHint', 'You have been invited to join Edulia. Choose a password to get started.')}
         </p>
         <form onSubmit={handleSubmit} className="login-form">
           {error && <div className="form-alert form-alert--error">{error}</div>}

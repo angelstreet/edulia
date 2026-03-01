@@ -172,7 +172,7 @@ pip install -r worker/requirements.txt
 ```bash
 cat > /opt/edulia/backend/.env << 'EOF'
 # === Core ===
-APP_NAME=EduCore
+APP_NAME=Edulia
 APP_ENV=production
 APP_URL=https://edulia.YOUR_DOMAIN.com
 APP_PORT=8200
@@ -419,7 +419,7 @@ cd repo/apps/web
 cat > .env.production << 'EOF'
 VITE_API_URL=https://edulia.YOUR_DOMAIN.com/api
 VITE_SOCKETIO_URL=https://edulia.YOUR_DOMAIN.com
-VITE_APP_NAME=EduCore
+VITE_APP_NAME=Edulia
 EOF
 
 # Install and build

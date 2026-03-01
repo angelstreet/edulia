@@ -1,6 +1,6 @@
 # 00 — Master Plan
 
-## Project: EduCore — Open-Source Unified Education Platform
+## Project: Edulia — Open-Source Unified Education Platform
 
 **Date:** 2026-03-01
 **License:** AGPL-3.0 (dual licensing: AGPL for open-source, commercial license for proprietary deployments)
@@ -33,7 +33,7 @@ A modern, open-source alternative to École Directe / Pronote (school) and tutor
 |----------|---------|------|
 | Self-hosted by a school (unmodified or sharing changes) | AGPL-3.0 | Free |
 | Self-hosted with custom modifications (shared back) | AGPL-3.0 | Free |
-| SaaS deployment by EduCore team | Commercial | Paid plans |
+| SaaS deployment by Edulia team | Commercial | Paid plans |
 | Third party wanting to embed/resell without sharing code | Commercial | Paid license |
 | Contributions from community | CLA (Contributor License Agreement) | Free |
 
@@ -192,7 +192,7 @@ Not in scope for initial build. See `04-ENTERPRISE-SCOPE.md` when ready.
 
 ## RGPD / GDPR Compliance
 
-EduCore handles student data (minors) in the EU. Compliance is **non-negotiable**.
+Edulia handles student data (minors) in the EU. Compliance is **non-negotiable**.
 
 ### Data Protection Requirements
 
@@ -255,7 +255,7 @@ EduCore handles student data (minors) in the EU. Compliance is **non-negotiable*
 
 ### Competitive Advantage
 
-| vs. Ecole Directe / Pronote | EduCore |
+| vs. Ecole Directe / Pronote | Edulia |
 |-----------------------------|---------|
 | Closed source, no customization | Open source, fully extensible |
 | Annual license per student (expensive) | Free self-hosted, affordable SaaS |

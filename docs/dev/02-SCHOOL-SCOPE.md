@@ -471,7 +471,7 @@ QuestionBankEntry
 4. Other teachers can browse shared library, filter by subject/tag, and import questions into their own banks
 5. Importing copies the question into the teacher's personal bank — no live link
 
-**Moderation:** Shared library questions go through `status: pending → approved → published`. Initially, the EduCore team moderates. Later, community voting.
+**Moderation:** Shared library questions go through `status: pending → approved → published`. Initially, the Edulia team moderates. Later, community voting.
 
 ### Features
 - Create quizzes with mixed question types

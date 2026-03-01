@@ -34,7 +34,7 @@ Type: API test (DB assertion)
 What: Vite + React + TypeScript project, i18next setup, router, basic App shell
 Files: apps/web/ (main.tsx, App.tsx, router.tsx, i18n.ts)
 Test: `npm run dev` serves at localhost:5173
-Verify: Screenshot of blank app shell with EduCore logo
+Verify: Screenshot of blank app shell with Edulia logo
 Type: E2E screenshot
 ```
 

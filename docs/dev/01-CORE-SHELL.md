@@ -398,7 +398,7 @@ GET    /audit-logs               — admin only, filtered
 Every API request is scoped to a tenant. Resolution order:
 
 1. **JWT claim** (primary) — `tenant_id` is embedded in the access token at login
-2. **Subdomain** (SaaS) — `saint-joseph.educore.app` → resolve `saint-joseph` slug → tenant_id
+2. **Subdomain** (SaaS) — `saint-joseph.edulia.app` → resolve `saint-joseph` slug → tenant_id
 3. **Header** (API integrations) — `X-Tenant-ID` header for service-to-service calls
 
 ```python
@@ -550,7 +550,7 @@ npx shadcn-ui@latest add button input select dialog table card badge tabs toast
 **Component mapping:**
 | Our component | shadcn/ui base | Customization |
 |---------------|----------------|---------------|
-| `Button.tsx` | `@/components/ui/button` | EduCore brand colors |
+| `Button.tsx` | `@/components/ui/button` | Edulia brand colors |
 | `Input.tsx` | `@/components/ui/input` | French labels, validation |
 | `Table.tsx` | `@/components/ui/table` | Pagination, sorting built-in |
 | `Modal.tsx` | `@/components/ui/dialog` | Standard sizes (sm/md/lg) |
@@ -588,7 +588,7 @@ export const useAuthStore = create<AuthState>()(
       },
       logout: () => set({ accessToken: null, refreshToken: null, user: null }),
     }),
-    { name: 'educore-auth' }
+    { name: 'edulia-auth' }
   )
 );
 ```
@@ -648,8 +648,8 @@ apps/web/public/
 ```json
 // manifest.json
 {
-  "name": "EduCore",
-  "short_name": "EduCore",
+  "name": "Edulia",
+  "short_name": "Edulia",
   "start_url": "/",
   "display": "standalone",
   "theme_color": "#1e3a5f",
@@ -1321,7 +1321,7 @@ docuseal:
   volumes:
     - docuseal_data:/data
   environment:
-    DATABASE_URL: postgresql://educore:${DB_PASSWORD}@db:5432/docuseal
+    DATABASE_URL: postgresql://edulia:${DB_PASSWORD}@db:5432/docuseal
     SECRET_KEY_BASE: ${DOCUSEAL_SECRET}
 ```
 
@@ -1441,7 +1441,7 @@ def setup_2fa(user: User) -> dict:
     secret = pyotp.random_base32()
     user.totp_secret = encrypt(secret)  # store encrypted
     totp = pyotp.TOTP(secret)
-    uri = totp.provisioning_uri(name=user.email, issuer_name="EduCore")
+    uri = totp.provisioning_uri(name=user.email, issuer_name="Edulia")
     qr = generate_qr_code(uri)  # PNG bytes
     return {"qr_code": base64(qr), "secret": secret, "uri": uri}
 
@@ -1481,7 +1481,7 @@ def verify_2fa_setup(user: User, code: str) -> bool:
 const VideoSession = ({ sessionId, roomName }: Props) => {
   const domain = import.meta.env.VITE_JITSI_DOMAIN || "meet.jit.si";
   const options = {
-    roomName: `educore-${sessionId}`,
+    roomName: `edulia-${sessionId}`,
     parentNode: document.getElementById("jitsi-container"),
     userInfo: { displayName: currentUser.display_name },
     configOverwrite: {
@@ -1533,9 +1533,9 @@ from icalendar import Calendar, Event
 
 def generate_ical_feed(user: User, sessions: list) -> bytes:
     cal = Calendar()
-    cal.add("prodid", "-//EduCore//EN")
+    cal.add("prodid", "-//Edulia//EN")
     cal.add("version", "2.0")
-    cal.add("x-wr-calname", f"EduCore - {user.display_name}")
+    cal.add("x-wr-calname", f"Edulia - {user.display_name}")
 
     for session in sessions:
         event = Event()
@@ -1544,7 +1544,7 @@ def generate_ical_feed(user: User, sessions: list) -> bytes:
         event.add("dtend", session.end_datetime)
         event.add("location", session.room.name if session.room else "")
         event.add("description", f"Enseignant: {session.teacher.display_name}")
-        event.add("uid", f"{session.id}@educore")
+        event.add("uid", f"{session.id}@edulia")
         cal.add_component(event)
 
     return cal.to_ical()
@@ -1905,10 +1905,10 @@ services:
     ports: ["8000:8000"]
     volumes: ["./apps/api/app:/app/app"]
     environment:
-      DATABASE_URL: postgresql://educore:educore@db:5432/educore
+      DATABASE_URL: postgresql://edulia:edulia@db:5432/edulia
       REDIS_URL: redis://redis:6379/0
       S3_ENDPOINT: http://minio:9000
-      S3_BUCKET: educore
+      S3_BUCKET: edulia
       S3_ACCESS_KEY: minioadmin
       S3_SECRET_KEY: minioadmin
       JWT_SECRET: dev-secret-change-in-prod
@@ -1918,9 +1918,9 @@ services:
     ports: ["5432:5432"]
     volumes: ["pgdata:/var/lib/postgresql/data"]
     environment:
-      POSTGRES_DB: educore
-      POSTGRES_USER: educore
-      POSTGRES_PASSWORD: educore
+      POSTGRES_DB: edulia
+      POSTGRES_USER: edulia
+      POSTGRES_PASSWORD: edulia
 
   redis:        # Redis 7
     image: redis:7-alpine
@@ -1978,7 +1978,7 @@ services:
 
   api:
     environment:
-      DATABASE_URL: postgresql://educore:${DB_PASSWORD}@db:5432/educore
+      DATABASE_URL: postgresql://edulia:${DB_PASSWORD}@db:5432/edulia
       JWT_SECRET: ${JWT_SECRET}  # from .env, long random string
       CORS_ORIGINS: https://school.example.com
       SENTRY_DSN: ${SENTRY_DSN}  # error tracking
@@ -2040,13 +2040,13 @@ Cloud Provider (AWS eu-west-3 Paris / Scaleway / OVH)
 ├── Email: Brevo (ex-Sendinblue) — EU-based, GDPR compliant
 ├── Monitoring: Grafana Cloud or self-hosted Prometheus + Grafana
 ├── CI/CD: GitHub Actions → build → push to registry → deploy
-└── DNS: Cloudflare (wildcard *.educore.app for tenant subdomains)
+└── DNS: Cloudflare (wildcard *.edulia.app for tenant subdomains)
 ```
 
 **Tenant routing:**
-- Each tenant gets: `{slug}.educore.app` (e.g., `saint-joseph.educore.app`)
+- Each tenant gets: `{slug}.edulia.app` (e.g., `saint-joseph.edulia.app`)
 - Nginx resolves slug → tenant_id via Redis cache
-- Or custom domain: school sets CNAME `ecole.saint-joseph.fr → saint-joseph.educore.app`
+- Or custom domain: school sets CNAME `ecole.saint-joseph.fr → saint-joseph.edulia.app`
 
 #### Backup Strategy
 
@@ -2070,13 +2070,13 @@ Cloud Provider (AWS eu-west-3 Paris / Scaleway / OVH)
 ```env
 # .env.example — all required configuration
 # === Core ===
-APP_NAME=EduCore
+APP_NAME=Edulia
 APP_ENV=production          # development | staging | production
 APP_URL=https://school.example.com
 APP_PORT=8000
 
 # === Database ===
-DATABASE_URL=postgresql://educore:password@db:5432/educore
+DATABASE_URL=postgresql://edulia:password@db:5432/edulia
 DB_POOL_SIZE=20
 DB_MAX_OVERFLOW=10
 
@@ -2092,7 +2092,7 @@ JWT_REFRESH_TOKEN_EXPIRE_DAYS=7
 
 # === Storage ===
 S3_ENDPOINT=https://s3.eu-west-3.amazonaws.com  # or http://minio:9000
-S3_BUCKET=educore-files
+S3_BUCKET=edulia-files
 S3_ACCESS_KEY=...
 S3_SECRET_KEY=...
 S3_REGION=eu-west-3
@@ -2102,7 +2102,7 @@ SMTP_HOST=smtp-relay.brevo.com
 SMTP_PORT=587
 SMTP_USER=...
 SMTP_PASSWORD=...
-EMAIL_FROM=noreply@educore.app
+EMAIL_FROM=noreply@edulia.app
 
 # === Payments (optional) ===
 STRIPE_SECRET_KEY=sk_...
@@ -2127,7 +2127,7 @@ JITSI_APP_ID=                       # optional, for JWT auth on self-hosted
 # === Push Notifications ===
 VAPID_PUBLIC_KEY=...                # generated with pywebpush
 VAPID_PRIVATE_KEY=...
-VAPID_MAILTO=mailto:admin@educore.app
+VAPID_MAILTO=mailto:admin@edulia.app
 
 # === RGPD ===
 DATA_RETENTION_YEARS=3
@@ -2138,7 +2138,7 @@ GDPR_DPO_EMAIL=dpo@school.example.com
 
 ## 24. White-Label Branding
 
-Tenants see their own identity (name, logo, colors) — not "EduCore". The `branding` JSONB on the Tenant model (section 1.1) drives everything below.
+Tenants see their own identity (name, logo, colors) — not "Edulia". The `branding` JSONB on the Tenant model (section 1.1) drives everything below.
 
 ### 24.1 Frontend: CSS Custom Properties
 
@@ -2158,7 +2158,7 @@ export function useTenantBranding(branding: TenantBranding) {
     if (link && branding.favicon_url) link.href = branding.favicon_url;
 
     // Document title
-    document.title = branding.display_name || 'EduCore';
+    document.title = branding.display_name || 'Edulia';
   }, [branding]);
 }
 ```
@@ -2174,7 +2174,7 @@ shadcn/ui components already use CSS variables — map brand vars into the Tailw
 }
 ```
 
-### 24.2 "Powered by EduCore" Logic
+### 24.2 "Powered by Edulia" Logic
 
 Visibility depends on `subscription_plan`:
 
@@ -2194,7 +2194,7 @@ function PoweredBy() {
 
   return (
     <footer className="text-xs text-muted-foreground text-center py-2">
-      Powered by <a href="https://educore.app">EduCore</a>
+      Powered by <a href="https://edulia.app">Edulia</a>
     </footer>
   );
 }
@@ -2226,7 +2226,7 @@ The login page renders tenant branding before authentication:
 │                                                 │
 │   Mot de passe oublié ?                         │
 │                                                 │
-│   ─── Powered by EduCore ───                    │
+│   ─── Powered by Edulia ───                    │
 └─────────────────────────────────────────────────┘
 ```
 
@@ -2246,7 +2246,7 @@ Tenants on `pro` or `enterprise` plans can set a custom domain (e.g. `ecole.sain
 ```nginx
 # Default: subdomain routing
 server {
-    server_name ~^(?<tenant_slug>[^.]+)\.educore\.app$;
+    server_name ~^(?<tenant_slug>[^.]+)\.edulia\.app$;
     # proxy_pass to app with X-Tenant-Slug header
     proxy_set_header X-Tenant-Slug $tenant_slug;
     proxy_pass http://app:8000;
@@ -2269,7 +2269,7 @@ server {
 3. `Host` header lookup against `Tenant.custom_domain` (custom domain)
 4. Fail → 404
 
-**SSL for custom domains:** Use Let's Encrypt with wildcard cert for `*.educore.app`. For custom domains, use Caddy or certbot with DNS-01 challenge, provisioned on first request.
+**SSL for custom domains:** Use Let's Encrypt with wildcard cert for `*.edulia.app`. For custom domains, use Caddy or certbot with DNS-01 challenge, provisioned on first request.
 
 ### 24.5 Email Branding
 
@@ -2292,7 +2292,7 @@ All transactional emails use the tenant's branding:
     <td style="padding: 12px; text-align: center; font-size: 12px; color: #999;">
       {{ branding.footer_text }}
       {% if show_powered_by %}
-        <br/>Propulsé par <a href="https://educore.app">EduCore</a>
+        <br/>Propulsé par <a href="https://edulia.app">Edulia</a>
       {% endif %}
     </td>
   </tr>
@@ -2307,7 +2307,7 @@ Admin → Settings → Branding:
 - Pick primary / secondary / accent colors (color picker)
 - Edit display name, footer text, login welcome text
 - Upload login background image (max 2MB, JPG/PNG)
-- Toggle "Powered by EduCore" (pro plan only — grayed out for free)
+- Toggle "Powered by Edulia" (pro plan only — grayed out for free)
 - Set custom domain (pro/enterprise — triggers SSL provisioning)
 
 Live preview shown alongside the form.
@@ -2462,7 +2462,7 @@ If a school changes grading scale mid-year, existing grades are **not** retroact
 ### 26.4 Tenant Defaults on Creation
 
 When a new tenant is created, the system seeds:
-- Default branding (EduCore logo, blue theme, `show_powered_by: true`)
+- Default branding (Edulia logo, blue theme, `show_powered_by: true`)
 - Default settings (France timezone, French locale, EUR currency, grading /20)
 - Default roles (admin, teacher, student, parent) with preset permissions
 - Competency framework (Socle commun) if `type = school`

@@ -7,7 +7,7 @@ Monorepo. Clear boundaries: frontend, backend, shared, infra.
 ## Root
 
 ```
-educore/
+edulia/
 ├── README.md
 ├── LICENSE                        # AGPL-3.0
 ├── .env.example
@@ -141,7 +141,7 @@ apps/web/src/
 │   │   ├── Topbar.tsx
 │   │   ├── MobileNav.tsx
 │   │   ├── Breadcrumb.tsx
-│   │   └── PoweredBy.tsx            # "Powered by EduCore" conditional footer
+│   │   └── PoweredBy.tsx            # "Powered by Edulia" conditional footer
 │   ├── common/
 │   │   ├── NotificationPanel.tsx
 │   │   ├── UserMenu.tsx

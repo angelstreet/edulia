@@ -182,7 +182,7 @@ ufw enable
 ```
 
 ```nginx
-# /etc/nginx/sites-available/educore.conf
+# /etc/nginx/sites-available/edulia.conf
 
 # Rate limiting zones
 limit_req_zone $binary_remote_addr zone=login:10m rate=5r/m;
@@ -202,17 +202,17 @@ upstream app_socketio {
 
 server {
     listen 80;
-    server_name educore.example.com;
+    server_name edulia.example.com;
     return 301 https://$host$request_uri;
 }
 
 server {
     listen 443 ssl http2;
-    server_name educore.example.com;
+    server_name edulia.example.com;
 
     # SSL (managed by certbot)
-    ssl_certificate /etc/letsencrypt/live/educore.example.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/educore.example.com/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/edulia.example.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/edulia.example.com/privkey.pem;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_prefer_server_ciphers on;
 
@@ -278,24 +278,24 @@ server {
 Runs the application stack in Docker.
 
 ```yaml
-# /opt/educore/docker-compose.yml on app-server
+# /opt/edulia/docker-compose.yml on app-server
 
 version: "3.8"
 
 services:
   web:
-    image: educore/web:latest
+    image: edulia/web:latest
     ports:
       - "80:80"
     restart: always
 
   api:
-    image: educore/api:latest
+    image: edulia/api:latest
     ports:
       - "8000:8000"
-    env_file: /opt/educore/.env
+    env_file: /opt/edulia/.env
     environment:
-      DATABASE_URL: postgresql://educore:${DB_PASSWORD}@10.10.30.10:5432/educore
+      DATABASE_URL: postgresql://edulia:${DB_PASSWORD}@10.10.30.10:5432/edulia
       REDIS_URL: redis://10.10.30.11:6379/0
       CELERY_BROKER_URL: redis://10.10.30.11:6379/1
       S3_ENDPOINT: http://10.10.30.12:9000
@@ -305,7 +305,7 @@ services:
     restart: always
 
   socketio:
-    image: educore/socketio:latest
+    image: edulia/socketio:latest
     ports:
       - "3001:3001"
     environment:
@@ -319,16 +319,16 @@ services:
 Background jobs + virus scanning.
 
 ```yaml
-# /opt/educore/docker-compose.yml on worker
+# /opt/edulia/docker-compose.yml on worker
 
 version: "3.8"
 
 services:
   celery-worker:
-    image: educore/api:latest
-    env_file: /opt/educore/.env
+    image: edulia/api:latest
+    env_file: /opt/edulia/.env
     environment:
-      DATABASE_URL: postgresql://educore:${DB_PASSWORD}@10.10.30.10:5432/educore
+      DATABASE_URL: postgresql://edulia:${DB_PASSWORD}@10.10.30.10:5432/edulia
       REDIS_URL: redis://10.10.30.11:6379/0
       CELERY_BROKER_URL: redis://10.10.30.11:6379/1
       S3_ENDPOINT: http://10.10.30.12:9000
@@ -338,8 +338,8 @@ services:
     restart: always
 
   celery-beat:
-    image: educore/api:latest
-    env_file: /opt/educore/.env
+    image: edulia/api:latest
+    env_file: /opt/edulia/.env
     environment:
       CELERY_BROKER_URL: redis://10.10.30.11:6379/1
     command: celery -A worker.worker beat -l warning
@@ -366,7 +366,7 @@ volumes:
 DocuSeal and optionally self-hosted Jitsi.
 
 ```yaml
-# /opt/educore/docker-compose.yml on services
+# /opt/edulia/docker-compose.yml on services
 
 version: "3.8"
 
@@ -378,7 +378,7 @@ services:
     volumes:
       - docuseal_data:/data
     environment:
-      DATABASE_URL: postgresql://educore:${DB_PASSWORD}@10.10.30.10:5432/docuseal
+      DATABASE_URL: postgresql://edulia:${DB_PASSWORD}@10.10.30.10:5432/docuseal
       SECRET_KEY_BASE: ${DOCUSEAL_SECRET}
     restart: always
 
@@ -409,7 +409,7 @@ apt-get install -y postgresql-16 postgresql-contrib-16
 # Configure for performance
 cat >> /etc/postgresql/16/main/postgresql.conf << 'EOF'
 
-# === EduCore tuning ===
+# === Edulia tuning ===
 listen_addresses = '10.10.30.10'
 max_connections = 200
 shared_buffers = 2GB
@@ -429,11 +429,11 @@ EOF
 # pg_hba.conf — allow from VLAN 20 only
 cat >> /etc/postgresql/16/main/pg_hba.conf << 'EOF'
 # App servers (VLAN 20)
-host  educore   educore   10.10.20.0/24   scram-sha-256
+host  edulia   edulia   10.10.20.0/24   scram-sha-256
 # Backup server (VLAN 40)
-host  educore   backup    10.10.40.20/32  scram-sha-256
+host  edulia   backup    10.10.40.20/32  scram-sha-256
 # DocuSeal
-host  docuseal  educore   10.10.20.30/32  scram-sha-256
+host  docuseal  edulia   10.10.20.30/32  scram-sha-256
 # Deny everything else
 host  all       all       0.0.0.0/0       reject
 EOF
@@ -442,16 +442,16 @@ systemctl restart postgresql
 
 # Create databases
 sudo -u postgres psql << 'EOF'
-CREATE USER educore WITH PASSWORD 'CHANGE_ME';
-CREATE DATABASE educore OWNER educore;
-CREATE DATABASE docuseal OWNER educore;
+CREATE USER edulia WITH PASSWORD 'CHANGE_ME';
+CREATE DATABASE edulia OWNER edulia;
+CREATE DATABASE docuseal OWNER edulia;
 CREATE USER backup WITH PASSWORD 'CHANGE_ME_TOO';
-GRANT CONNECT ON DATABASE educore TO backup;
+GRANT CONNECT ON DATABASE edulia TO backup;
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO backup;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO backup;
 
 -- Enable Row Level Security
-\c educore
+\c edulia
 ALTER TABLE users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE groups ENABLE ROW LEVEL SECURITY;
 -- (applied to all tenant-scoped tables via migration)
@@ -468,7 +468,7 @@ EOF
 ### 6. cache (VLAN 30 — DATA)
 
 ```yaml
-# /opt/educore/docker-compose.yml on cache
+# /opt/edulia/docker-compose.yml on cache
 
 version: "3.8"
 
@@ -497,7 +497,7 @@ volumes:
 ### 7. storage (VLAN 30 — DATA)
 
 ```yaml
-# /opt/educore/docker-compose.yml on storage
+# /opt/edulia/docker-compose.yml on storage
 
 version: "3.8"
 
@@ -542,7 +542,7 @@ services:
       - grafana_data:/var/lib/grafana
     environment:
       GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD}
-      GF_SERVER_ROOT_URL: https://monitor.educore.example.com
+      GF_SERVER_ROOT_URL: https://monitor.edulia.example.com
     restart: always
 
   loki:
@@ -616,17 +616,17 @@ echo "[$(date)] Starting backup..."
 
 # 1. PostgreSQL dump (connects to db-server via VLAN 30)
 PGPASSWORD=${DB_BACKUP_PASSWORD} pg_dump \
-  -h 10.10.30.10 -U backup -Fc educore \
-  > ${BACKUP_DIR}/db/educore_${DATE}.dump
-gzip ${BACKUP_DIR}/db/educore_${DATE}.dump
+  -h 10.10.30.10 -U backup -Fc edulia \
+  > ${BACKUP_DIR}/db/edulia_${DATE}.dump
+gzip ${BACKUP_DIR}/db/edulia_${DATE}.dump
 
 # 2. Sync MinIO files to local backup
-rclone sync minio:educore ${BACKUP_DIR}/files/ \
+rclone sync minio:edulia ${BACKUP_DIR}/files/ \
   --config /opt/backup/rclone.conf
 
 # 3. Offsite copy (optional — to external S3 or Backblaze B2)
 if [ -n "$OFFSITE_BUCKET" ]; then
-  rclone copy ${BACKUP_DIR}/db/educore_${DATE}.dump.gz \
+  rclone copy ${BACKUP_DIR}/db/edulia_${DATE}.dump.gz \
     offsite:${OFFSITE_BUCKET}/db/ \
     --config /opt/backup/rclone.conf
 fi
@@ -638,8 +638,8 @@ echo "[$(date)] Backup completed"
 ```
 
 ```cron
-# /etc/cron.d/educore-backup
-0 3 * * * root /opt/backup/backup.sh >> /var/log/educore-backup.log 2>&1
+# /etc/cron.d/edulia-backup
+0 3 * * * root /opt/backup/backup.sh >> /var/log/edulia-backup.log 2>&1
 ```
 
 ---
@@ -816,16 +816,16 @@ jobs:
 
       - name: Build Docker images
         run: |
-          docker build -t educore/api:${{ github.sha }} -f infra/docker/api.Dockerfile --target production apps/api
-          docker build -t educore/web:${{ github.sha }} -f infra/docker/web.Dockerfile --target production apps/web
-          docker build -t educore/socketio:${{ github.sha }} -f infra/docker/socketio.Dockerfile apps/socketio
+          docker build -t edulia/api:${{ github.sha }} -f infra/docker/api.Dockerfile --target production apps/api
+          docker build -t edulia/web:${{ github.sha }} -f infra/docker/web.Dockerfile --target production apps/web
+          docker build -t edulia/socketio:${{ github.sha }} -f infra/docker/socketio.Dockerfile apps/socketio
 
       - name: Push to registry
         run: |
           echo "${{ secrets.REGISTRY_PASSWORD }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-          docker tag educore/api:${{ github.sha }} ghcr.io/${{ github.repository }}/api:latest
-          docker tag educore/web:${{ github.sha }} ghcr.io/${{ github.repository }}/web:latest
-          docker tag educore/socketio:${{ github.sha }} ghcr.io/${{ github.repository }}/socketio:latest
+          docker tag edulia/api:${{ github.sha }} ghcr.io/${{ github.repository }}/api:latest
+          docker tag edulia/web:${{ github.sha }} ghcr.io/${{ github.repository }}/web:latest
+          docker tag edulia/socketio:${{ github.sha }} ghcr.io/${{ github.repository }}/socketio:latest
           docker push ghcr.io/${{ github.repository }}/api:latest
           docker push ghcr.io/${{ github.repository }}/web:latest
           docker push ghcr.io/${{ github.repository }}/socketio:latest
@@ -841,7 +841,7 @@ jobs:
           username: deploy
           key: ${{ secrets.DEPLOY_SSH_KEY }}
           script: |
-            cd /opt/educore
+            cd /opt/edulia
             docker compose pull
             docker compose up -d --no-deps api web socketio
 
@@ -852,7 +852,7 @@ jobs:
           username: deploy
           key: ${{ secrets.DEPLOY_SSH_KEY }}
           script: |
-            cd /opt/educore
+            cd /opt/edulia
             docker compose pull
             docker compose up -d --no-deps celery-worker celery-beat
 
@@ -863,7 +863,7 @@ jobs:
           username: deploy
           key: ${{ secrets.DEPLOY_SSH_KEY }}
           script: |
-            cd /opt/educore
+            cd /opt/edulia
             docker compose exec -T api alembic upgrade head
 ```
 
@@ -903,8 +903,8 @@ Developers still run everything locally with Docker Compose. Same `docker-compos
 
 ```bash
 # On your Mac / Linux dev machine
-git clone https://github.com/your-org/educore.git
-cd educore
+git clone https://github.com/your-org/edulia.git
+cd edulia
 cp .env.example .env
 make dev
 # → Frontend at http://localhost:5173

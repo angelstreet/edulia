@@ -10,7 +10,7 @@ High-level page layouts for every key screen. Organized by portal (role).
 ```
 ┌──────────────────────────────────────────────┐
 │                                              │
-│              [EduCore Logo]                  │
+│              [Edulia Logo]                  │
 │                                              │
 │         Connectez-vous à votre espace        │
 │                                              │
@@ -33,7 +33,7 @@ High-level page layouts for every key screen. Organized by portal (role).
 ```
 ┌─────────────────────────────────────────────────────┐
 │  TOPBAR                                             │
-│  [☰]  EduCore  [🔍 Rechercher...]  [🔔 3]  [👤 JD]│
+│  [☰]  Edulia  [🔍 Rechercher...]  [🔔 3]  [👤 JD]│
 ├────────────┬────────────────────────────────────────┤
 │  SIDEBAR   │  BREADCRUMB: Accueil > Module > Page   │
 │  (role-    │                                        │
@@ -52,7 +52,7 @@ High-level page layouts for every key screen. Organized by portal (role).
 
 MOBILE (< 768px):
 ┌─────────────────────────────┐
-│ [☰] EduCore     [🔔 3] [👤]│
+│ [☰] Edulia     [🔔 3] [👤]│
 ├─────────────────────────────┤
 │                             │
 │  CONTENT AREA               │
@@ -454,7 +454,7 @@ MOBILE (< 768px):
 │  Fond login: [📷 Changer] (2MB)    │  │  │ [Se connecter]  │  │ │
 │                                    │  │  └─────────────────┘  │ │
 │  COULEURS                          │  │                       │ │
-│  Principale:  [■ #1B4F72] [🎨]    │  │  Powered by EduCore   │ │
+│  Principale:  [■ #1B4F72] [🎨]    │  │  Powered by Edulia   │ │
 │  Secondaire:  [■ #F39C12] [🎨]    │  └───────────────────────┘ │
 │  Accent:      [■ #27AE60] [🎨]    │                            │
 │                                    │  Aperçu: [Login] [Sidebar] │
@@ -467,7 +467,7 @@ MOBILE (< 768px):
 │  [des Lilas, 75005 Paris       ]   │                            │
 │                                    │                            │
 │  MENTION                           │                            │
-│  ☑ Afficher "Powered by EduCore"   │                            │
+│  ☑ Afficher "Powered by Edulia"   │                            │
 │  (grisé si plan gratuit)           │                            │
 │                                    │                            │
 │  [Enregistrer]  [Réinitialiser]    │                            │
