@@ -94,7 +94,7 @@ Tracks code development across scopes. Each task maps to a phase/step in `08-BUI
 
 | # | Task | Terminal | Ref | Status |
 |---|------|----------|-----|--------|
-| S1.1 | Backend auth + RBAC + user CRUD | 1 | PHASES §1.1–1.4, §2.1–2.3 | Not started |
+| S1.1 | Backend auth + RBAC + user CRUD | 1 | PHASES §1.1–1.4, §2.1–2.3 | Done |
 | S1.2 | Frontend auth + admin UI | 2 | PHASES §1.3–1.4, §2.3–2.4, §4.1–4.2 | Done |
 
 ---
@@ -104,7 +104,7 @@ Tracks code development across scopes. Each task maps to a phase/step in `08-BUI
 | # | Task | Terminal | Ref | Status |
 |---|------|----------|-----|--------|
 | S2.1 | Backend structure + messaging + files APIs | 1 | PHASES §3.1–3.5, §5.1+5.3, §6.1 | Not started |
-| S2.2 | Frontend structure + dashboard + messaging UI | 2 | PHASES §3.6, §4.3, §5.2+5.4, §6.2 | Not started |
+| S2.2 | Frontend structure + dashboard + messaging UI | 2 | PHASES §3.6, §4.3, §5.2+5.4, §6.2 | Done |
 
 ---
 

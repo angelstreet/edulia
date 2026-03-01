@@ -14,7 +14,8 @@ const NAV_BY_ROLE: Record<string, NavItem[]> = {
     { to: '/admin/users', label: 'users', icon: 'users' },
     { to: '/admin/classes', label: 'classes', icon: 'school' },
     { to: '/admin/subjects', label: 'subjects', icon: 'book' },
-    { to: '/settings', label: 'settings', icon: 'settings' },
+    { to: '/admin/academic-year', label: 'academicYear', icon: 'calendar' },
+    { to: '/admin/settings', label: 'tenantSettings', icon: 'settings' },
   ],
   teacher: [
     { to: '/dashboard', label: 'dashboard', icon: 'grid' },

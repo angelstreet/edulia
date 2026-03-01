@@ -5,6 +5,11 @@ import { ResetPasswordPage } from '../features/auth/pages/ResetPasswordPage';
 import { AcceptInvitePage } from '../features/auth/pages/AcceptInvitePage';
 import { DashboardPage } from '../features/dashboard/pages/DashboardPage';
 import { UsersPage } from '../features/admin/pages/UsersPage';
+import { ClassesPage } from '../features/admin/pages/ClassesPage';
+import { SubjectsPage } from '../features/admin/pages/SubjectsPage';
+import { AcademicYearPage } from '../features/admin/pages/AcademicYearPage';
+import { TenantSettingsPage } from '../features/admin/pages/TenantSettingsPage';
+import { MessagesPage } from '../features/messaging/pages/MessagesPage';
 import { SettingsPage } from '../features/settings/pages/SettingsPage';
 import { AuthGuard } from './guards/AuthGuard';
 import { RoleGuard } from './guards/RoleGuard';
@@ -36,6 +41,39 @@ export const router = createBrowserRouter([
           </RoleGuard>
         ),
       },
+      {
+        path: 'admin/classes',
+        element: (
+          <RoleGuard roles={['admin']}>
+            <ClassesPage />
+          </RoleGuard>
+        ),
+      },
+      {
+        path: 'admin/subjects',
+        element: (
+          <RoleGuard roles={['admin']}>
+            <SubjectsPage />
+          </RoleGuard>
+        ),
+      },
+      {
+        path: 'admin/academic-year',
+        element: (
+          <RoleGuard roles={['admin']}>
+            <AcademicYearPage />
+          </RoleGuard>
+        ),
+      },
+      {
+        path: 'admin/settings',
+        element: (
+          <RoleGuard roles={['admin']}>
+            <TenantSettingsPage />
+          </RoleGuard>
+        ),
+      },
+      { path: 'messages', element: <MessagesPage /> },
       { path: 'settings', element: <SettingsPage /> },
     ],
   },

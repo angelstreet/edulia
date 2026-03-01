@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuthStore } from '../../stores/authStore';
 import { Breadcrumb } from './Breadcrumb';
+import { NotificationPanel } from '../common/NotificationPanel';
 
 export function Topbar() {
   const { t, i18n } = useTranslation();
@@ -37,9 +38,7 @@ export function Topbar() {
         <Breadcrumb />
       </div>
       <div className="topbar-right">
-        <button className="topbar-btn topbar-btn--icon" title={t('notifications')}>
-          <span>&#x1F514;</span>
-        </button>
+        <NotificationPanel />
         <button className="topbar-btn" onClick={toggleLang}>
           {i18n.language === 'fr' ? 'EN' : 'FR'}
         </button>
