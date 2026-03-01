@@ -9,19 +9,21 @@ Monorepo. Clear boundaries: frontend, backend, shared, infra.
 ```
 educore/
 ├── README.md
-├── LICENSE
+├── LICENSE                        # AGPL-3.0
 ├── .env.example
 ├── .gitignore
-├── docker-compose.yml
-├── docker-compose.prod.yml
-├── Makefile
-├── docs/
-├── packages/shared/
-├── apps/web/                   # React frontend
-├── apps/api/                   # FastAPI backend
-├── infra/
-├── scripts/
-└── .github/workflows/
+├── docker-compose.yml             # local dev
+├── docker-compose.prod.yml        # production
+├── Makefile                       # dev shortcuts (make dev, make test, make seed)
+├── docs/                          # project documentation (00-07 markdown files)
+├── packages/shared/               # shared types + constants
+├── apps/web/                      # React frontend
+├── apps/api/                      # FastAPI backend
+├── apps/socketio/                 # Socket.IO real-time server
+├── infra/                         # deployment configs
+├── scripts/                      # utility scripts
+├── e2e/                           # end-to-end browser tests
+└── .github/workflows/             # CI/CD pipelines
 ```
 
 ---
@@ -90,7 +92,12 @@ apps/web/src/
 │   ├── files.ts
 │   ├── billing.ts
 │   ├── tutoring.ts
-│   └── tenant.ts
+│   ├── tenant.ts
+│   ├── enrollment.ts
+│   ├── school_life.ts
+│   ├── calendar.ts
+│   ├── report_cards.ts
+│   └── competencies.ts
 │
 ├── hooks/
 │   ├── useAuth.ts
@@ -103,7 +110,8 @@ apps/web/src/
 │   ├── useGrades.ts
 │   ├── useAttendance.ts
 │   ├── useMessages.ts
-│   └── useTutoringBooking.ts
+│   ├── useTutoringBooking.ts
+│   └── useTenantBranding.ts       # CSS custom properties from tenant config
 │
 ├── stores/
 │   ├── authStore.ts
@@ -132,14 +140,16 @@ apps/web/src/
 │   │   ├── Sidebar.tsx
 │   │   ├── Topbar.tsx
 │   │   ├── MobileNav.tsx
-│   │   └── Breadcrumb.tsx
+│   │   ├── Breadcrumb.tsx
+│   │   └── PoweredBy.tsx            # "Powered by EduCore" conditional footer
 │   ├── common/
 │   │   ├── NotificationPanel.tsx
 │   │   ├── UserMenu.tsx
 │   │   ├── ChildSelector.tsx
 │   │   ├── FileUpload.tsx
 │   │   ├── SearchBar.tsx
-│   │   └── CalendarWidget.tsx
+│   │   ├── CalendarWidget.tsx
+│   │   └── RichTextDisplay.tsx      # DOMPurify-sanitized HTML renderer
 │   └── charts/
 │       ├── GradeChart.tsx
 │       ├── AttendanceChart.tsx
@@ -317,8 +327,34 @@ apps/web/src/
 │       └── pages/
 │           └── SettingsPage.tsx
 │
+├── locales/                       # i18n translation files
+│   ├── fr/
+│   │   ├── common.json            # shared UI strings
+│   │   ├── auth.json
+│   │   ├── dashboard.json
+│   │   ├── timetable.json
+│   │   ├── attendance.json
+│   │   ├── gradebook.json
+│   │   ├── homework.json
+│   │   ├── quizzes.json
+│   │   ├── messaging.json
+│   │   ├── billing.json
+│   │   ├── tutoring.json
+│   │   ├── admin.json
+│   │   └── errors.json
+│   └── en/
+│       ├── common.json
+│       ├── auth.json
+│       └── ...                    # same structure as fr/
+│
+├── i18n.ts                        # i18next configuration
+│
+├── lib/
+│   └── date.ts                    # date-fns-tz formatters (tenant timezone)
+│
 └── styles/
     ├── globals.css
+    ├── brand.css                   # CSS custom properties for tenant branding
     └── theme.ts
 ```
 
@@ -371,6 +407,7 @@ apps/api/
 │   │       ├── tutoring.py         # TutoringSession, TutorProfile, etc.
 │   │       ├── package.py          # Package, StudentPackage
 │   │       ├── learning_plan.py    # LearningPlan, LearningPlanEntry
+│   │       ├── competency.py      # Competency, CompetencyEvaluation (LSU/LSL)
 │   │       └── audit.py            # AuditLog
 │   │
 │   ├── modules/                    # business logic + routes per module
@@ -461,18 +498,62 @@ apps/api/
 │   │   │   ├── router.py
 │   │   │   ├── service.py
 │   │   │   └── schemas.py
+│   │   ├── competencies/
+│   │   │   ├── router.py
+│   │   │   ├── service.py
+│   │   │   └── schemas.py
+│   │   ├── gdpr/
+│   │   │   ├── router.py             # export, delete, purge-check endpoints
+│   │   │   ├── service.py
+│   │   │   └── schemas.py
 │   │   └── audit/
 │   │       ├── router.py
 │   │       ├── service.py
 │   │       └── schemas.py
 │   │
-│   ├── integrations/               # external services (later)
+│   ├── integrations/               # external service connectors
 │   │   ├── microsoft/
-│   │   │   ├── entra_sso.py
-│   │   │   ├── scim.py
-│   │   │   └── graph.py
-│   │   └── email/
-│   │       └── sender.py           # SMTP / SendGrid / SES
+│   │   │   ├── entra_sso.py       # OIDC SSO (later)
+│   │   │   ├── scim.py            # user provisioning (later)
+│   │   │   └── graph.py           # calendar sync (later)
+│   │   ├── email/
+│   │   │   └── sender.py          # Brevo (ex-Sendinblue) transactional email
+│   │   ├── docuseal/
+│   │   │   └── client.py          # e-signature API (create, check status)
+│   │   ├── clamav/
+│   │   │   └── scanner.py         # virus scan on file upload
+│   │   ├── jitsi/
+│   │   │   └── rooms.py           # generate video room URLs
+│   │   ├── calendar/
+│   │   │   └── ical.py            # iCal feed generation
+│   │   ├── payments/
+│   │   │   └── stripe.py          # Stripe checkout + webhooks
+│   │   └── push/
+│   │       └── webpush.py         # Web Push notifications (pywebpush)
+│   │
+│   ├── utils/
+│   │   ├── sanitize.py            # bleach-based HTML sanitization
+│   │   └── image.py               # avatar thumbnail generation (Pillow)
+│   │
+│   ├── templates/                  # Jinja2 templates (PDF + email)
+│   │   ├── fr/
+│   │   │   ├── report_card/
+│   │   │   │   ├── bulletin.html
+│   │   │   │   └── bulletin.css
+│   │   │   ├── invoice/
+│   │   │   │   ├── facture.html
+│   │   │   │   └── facture.css
+│   │   │   └── email/
+│   │   │       ├── base.html          # email layout
+│   │   │       ├── welcome.html
+│   │   │       ├── password_reset.html
+│   │   │       ├── invite.html
+│   │   │       ├── absence_alert.html
+│   │   │       ├── grade_notification.html
+│   │   │       ├── session_reminder.html
+│   │   │       └── invoice_sent.html
+│   │   └── en/
+│   │       └── ...                    # same structure
 │   │
 │   └── tests/
 │       ├── conftest.py
@@ -490,7 +571,112 @@ apps/api/
         ├── generate_report_card_pdf.py
         ├── generate_invoice.py
         ├── send_reminder.py
-        └── export_data.py
+        ├── export_data.py
+        └── data_retention_purge.py   # GDPR auto-purge (daily cron)
+```
+
+---
+
+## Socket.IO Server: `apps/socketio/`
+
+```
+apps/socketio/
+├── package.json
+├── Dockerfile
+├── src/
+│   ├── index.ts                   # Socket.IO server entry
+│   ├── auth.ts                    # JWT validation for WebSocket connections
+│   ├── redis.ts                   # Redis pub/sub subscriber
+│   └── handlers/
+│       ├── notifications.ts       # notification:new events
+│       ├── messages.ts            # message:new events
+│       └── presence.ts            # user online/offline tracking
+```
+
+---
+
+## E2E Tests: `e2e/`
+
+```
+e2e/
+├── playwright.config.ts
+├── fixtures/
+│   ├── auth.fixture.ts            # login helpers
+│   └── seed.fixture.ts            # test data setup
+├── tests/
+│   ├── auth.spec.ts               # W1: login flow
+│   ├── roll-call.spec.ts          # W4: teacher takes attendance
+│   ├── grades.spec.ts             # W6+W7: enter + view grades
+│   ├── homework.spec.ts           # W8+W9: assign + submit homework
+│   ├── messaging.spec.ts          # W3: send + receive message
+│   ├── booking.spec.ts            # W15: book tutoring session
+│   ├── parent-portal.spec.ts      # parent dashboard + child view
+│   └── admin-users.spec.ts        # user CRUD + invite flow
+├── screenshots/                   # auto-captured on failure + for visual regression
+└── reports/                       # HTML test reports
+```
+
+---
+
+## Infrastructure: `infra/`
+
+```
+infra/
+├── nginx/
+│   ├── nginx.conf                 # reverse proxy config
+│   ├── nginx.dev.conf             # local dev config
+│   └── ssl/                       # SSL certs (gitignored)
+├── docker/
+│   ├── api.Dockerfile
+│   ├── web.Dockerfile
+│   ├── socketio.Dockerfile
+│   └── worker.Dockerfile
+├── monitoring/
+│   ├── prometheus.yml             # metrics scrape config
+│   ├── grafana/
+│   │   ├── provisioning/
+│   │   │   ├── dashboards/
+│   │   │   │   ├── api-overview.json
+│   │   │   │   ├── database.json
+│   │   │   │   └── celery-tasks.json
+│   │   │   └── datasources/
+│   │   │       └── prometheus.yml
+│   │   └── grafana.ini
+│   └── alerting/
+│       └── rules.yml              # alert rules (error rate, latency, disk)
+├── backup/
+│   ├── backup.sh                  # daily pg_dump + S3 upload
+│   └── restore.sh                 # restore from backup
+└── deploy/
+    ├── setup-vm.sh                # initial VM setup (Docker, firewall, swap)
+    └── update.sh                  # pull latest images + restart
+```
+
+---
+
+## Scripts: `scripts/`
+
+```
+scripts/
+├── seed.py                        # generate realistic test data
+├── create-tenant.py               # CLI to create a new tenant
+├── import-ecoledirecte.py         # import CSV data from Ecole Directe
+├── generate-openapi.py            # export OpenAPI spec
+├── migrate.sh                     # run Alembic migrations
+└── reset-db.sh                    # drop + recreate DB (dev only)
+```
+
+---
+
+## CI/CD: `.github/workflows/`
+
+```
+.github/workflows/
+├── ci.yml                         # lint + typecheck + unit + integration tests
+├── e2e.yml                        # E2E tests on Docker Compose stack
+├── deploy-staging.yml             # auto-deploy to staging on main push
+├── deploy-prod.yml                # manual deploy to production
+└── security.yml                   # weekly dependency + container scan
 ```
 
 ---
@@ -505,3 +691,6 @@ apps/api/
 6. **Models separate from modules** — all SQLAlchemy models in `db/models/`
 7. **Guards for access control** — AuthGuard, RoleGuard, ModuleGuard wrap routes
 8. **No cross-feature imports** — features only import from `components/`, `hooks/`, `api/`, `stores/`
+9. **i18n keys, not hardcoded strings** — all user-facing text goes through i18next
+10. **Every module has tests** — unit tests co-located with service, integration tests in `tests/`
+11. **Docker-first** — everything runs in containers, no "works on my machine"
