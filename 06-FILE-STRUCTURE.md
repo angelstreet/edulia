@@ -401,6 +401,8 @@ apps/api/
 │   │       ├── notification.py     # Notification
 │   │       ├── file.py             # File
 │   │       ├── billing.py          # Invoice, Payment
+│   │       ├── study_hall.py        # StudyHall, StudyHallAttendance
+│   │       ├── question_bank.py    # QuestionBank, QuestionBankEntry
 │   │       ├── school_life.py      # Incident, Sanction, ExitAuthorization
 │   │       ├── enrollment.py       # EnrollmentForm, EnrollmentSubmission
 │   │       ├── calendar.py         # CalendarEvent
@@ -445,6 +447,14 @@ apps/api/
 │   │   │   ├── service.py
 │   │   │   ├── schemas.py
 │   │   │   └── grader.py           # auto-grading logic
+│   │   ├── study_hall/
+│   │   │   ├── router.py
+│   │   │   ├── service.py
+│   │   │   └── schemas.py
+│   │   ├── question_bank/
+│   │   │   ├── router.py
+│   │   │   ├── service.py
+│   │   │   └── schemas.py
 │   │   ├── school_life/
 │   │   │   ├── router.py
 │   │   │   ├── service.py

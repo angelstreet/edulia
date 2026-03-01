@@ -15,7 +15,8 @@ TutorProfile
 ├── tenant_id (fk)
 ├── subjects (fk[] → Subject)
 ├── bio (text)
-├── hourly_rate (decimal, nullable)
+├── hourly_rate (decimal, nullable) — individual session rate
+├── group_rate (decimal, nullable) — per-group rate (tutor paid same regardless of group size)
 ├── availability_default (jsonb) — weekly template
 │   e.g. [{ day: 1, start: "09:00", end: "18:00" }, ...]
 ├── max_students (int, nullable)
@@ -127,7 +128,7 @@ StudentPackage (purchased package)
 ### Invoicing
 
 ```
-TutoringInvoice (extends core Invoice or standalone)
+TutoringInvoice (reuses core Invoice model with context_type: "tutoring")
 ├── id (uuid)
 ├── tenant_id (fk)
 ├── number

@@ -435,15 +435,98 @@ QuizAttempt
 ├── created_at
 ```
 
+### Question Bank Model
+```
+QuestionBank
+├── id (uuid)
+├── tenant_id (fk)
+├── subject_id (fk)
+├── created_by (fk → User) — teacher who created
+├── name (e.g. "Algèbre 6ème")
+├── scope (enum: personal | school | shared_library)
+├── tags (text[]) — e.g. ["algèbre", "6ème", "equations"]
+├── question_count (int, cached)
+├── created_at
+└── updated_at
+
+QuestionBankEntry
+├── id (uuid)
+├── bank_id (fk → QuestionBank)
+├── question_id (fk → Question) — references Question from quiz model
+├── added_at
+```
+
+### Shared Library Mechanism
+
+| Scope | Visibility | Who can contribute |
+|-------|-----------|-------------------|
+| `personal` | Only the creating teacher | Creator only |
+| `school` | All teachers in the same tenant + subject | Any teacher with same subject |
+| `shared_library` | All tenants that opted in | Read: anyone. Write: moderated |
+
+**Opt-in flow:**
+1. Admin enables shared library in tenant settings (`settings.enable_shared_library: true`)
+2. Teacher marks a question bank as `scope: shared_library`
+3. Questions are copied (not referenced) into the shared pool — no cross-tenant FK
+4. Other teachers can browse shared library, filter by subject/tag, and import questions into their own banks
+5. Importing copies the question into the teacher's personal bank — no live link
+
+**Moderation:** Shared library questions go through `status: pending → approved → published`. Initially, the EduCore team moderates. Later, community voting.
+
 ### Features
 - Create quizzes with mixed question types
 - Question bank per subject (reuse across quizzes)
-- Shared national library (opt-in)
+- Import from shared library (opt-in per school)
 - Auto-grading for objective questions
 - Manual grading for short answers
 - Time limits, attempt limits
 - Results: per student, per question analytics
 - Link quiz to cahier de textes or assessment
+
+---
+
+## Module 6b: Study Hall (Permanence / Étude)
+
+### Data Model
+```
+StudyHall
+├── id (uuid)
+├── tenant_id (fk)
+├── campus_id (fk)
+├── room_id (fk, nullable)
+├── supervisor_id (fk → User) — vie scolaire staff or teacher
+├── day_of_week (int: 0-6)
+├── start_time (time)
+├── end_time (time)
+├── capacity (int, nullable)
+├── academic_year_id (fk)
+├── created_at
+└── updated_at
+
+StudyHallAttendance
+├── id (uuid)
+├── study_hall_id (fk)
+├── student_id (fk → User)
+├── date (date)
+├── status (enum: present | absent | sent_by_teacher)
+├── reason (text, nullable) — e.g. "class cancelled", "free period"
+├── checked_in_at (timestamp, nullable)
+├── created_at
+```
+
+### Features
+- Study halls appear in timetable as "Permanence" blocks (auto-generated for free periods)
+- Vie scolaire staff takes roll call (same UI as class attendance, simpler)
+- Students assigned to study hall when their class is cancelled (via SessionException)
+- Auto-assignment: when a session is cancelled, affected students are proposed for the matching study hall slot
+- Capacity tracking (study room has limited seats)
+- Not graded — attendance only
+
+### How it differs from class attendance
+- Managed by vie scolaire, not teachers
+- No link to a Subject
+- Students may come from different classes in the same slot
+- Simpler UI: just check present/absent, no "late with justification" workflow
 
 ---
 
@@ -623,6 +706,7 @@ CalendarEvent
 ├── all_day (bool)
 ├── target_audience (enum: all | staff | students | parents | group)
 ├── target_group_id (fk, nullable)
+├── recurrence_rule (text, nullable) — RRULE for recurring events
 ├── location (text, nullable)
 ├── created_by (fk)
 ├── created_at
@@ -679,7 +763,7 @@ ReportCardSubject
 - Council comment (conseil de classe)
 - Principal comment
 - Approval workflow (draft → approved → published to parents)
-- PDF export matching French standards
+- PDF export — custom template inspired by Pronote bulletin format (no official mandatory format for private schools). Includes: school-branded header, per-subject table (average, class avg, min, max, coefficient, teacher comment), general average + rank, council comment, principal comment
 - Historical report cards accessible
 - Comparison across terms
 

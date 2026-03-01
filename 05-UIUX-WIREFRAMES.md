@@ -431,3 +431,366 @@ MOBILE (< 768px):
 │  THÈME:  (●) Clair  ( ) Sombre  ( ) Système      │
 └──────────────────────────────────────────────────┘
 ```
+
+---
+
+## Admin — Branding Settings
+
+### Branding Customization Page
+```
+┌──────────────────────────────────────────────────────────────────┐
+│  Paramètres > Personnalisation                                   │
+├────────────────────────────────────┬─────────────────────────────┤
+│  IDENTITÉ                          │  APERÇU EN DIRECT          │
+│  Nom affiché:                      │  ┌───────────────────────┐ │
+│  [École Saint-Joseph          ]    │  │  [Logo]               │ │
+│  Domaine personnalisé:             │  │  Bienvenue sur...     │ │
+│  [ecole.saint-joseph.fr       ]    │  │                       │ │
+│  (plan Pro/Enterprise requis)      │  │  ┌─────────────────┐  │ │
+│                                    │  │  │ Email            │  │ │
+│  LOGO & IMAGES                     │  │  ├─────────────────┤  │ │
+│  Logo:    [📷 Changer] (500KB max) │  │  │ Mot de passe    │  │ │
+│  Favicon: [📷 Changer] (100KB max) │  │  ├─────────────────┤  │ │
+│  Fond login: [📷 Changer] (2MB)    │  │  │ [Se connecter]  │  │ │
+│                                    │  │  └─────────────────┘  │ │
+│  COULEURS                          │  │                       │ │
+│  Principale:  [■ #1B4F72] [🎨]    │  │  Powered by EduCore   │ │
+│  Secondaire:  [■ #F39C12] [🎨]    │  └───────────────────────┘ │
+│  Accent:      [■ #27AE60] [🎨]    │                            │
+│                                    │  Aperçu: [Login] [Sidebar] │
+│  TEXTES                            │                            │
+│  Message d'accueil:                │                            │
+│  [Bienvenue sur l'espace       ]   │                            │
+│  [numérique de l'École St-Joseph]  │                            │
+│  Pied de page:                     │                            │
+│  [École Saint-Joseph — 12 rue  ]   │                            │
+│  [des Lilas, 75005 Paris       ]   │                            │
+│                                    │                            │
+│  MENTION                           │                            │
+│  ☑ Afficher "Powered by EduCore"   │                            │
+│  (grisé si plan gratuit)           │                            │
+│                                    │                            │
+│  [Enregistrer]  [Réinitialiser]    │                            │
+└────────────────────────────────────┴─────────────────────────────┘
+```
+
+---
+
+## Admin — Calendar Management
+
+### School Calendar Admin Page
+```
+┌──────────────────────────────────────────────────────────────────┐
+│  Calendrier scolaire 2025-2026             [+ Ajouter événement] │
+├──────────────────────────────────────────────────────────────────┤
+│  [◀ Mars 2026 ▶]          Vue: [Mois] [Liste] [Année]           │
+│                                                                  │
+│  ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┐                   │
+│  │ Lun │ Mar │ Mer │ Jeu │ Ven │ Sam │ Dim │                   │
+│  ├─────┼─────┼─────┼─────┼─────┼─────┼─────┤                   │
+│  │     │     │     │     │     │     │  1  │                   │
+│  │  2  │  3  │  4  │  5  │  6  │  7  │  8  │                   │
+│  │     │     │     │     │     │     │     │                   │
+│  │  9  │ 10  │ 11  │ 12  │ 13  │ 14  │ 15  │                   │
+│  │     │ 📝  │     │     │ 🎓  │     │     │                   │
+│  │ 16  │ 17  │ 18  │ 19  │ 20  │ 21  │ 22  │                   │
+│  │     │     │     │     │     │     │     │                   │
+│  │ 23  │ 24  │ 25  │ 26  │ 27  │ 28  │ 29  │                   │
+│  │     │     │     │     │ 🏖  │ 🏖  │ 🏖  │                   │
+│  │ 30  │ 31  │     │     │     │     │     │                   │
+│  │ 🏖  │ 🏖  │     │     │     │     │     │                   │
+│  └─────┴─────┴─────┴─────┴─────┴─────┴─────┘                   │
+│                                                                  │
+│  📝 10/03: Conseil de classe 6eA (14h, salle B12)               │
+│  🎓 13/03: Brevet blanc                                         │
+│  🏖 27/03-31/03: Vacances de printemps                           │
+│                                                                  │
+│  FILTRES: [☑ Vacances] [☑ Examens] [☑ Réunions] [☑ Événements]  │
+│                                                                  │
+│  TYPES RAPIDES                                                   │
+│  [+ Vacances]  [+ Examen]  [+ Réunion parents]  [+ Événement]   │
+└──────────────────────────────────────────────────────────────────┘
+```
+
+### Add Calendar Event Modal
+```
+┌──────────────────────────────────────────────┐
+│  Nouvel événement                      [✕]   │
+├──────────────────────────────────────────────┤
+│  Titre:    [Conseil de classe 6eA       ]    │
+│  Type:     [Réunion ▼]                       │
+│  Date:     [10/03/2026]  Journée entière: ☐  │
+│  Début:    [14:00]  Fin: [16:00]             │
+│  Lieu:     [Salle B12                   ]    │
+│                                              │
+│  Public concerné:                            │
+│  (●) Toute l'école                           │
+│  ( ) Personnel uniquement                    │
+│  ( ) Classe spécifique: [_____ ▼]            │
+│  ( ) Parents uniquement                      │
+│                                              │
+│  Récurrence: [Aucune ▼]                      │
+│  Description:                                │
+│  [Ordre du jour: bilan T2, orientation... ]  │
+│                                              │
+│  [Enregistrer]  [Annuler]                    │
+└──────────────────────────────────────────────┘
+```
+
+---
+
+## Admin — Enrollment Management
+
+### Enrollment Admin Review Queue
+```
+┌──────────────────────────────────────────────────────────────────┐
+│  Inscriptions 2026-2027                    [⚙ Formulaire]       │
+├──────────────────────────────────────────────────────────────────┤
+│  FILTRES: [Tous ▼]  [En attente ▼]  Rechercher: [________]     │
+│                                                                  │
+│  En attente: 12  |  Acceptées: 45  |  Rejetées: 3  |  Liste: 5 │
+│                                                                  │
+│  ┌────┬──────────────┬───────────┬─────────┬────────┬──────────┐│
+│  │ #  │ Élève        │ Classe    │ Statut  │ Docs   │ Actions  ││
+│  ├────┼──────────────┼───────────┼─────────┼────────┼──────────┤│
+│  │  1 │ MARTIN Léa   │ 6ème      │ ⏳ Att. │ 3/4 ⚠ │ [Voir]   ││
+│  │  2 │ DUPONT Hugo  │ 5ème      │ ⏳ Att. │ 4/4 ✅ │ [Voir]   ││
+│  │  3 │ FAURE Emma   │ 6ème      │ ⏳ Att. │ 2/4 ❌ │ [Voir]   ││
+│  │  4 │ PETIT Lucas  │ CM2→6ème  │ ⏳ Att. │ 4/4 ✅ │ [Voir]   ││
+│  │  5 │ MOREAU Julie │ 4ème      │ ⏳ Att. │ 4/4 ✅ │ [Voir]   ││
+│  └────┴──────────────┴───────────┴─────────┴────────┴──────────┘│
+│                                                                  │
+│  [Tout exporter CSV]  [Relancer documents manquants]            │
+└──────────────────────────────────────────────────────────────────┘
+```
+
+### Enrollment Detail Review Page
+```
+┌──────────────────────────────────────────────────────────────────┐
+│  ← Retour    Dossier d'inscription: DUPONT Hugo                  │
+├──────────────────────────────────────────────────────────────────┤
+│  INFORMATIONS ÉLÈVE                  RESPONSABLE LÉGAL           │
+│  Nom: DUPONT Hugo                    Père: DUPONT Marc           │
+│  Né le: 15/06/2014                   Mère: DUPONT Claire         │
+│  Classe demandée: 5ème               Tél: 06 12 34 56 78        │
+│  Adresse: 12 rue des Lilas, 75005    Email: dupont@email.com     │
+│                                                                  │
+│  DOCUMENTS                                                       │
+│  ✅ Certificat de scolarité        [📎 Voir]                    │
+│  ✅ Livret de famille              [📎 Voir]                    │
+│  ✅ Assurance scolaire             [📎 Voir]                    │
+│  ✅ Photo d'identité               [📎 Voir]                    │
+│                                                                  │
+│  E-SIGNATURE                                                     │
+│  ✅ Règlement intérieur — signé le 02/03/2026                    │
+│  ✅ Consentement RGPD — signé le 02/03/2026                     │
+│  ⏳ Autorisation de sortie — en attente                          │
+│     [📧 Relancer la signature]                                   │
+│                                                                  │
+│  PAIEMENT                                                        │
+│  Frais d'inscription: €350                                       │
+│  Méthode: Carte bancaire                                         │
+│  Statut: ✅ Payé le 03/03/2026                                  │
+│                                                                  │
+│  NOTES INTERNES                                                  │
+│  [                                                        ]      │
+│                                                                  │
+│  DÉCISION                                                        │
+│  [✅ Accepter]  [📋 Liste d'attente]  [❌ Refuser]  [💬 Demander info]│
+└──────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Admin — Report Card Management
+
+### Report Card Generation Page
+```
+┌──────────────────────────────────────────────────────────────────┐
+│  Bulletins — Trimestre 2 (2025-2026)                             │
+├──────────────────────────────────────────────────────────────────┤
+│  WORKFLOW:  ① Notes finalisées → ② Commentaires → ③ Conseil     │
+│             → ④ Validation → ⑤ Publication                      │
+│                                                                  │
+│  CLASSES                                                         │
+│  ┌──────────┬──────────┬────────────┬──────────┬───────────────┐│
+│  │ Classe   │ Notes    │ Comment.   │ Conseil  │ Statut        ││
+│  ├──────────┼──────────┼────────────┼──────────┼───────────────┤│
+│  │ 6ème A   │ ✅ 12/12 │ ✅ 12/12   │ ✅ Done  │ 🟢 Prêt      ││
+│  │ 6ème B   │ ✅ 10/10 │ ⚠ 8/10    │ ⏳ Att.  │ 🟡 En cours  ││
+│  │ 5ème A   │ ✅ 11/11 │ ✅ 11/11   │ ✅ Done  │ 🟢 Prêt      ││
+│  │ 5ème B   │ ⚠ 9/11  │ ⚠ 6/11    │ ⏳ Att.  │ 🔴 Incomplet ││
+│  │ 4ème A   │ ✅ 12/12 │ ✅ 12/12   │ ✅ Done  │ 🟢 Prêt      ││
+│  └──────────┴──────────┴────────────┴──────────┴───────────────┘│
+│                                                                  │
+│  ACTIONS                                                         │
+│  [📝 Saisir commentaires conseil]  — pour classes en attente    │
+│  [👁 Prévisualiser bulletins]      — pour classes prêtes        │
+│  [✅ Valider et publier]           — envoie aux parents         │
+│  [📥 Télécharger PDF (lot)]        — ZIP de tous les bulletins  │
+│                                                                  │
+│  ⚠ 2 classes avec commentaires manquants                        │
+│  [📧 Relancer les enseignants]                                   │
+└──────────────────────────────────────────────────────────────────┘
+```
+
+### Report Card Preview (Admin/Principal)
+```
+┌──────────────────────────────────────────────────────────────────┐
+│  Bulletin — DUPONT Lucas — 6ème A — Trimestre 2                  │
+│  [◀ Précédent]  Élève 3/28  [Suivant ▶]                        │
+├──────────────────────────────────────────────────────────────────┤
+│  ┌────────────────────────────────────────────────────────────┐  │
+│  │  ÉCOLE SAINT-JOSEPH — BULLETIN TRIMESTRIEL               │  │
+│  │  Élève: DUPONT Lucas  Classe: 6ème A  Trimestre 2        │  │
+│  │                                                           │  │
+│  │  ┌──────────┬──────┬──────┬──────┬─────┬───────────────┐ │  │
+│  │  │ Matière  │ Moy. │ Cl.  │ Min  │ Max │ Appréciation  │ │  │
+│  │  ├──────────┼──────┼──────┼──────┼─────┼───────────────┤ │  │
+│  │  │ Français │14.5  │12.3  │ 6.0  │18.5 │ Bon trimestre │ │  │
+│  │  │ Maths    │16.0  │13.1  │ 4.5  │19.0 │ Excellent     │ │  │
+│  │  │ Histoire │12.0  │11.8  │ 5.0  │17.5 │ Peut mieux    │ │  │
+│  │  │ Anglais  │15.5  │13.0  │ 7.0  │18.0 │ Très bien     │ │  │
+│  │  │ SVT      │13.0  │12.5  │ 6.5  │17.0 │ Satisfaisant  │ │  │
+│  │  │ EPS      │16.0  │14.2  │ 8.0  │18.0 │ Sportif       │ │  │
+│  │  └──────────┴──────┴──────┴──────┴─────┴───────────────┘ │  │
+│  │                                                           │  │
+│  │  Moyenne générale: 14.5/20  (classe: 12.8)  Rang: 5/28   │  │
+│  │                                                           │  │
+│  │  Avis du conseil de classe:                               │  │
+│  │  [Trimestre sérieux. Encouragements.             ]        │  │
+│  │                                                           │  │
+│  │  Avis du chef d'établissement:                            │  │
+│  │  [Continuez ainsi. Félicitations.                ]        │  │
+│  └────────────────────────────────────────────────────────────┘  │
+│                                                                  │
+│  [✏ Modifier commentaire]  [📥 PDF]  [✅ Valider]               │
+└──────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Admin — Vie Scolaire Overview
+
+### School Life Admin Dashboard
+```
+┌──────────────────────────────────────────────────────────────────┐
+│  Vie scolaire — Tableau de bord          [+ Signaler incident]   │
+├──────────────────────────────────────────────────────────────────┤
+│  PÉRIODE: [Trimestre 2 ▼]   CLASSE: [Toutes ▼]                  │
+│                                                                  │
+│  ┌───────────────┬───────────────┬───────────────┬─────────────┐│
+│  │ 📊 Absences   │ ⏰ Retards    │ ⚠ Incidents   │ 📋 Sanctions││
+│  │     127       │     84        │     23        │     15      ││
+│  │  (+12 vs T1)  │  (-5 vs T1)   │  (+3 vs T1)   │  (+1 vs T1) ││
+│  └───────────────┴───────────────┴───────────────┴─────────────┘│
+│                                                                  │
+│  ABSENCES NON JUSTIFIÉES (7)                                     │
+│  ┌──────────────┬────────┬──────────┬────────────┬─────────────┐│
+│  │ Élève        │ Date   │ Cours    │ Nb total   │ Action      ││
+│  ├──────────────┼────────┼──────────┼────────────┼─────────────┤│
+│  │ MARTIN Léa   │ 28/02  │ Math 9h  │ 5 ce trim. │ [Justifier] ││
+│  │ FAURE Hugo   │ 28/02  │ Fr. 10h  │ 3 ce trim. │ [Justifier] ││
+│  │ PETIT Emma   │ 27/02  │ EPS 14h  │ 2 ce trim. │ [Justifier] ││
+│  └──────────────┴────────┴──────────┴────────────┴─────────────┘│
+│                                                                  │
+│  INCIDENTS OUVERTS (5)                                           │
+│  ┌──────────────┬────────┬──────────────┬──────────┬───────────┐│
+│  │ Élève        │ Date   │ Type         │ Gravité  │ Action    ││
+│  ├──────────────┼────────┼──────────────┼──────────┼───────────┤│
+│  │ BERNARD Lucas│ 28/02  │ Comportement │ 🟡 Moyen │ [Traiter] ││
+│  │ DUPONT Chloé │ 27/02  │ Discipline   │ 🔴 Grave │ [Traiter] ││
+│  └──────────────┴────────┴──────────────┴──────────┴───────────┘│
+│                                                                  │
+│  TOP 5 ÉLÈVES À SUIVRE                                           │
+│  1. MARTIN Léa — 5 absences, 3 retards, 1 incident              │
+│  2. FAURE Hugo — 3 absences, 2 incidents                        │
+│  3. BERNARD Lucas — 2 incidents (dont 1 grave)                   │
+│                                                                  │
+│  [📥 Export absences]  [📥 Export incidents]  [📊 Statistiques]  │
+└──────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Tutoring — Center Admin: Tutor Management
+
+### Tutor Management Page
+```
+┌──────────────────────────────────────────────────────────────────┐
+│  Gestion des tuteurs                         [+ Ajouter tuteur]  │
+├──────────────────────────────────────────────────────────────────┤
+│  FILTRES: [Tous ▼]  [Actif ▼]  Matière: [Toutes ▼]             │
+│                                                                  │
+│  ┌─────┬──────────────┬──────────┬────────┬───────┬────────────┐│
+│  │     │ Tuteur       │ Matières │ Tarif  │ Élèves│ Ce mois    ││
+│  ├─────┼──────────────┼──────────┼────────┼───────┼────────────┤│
+│  │ [👤]│ DUPONT Marc  │ Math,Phy.│ €35/h  │ 6     │ 24 séances ││
+│  │ [👤]│ MARTIN Julie │ Français │ €30/h  │ 4     │ 16 séances ││
+│  │ [👤]│ FAURE Antoine│ Anglais  │ €32/h  │ 5     │ 20 séances ││
+│  │ [👤]│ PETIT Sophie │ Math     │ €35/h  │ 3     │ 12 séances ││
+│  └─────┴──────────────┴──────────┴────────┴───────┴────────────┘│
+│                                                                  │
+│  RÉSUMÉ                                                          │
+│  Total tuteurs: 4 actifs  |  72 séances ce mois  |  €2,380      │
+└──────────────────────────────────────────────────────────────────┘
+```
+
+### Tutor Detail / Edit Page (Admin)
+```
+┌──────────────────────────────────────────────────────────────────┐
+│  ← Retour    Fiche tuteur: DUPONT Marc                           │
+├──────────────────────────────────────────────────────────────────┤
+│  PROFIL                              STATISTIQUES                │
+│  Nom: [DUPONT          ]             Depuis: Janv. 2025          │
+│  Prénom: [Marc          ]            Élèves actifs: 6            │
+│  Email: [m.dupont@...   ]            Heures ce mois: 30h         │
+│  Tél: [06 12 34 56     ]            Taux complétion: 96%         │
+│  Bio: [Professeur certifié...]       Note moy. parents: ★★★★☆   │
+│                                                                  │
+│  MATIÈRES: [Math ✕] [Physique ✕] [+ Ajouter]                    │
+│  TARIF HORAIRE: [35.00] €/h                                     │
+│  MAX ÉLÈVES: [8]                                                 │
+│                                                                  │
+│  DISPONIBILITÉS PAR DÉFAUT                                       │
+│  ┌──────┬─────────────────────────────────┐                      │
+│  │ Lun  │ [09:00] — [12:00], [14:00] — [18:00]│                 │
+│  │ Mar  │ ☐ Non disponible                │                      │
+│  │ Mer  │ [09:00] — [12:00]              │                      │
+│  │ Jeu  │ [09:00] — [12:00], [14:00] — [18:00]│                 │
+│  │ Ven  │ [09:00] — [12:00]              │                      │
+│  └──────┴─────────────────────────────────┘                      │
+│  [+ Ajouter créneau]                                             │
+│                                                                  │
+│  ÉLÈVES ASSIGNÉS                                                 │
+│  Lucas B. (Math) — Pack 10h, 7h restantes                        │
+│  Emma D. (Math) — Pack 10h, 2h restantes ⚠                      │
+│  Léo F. (Physique) — Pack 5h, 5h restantes                      │
+│  Chloé M. (Physique) — À l'heure, pas de forfait                │
+│  [Voir tous →]                                                   │
+│                                                                  │
+│  [Enregistrer]  [Désactiver le tuteur]                           │
+└──────────────────────────────────────────────────────────────────┘
+```
+
+### Student Package Management (Admin)
+```
+┌──────────────────────────────────────────────────────────────────┐
+│  Forfaits élèves                          [+ Attribuer forfait]  │
+├──────────────────────────────────────────────────────────────────┤
+│  FILTRES: [Tous ▼]  [Actifs ▼]  [Solde bas ▼]                   │
+│                                                                  │
+│  ┌──────────────┬──────────┬────────┬──────────┬───────┬───────┐│
+│  │ Élève        │ Forfait  │ Tuteur │ Restant  │ Exp.  │Action ││
+│  ├──────────────┼──────────┼────────┼──────────┼───────┼───────┤│
+│  │ Lucas B.     │ Pack 10h │ Dupont │ 7h / 10h │ 15/04 │ [👁]  ││
+│  │ Emma D.      │ Pack 10h │ Dupont │ 2h / 10h │ 20/03 │ [👁] ⚠││
+│  │ Léo F.       │ Pack 5h  │ Dupont │ 5h / 5h  │ 01/05 │ [👁]  ││
+│  │ Hugo M.      │ Pack 10h │ Faure  │ 0h / 10h │ Exp.  │ [👁] 🔴││
+│  │ Chloé M.     │ — aucun —│ Dupont │ —        │ —     │ [👁]  ││
+│  └──────────────┴──────────┴────────┴──────────┴───────┴───────┘│
+│                                                                  │
+│  ⚠ 1 forfait bientôt épuisé  |  🔴 1 forfait expiré             │
+│  [📧 Relancer renouvellement]                                    │
+└──────────────────────────────────────────────────────────────────┘
+```
