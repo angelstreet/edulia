@@ -1,5 +1,7 @@
 import { useState, useRef, type DragEvent } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Upload } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import { Button } from '../ui/Button';
 import { uploadFile, type FileData } from '../../api/files';
 import { FilePreview } from './FilePreview';
@@ -58,15 +60,18 @@ export function FileUpload({ onUpload, accept, maxSize = 50 }: FileUploadProps) 
   };
 
   return (
-    <div className="file-upload">
+    <div className="w-full">
       {uploaded ? (
-        <div className="file-upload-result">
+        <div className="flex items-center gap-3">
           <FilePreview file={uploaded} />
           <Button variant="ghost" size="sm" onClick={handleRemove}>{t('remove', 'Remove')}</Button>
         </div>
       ) : (
         <div
-          className={`file-upload-zone ${dragOver ? 'file-upload-zone--active' : ''}`}
+          className={cn(
+            'border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors flex flex-col items-center gap-2 text-sm text-muted-foreground',
+            dragOver ? 'border-primary bg-primary/5' : 'border-border hover:border-primary hover:bg-primary/5'
+          )}
           onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
           onDragLeave={() => setDragOver(false)}
           onDrop={onDrop}
@@ -74,22 +79,22 @@ export function FileUpload({ onUpload, accept, maxSize = 50 }: FileUploadProps) 
         >
           <input ref={inputRef} type="file" hidden accept={accept} onChange={handleChange} />
           {uploading ? (
-            <div className="file-upload-progress">
-              <div className="progress-bar">
-                <div className="progress-fill" style={{ width: `${progress}%` }} />
+            <div className="w-full flex flex-col items-center gap-2">
+              <div className="w-full h-1.5 bg-border rounded-full overflow-hidden">
+                <div className="h-full bg-primary rounded-full transition-[width] duration-300" style={{ width: `${progress}%` }} />
               </div>
-              <span className="text-muted">{progress}%</span>
+              <span className="text-xs text-muted-foreground">{progress}%</span>
             </div>
           ) : (
             <>
-              <span className="file-upload-icon">&#x1F4C1;</span>
+              <Upload className="h-8 w-8 text-muted-foreground" />
               <span>{t('dragDrop', 'Drag & drop a file here, or click to browse')}</span>
-              <span className="text-muted">{t('maxFileSize', `Max ${maxSize}MB`)}</span>
+              <span className="text-xs text-muted-foreground">{t('maxFileSize', `Max ${maxSize}MB`)}</span>
             </>
           )}
         </div>
       )}
-      {error && <div className="form-error">{error}</div>}
+      {error && <div className="text-xs text-destructive mt-1">{error}</div>}
     </div>
   );
 }

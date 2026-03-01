@@ -25,8 +25,8 @@ export function LoginForm({ onSubmit, error, loading }: LoginFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="login-form">
-      {error && <div className="form-alert form-alert--error">{t(error, error)}</div>}
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      {error && <div className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-destructive">{t(error, error)}</div>}
       <Input
         id="email"
         type="email"
@@ -46,8 +46,8 @@ export function LoginForm({ onSubmit, error, loading }: LoginFormProps) {
         required
         autoComplete="current-password"
       />
-      <div className="login-form-options">
-        <Link to="/forgot-password" className="link-muted">
+      <div className="flex justify-end">
+        <Link to="/forgot-password" className="text-sm text-primary hover:underline">
           {t('forgotPassword')}
         </Link>
       </div>

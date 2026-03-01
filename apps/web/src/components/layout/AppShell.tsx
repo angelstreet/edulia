@@ -1,17 +1,15 @@
 import { Outlet } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { Topbar } from './Topbar';
-import { Breadcrumb } from './Breadcrumb';
 import { MobileNav } from './MobileNav';
 
 export function AppShell() {
   return (
-    <div className="app-shell">
+    <div className="flex min-h-screen">
       <Sidebar />
-      <div className="app-main">
+      <div className="flex-1 flex flex-col ml-60 max-md:ml-0">
         <Topbar />
-        <Breadcrumb />
-        <main className="app-content">
+        <main className="flex-1 p-6 max-md:pb-20">
           <Outlet />
         </main>
       </div>

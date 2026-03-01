@@ -8,12 +8,12 @@ export function TeacherDashboard() {
   const { t } = useTranslation();
 
   return (
-    <div className="dashboard-grid">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <TodaySchedule />
       <UnreadMessages />
-      <div className="dashboard-quick-actions">
-        <h3>{t('quickActions', 'Quick actions')}</h3>
-        <div className="quick-actions-row">
+      <div className="space-y-4">
+        <h3 className="font-semibold">{t('quickActions', 'Quick actions')}</h3>
+        <div className="flex flex-wrap gap-2">
           <Link to="/attendance"><Button variant="secondary">{t('takeAttendance', 'Take attendance')}</Button></Link>
           <Link to="/gradebook"><Button variant="secondary">{t('enterGrades', 'Enter grades')}</Button></Link>
         </div>

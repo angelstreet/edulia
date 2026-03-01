@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { toast } from 'sonner';
 
 interface ToastProps {
   message: string;
@@ -9,14 +10,11 @@ interface ToastProps {
 
 export function Toast({ message, variant = 'info', onClose, duration = 4000 }: ToastProps) {
   useEffect(() => {
+    const toastFn = variant === 'success' ? toast.success : variant === 'error' ? toast.error : toast.info;
+    toastFn(message, { duration });
     const timer = setTimeout(onClose, duration);
     return () => clearTimeout(timer);
-  }, [onClose, duration]);
+  }, [message, variant, onClose, duration]);
 
-  return (
-    <div className={`toast toast--${variant}`} role="alert">
-      <span>{message}</span>
-      <button className="toast-close" onClick={onClose}>&times;</button>
-    </div>
-  );
+  return null;
 }

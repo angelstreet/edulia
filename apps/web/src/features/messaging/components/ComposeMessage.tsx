@@ -40,8 +40,8 @@ export function ComposeMessage({ open, onClose, onSent }: ComposeMessageProps) {
 
   return (
     <Modal open={open} onClose={onClose} title={t('newMessage', 'New message')}>
-      <form onSubmit={handleSend} className="user-form">
-        {error && <div className="form-alert form-alert--error">{error}</div>}
+      <form onSubmit={handleSend} className="flex flex-col gap-3">
+        {error && <div className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-destructive">{error}</div>}
         <Input
           id="recipient"
           label={t('to', 'To')}
@@ -56,17 +56,17 @@ export function ComposeMessage({ open, onClose, onSent }: ComposeMessageProps) {
           onChange={(e) => setSubject(e.currentTarget.value)}
           required
         />
-        <div className="form-group">
-          <label>{t('messageBody', 'Message')}</label>
+        <div className="flex flex-col gap-1">
+          <label className="text-sm font-medium">{t('messageBody', 'Message')}</label>
           <textarea
-            className="compose-textarea"
+            className="w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs outline-none resize-y transition-colors focus-visible:border-ring font-[inherit]"
             rows={5}
             value={body}
             onChange={(e) => setBody(e.target.value)}
             required
           />
         </div>
-        <div className="form-actions">
+        <div className="flex gap-2 justify-end mt-4">
           <Button type="button" variant="secondary" onClick={onClose}>{t('cancel')}</Button>
           <Button type="submit" variant="primary" loading={sending}>{t('send', 'Send')}</Button>
         </div>

@@ -63,41 +63,48 @@ export function ClassesPage() {
     }
   };
 
-  // Build tree: levels (no parent) → classes under them
+  // Build tree: levels (no parent) -> classes under them
   const levels = groups.filter((g) => !g.parent_id);
   const childrenOf = (id: string) => groups.filter((g) => g.parent_id === id);
 
   return (
-    <div className="admin-classes-page">
-      <div className="page-header">
-        <h1>{t('classes')}</h1>
+    <div>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold">{t('classes')}</h1>
         <Button variant="primary" onClick={() => setShowForm(true)}>
           + {t('addClass', 'Add class')}
         </Button>
       </div>
 
       {loading ? (
-        <div className="page-center"><Spinner /></div>
+        <div className="flex justify-center py-12"><Spinner /></div>
       ) : groups.length === 0 ? (
         <EmptyState title={t('noClasses', 'No classes yet')} description={t('noClassesDesc', 'Create your first class to get started.')} />
       ) : (
-        <div className="classes-layout">
-          <div className="classes-tree">
+        <div className="flex flex-col lg:flex-row gap-6">
+          <div className="flex flex-col gap-1 flex-1">
             {levels.map((level) => (
-              <div key={level.id} className="class-tree-node">
-                <div className="class-tree-level" onClick={() => handleSelect(level)}>
+              <div key={level.id}>
+                <div
+                  className="flex items-center gap-2 p-3 border rounded-md bg-card cursor-pointer hover:bg-muted/50 text-sm"
+                  onClick={() => handleSelect(level)}
+                >
                   <strong>{level.name}</strong>
                   <Badge variant="info">{level.type}</Badge>
-                  <span className="text-muted">{level.member_count} {t('members', 'members')}</span>
+                  <span className="text-xs text-muted-foreground">{level.member_count} {t('members', 'members')}</span>
                   <Button variant="ghost" size="sm" onClick={(e) => { e.stopPropagation(); handleDelete(level.id); }}>
                     {t('delete', 'Delete')}
                   </Button>
                 </div>
-                <div className="class-tree-children">
+                <div className="ml-6 flex flex-col gap-1 mt-1">
                   {childrenOf(level.id).map((child) => (
-                    <div key={child.id} className="class-tree-child" onClick={() => handleSelect(child)}>
+                    <div
+                      key={child.id}
+                      className="flex items-center gap-2 p-3 border rounded-md bg-card cursor-pointer hover:bg-muted/50 text-sm"
+                      onClick={() => handleSelect(child)}
+                    >
                       <span>{child.name}</span>
-                      <span className="text-muted">{child.member_count} {t('members', 'members')}</span>
+                      <span className="text-xs text-muted-foreground">{child.member_count} {t('members', 'members')}</span>
                       <Button variant="ghost" size="sm" onClick={(e) => { e.stopPropagation(); handleDelete(child.id); }}>
                         {t('delete', 'Delete')}
                       </Button>
@@ -106,25 +113,28 @@ export function ClassesPage() {
                 </div>
               </div>
             ))}
-            {/* Ungrouped classes (no parent) with type=class */}
             {groups.filter((g) => !g.parent_id && g.type === 'class' && !levels.some((l) => l.id === g.id)).map((g) => (
-              <div key={g.id} className="class-tree-child" onClick={() => handleSelect(g)}>
+              <div
+                key={g.id}
+                className="flex items-center gap-2 p-3 border rounded-md bg-card cursor-pointer hover:bg-muted/50 text-sm"
+                onClick={() => handleSelect(g)}
+              >
                 <span>{g.name}</span>
-                <span className="text-muted">{g.member_count}</span>
+                <span className="text-xs text-muted-foreground">{g.member_count}</span>
               </div>
             ))}
           </div>
 
           {selectedGroup && (
-            <div className="classes-detail">
-              <h2>{selectedGroup.name}</h2>
-              <p className="text-muted">{selectedGroup.members.length} {t('members', 'members')}</p>
-              <div className="members-list">
+            <div className="flex-1 border rounded-lg p-4 bg-card">
+              <h2 className="text-lg font-semibold mb-1">{selectedGroup.name}</h2>
+              <p className="text-sm text-muted-foreground mb-4">{selectedGroup.members.length} {t('members', 'members')}</p>
+              <div className="flex flex-col gap-2">
                 {selectedGroup.members.length === 0 ? (
-                  <p className="text-muted">{t('noMembers', 'No members yet.')}</p>
+                  <p className="text-sm text-muted-foreground">{t('noMembers', 'No members yet.')}</p>
                 ) : (
                   selectedGroup.members.map((m) => (
-                    <div key={m.id} className="member-row">
+                    <div key={m.id} className="flex items-center justify-between py-2 border-b border-border last:border-0 text-sm">
                       <span>{m.display_name}</span>
                       <Badge variant="default">{m.role}</Badge>
                     </div>
@@ -137,26 +147,26 @@ export function ClassesPage() {
       )}
 
       <Modal open={showForm} onClose={() => setShowForm(false)} title={t('addClass', 'Add class')}>
-        <div className="user-form">
+        <div className="flex flex-col gap-3">
           <Input id="className" label={t('name', 'Name')} value={newName} onChange={(e) => setNewName(e.currentTarget.value)} required />
-          <div className="form-group">
-            <label>{t('type', 'Type')}</label>
-            <select className="filter-select" value={newType} onChange={(e) => setNewType(e.target.value)}>
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-medium">{t('type', 'Type')}</label>
+            <select className="h-9 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none" value={newType} onChange={(e) => setNewType(e.target.value)}>
               <option value="class">{t('classType', 'Class')}</option>
               <option value="section">{t('section', 'Section')}</option>
               <option value="cohort">{t('cohort', 'Cohort')}</option>
             </select>
           </div>
-          <div className="form-group">
-            <label>{t('parentGroup', 'Parent group')}</label>
-            <select className="filter-select" value={parentId || ''} onChange={(e) => setParentId(e.target.value || null)}>
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-medium">{t('parentGroup', 'Parent group')}</label>
+            <select className="h-9 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none" value={parentId || ''} onChange={(e) => setParentId(e.target.value || null)}>
               <option value="">{t('none', 'None')}</option>
               {groups.map((g) => (
                 <option key={g.id} value={g.id}>{g.name}</option>
               ))}
             </select>
           </div>
-          <div className="form-actions">
+          <div className="flex gap-2 justify-end mt-4">
             <Button variant="secondary" onClick={() => setShowForm(false)}>{t('cancel')}</Button>
             <Button variant="primary" loading={saving} onClick={handleCreate}>{t('save')}</Button>
           </div>

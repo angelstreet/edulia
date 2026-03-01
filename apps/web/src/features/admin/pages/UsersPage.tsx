@@ -65,7 +65,7 @@ export function UsersPage() {
       key: 'display_name',
       header: t('name', 'Name'),
       render: (row: UserData) => (
-        <span className="user-name-cell">{row.display_name || `${row.first_name} ${row.last_name}`}</span>
+        <span className="font-medium">{row.display_name || `${row.first_name} ${row.last_name}`}</span>
       ),
     },
     { key: 'email', header: t('email') },
@@ -95,24 +95,24 @@ export function UsersPage() {
   ];
 
   return (
-    <div className="admin-users-page">
-      <div className="page-header">
-        <h1>{t('users')}</h1>
+    <div>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold">{t('users')}</h1>
         <Button variant="primary" onClick={() => { setEditUser(null); setShowForm(true); }}>
           + {t('addUser', 'Add user')}
         </Button>
       </div>
 
-      <div className="page-filters">
+      <div className="flex flex-col md:flex-row gap-3 mb-4">
         <input
           type="search"
-          className="search-input"
+          className="h-9 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none focus-visible:border-ring min-w-60"
           placeholder={t('search') + '...'}
           value={search}
           onChange={(e) => { setSearch(e.target.value); setPage(1); }}
         />
         <select
-          className="filter-select"
+          className="h-9 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none"
           value={roleFilter}
           onChange={(e) => { setRoleFilter(e.target.value); setPage(1); }}
         >
@@ -126,7 +126,7 @@ export function UsersPage() {
       </div>
 
       {loading ? (
-        <div className="page-center"><Spinner /></div>
+        <div className="flex justify-center py-12"><Spinner /></div>
       ) : users.length === 0 ? (
         <EmptyState
           title={t('noUsers', 'No users found')}

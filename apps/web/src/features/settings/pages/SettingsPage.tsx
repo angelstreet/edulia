@@ -5,10 +5,10 @@ export function SettingsPage() {
   const { t } = useTranslation();
 
   return (
-    <div className="settings-page">
-      <h1>{t('settings')}</h1>
+    <div>
+      <h1 className="text-2xl font-bold mb-4">{t('settings')}</h1>
       <Card title={t('profile')}>
-        <p className="text-muted">{t('settingsPlaceholder', 'Settings will be available here.')}</p>
+        <p className="text-sm text-muted-foreground">{t('settingsPlaceholder', 'Settings will be available here.')}</p>
       </Card>
     </div>
   );

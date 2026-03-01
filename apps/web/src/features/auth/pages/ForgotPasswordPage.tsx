@@ -27,17 +27,17 @@ export function ForgotPasswordPage() {
   };
 
   return (
-    <div className="login-page">
-      <div className="login-card">
-        <h1 className="login-title">{t('forgotPasswordTitle', 'Reset your password')}</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
+        <h1 className="text-xl font-bold mb-6 text-center">{t('forgotPasswordTitle', 'Reset your password')}</h1>
         {sent ? (
-          <div className="form-alert form-alert--success">
+          <div className="rounded-md border border-green-200 bg-green-50 p-3 text-sm text-green-700">
             {t('forgotPasswordSent', 'If an account exists with that email, you will receive a reset link.')}
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="login-form">
-            {error && <div className="form-alert form-alert--error">{error}</div>}
-            <p className="form-hint">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            {error && <div className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-destructive">{error}</div>}
+            <p className="text-sm text-muted-foreground mb-2">
               {t('forgotPasswordHint', 'Enter your email and we will send you a reset link.')}
             </p>
             <Input
@@ -54,8 +54,8 @@ export function ForgotPasswordPage() {
             </Button>
           </form>
         )}
-        <div className="login-form-footer">
-          <Link to="/login" className="link-muted">{t('backToLogin', 'Back to login')}</Link>
+        <div className="text-center mt-4">
+          <Link to="/login" className="text-sm text-primary hover:underline">{t('backToLogin', 'Back to login')}</Link>
         </div>
       </div>
     </div>

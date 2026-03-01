@@ -1,64 +1,65 @@
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useCurrentUser } from '../../hooks/useCurrentUser';
+import { cn } from '@/lib/utils';
+import {
+  LayoutGrid,
+  Users,
+  School,
+  BookOpen,
+  Settings,
+  Calendar,
+  CheckCircle,
+  BarChart3,
+  ClipboardList,
+  Mail,
+  CreditCard,
+  type LucideIcon,
+} from 'lucide-react';
 
 interface NavItem {
   to: string;
   label: string;
-  icon: string;
+  icon: LucideIcon;
 }
 
 const NAV_BY_ROLE: Record<string, NavItem[]> = {
   admin: [
-    { to: '/dashboard', label: 'dashboard', icon: 'grid' },
-    { to: '/admin/users', label: 'users', icon: 'users' },
-    { to: '/admin/classes', label: 'classes', icon: 'school' },
-    { to: '/admin/subjects', label: 'subjects', icon: 'book' },
-    { to: '/admin/academic-year', label: 'academicYear', icon: 'calendar' },
-    { to: '/admin/settings', label: 'tenantSettings', icon: 'settings' },
+    { to: '/dashboard', label: 'dashboard', icon: LayoutGrid },
+    { to: '/admin/users', label: 'users', icon: Users },
+    { to: '/admin/classes', label: 'classes', icon: School },
+    { to: '/admin/subjects', label: 'subjects', icon: BookOpen },
+    { to: '/admin/academic-year', label: 'academicYear', icon: Calendar },
+    { to: '/admin/settings', label: 'tenantSettings', icon: Settings },
   ],
   teacher: [
-    { to: '/dashboard', label: 'dashboard', icon: 'grid' },
-    { to: '/timetable', label: 'timetable', icon: 'calendar' },
-    { to: '/attendance', label: 'attendance', icon: 'check-circle' },
-    { to: '/gradebook', label: 'gradebook', icon: 'bar-chart' },
-    { to: '/homework', label: 'homework', icon: 'clipboard' },
-    { to: '/messages', label: 'messages', icon: 'mail' },
+    { to: '/dashboard', label: 'dashboard', icon: LayoutGrid },
+    { to: '/timetable', label: 'timetable', icon: Calendar },
+    { to: '/attendance', label: 'attendance', icon: CheckCircle },
+    { to: '/gradebook', label: 'gradebook', icon: BarChart3 },
+    { to: '/homework', label: 'homework', icon: ClipboardList },
+    { to: '/messages', label: 'messages', icon: Mail },
   ],
   student: [
-    { to: '/dashboard', label: 'dashboard', icon: 'grid' },
-    { to: '/timetable', label: 'timetable', icon: 'calendar' },
-    { to: '/grades', label: 'grades', icon: 'bar-chart' },
-    { to: '/homework', label: 'homework', icon: 'clipboard' },
-    { to: '/messages', label: 'messages', icon: 'mail' },
+    { to: '/dashboard', label: 'dashboard', icon: LayoutGrid },
+    { to: '/timetable', label: 'timetable', icon: Calendar },
+    { to: '/grades', label: 'grades', icon: BarChart3 },
+    { to: '/homework', label: 'homework', icon: ClipboardList },
+    { to: '/messages', label: 'messages', icon: Mail },
   ],
   parent: [
-    { to: '/dashboard', label: 'dashboard', icon: 'grid' },
-    { to: '/children', label: 'children', icon: 'users' },
-    { to: '/grades', label: 'grades', icon: 'bar-chart' },
-    { to: '/messages', label: 'messages', icon: 'mail' },
-    { to: '/billing', label: 'billing', icon: 'credit-card' },
+    { to: '/dashboard', label: 'dashboard', icon: LayoutGrid },
+    { to: '/children', label: 'children', icon: Users },
+    { to: '/grades', label: 'grades', icon: BarChart3 },
+    { to: '/messages', label: 'messages', icon: Mail },
+    { to: '/billing', label: 'billing', icon: CreditCard },
   ],
   tutor: [
-    { to: '/dashboard', label: 'dashboard', icon: 'grid' },
-    { to: '/calendar', label: 'calendar', icon: 'calendar' },
-    { to: '/students', label: 'students', icon: 'users' },
-    { to: '/messages', label: 'messages', icon: 'mail' },
+    { to: '/dashboard', label: 'dashboard', icon: LayoutGrid },
+    { to: '/calendar', label: 'calendar', icon: Calendar },
+    { to: '/students', label: 'students', icon: Users },
+    { to: '/messages', label: 'messages', icon: Mail },
   ],
-};
-
-const ICON_MAP: Record<string, string> = {
-  grid: '\u25A6',
-  users: '\u2636',
-  school: '\u2302',
-  book: '\u2261',
-  settings: '\u2699',
-  calendar: '\u2637',
-  'check-circle': '\u2713',
-  'bar-chart': '\u2584',
-  clipboard: '\u2630',
-  mail: '\u2709',
-  'credit-card': '\u2610',
 };
 
 export function Sidebar() {
@@ -68,29 +69,37 @@ export function Sidebar() {
   const items = NAV_BY_ROLE[role] || NAV_BY_ROLE.student;
 
   return (
-    <aside className="sidebar">
-      <div className="sidebar-header">
-        <h2 className="sidebar-logo">{t('appName')}</h2>
+    <aside className="fixed top-0 left-0 w-60 h-screen bg-slate-800 text-slate-300 flex-col overflow-y-auto z-40 hidden md:flex">
+      <div className="px-5 py-4 border-b border-white/10">
+        <h2 className="text-xl font-bold text-white">{t('appName')}</h2>
       </div>
-      <nav className="sidebar-nav">
-        {items.map((item) => (
-          <NavLink
-            key={item.to}
-            to={item.to}
-            className={({ isActive }) =>
-              `sidebar-link ${isActive ? 'sidebar-link--active' : ''}`
-            }
-          >
-            <span className="sidebar-link-icon">{ICON_MAP[item.icon] || '\u2022'}</span>
-            <span>{t(item.label, item.label)}</span>
-          </NavLink>
-        ))}
+      <nav className="flex-1 p-2 flex flex-col gap-1">
+        {items.map((item) => {
+          const Icon = item.icon;
+          return (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              className={({ isActive }) =>
+                cn(
+                  'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors no-underline',
+                  isActive
+                    ? 'bg-white/10 text-white'
+                    : 'text-slate-300 hover:bg-white/5'
+                )
+              }
+            >
+              <Icon className="h-[1.125rem] w-[1.125rem]" />
+              <span>{t(item.label, item.label)}</span>
+            </NavLink>
+          );
+        })}
       </nav>
-      <div className="sidebar-footer">
+      <div className="px-4 py-3 border-t border-white/10">
         {user && (
-          <div className="sidebar-user">
-            <span className="sidebar-user-name">{user.display_name}</span>
-            <span className="sidebar-user-role">{user.role}</span>
+          <div className="flex flex-col gap-0.5">
+            <span className="text-sm font-semibold text-white">{user.display_name}</span>
+            <span className="text-[0.6875rem] text-slate-300 capitalize">{user.role}</span>
           </div>
         )}
       </div>

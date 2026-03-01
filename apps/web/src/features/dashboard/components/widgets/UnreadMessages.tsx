@@ -7,9 +7,9 @@ export function UnreadMessages() {
 
   return (
     <Card title={t('messages')}>
-      <div className="widget-unread">
-        <span className="unread-count">{count}</span>
-        <span>{t('unreadMessages', 'unread messages')}</span>
+      <div className="flex items-center gap-2 text-sm">
+        <span className="text-2xl font-bold">{count}</span>
+        <span className="text-muted-foreground">{t('unreadMessages', 'unread messages')}</span>
       </div>
     </Card>
   );

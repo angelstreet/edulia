@@ -33,36 +33,45 @@ export function Topbar() {
   };
 
   return (
-    <header className="topbar">
-      <div className="topbar-left">
+    <header className="h-14 border-b bg-white flex items-center justify-between px-6">
+      <div className="flex items-center">
         <Breadcrumb />
       </div>
-      <div className="topbar-right">
+      <div className="flex items-center gap-3">
         <NotificationPanel />
-        <button className="topbar-btn" onClick={toggleLang}>
+        <button
+          className="px-3 py-1.5 border border-border rounded-md bg-white text-sm cursor-pointer hover:bg-muted/50 transition-colors"
+          onClick={toggleLang}
+        >
           {i18n.language === 'fr' ? 'EN' : 'FR'}
         </button>
-        <div className="user-menu-wrapper" ref={menuRef}>
+        <div className="relative" ref={menuRef}>
           <button
-            className="topbar-btn user-menu-trigger"
+            className="flex items-center gap-2 border-none bg-transparent cursor-pointer px-2 py-1"
             onClick={() => setMenuOpen(!menuOpen)}
           >
-            <span className="user-menu-avatar">
+            <span className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-semibold">
               {user?.display_name?.charAt(0).toUpperCase() || 'U'}
             </span>
-            <span className="user-menu-name">{user?.display_name}</span>
+            <span className="text-sm hidden md:inline">{user?.display_name}</span>
           </button>
           {menuOpen && (
-            <div className="user-menu-dropdown">
-              <div className="user-menu-header">
-                <strong>{user?.display_name}</strong>
-                <span className="text-muted">{user?.email}</span>
+            <div className="absolute top-full right-0 mt-1 min-w-[200px] bg-white border border-border rounded-lg shadow-md z-50 py-2">
+              <div className="px-4 py-2 flex flex-col gap-0.5">
+                <strong className="text-sm">{user?.display_name}</strong>
+                <span className="text-xs text-muted-foreground">{user?.email}</span>
               </div>
-              <hr className="user-menu-divider" />
-              <button className="user-menu-item" onClick={() => { navigate('/settings'); setMenuOpen(false); }}>
+              <hr className="border-t border-border my-1" />
+              <button
+                className="block w-full text-left px-4 py-2 text-sm hover:bg-muted/50 transition-colors"
+                onClick={() => { navigate('/settings'); setMenuOpen(false); }}
+              >
                 {t('settings')}
               </button>
-              <button className="user-menu-item user-menu-item--danger" onClick={handleLogout}>
+              <button
+                className="block w-full text-left px-4 py-2 text-sm text-destructive hover:bg-muted/50 transition-colors"
+                onClick={handleLogout}
+              >
                 {t('logout')}
               </button>
             </div>

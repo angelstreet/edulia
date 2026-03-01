@@ -34,21 +34,26 @@ export function ResetPasswordPage() {
   };
 
   return (
-    <div className="login-page">
-      <div className="login-card">
-        <h1 className="login-title">{t('resetPasswordTitle', 'Set a new password')}</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
+        <h1 className="text-xl font-bold mb-6 text-center">{t('resetPasswordTitle', 'Set a new password')}</h1>
         {done ? (
           <>
-            <div className="form-alert form-alert--success">
+            <div className="rounded-md border border-green-200 bg-green-50 p-3 text-sm text-green-700">
               {t('resetPasswordDone', 'Password updated. You can now log in.')}
             </div>
-            <Link to="/login" className="btn btn--primary" style={{ display: 'block', textAlign: 'center', textDecoration: 'none', marginTop: 16 }}>
-              {t('login')}
+            <Link
+              to="/login"
+              className="mt-4 block text-center w-full"
+            >
+              <Button variant="primary" className="w-full">
+                {t('login')}
+              </Button>
             </Link>
           </>
         ) : (
-          <form onSubmit={handleSubmit} className="login-form">
-            {error && <div className="form-alert form-alert--error">{error}</div>}
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            {error && <div className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-destructive">{error}</div>}
             <Input
               id="password"
               type="password"

@@ -4,7 +4,7 @@ import { RecentGrades } from './widgets/RecentGrades';
 
 export function StudentDashboard() {
   return (
-    <div className="dashboard-grid">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <TodaySchedule />
       <HomeworkDue />
       <RecentGrades />

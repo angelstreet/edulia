@@ -20,8 +20,8 @@ export function DashboardPage() {
   const DashboardComponent = DASHBOARD_BY_ROLE[role] || StudentDashboard;
 
   return (
-    <div className="dashboard-page">
-      <h1>{t('welcome')}</h1>
+    <div>
+      <h1 className="text-2xl font-bold mb-6">{t('welcome')}</h1>
       <DashboardComponent />
     </div>
   );

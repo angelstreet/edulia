@@ -8,20 +8,20 @@ export function Breadcrumb() {
   const segments = location.pathname.split('/').filter(Boolean);
 
   return (
-    <nav className="breadcrumb" aria-label="breadcrumb">
-      <Link to="/" className="breadcrumb-link">
+    <nav className="flex items-center text-sm text-muted-foreground" aria-label="breadcrumb">
+      <Link to="/" className="text-primary hover:underline">
         {t('home')}
       </Link>
       {segments.map((segment, idx) => {
         const path = '/' + segments.slice(0, idx + 1).join('/');
         const isLast = idx === segments.length - 1;
         return (
-          <span key={path}>
-            <span className="breadcrumb-sep">/</span>
+          <span key={path} className="flex items-center">
+            <span className="mx-1.5">/</span>
             {isLast ? (
-              <span className="breadcrumb-current">{segment}</span>
+              <span className="text-foreground">{segment}</span>
             ) : (
-              <Link to={path} className="breadcrumb-link">
+              <Link to={path} className="text-primary hover:underline">
                 {segment}
               </Link>
             )}

@@ -5,8 +5,8 @@ export function ImportCSV() {
   const { t } = useTranslation();
 
   return (
-    <div className="import-csv">
-      <p className="form-hint">
+    <div className="space-y-2">
+      <p className="text-sm text-muted-foreground">
         {t('importCSVHint', 'Upload a CSV file to import users in bulk.')}
       </p>
       <Button variant="secondary" disabled>

@@ -26,14 +26,14 @@ export function ThreadView({ thread, messages, loading, currentUserId, onReply }
 
   if (!thread) {
     return (
-      <div className="thread-view-empty">
-        <p className="text-muted">{t('selectThread', 'Select a conversation')}</p>
+      <div className="flex items-center justify-center h-full">
+        <p className="text-sm text-muted-foreground">{t('selectThread', 'Select a conversation')}</p>
       </div>
     );
   }
 
   if (loading) {
-    return <div className="page-center"><Spinner /></div>;
+    return <div className="flex justify-center py-12"><Spinner /></div>;
   }
 
   const handleSend = async (e: FormEvent) => {
@@ -49,11 +49,11 @@ export function ThreadView({ thread, messages, loading, currentUserId, onReply }
   };
 
   return (
-    <div className="thread-view">
-      <div className="thread-view-header">
-        <h3>{thread.subject || thread.participants.map((p) => p.display_name).join(', ')}</h3>
+    <div className="flex flex-col h-full">
+      <div className="px-4 py-3 border-b border-border">
+        <h3 className="font-semibold text-sm">{thread.subject || thread.participants.map((p) => p.display_name).join(', ')}</h3>
       </div>
-      <div className="thread-view-messages">
+      <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-3">
         {messages.map((m) => (
           <MessageBubble
             key={m.id}
@@ -66,10 +66,10 @@ export function ThreadView({ thread, messages, loading, currentUserId, onReply }
         ))}
         <div ref={bottomRef} />
       </div>
-      <form className="thread-view-reply" onSubmit={handleSend}>
+      <form className="px-4 py-3 border-t border-border flex gap-2" onSubmit={handleSend}>
         <input
           type="text"
-          className="reply-input"
+          className="flex-1 h-9 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none focus-visible:border-ring"
           placeholder={t('typeMessage', 'Type a message...')}
           value={reply}
           onChange={(e) => setReply(e.target.value)}

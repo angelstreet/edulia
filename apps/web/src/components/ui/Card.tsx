@@ -1,3 +1,11 @@
+import {
+  Card as ShadcnCard,
+  CardHeader,
+  CardTitle,
+  CardContent,
+} from '@/components/ui/primitives/card';
+import { cn } from '@/lib/utils';
+
 interface CardProps {
   title?: string;
   children: React.ReactNode;
@@ -6,9 +14,13 @@ interface CardProps {
 
 export function Card({ title, children, className = '' }: CardProps) {
   return (
-    <div className={`card ${className}`}>
-      {title && <div className="card-header"><h3>{title}</h3></div>}
-      <div className="card-body">{children}</div>
-    </div>
+    <ShadcnCard className={cn(className)}>
+      {title && (
+        <CardHeader>
+          <CardTitle>{title}</CardTitle>
+        </CardHeader>
+      )}
+      <CardContent>{children}</CardContent>
+    </ShadcnCard>
   );
 }

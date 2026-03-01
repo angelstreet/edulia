@@ -12,9 +12,9 @@ export function RoleGuard({ roles, children }: RoleGuardProps) {
 
   if (!user || !roles.includes(user.role)) {
     return (
-      <div className="forbidden-page">
-        <h1>403</h1>
-        <p>{t('forbidden', 'You do not have permission to view this page.')}</p>
+      <div className="text-center py-16 px-6">
+        <h1 className="text-5xl font-extrabold text-destructive mb-2">403</h1>
+        <p className="text-muted-foreground">{t('forbidden', 'You do not have permission to view this page.')}</p>
       </div>
     );
   }

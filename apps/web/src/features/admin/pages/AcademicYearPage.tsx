@@ -62,36 +62,36 @@ export function AcademicYearPage() {
   };
 
   return (
-    <div className="admin-academic-year-page">
-      <div className="page-header">
-        <h1>{t('academicYear', 'Academic Year')}</h1>
+    <div>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold">{t('academicYear', 'Academic Year')}</h1>
         <Button variant="primary" onClick={() => setShowYearForm(true)}>+ {t('addYear', 'Add year')}</Button>
       </div>
 
       {loading ? (
-        <div className="page-center"><Spinner /></div>
+        <div className="flex justify-center py-12"><Spinner /></div>
       ) : years.length === 0 ? (
         <EmptyState title={t('noYears', 'No academic years')} description={t('noYearsDesc', 'Create an academic year to get started.')} />
       ) : (
-        <div className="years-list">
+        <div className="flex flex-col gap-4">
           {years.map((year) => (
-            <div key={year.id} className="year-card card">
-              <div className="card-header">
-                <div className="year-card-header">
-                  <h3>{year.name}</h3>
+            <div key={year.id} className="border rounded-xl bg-card shadow-sm overflow-hidden">
+              <div className="px-6 py-4 border-b border-border">
+                <div className="flex items-center gap-3 flex-wrap">
+                  <h3 className="font-semibold">{year.name}</h3>
                   {year.is_current && <Badge variant="success">{t('current', 'Current')}</Badge>}
-                  <span className="text-muted">{year.start_date} — {year.end_date}</span>
+                  <span className="text-sm text-muted-foreground">{year.start_date} -- {year.end_date}</span>
                 </div>
               </div>
-              <div className="card-body">
-                <div className="terms-timeline">
+              <div className="px-6 py-4">
+                <div className="flex gap-2 flex-wrap mb-3">
                   {year.terms.length === 0 ? (
-                    <p className="text-muted">{t('noTerms', 'No terms defined.')}</p>
+                    <p className="text-sm text-muted-foreground">{t('noTerms', 'No terms defined.')}</p>
                   ) : (
                     year.terms.sort((a, b) => a.order - b.order).map((term) => (
-                      <div key={term.id} className="term-block">
-                        <div className="term-name">{term.name}</div>
-                        <div className="term-dates text-muted">{term.start_date} — {term.end_date}</div>
+                      <div key={term.id} className="border rounded-md px-3 py-2 bg-muted/30 text-sm">
+                        <div className="font-medium">{term.name}</div>
+                        <div className="text-xs text-muted-foreground">{term.start_date} -- {term.end_date}</div>
                       </div>
                     ))
                   )}
@@ -106,11 +106,11 @@ export function AcademicYearPage() {
       )}
 
       <Modal open={showYearForm} onClose={() => setShowYearForm(false)} title={t('addYear', 'Add year')}>
-        <div className="user-form">
+        <div className="flex flex-col gap-3">
           <Input id="yearName" label={t('name', 'Name')} value={yearName} onChange={(e) => setYearName(e.currentTarget.value)} placeholder="2025-2026" required />
           <Input id="yearStart" label={t('startDate', 'Start date')} type="date" value={yearStart} onChange={(e) => setYearStart(e.currentTarget.value)} required />
           <Input id="yearEnd" label={t('endDate', 'End date')} type="date" value={yearEnd} onChange={(e) => setYearEnd(e.currentTarget.value)} required />
-          <div className="form-actions">
+          <div className="flex gap-2 justify-end mt-4">
             <Button variant="secondary" onClick={() => setShowYearForm(false)}>{t('cancel')}</Button>
             <Button variant="primary" loading={saving} onClick={handleCreateYear}>{t('save')}</Button>
           </div>
@@ -118,11 +118,11 @@ export function AcademicYearPage() {
       </Modal>
 
       <Modal open={!!showTermForm} onClose={() => setShowTermForm(null)} title={t('addTerm', 'Add term')}>
-        <div className="user-form">
+        <div className="flex flex-col gap-3">
           <Input id="termName" label={t('name', 'Name')} value={termName} onChange={(e) => setTermName(e.currentTarget.value)} placeholder="Trimestre 1" required />
           <Input id="termStart" label={t('startDate', 'Start date')} type="date" value={termStart} onChange={(e) => setTermStart(e.currentTarget.value)} required />
           <Input id="termEnd" label={t('endDate', 'End date')} type="date" value={termEnd} onChange={(e) => setTermEnd(e.currentTarget.value)} required />
-          <div className="form-actions">
+          <div className="flex gap-2 justify-end mt-4">
             <Button variant="secondary" onClick={() => setShowTermForm(null)}>{t('cancel')}</Button>
             <Button variant="primary" loading={saving} onClick={handleCreateTerm}>{t('save')}</Button>
           </div>

@@ -17,23 +17,23 @@ export function MessagesPage() {
   const { thread, messages, loading: threadLoading, refresh: refreshThread } = useThread(selectedId);
 
   return (
-    <div className="messages-page">
-      <div className="page-header">
-        <h1>{t('messages')}</h1>
+    <div>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold">{t('messages')}</h1>
         <Button variant="primary" onClick={() => setShowCompose(true)}>
           + {t('newMessage', 'New message')}
         </Button>
       </div>
 
-      <div className="messages-layout">
-        <div className="messages-sidebar">
+      <div className="flex border rounded-lg bg-card overflow-hidden h-[calc(100vh-12rem)]">
+        <div className="w-80 border-r overflow-y-auto shrink-0 max-md:w-full max-md:border-r-0 max-md:border-b max-md:max-h-72">
           {listLoading ? (
-            <div className="page-center"><Spinner size="sm" /></div>
+            <div className="flex justify-center py-12"><Spinner size="sm" /></div>
           ) : (
             <ThreadList threads={threads} selectedId={selectedId} onSelect={setSelectedId} />
           )}
         </div>
-        <div className="messages-main">
+        <div className="flex-1 flex flex-col overflow-hidden max-md:min-h-64">
           <ThreadView
             thread={thread}
             messages={messages}

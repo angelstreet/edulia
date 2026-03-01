@@ -48,8 +48,8 @@ export function UserForm({ user, onSuccess, onCancel }: UserFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="user-form">
-      {error && <div className="form-alert form-alert--error">{error}</div>}
+    <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+      {error && <div className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-destructive">{error}</div>}
       <Input
         id="firstName"
         label={t('firstName', 'First name')}
@@ -80,7 +80,7 @@ export function UserForm({ user, onSuccess, onCancel }: UserFormProps) {
         value={role}
         onChange={(e) => setRole(e.currentTarget.value)}
       />
-      <div className="form-actions">
+      <div className="flex gap-2 justify-end mt-4">
         <Button type="button" variant="secondary" onClick={onCancel}>
           {t('cancel')}
         </Button>

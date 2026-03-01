@@ -63,45 +63,51 @@ export function SubjectsPage() {
   };
 
   return (
-    <div className="admin-subjects-page">
-      <div className="page-header">
-        <h1>{t('subjects')}</h1>
+    <div>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold">{t('subjects')}</h1>
         <Button variant="primary" onClick={openCreate}>+ {t('addSubject', 'Add subject')}</Button>
       </div>
 
       {loading ? (
-        <div className="page-center"><Spinner /></div>
+        <div className="flex justify-center py-12"><Spinner /></div>
       ) : subjects.length === 0 ? (
         <EmptyState title={t('noSubjects', 'No subjects yet')} description={t('noSubjectsDesc', 'Create your first subject.')} />
       ) : (
-        <div className="subjects-grid">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {subjects.map((s) => (
-            <div key={s.id} className="subject-card" onClick={() => openEdit(s)}>
-              <span className="subject-color-chip" style={{ background: s.color }} />
-              <div className="subject-info">
-                <strong>{s.name}</strong>
-                <span className="text-muted">{s.code}</span>
+            <div
+              key={s.id}
+              className="border rounded-lg p-4 bg-card cursor-pointer hover:shadow-md transition-shadow"
+              onClick={() => openEdit(s)}
+            >
+              <span className="block w-8 h-8 rounded-md mb-2" style={{ background: s.color }} />
+              <div className="flex flex-col gap-1">
+                <strong className="text-sm">{s.name}</strong>
+                <span className="text-xs text-muted-foreground uppercase tracking-wide">{s.code}</span>
               </div>
-              <Button variant="ghost" size="sm" onClick={(e) => { e.stopPropagation(); handleDelete(s.id); }}>
-                {t('delete', 'Delete')}
-              </Button>
+              <div className="mt-3">
+                <Button variant="ghost" size="sm" onClick={(e) => { e.stopPropagation(); handleDelete(s.id); }}>
+                  {t('delete', 'Delete')}
+                </Button>
+              </div>
             </div>
           ))}
         </div>
       )}
 
       <Modal open={showForm} onClose={() => setShowForm(false)} title={editSubject ? t('editSubject', 'Edit subject') : t('addSubject', 'Add subject')}>
-        <div className="user-form">
+        <div className="flex flex-col gap-3">
           <Input id="subjectCode" label={t('code', 'Code')} value={code} onChange={(e) => setCode(e.currentTarget.value)} required placeholder="MATH" />
           <Input id="subjectName" label={t('name', 'Name')} value={name} onChange={(e) => setName(e.currentTarget.value)} required />
-          <div className="form-group">
-            <label>{t('color', 'Color')}</label>
-            <div className="color-picker-row">
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-medium">{t('color', 'Color')}</label>
+            <div className="flex items-center gap-2">
               <input type="color" value={color} onChange={(e) => setColor(e.target.value)} />
-              <span className="text-muted">{color}</span>
+              <span className="text-xs text-muted-foreground">{color}</span>
             </div>
           </div>
-          <div className="form-actions">
+          <div className="flex gap-2 justify-end mt-4">
             <Button variant="secondary" onClick={() => setShowForm(false)}>{t('cancel')}</Button>
             <Button variant="primary" loading={saving} onClick={handleSave}>{t('save')}</Button>
           </div>

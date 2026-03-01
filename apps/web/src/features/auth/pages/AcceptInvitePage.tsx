@@ -34,14 +34,14 @@ export function AcceptInvitePage() {
   };
 
   return (
-    <div className="login-page">
-      <div className="login-card">
-        <h1 className="login-title">{t('acceptInviteTitle', 'Set your password')}</h1>
-        <p className="form-hint">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
+        <h1 className="text-xl font-bold mb-6 text-center">{t('acceptInviteTitle', 'Set your password')}</h1>
+        <p className="text-sm text-muted-foreground mb-4">
           {t('acceptInviteHint', 'You have been invited to join Edulia. Choose a password to get started.')}
         </p>
-        <form onSubmit={handleSubmit} className="login-form">
-          {error && <div className="form-alert form-alert--error">{error}</div>}
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          {error && <div className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-destructive">{error}</div>}
           <Input
             id="password"
             type="password"

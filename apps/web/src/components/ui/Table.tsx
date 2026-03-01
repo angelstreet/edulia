@@ -1,3 +1,13 @@
+import {
+  Table as ShadcnTable,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+} from '@/components/ui/primitives/table';
+import { cn } from '@/lib/utils';
+
 interface Column<T> {
   key: string;
   header: string;
@@ -18,41 +28,39 @@ export function Table<T extends { id?: string }>({
   onRowClick,
 }: TableProps<T>) {
   return (
-    <div className="table-container">
-      <table className="table">
-        <thead>
-          <tr>
-            {columns.map((col) => (
-              <th key={col.key}>{col.header}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {data.length === 0 ? (
-            <tr>
-              <td colSpan={columns.length} className="table-empty">
-                —
-              </td>
-            </tr>
-          ) : (
-            data.map((row, idx) => (
-              <tr
-                key={String(row[keyField] ?? idx)}
-                onClick={() => onRowClick?.(row)}
-                className={onRowClick ? 'table-row--clickable' : ''}
-              >
-                {columns.map((col) => (
-                  <td key={col.key}>
-                    {col.render
-                      ? col.render(row)
-                      : String((row as Record<string, unknown>)[col.key] ?? '')}
-                  </td>
-                ))}
-              </tr>
-            ))
-          )}
-        </tbody>
-      </table>
-    </div>
+    <ShadcnTable>
+      <TableHeader>
+        <TableRow>
+          {columns.map((col) => (
+            <TableHead key={col.key}>{col.header}</TableHead>
+          ))}
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {data.length === 0 ? (
+          <TableRow>
+            <TableCell colSpan={columns.length} className="text-center text-muted-foreground py-8">
+              —
+            </TableCell>
+          </TableRow>
+        ) : (
+          data.map((row, idx) => (
+            <TableRow
+              key={String(row[keyField] ?? idx)}
+              onClick={() => onRowClick?.(row)}
+              className={cn(onRowClick && 'cursor-pointer')}
+            >
+              {columns.map((col) => (
+                <TableCell key={col.key}>
+                  {col.render
+                    ? col.render(row)
+                    : String((row as Record<string, unknown>)[col.key] ?? '')}
+                </TableCell>
+              ))}
+            </TableRow>
+          ))
+        )}
+      </TableBody>
+    </ShadcnTable>
   );
 }
