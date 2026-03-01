@@ -1,1 +1,39 @@
-node_modules/\ndist/\n*.tsbuildinfo\n.env\n.env.local\n
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+*.egg
+
+# Environment
+.env
+.env.local
+
+# Node
+node_modules/
+npm-debug.log*
+*.tsbuildinfo
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Alembic
+alembic/versions/__pycache__/
+
+# Test
+.pytest_cache/
+htmlcov/
+.coverage
+
+# Build
+*.log
