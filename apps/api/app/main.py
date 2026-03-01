@@ -4,7 +4,14 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
 from app.core.exceptions import register_exception_handlers
 from app.core.middleware import TenantMiddleware
+from app.modules.academic_years.router import router as academic_years_router
 from app.modules.auth.router import router as auth_router
+from app.modules.files.router import router as files_router
+from app.modules.groups.router import router as groups_router
+from app.modules.messaging.router import router as messaging_router
+from app.modules.notifications.router import router as notifications_router
+from app.modules.subjects.router import router as subjects_router
+from app.modules.tenant.router import router as tenant_router
 from app.modules.users.router import router as users_router
 
 app = FastAPI(title="Edulia API", version="0.1.0")
@@ -27,6 +34,13 @@ register_exception_handlers(app)
 # Routers
 app.include_router(auth_router)
 app.include_router(users_router)
+app.include_router(tenant_router)
+app.include_router(academic_years_router)
+app.include_router(subjects_router)
+app.include_router(groups_router)
+app.include_router(messaging_router)
+app.include_router(notifications_router)
+app.include_router(files_router)
 
 
 @app.get("/api/health")

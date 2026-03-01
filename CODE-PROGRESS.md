@@ -103,7 +103,7 @@ Tracks code development across scopes. Each task maps to a phase/step in `08-BUI
 
 | # | Task | Terminal | Ref | Status |
 |---|------|----------|-----|--------|
-| S2.1 | Backend structure + messaging + files APIs | 1 | PHASES §3.1–3.5, §5.1+5.3, §6.1 | Not started |
+| S2.1 | Backend structure + messaging + files APIs | 1 | PHASES §3.1–3.5, §5.1+5.3, §6.1 | Done |
 | S2.2 | Frontend structure + dashboard + messaging UI | 2 | PHASES §3.6, §4.3, §5.2+5.4, §6.2 | Done |
 
 ---
