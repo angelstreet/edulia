@@ -1,9 +1,12 @@
 import Redis from 'ioredis';
 import type { Server } from 'socket.io';
 
-const REDIS_HOST = process.env.REDIS_HOST || '192.168.0.122';
-const REDIS_PORT = parseInt(process.env.REDIS_PORT || '6379', 10);
-const REDIS_PASSWORD = process.env.REDIS_PASSWORD || undefined;
+// Parse from REDIS_URL if available (format: redis://:password@host:port/db)
+const _redisUrl = process.env.REDIS_URL || process.env.SOCKETIO_REDIS_URL || '';
+const _parsed = _redisUrl ? new URL(_redisUrl) : null;
+const REDIS_HOST = process.env.REDIS_HOST || (_parsed?.hostname) || '192.168.0.122';
+const REDIS_PORT = parseInt(process.env.REDIS_PORT || (_parsed?.port) || '6379', 10);
+const REDIS_PASSWORD = process.env.REDIS_PASSWORD || (_parsed?.password ? decodeURIComponent(_parsed.password) : undefined);
 
 let subscriber: Redis | null = null;
 
