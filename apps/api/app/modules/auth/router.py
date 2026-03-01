@@ -10,6 +10,7 @@ from app.modules.auth.schemas import (
     RefreshRequest,
     ResetPasswordRequest,
     TokenResponse,
+    UserInfo,
 )
 from app.modules.auth.service import (
     accept_invite,
@@ -27,7 +28,32 @@ router = APIRouter(prefix="/api/v1/auth", tags=["auth"])
 def login(request: LoginRequest, db: Session = Depends(get_db)):
     user = authenticate_user(db, request.email, request.password)
     tokens = create_tokens(user)
-    return TokenResponse(**tokens)
+
+    roles = []
+    permissions = []
+    for ur in user.user_roles:
+        if ur.revoked_at is None and ur.role:
+            roles.append(ur.role.code)
+            if ur.role.permissions:
+                permissions.extend(ur.role.permissions)
+
+    user_info = UserInfo(
+        id=user.id,
+        tenant_id=user.tenant_id,
+        email=user.email,
+        first_name=user.first_name,
+        last_name=user.last_name,
+        display_name=user.display_name,
+        avatar_url=user.avatar_url,
+        role=roles[0] if roles else "user",
+        permissions=list(set(permissions)),
+    )
+
+    return TokenResponse(
+        access_token=tokens["access_token"],
+        refresh_token=tokens["refresh_token"],
+        user=user_info,
+    )
 
 
 @router.post("/refresh", response_model=AccessTokenResponse)

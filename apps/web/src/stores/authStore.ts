@@ -1,13 +1,13 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import * as authApi from '../api/auth';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import * as authApi from "../api/auth";
 
 export interface AuthUser {
   id: string;
   email: string;
   first_name: string;
   last_name: string;
-  display_name: string;
+  display_name: string | null;
   avatar_url: string | null;
   role: string;
   permissions: string[];
@@ -48,9 +48,8 @@ export const useAuthStore = create<AuthState>()(
             isLoading: false,
           });
         } catch (err: unknown) {
-          const message =
-            (err as { response?: { data?: { error?: { message?: string } } } })
-              ?.response?.data?.error?.message || 'loginError';
+          const axiosErr = err as { response?: { data?: { detail?: string } } };
+          const message = axiosErr?.response?.data?.detail || "loginError";
           set({ isLoading: false, error: message });
           throw err;
         }
@@ -69,7 +68,7 @@ export const useAuthStore = create<AuthState>()(
       clearError: () => set({ error: null }),
     }),
     {
-      name: 'auth-storage',
+      name: "auth-storage",
       partialize: (state) => ({
         user: state.user,
         accessToken: state.accessToken,

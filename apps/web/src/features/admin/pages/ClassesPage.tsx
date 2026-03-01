@@ -23,7 +23,7 @@ export function ClassesPage() {
     setLoading(true);
     try {
       const { data } = await getGroups();
-      setGroups(data.data);
+      setGroups(Array.isArray(data) ? data : data.data || []);
     } catch {
       setGroups([]);
     } finally {

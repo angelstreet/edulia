@@ -15,9 +15,13 @@ export function LoginForm({ onSubmit, error, loading }: LoginFormProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    onSubmit(email, password);
+    try {
+      await onSubmit(email, password);
+    } catch {
+      // error is handled by the store
+    }
   };
 
   return (
