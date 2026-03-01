@@ -23,28 +23,28 @@ Tracks code development across scopes. Each task maps to a phase/step in `08-BUI
 
 | # | Task | Terminal | Ref | Status |
 |---|------|----------|-----|--------|
-| S0.1 | Backend scaffold (FastAPI + DB + Alembic) | 1 | PHASES §0.1–0.2 | Not started |
+| S0.1 | Backend scaffold (FastAPI + DB + Alembic) | 1 | PHASES §0.1–0.2 | Done |
 | S0.2 | Frontend scaffold (Vite + React + i18n) | 2 | PHASES §0.3 | Done |
-| S0.3 | Shared types + Socket.IO | 3 | PHASES §0.4 | Not started |
+| S0.3 | Shared types + Socket.IO | 3 | PHASES §0.4 | Done |
 
 ### Terminal 1 — Backend scaffold
 
-- [ ] **S0.1a. Monorepo root structure**
+- [x] **S0.1a. Monorepo root structure** — Done
   - Do: Create Makefile, .env.example, .gitignore, LICENSE (AGPL-3.0), docker-compose.yml
   - Ref: `06-FILE-STRUCTURE.md` Root section
   - Test: `ls Makefile .env.example .gitignore LICENSE docker-compose.yml` → all exist
 
-- [ ] **S0.1b. FastAPI app + health endpoint**
+- [x] **S0.1b. FastAPI app + health endpoint** — Done
   - Do: Create apps/api/ with pyproject.toml, requirements.txt, app/main.py, app/config.py
   - Ref: `08-BUILD-PHASES.md` §0.1, `06-FILE-STRUCTURE.md` Backend section
   - Test: `curl http://localhost:8000/api/health` → `{"status": "healthy"}`
 
-- [ ] **S0.1c. Database connection + Alembic**
+- [x] **S0.1c. Database connection + Alembic** — Done
   - Do: Create app/db/database.py (engine + session), app/db/base.py (TenantMixin), alembic.ini, alembic/env.py
   - Ref: `08-BUILD-PHASES.md` §0.2, `01-CORE-SHELL.md` §1 for TenantMixin fields
   - Test: `alembic upgrade head` → succeeds, DB connectable
 
-- [ ] **S0.1d. Core utilities**
+- [x] **S0.1d. Core utilities** — Done
   - Do: Create app/core/exceptions.py, app/core/middleware.py (tenant resolution)
   - Ref: `06-FILE-STRUCTURE.md` Backend core section
   - Test: App starts without errors
@@ -73,17 +73,17 @@ Tracks code development across scopes. Each task maps to a phase/step in `08-BUI
 
 ### Terminal 3 — Shared types + Socket.IO
 
-- [ ] **S0.3a. Shared types package**
+- [x] **S0.3a. Shared types package** — Done
   - Do: Create packages/shared/ with tsconfig.json, package.json, all type files from FILES doc
   - Ref: `06-FILE-STRUCTURE.md` Shared section, `01-CORE-SHELL.md` §1 for entity definitions
   - Test: `tsc --noEmit` → passes
 
-- [ ] **S0.3b. Shared constants**
+- [x] **S0.3b. Shared constants** — Done
   - Do: Create constants/roles.ts, permissions.ts, modules.ts
   - Ref: `01-CORE-SHELL.md` §1.5 for roles/permissions
   - Test: Constants importable, `tsc --noEmit` passes
 
-- [ ] **S0.3c. Socket.IO server**
+- [x] **S0.3c. Socket.IO server** — Done
   - Do: Create apps/socketio/ with package.json, src/index.ts, src/auth.ts, src/redis.ts, handlers/notifications.ts
   - Ref: `06-FILE-STRUCTURE.md` Socket.IO section
   - Test: Server starts and connects to Redis on 192.168.0.122:6379
@@ -95,7 +95,7 @@ Tracks code development across scopes. Each task maps to a phase/step in `08-BUI
 | # | Task | Terminal | Ref | Status |
 |---|------|----------|-----|--------|
 | S1.1 | Backend auth + RBAC + user CRUD | 1 | PHASES §1.1–1.4, §2.1–2.3 | Not started |
-| S1.2 | Frontend auth + admin UI | 2 | PHASES §1.3–1.4, §2.3–2.4, §4.1–4.2 | Not started |
+| S1.2 | Frontend auth + admin UI | 2 | PHASES §1.3–1.4, §2.3–2.4, §4.1–4.2 | Done |
 
 ---
 
