@@ -6,7 +6,8 @@ import pytest
 import requests
 from typing import Optional
 
-BASE_URL = "http://192.168.0.120:8000"
+import os
+BASE_URL = os.getenv("EDULIA_TEST_BASE_URL", "http://192.168.0.120:8000")
 PASSWORD = "demo2026"
 
 ACCOUNTS = {
