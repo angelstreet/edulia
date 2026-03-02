@@ -47,9 +47,10 @@ export function TenantSettingsPage() {
 
   const toggleModule = (mod: string) => {
     if (!settings) return;
-    const enabled = settings.enabled_modules.includes(mod)
-      ? settings.enabled_modules.filter((m) => m !== mod)
-      : [...settings.enabled_modules, mod];
+    const current = settings.enabled_modules ?? [];
+    const enabled = current.includes(mod)
+      ? current.filter((m) => m !== mod)
+      : [...current, mod];
     setSettings({ ...settings, enabled_modules: enabled });
   };
 
@@ -84,7 +85,7 @@ export function TenantSettingsPage() {
               <label key={mod} className="flex items-center gap-2 text-sm">
                 <input
                   type="checkbox"
-                  checked={settings.enabled_modules.includes(mod)}
+                  checked={(settings.enabled_modules ?? []).includes(mod)}
                   onChange={() => toggleModule(mod)}
                   className="h-4 w-4 accent-primary"
                 />
