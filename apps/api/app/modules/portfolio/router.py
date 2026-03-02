@@ -58,3 +58,32 @@ def get_public_portfolio(slug: str, db: Session = Depends(get_db)):
     if not p:
         raise HTTPException(404, "Portfolio not found or not public")
     return _to_response(p, db)
+
+
+@router.get("/public/{slug}")
+def public_portfolio(
+    slug: str,
+    db: Session = Depends(get_db),
+):
+    """Public portfolio page — no auth required."""
+    from app.db.models.portfolio import Portfolio
+    from app.db.models.certificate import Certificate
+    portfolio = db.query(Portfolio).filter(Portfolio.slug == slug, Portfolio.is_public == True).first()
+    if not portfolio:
+        from fastapi import HTTPException
+        raise HTTPException(404, "Portfolio not found")
+    
+    certs = db.query(Certificate).filter(Certificate.user_id == portfolio.user_id).order_by(Certificate.issued_date.desc()).all()
+    
+    return {
+        "slug": portfolio.slug,
+        "user_name": portfolio.user_name,
+        "headline": portfolio.headline,
+        "bio": portfolio.bio,
+        "linkedin_url": portfolio.linkedin_url,
+        "website_url": portfolio.website_url,
+        "certificates": [
+            {"title": c.title, "issuer": c.issuer, "issued_date": str(c.issued_date) if c.issued_date else None, "skills": c.skills}
+            for c in certs
+        ],
+    }

@@ -87,3 +87,55 @@ def create_session_exception(db: DbSession, created_by: UUID, **kwargs) -> Sessi
     db.commit()
     db.refresh(exc)
     return exc
+
+
+def check_conflicts(
+    db: Session,
+    tenant_id,
+    day_of_week: int,
+    start_time,
+    end_time,
+    teacher_id=None,
+    room_id=None,
+    group_id=None,
+    exclude_session_id=None,
+) -> list[dict]:
+    """Check for scheduling conflicts. Returns list of conflict descriptions."""
+    from app.db.models.timetable import Session as TimetableSession
+    conflicts = []
+
+    base_q = db.query(TimetableSession).filter(
+        TimetableSession.tenant_id == tenant_id,
+        TimetableSession.day_of_week == day_of_week,
+        TimetableSession.start_time < end_time,
+        TimetableSession.end_time > start_time,
+        TimetableSession.status == "active",
+    )
+    if exclude_session_id:
+        base_q = base_q.filter(TimetableSession.id != exclude_session_id)
+
+    if teacher_id:
+        clash = base_q.filter(TimetableSession.teacher_id == teacher_id).first()
+        if clash:
+            conflicts.append({
+                "type": "teacher",
+                "message": f"Teacher already has a session at this time (day {day_of_week}, {clash.start_time}-{clash.end_time})"
+            })
+
+    if room_id:
+        clash = base_q.filter(TimetableSession.room_id == room_id).first()
+        if clash:
+            conflicts.append({
+                "type": "room",
+                "message": f"Room is already booked at this time (day {day_of_week}, {clash.start_time}-{clash.end_time})"
+            })
+
+    if group_id:
+        clash = base_q.filter(TimetableSession.group_id == group_id).first()
+        if clash:
+            conflicts.append({
+                "type": "group",
+                "message": f"Group already has a session at this time (day {day_of_week}, {clash.start_time}-{clash.end_time})"
+            })
+
+    return conflicts

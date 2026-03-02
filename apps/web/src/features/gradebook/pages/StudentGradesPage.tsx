@@ -6,7 +6,8 @@ import { useCurrentUser } from '../../../hooks/useCurrentUser';
 import { useAuthStore } from '../../../stores/authStore';
 import { getStudentAverages, getStudentSubjectGrades, type StudentAveragesData, type StudentSubjectGrades } from '../../../api/gradebook';
 import { getDashboardStats } from '../../../api/dashboard';
-import { ChevronDown, ChevronUp, Users } from 'lucide-react';
+import { ChevronDown, ChevronUp, Users, Download } from 'lucide-react';
+import client from '../../../api/client';
 
 interface Child { id: string; name: string; average: number; absences: number; }
 
@@ -33,6 +34,19 @@ export function StudentGradesPage() {
   }, [isParent, user?.id]);
 
   const targetId = isParent ? selectedChildId : user?.id;
+
+  const downloadReport = async () => {
+    if (!targetId) return;
+    try {
+      const { data: blob } = await client.get(`/v1/report-cards/students/${targetId}/pdf`, { responseType: 'blob' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `bulletin_${targetId}.pdf`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch { /* ignore */ }
+  };
 
   useEffect(() => {
     if (!targetId) { setLoading(false); return; }
@@ -70,11 +84,19 @@ export function StudentGradesPage() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold">{isParent ? t('childGrades', "My Child's Grades") : t('myGrades', 'My Grades')}</h1>
+        <div className="flex items-center gap-3">
+          {averages.length > 0 && (
+            <button onClick={downloadReport}
+              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition">
+              <Download className="w-4 h-4" /> Bulletin PDF
+            </button>
+          )}
         {data?.general_average != null && (
           <div className="text-lg font-semibold bg-primary/10 text-primary px-4 py-2 rounded-lg">
             {t('generalAverage', 'General Average')}: {data.general_average}/20
           </div>
         )}
+        </div>
       </div>
 
       {/* Parent child selector */}

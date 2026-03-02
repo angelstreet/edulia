@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session, joinedload
 
 from app.core.exceptions import ForbiddenException, NotFoundException
 from app.db.models.message import Message, Thread, ThreadParticipant
+from app.db.models.user import User
 
 
 def create_thread(
@@ -73,6 +74,39 @@ def get_thread_detail(db: Session, thread_id: UUID, user_id: UUID) -> dict:
     if user_id not in participant_ids:
         raise ForbiddenException("Not a participant of this thread")
 
+    # Build user name lookup from participants
+    user_ids = list({p.user_id for p in thread.participants} | {m.sender_id for m in thread.messages})
+    users = db.query(User).filter(User.id.in_(user_ids)).all()
+    user_map = {u.id: u for u in users}
+
+    enriched_messages = []
+    for m in sorted(thread.messages, key=lambda x: x.created_at):
+        sender = user_map.get(m.sender_id)
+        enriched_messages.append({
+            "id": m.id,
+            "thread_id": m.thread_id,
+            "sender_id": m.sender_id,
+            "sender_name": (sender.display_name or f"{sender.first_name} {sender.last_name}".strip()) if sender else "Unknown",
+            "sender_avatar": sender.avatar_url if sender else None,
+            "body": m.body,
+            "content": m.body,
+            "attachments": m.attachments or [],
+            "created_at": m.created_at,
+            "edited_at": m.edited_at,
+        })
+
+    enriched_participants = []
+    for p in thread.participants:
+        u = user_map.get(p.user_id)
+        enriched_participants.append({
+            "id": p.id,
+            "user_id": p.user_id,
+            "display_name": (u.display_name or f"{u.first_name} {u.last_name}".strip()) if u else "Unknown",
+            "avatar_url": u.avatar_url if u else None,
+            "role": p.role,
+            "read_at": p.read_at,
+        })
+
     return {
         "id": thread.id,
         "tenant_id": thread.tenant_id,
@@ -82,8 +116,8 @@ def get_thread_detail(db: Session, thread_id: UUID, user_id: UUID) -> dict:
         "created_at": thread.created_at,
         "participant_count": len(thread.participants),
         "unread": _is_unread(thread, user_id),
-        "participants": thread.participants,
-        "messages": thread.messages,
+        "participants": enriched_participants,
+        "messages": enriched_messages,
     }
 
 

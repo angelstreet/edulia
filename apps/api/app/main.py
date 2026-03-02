@@ -16,6 +16,7 @@ from app.modules.attendance.router import router as attendance_router
 from app.modules.timetable.router import router as timetable_router
 from app.modules.users.router import router as users_router
 from app.modules.gradebook.router import router as gradebook_router
+from app.modules.report_cards.router import router as report_cards_router
 from app.modules.homework.router import router as homework_router
 from app.modules.community.router import router as community_router
 from app.modules.forms.router import router as forms_router
@@ -55,6 +56,7 @@ app.include_router(files_router)
 app.include_router(timetable_router)
 app.include_router(attendance_router)
 app.include_router(gradebook_router)
+app.include_router(report_cards_router, prefix="/api/v1")
 app.include_router(homework_router)
 app.include_router(community_router)
 app.include_router(forms_router)

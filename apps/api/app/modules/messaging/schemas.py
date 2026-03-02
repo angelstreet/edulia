@@ -20,7 +20,10 @@ class MessageResponse(BaseModel):
     id: UUID
     thread_id: UUID
     sender_id: UUID
+    sender_name: str | None = None
+    sender_avatar: str | None = None
     body: str
+    content: str | None = None
     attachments: list[dict] | None = None
     created_at: datetime
     edited_at: datetime | None = None
@@ -31,6 +34,8 @@ class MessageResponse(BaseModel):
 class ParticipantResponse(BaseModel):
     id: UUID
     user_id: UUID
+    display_name: str | None = None
+    avatar_url: str | None = None
     role: str
     read_at: datetime | None = None
 

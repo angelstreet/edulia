@@ -97,3 +97,25 @@ def add_session_exception(
     db: Session = Depends(get_db),
 ):
     return create_session_exception(db, current_user.id, **request.model_dump())
+
+
+@router.post("/check-conflicts")
+def check_conflicts_endpoint(
+    request: dict,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Check for scheduling conflicts before creating a session."""
+    from .service import check_conflicts
+    conflicts = check_conflicts(
+        db,
+        tenant_id=current_user.tenant_id,
+        day_of_week=request.get("day_of_week"),
+        start_time=request.get("start_time"),
+        end_time=request.get("end_time"),
+        teacher_id=request.get("teacher_id"),
+        room_id=request.get("room_id"),
+        group_id=request.get("group_id"),
+        exclude_session_id=request.get("exclude_session_id"),
+    )
+    return {"conflicts": conflicts, "has_conflicts": len(conflicts) > 0}
