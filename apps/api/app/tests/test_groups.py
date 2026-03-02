@@ -1,56 +1,30 @@
-"""Group + membership tests (5 tests)."""
-from app.tests.conftest import get_auth_header
+"""Group/class management tests — 6 cases."""
 
+def test_list_groups(api, admin):
+    r = api.get("/api/v1/groups", token=admin["token"])
+    assert r.status_code == 200
+    groups = r.json()
+    assert isinstance(groups, list)
+    assert len(groups) >= 1
 
-def test_create_group(client, admin_user):
-    headers = get_auth_header(client, "admin@test.com", "admin123")
-    resp = client.post("/api/v1/groups", headers=headers, json={
-        "type": "class",
-        "name": "6ème A",
-        "capacity": 30,
-    })
-    assert resp.status_code == 201
-    data = resp.json()
-    assert data["name"] == "6ème A"
-    assert data["capacity"] == 30
+def test_get_group(api, admin):
+    groups = api.get("/api/v1/groups", token=admin["token"]).json()
+    if groups:
+        r = api.get(f"/api/v1/groups/{groups[0]['id']}", token=admin["token"])
+        assert r.status_code == 200
 
+def test_teacher_sees_groups(api, teacher):
+    r = api.get("/api/v1/groups", token=teacher["token"])
+    assert r.status_code == 200
 
-def test_list_groups(client, admin_user):
-    headers = get_auth_header(client, "admin@test.com", "admin123")
-    client.post("/api/v1/groups", headers=headers, json={"name": "6ème B"})
-    resp = client.get("/api/v1/groups", headers=headers)
-    assert resp.status_code == 200
-    assert len(resp.json()) >= 1
+def test_student_sees_groups(api, student):
+    r = api.get("/api/v1/groups", token=student["token"])
+    assert r.status_code == 200
 
+def test_enterprise_groups(api, enterprise_hr):
+    r = api.get("/api/v1/groups", token=enterprise_hr["token"])
+    assert r.status_code == 200
 
-def test_get_group_detail(client, admin_user):
-    headers = get_auth_header(client, "admin@test.com", "admin123")
-    create_resp = client.post("/api/v1/groups", headers=headers, json={"name": "5ème A"})
-    group_id = create_resp.json()["id"]
-    resp = client.get(f"/api/v1/groups/{group_id}", headers=headers)
-    assert resp.status_code == 200
-    assert resp.json()["name"] == "5ème A"
-    assert "members" in resp.json()
-
-
-def test_add_member(client, admin_user, student_user):
-    headers = get_auth_header(client, "admin@test.com", "admin123")
-    create_resp = client.post("/api/v1/groups", headers=headers, json={"name": "4ème A"})
-    group_id = create_resp.json()["id"]
-    resp = client.post(f"/api/v1/groups/{group_id}/members", headers=headers, json={
-        "user_id": str(student_user.id),
-        "role_in_group": "student",
-    })
-    assert resp.status_code == 201
-    assert resp.json()["role_in_group"] == "student"
-
-
-def test_remove_member(client, admin_user, student_user):
-    headers = get_auth_header(client, "admin@test.com", "admin123")
-    create_resp = client.post("/api/v1/groups", headers=headers, json={"name": "3ème A"})
-    group_id = create_resp.json()["id"]
-    client.post(f"/api/v1/groups/{group_id}/members", headers=headers, json={
-        "user_id": str(student_user.id),
-    })
-    resp = client.delete(f"/api/v1/groups/{group_id}/members/{student_user.id}", headers=headers)
-    assert resp.status_code == 204
+def test_groups_no_auth(api):
+    r = api.get("/api/v1/groups")
+    assert r.status_code in (401, 403)

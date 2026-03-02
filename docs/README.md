@@ -22,14 +22,14 @@ Login at https://edulia.angelstreet.io with password `demo2026`:
 | Role | Email | Organization |
 |------|-------|-------------|
 | Admin | admin@demo.edulia.io | Ecole Moliere |
-| Teacher (Maths) | pierre.martin@demo.edulia.io | Ecole Moliere |
-| Teacher (French) | claire.dubois@demo.edulia.io | Ecole Moliere |
+| Teacher (Maths) | prof.martin@demo.edulia.io | Ecole Moliere |
+| Teacher (French) | prof.dubois@demo.edulia.io | Ecole Moliere |
 | Student | emma.leroy@demo.edulia.io | Ecole Moliere |
 | Student | lucas.moreau@demo.edulia.io | Ecole Moliere |
 | Parent | parent.leroy@demo.edulia.io | Ecole Moliere |
-| Tutor | sophie.martinez@demo.edulia.io | TutorPro Lyon |
+| Tutor | sophie@demo.edulia.io | TutorPro Lyon |
 | Tutor Student | julie.petit@demo.edulia.io | TutorPro Lyon |
-| Enterprise HR | nathalie.durand@demo.edulia.io | FormaTech SA |
+| Enterprise HR | rh@demo.edulia.io | FormaTech SA |
 | Employee | marie.lefevre@demo.edulia.io | FormaTech SA |
 
 ## What Each Role Can Do

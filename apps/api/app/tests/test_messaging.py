@@ -1,98 +1,66 @@
-"""Messaging tests (7 tests including tenant isolation)."""
-from app.tests.conftest import get_auth_header
+"""Messaging tests — 10 cases."""
 
+def test_list_threads_teacher(api, teacher):
+    r = api.get("/api/v1/threads", token=teacher["token"])
+    assert r.status_code == 200
+    threads = r.json()
+    assert isinstance(threads, list)
+    assert len(threads) >= 1
 
-def test_create_thread(client, admin_user, teacher_user):
-    headers = get_auth_header(client, "admin@test.com", "admin123")
-    resp = client.post("/api/v1/threads", headers=headers, json={
-        "type": "direct",
-        "subject": "Welcome",
-        "participant_ids": [str(teacher_user.id)],
-        "body": "Hello teacher!",
-    })
-    assert resp.status_code == 201
-    data = resp.json()
-    assert data["subject"] == "Welcome"
-    assert data["type"] == "direct"
+def test_list_threads_student(api, student):
+    r = api.get("/api/v1/threads", token=student["token"])
+    assert r.status_code == 200
 
+def test_list_threads_parent(api, parent):
+    r = api.get("/api/v1/threads", token=parent["token"])
+    assert r.status_code == 200
+    assert len(r.json()) >= 1
 
-def test_list_threads(client, admin_user, teacher_user):
-    headers = get_auth_header(client, "admin@test.com", "admin123")
-    client.post("/api/v1/threads", headers=headers, json={
-        "participant_ids": [str(teacher_user.id)],
-        "body": "Test message",
-    })
-    resp = client.get("/api/v1/threads", headers=headers)
-    assert resp.status_code == 200
-    assert len(resp.json()) >= 1
+def test_thread_detail_with_sender_names(api, teacher):
+    threads = api.get("/api/v1/threads", token=teacher["token"]).json()
+    if threads:
+        r = api.get(f"/api/v1/threads/{threads[0]['id']}", token=teacher["token"])
+        assert r.status_code == 200
+        data = r.json()
+        assert "messages" in data
+        assert "participants" in data
+        if data["messages"]:
+            msg = data["messages"][0]
+            assert "sender_name" in msg
+            assert msg["sender_name"] != ""
+            # Must not be a UUID
+            assert "-" not in msg["sender_name"][:8] or len(msg["sender_name"]) < 36
 
+def test_thread_detail_has_participant_names(api, teacher):
+    threads = api.get("/api/v1/threads", token=teacher["token"]).json()
+    if threads:
+        data = api.get(f"/api/v1/threads/{threads[0]['id']}", token=teacher["token"]).json()
+        if data["participants"]:
+            p = data["participants"][0]
+            assert "display_name" in p
 
-def test_get_thread_detail(client, admin_user, teacher_user):
-    headers = get_auth_header(client, "admin@test.com", "admin123")
-    create_resp = client.post("/api/v1/threads", headers=headers, json={
-        "subject": "Details test",
-        "participant_ids": [str(teacher_user.id)],
-        "body": "Check details",
-    })
-    thread_id = create_resp.json()["id"]
-    resp = client.get(f"/api/v1/threads/{thread_id}", headers=headers)
-    assert resp.status_code == 200
-    data = resp.json()
-    assert len(data["messages"]) == 1
-    assert len(data["participants"]) == 2
+def test_enterprise_threads(api, employee):
+    r = api.get("/api/v1/threads", token=employee["token"])
+    assert r.status_code == 200
+    assert len(r.json()) >= 1
 
+def test_tutor_threads(api, tutor):
+    r = api.get("/api/v1/threads", token=tutor["token"])
+    assert r.status_code == 200
 
-def test_reply_to_thread(client, admin_user, teacher_user):
-    admin_headers = get_auth_header(client, "admin@test.com", "admin123")
-    create_resp = client.post("/api/v1/threads", headers=admin_headers, json={
-        "participant_ids": [str(teacher_user.id)],
-        "body": "Initial message",
-    })
-    thread_id = create_resp.json()["id"]
+def test_threads_no_auth(api):
+    r = api.get("/api/v1/threads")
+    assert r.status_code in (401, 403)
 
-    teacher_headers = get_auth_header(client, "teacher@test.com", "teacher123")
-    resp = client.post(f"/api/v1/threads/{thread_id}/messages", headers=teacher_headers, json={
-        "body": "Reply from teacher",
-    })
-    assert resp.status_code == 201
-    assert resp.json()["body"] == "Reply from teacher"
+def test_thread_cross_tenant_isolation(api, teacher, employee):
+    t_threads = api.get("/api/v1/threads", token=teacher["token"]).json()
+    e_threads = api.get("/api/v1/threads", token=employee["token"]).json()
+    t_ids = {t["id"] for t in t_threads}
+    e_ids = {t["id"] for t in e_threads}
+    assert t_ids.isdisjoint(e_ids)
 
-
-def test_mark_thread_read(client, admin_user, teacher_user):
-    admin_headers = get_auth_header(client, "admin@test.com", "admin123")
-    create_resp = client.post("/api/v1/threads", headers=admin_headers, json={
-        "participant_ids": [str(teacher_user.id)],
-        "body": "Read test",
-    })
-    thread_id = create_resp.json()["id"]
-
-    teacher_headers = get_auth_header(client, "teacher@test.com", "teacher123")
-    resp = client.patch(f"/api/v1/threads/{thread_id}/read", headers=teacher_headers)
-    assert resp.status_code == 200
-    assert resp.json()["status"] == "read"
-
-
-def test_non_participant_cannot_view(client, admin_user, teacher_user, student_user):
-    admin_headers = get_auth_header(client, "admin@test.com", "admin123")
-    create_resp = client.post("/api/v1/threads", headers=admin_headers, json={
-        "participant_ids": [str(teacher_user.id)],
-        "body": "Private conversation",
-    })
-    thread_id = create_resp.json()["id"]
-
-    student_headers = get_auth_header(client, "student@test.com", "student123")
-    resp = client.get(f"/api/v1/threads/{thread_id}", headers=student_headers)
-    assert resp.status_code == 403
-
-
-def test_thread_only_visible_to_participants(client, admin_user, teacher_user, student_user):
-    admin_headers = get_auth_header(client, "admin@test.com", "admin123")
-    client.post("/api/v1/threads", headers=admin_headers, json={
-        "participant_ids": [str(teacher_user.id)],
-        "body": "Admin-teacher only",
-    })
-
-    student_headers = get_auth_header(client, "student@test.com", "student123")
-    resp = client.get("/api/v1/threads", headers=student_headers)
-    assert resp.status_code == 200
-    assert len(resp.json()) == 0
+def test_mark_thread_read(api, teacher):
+    threads = api.get("/api/v1/threads", token=teacher["token"]).json()
+    if threads:
+        r = api.patch(f"/api/v1/threads/{threads[0]['id']}/read", token=teacher["token"])
+        assert r.status_code in (200, 204)

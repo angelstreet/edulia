@@ -1,239 +1,113 @@
-import uuid
-
+"""
+Shared test fixtures for Edulia API tests.
+Tests run against the live demo instance with seeded data.
+"""
 import pytest
-from fastapi.testclient import TestClient
-from sqlalchemy import create_engine, text
-from sqlalchemy.orm import sessionmaker
+import requests
+from typing import Optional
 
-from app.config import settings
-from app.core.security import hash_password
-from app.db.base import Base
-from app.db.database import get_db
-from app.db.models.tenant import Tenant
-from app.db.models.user import Role, User, UserRole
-from app.main import app
+BASE_URL = "http://192.168.0.120:8000"
+PASSWORD = "demo2026"
 
-# Use a separate test database
-TEST_DB_URL = settings.DATABASE_URL.rsplit("/", 1)[0] + "/edulia_test"
+ACCOUNTS = {
+    "admin": "admin@demo.edulia.io",
+    "teacher_martin": "prof.martin@demo.edulia.io",
+    "teacher_dubois": "prof.dubois@demo.edulia.io",
+    "student_emma": "emma.leroy@demo.edulia.io",
+    "student_lucas": "lucas.moreau@demo.edulia.io",
+    "parent": "parent.leroy@demo.edulia.io",
+    "tutor": "sophie@demo.edulia.io",
+    "tutor_student": "julie.petit@demo.edulia.io",
+    "enterprise_hr": "rh@demo.edulia.io",
+    "employee": "marie.lefevre@demo.edulia.io",
+}
+
+
+def _login(email: str) -> dict:
+    """Login and return {token, user_id, tenant_id, role}."""
+    r = requests.post(f"{BASE_URL}/api/v1/auth/login",
+                      json={"email": email, "password": PASSWORD}, timeout=10)
+    r.raise_for_status()
+    data = r.json()
+    return {
+        "token": data["access_token"],
+        "user_id": data["user"]["id"],
+        "tenant_id": data["user"].get("tenant_id"),
+        "role": data["user"].get("role"),
+    }
+
+
+def _headers(token: str) -> dict:
+    return {"Authorization": f"Bearer {token}"}
+
+
+class ApiClient:
+    """Thin wrapper around requests for API testing."""
+    def __init__(self):
+        self.base = BASE_URL
+
+    def get(self, path, token=None, **kwargs):
+        h = _headers(token) if token else {}
+        return requests.get(f"{self.base}{path}", headers=h, timeout=10, **kwargs)
+
+    def post(self, path, token=None, **kwargs):
+        h = _headers(token) if token else {}
+        return requests.post(f"{self.base}{path}", headers=h, timeout=10, **kwargs)
+
+    def patch(self, path, token=None, **kwargs):
+        h = _headers(token) if token else {}
+        return requests.patch(f"{self.base}{path}", headers=h, timeout=10, **kwargs)
+
+    def put(self, path, token=None, **kwargs):
+        h = _headers(token) if token else {}
+        return requests.put(f"{self.base}{path}", headers=h, timeout=10, **kwargs)
+
+    def delete(self, path, token=None, **kwargs):
+        h = _headers(token) if token else {}
+        return requests.delete(f"{self.base}{path}", headers=h, timeout=10, **kwargs)
 
 
 @pytest.fixture(scope="session")
-def db_engine():
-    """Create tables in the test database."""
-    engine = create_engine(TEST_DB_URL)
-    # Import all models to register them
-    import app.db.models  # noqa: F401
-
-    Base.metadata.drop_all(bind=engine)
-    Base.metadata.create_all(bind=engine)
-    yield engine
-    engine.dispose()
+def api():
+    return ApiClient()
 
 
-@pytest.fixture(scope="function")
-def db_session(db_engine):
-    """Create a fresh DB session per test with rollback."""
-    connection = db_engine.connect()
-    transaction = connection.begin()
-    Session = sessionmaker(bind=connection)
-    session = Session()
-    yield session
-    session.close()
-    transaction.rollback()
-    connection.close()
+@pytest.fixture(scope="session")
+def admin():
+    return _login(ACCOUNTS["admin"])
 
+@pytest.fixture(scope="session")
+def teacher():
+    return _login(ACCOUNTS["teacher_martin"])
 
-@pytest.fixture(scope="function")
-def client(db_session):
-    """Test client with overridden DB dependency."""
+@pytest.fixture(scope="session")
+def teacher_dubois():
+    return _login(ACCOUNTS["teacher_dubois"])
 
-    def override_get_db():
-        yield db_session
+@pytest.fixture(scope="session")
+def student():
+    return _login(ACCOUNTS["student_emma"])
 
-    app.dependency_overrides[get_db] = override_get_db
-    with TestClient(app) as c:
-        yield c
-    app.dependency_overrides.clear()
+@pytest.fixture(scope="session")
+def student_lucas():
+    return _login(ACCOUNTS["student_lucas"])
 
+@pytest.fixture(scope="session")
+def parent():
+    return _login(ACCOUNTS["parent"])
 
-@pytest.fixture
-def tenant(db_session):
-    """Create a test tenant."""
-    t = Tenant(
-        name="Test School",
-        slug="test-school",
-        type="school",
-        settings={"timezone": "Europe/Paris", "locale": "fr"},
-    )
-    db_session.add(t)
-    db_session.flush()
-    return t
+@pytest.fixture(scope="session")
+def tutor():
+    return _login(ACCOUNTS["tutor"])
 
+@pytest.fixture(scope="session")
+def tutor_student():
+    return _login(ACCOUNTS["tutor_student"])
 
-@pytest.fixture
-def admin_role(db_session, tenant):
-    """Create admin role with all permissions."""
-    role = Role(
-        tenant_id=tenant.id,
-        code="admin",
-        display_name="Administrator",
-        is_system=True,
-        permissions=[
-            "admin.user.create",
-            "admin.user.edit",
-            "admin.user.delete",
-            "admin.user.view",
-            "admin.tenant.edit",
-            "gradebook.grade.create",
-            "gradebook.grade.edit",
-            "attendance.record.create",
-        ],
-    )
-    db_session.add(role)
-    db_session.flush()
-    return role
+@pytest.fixture(scope="session")
+def enterprise_hr():
+    return _login(ACCOUNTS["enterprise_hr"])
 
-
-@pytest.fixture
-def teacher_role(db_session, tenant):
-    """Create teacher role."""
-    role = Role(
-        tenant_id=tenant.id,
-        code="teacher",
-        display_name="Teacher",
-        is_system=True,
-        permissions=[
-            "gradebook.grade.create",
-            "gradebook.grade.edit",
-            "attendance.record.create",
-            "messaging.thread.send",
-        ],
-    )
-    db_session.add(role)
-    db_session.flush()
-    return role
-
-
-@pytest.fixture
-def student_role(db_session, tenant):
-    """Create student role."""
-    role = Role(
-        tenant_id=tenant.id,
-        code="student",
-        display_name="Student",
-        is_system=True,
-        permissions=[
-            "gradebook.grade.view",
-            "messaging.thread.send",
-        ],
-    )
-    db_session.add(role)
-    db_session.flush()
-    return role
-
-
-@pytest.fixture
-def parent_role(db_session, tenant):
-    """Create parent role."""
-    role = Role(
-        tenant_id=tenant.id,
-        code="parent",
-        display_name="Parent",
-        is_system=True,
-        permissions=[
-            "gradebook.grade.view",
-            "attendance.record.view",
-            "messaging.thread.send",
-        ],
-    )
-    db_session.add(role)
-    db_session.flush()
-    return role
-
-
-@pytest.fixture
-def admin_user(db_session, tenant, admin_role):
-    """Create an admin user."""
-    user = User(
-        tenant_id=tenant.id,
-        email="admin@test.com",
-        password_hash=hash_password("admin123"),
-        first_name="Admin",
-        last_name="User",
-        display_name="Admin User",
-        status="active",
-    )
-    db_session.add(user)
-    db_session.flush()
-    ur = UserRole(user_id=user.id, role_id=admin_role.id, scope_type="tenant")
-    db_session.add(ur)
-    db_session.flush()
-    return user
-
-
-@pytest.fixture
-def teacher_user(db_session, tenant, teacher_role):
-    """Create a teacher user."""
-    user = User(
-        tenant_id=tenant.id,
-        email="teacher@test.com",
-        password_hash=hash_password("teacher123"),
-        first_name="Jean",
-        last_name="Dupont",
-        display_name="Jean Dupont",
-        status="active",
-    )
-    db_session.add(user)
-    db_session.flush()
-    ur = UserRole(user_id=user.id, role_id=teacher_role.id, scope_type="tenant")
-    db_session.add(ur)
-    db_session.flush()
-    return user
-
-
-@pytest.fixture
-def student_user(db_session, tenant, student_role):
-    """Create a student user."""
-    user = User(
-        tenant_id=tenant.id,
-        email="student@test.com",
-        password_hash=hash_password("student123"),
-        first_name="Marie",
-        last_name="Martin",
-        display_name="Marie Martin",
-        status="active",
-    )
-    db_session.add(user)
-    db_session.flush()
-    ur = UserRole(user_id=user.id, role_id=student_role.id, scope_type="tenant")
-    db_session.add(ur)
-    db_session.flush()
-    return user
-
-
-@pytest.fixture
-def parent_user(db_session, tenant, parent_role):
-    """Create a parent user."""
-    user = User(
-        tenant_id=tenant.id,
-        email="parent@test.com",
-        password_hash=hash_password("parent123"),
-        first_name="Pierre",
-        last_name="Martin",
-        display_name="Pierre Martin",
-        status="active",
-    )
-    db_session.add(user)
-    db_session.flush()
-    ur = UserRole(user_id=user.id, role_id=parent_role.id, scope_type="tenant")
-    db_session.add(ur)
-    db_session.flush()
-    return user
-
-
-def get_auth_header(client, email: str, password: str) -> dict:
-    """Helper to login and return auth header."""
-    resp = client.post("/api/v1/auth/login", json={"email": email, "password": password})
-    assert resp.status_code == 200, f"Login failed: {resp.json()}"
-    token = resp.json()["access_token"]
-    return {"Authorization": f"Bearer {token}"}
+@pytest.fixture(scope="session")
+def employee():
+    return _login(ACCOUNTS["employee"])

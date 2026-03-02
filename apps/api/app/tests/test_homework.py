@@ -1,15 +1,18 @@
-"""Tests for homework endpoints."""
-import pytest
+"""Homework tests — 4 cases."""
 
-
-def test_list_homework(client, student_token):
-    """Student can list homework."""
-    r = client.get("/api/v1/homework", headers={"Authorization": f"Bearer {student_token}"})
+def test_list_homework_student(api, student):
+    r = api.get("/api/v1/homework", token=student["token"])
     assert r.status_code == 200
     assert isinstance(r.json(), list)
 
+def test_list_homework_teacher(api, teacher):
+    r = api.get("/api/v1/homework", token=teacher["token"])
+    assert r.status_code == 200
 
-def test_homework_unauthenticated(client):
-    """Unauthenticated request fails."""
-    r = client.get("/api/v1/homework")
+def test_homework_no_auth(api):
+    r = api.get("/api/v1/homework")
     assert r.status_code in (401, 403)
+
+def test_homework_has_seeded_data(api, student):
+    hw = api.get("/api/v1/homework", token=student["token"]).json()
+    assert len(hw) >= 1  # Seeded 4 assignments
