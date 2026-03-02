@@ -10,8 +10,13 @@ export function useThreadList(page = 1) {
     setLoading(true);
     try {
       const { data } = await getThreads({ page, per_page: 20 });
-      setThreads(data.data);
-      setTotalPages(data.meta.total_pages);
+      if (Array.isArray(data)) {
+        setThreads(data);
+        setTotalPages(1);
+      } else {
+        setThreads(data.data ?? []);
+        setTotalPages(data.meta?.total_pages ?? 1);
+      }
     } catch {
       setThreads([]);
     } finally {
@@ -20,7 +25,6 @@ export function useThreadList(page = 1) {
   }, [page]);
 
   useEffect(() => { fetch(); }, [fetch]);
-
   return { threads, loading, totalPages, refresh: fetch };
 }
 
@@ -34,16 +38,32 @@ export function useThread(threadId: string | null) {
     setLoading(true);
     try {
       const { data } = await getThread(threadId);
-      setThread(data.thread);
-      setMessages(data.messages);
+      // API returns thread with messages array, messages have 'body' not 'content'
+      const rawMessages = data.messages ?? (data as any).messages ?? [];
+      const normalizedMessages = rawMessages.map((m: any) => ({
+        id: m.id,
+        thread_id: m.thread_id,
+        sender_id: m.sender_id,
+        sender_name: m.sender_name ?? '',
+        sender_avatar: m.sender_avatar ?? null,
+        content: m.content ?? m.body ?? '',
+        created_at: m.created_at,
+      }));
+      
+      if (data.thread) {
+        setThread(data.thread);
+      } else {
+        setThread(data as unknown as ThreadData);
+      }
+      setMessages(normalizedMessages);
     } catch {
-      // API not connected
+      setThread(null);
+      setMessages([]);
     } finally {
       setLoading(false);
     }
   }, [threadId]);
 
   useEffect(() => { fetch(); }, [fetch]);
-
   return { thread, messages, loading, refresh: fetch };
 }

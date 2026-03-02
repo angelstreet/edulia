@@ -1,13 +1,19 @@
 import { useTranslation } from 'react-i18next';
-import { Avatar } from '../../../components/ui/Avatar';
 import { cn } from '@/lib/utils';
 import type { ThreadData } from '../../../api/messages';
+import { MessageCircle, Bell, Users } from 'lucide-react';
 
 interface ThreadListProps {
   threads: ThreadData[];
   selectedId: string | null;
   onSelect: (id: string) => void;
 }
+
+const typeIcons: Record<string, typeof MessageCircle> = {
+  direct: MessageCircle,
+  announcement: Bell,
+  group: Users,
+};
 
 export function ThreadList({ threads, selectedId, onSelect }: ThreadListProps) {
   const { t } = useTranslation();
@@ -20,9 +26,11 @@ export function ThreadList({ threads, selectedId, onSelect }: ThreadListProps) {
     <div className="flex flex-col">
       {threads.map((th) => {
         const isActive = th.id === selectedId;
-        const isUnread = th.unread_count > 0;
-        const otherParticipants = th.participants.slice(0, 2);
-        const names = otherParticipants.map((p) => p.display_name).join(', ');
+        const isUnread = th.unread_count > 0 || (th as any).unread === true;
+        const Icon = typeIcons[th.type] || MessageCircle;
+        const participantCount = (th as any).participant_count ?? th.participants?.length ?? 0;
+        const lastMsg = th.last_message;
+        const date = lastMsg?.created_at || (th as any).created_at;
 
         return (
           <div
@@ -34,16 +42,20 @@ export function ThreadList({ threads, selectedId, onSelect }: ThreadListProps) {
             )}
             onClick={() => onSelect(th.id)}
           >
-            <Avatar src={otherParticipants[0]?.avatar_url} name={names} size="md" />
+            <div className={cn('w-10 h-10 rounded-full flex items-center justify-center shrink-0',
+              th.type === 'announcement' ? 'bg-amber-100 text-amber-700' : 'bg-primary/10 text-primary')}>
+              <Icon className="w-5 h-5" />
+            </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between gap-2">
-                <span className="text-sm truncate">{th.subject || names}</span>
+                <span className="text-sm truncate">{th.subject || 'Message'}</span>
                 <span className="text-[0.6875rem] text-muted-foreground shrink-0">
-                  {th.last_message ? new Date(th.last_message.created_at).toLocaleDateString() : ''}
+                  {date ? new Date(date).toLocaleDateString('fr-FR') : ''}
                 </span>
               </div>
               <div className="text-xs text-muted-foreground truncate mt-0.5">
-                {th.last_message ? `${th.last_message.sender_name}: ${th.last_message.content}` : t('noMessages', 'No messages')}
+                {lastMsg ? `${lastMsg.sender_name}: ${lastMsg.content}` 
+                  : `${participantCount} participant${participantCount > 1 ? 's' : ''}`}
               </div>
             </div>
             {isUnread && <span className="w-2 h-2 rounded-full bg-primary shrink-0 mt-2" />}

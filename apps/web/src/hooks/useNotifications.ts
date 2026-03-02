@@ -9,8 +9,8 @@ export function useNotifications() {
   const fetch = useCallback(async () => {
     try {
       const { data } = await getNotifications({ per_page: 20 });
-      setNotifications(data.data);
-      setUnreadCount(data.meta.unread_count);
+      setNotifications(Array.isArray(data) ? data : data.data ?? []);
+      setUnreadCount(Array.isArray(data) ? data.filter((n: any) => !n.read_at).length : data.meta?.unread_count ?? 0);
     } catch {
       // API not connected yet
     }

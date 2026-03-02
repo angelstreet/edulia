@@ -704,7 +704,77 @@ def seed_tutoring(db):
         ))
 
     db.flush()
-    print("  TutorPro: 1 tutor, 4 students, 3 weekly sessions")
+
+    # Re-fetch students for grades
+    tutor_students = db.query(GroupMembership).filter(
+        GroupMembership.group_id == group.id,
+        GroupMembership.role_in_group == "member"
+    ).all()
+    student_users = [db.query(User).get(m.user_id) for m in tutor_students]
+
+    # Assessments
+    t1 = db.query(AcademicYear).filter(AcademicYear.tenant_id == tid).first()
+    # Term for TutorPro
+    tutor_term = Term(academic_year_id=year.id,
+                      name="Trimestre 1", order=1, start_date=date(2025, 9, 1), end_date=date(2025, 12, 20))
+    db.add(tutor_term)
+    db.flush()
+
+    tutor_assessments = []
+    for title, dt, max_s, coeff in [
+        ("DS Algèbre - Septembre", date(2025, 9, 20), 20, 1),
+        ("DS Géométrie - Octobre", date(2025, 10, 18), 20, 2),
+        ("Interrogation Fractions", date(2025, 11, 8), 10, 1),
+        ("Bilan T1 - Mathématiques", date(2025, 12, 6), 20, 2),
+    ]:
+        a = Assessment(
+            tenant_id=tid, subject_id=maths.id, group_id=group.id,
+            term_id=tutor_term.id, category_id=None, teacher_id=tutor.id,
+            title=title, date=dt, max_score=max_s, coefficient=Decimal(str(coeff)), is_published=True,
+        )
+        db.add(a)
+        db.flush()
+        tutor_assessments.append(a)
+
+    grade_rows = {
+        "julie.petit@demo.edulia.io":      [(14,None),(15,"Très bien"),(8,None),(16,"Excellent progrès")],
+        "maxime.chen@demo.edulia.io":      [(11,None),(9,None),(6,None),(12,"Continue les efforts")],
+        "yasmine.benhaddou@demo.edulia.io":[(17,None),(18,"Remarquable"),(9,None),(18,None)],
+        "arthur.blanc@demo.edulia.io":     [(8,"Revoir bases"),(10,None),(5,None),(11,None)],
+    }
+    for su in student_users:
+        if su and su.email in grade_rows:
+            for i, (score, comment) in enumerate(grade_rows[su.email]):
+                db.add(Grade(assessment_id=tutor_assessments[i].id, student_id=su.id,
+                             score=Decimal(str(score)), comment=comment))
+
+    db.flush()
+
+    # Messages for TutorPro
+    th1 = Thread(tenant_id=tid, type="announcement", subject="Planning séances de décembre",
+                 created_by=tutor.id)
+    db.add(th1); db.flush()
+    for su in student_users[:3]:
+        db.add(ThreadParticipant(thread_id=th1.id, user_id=su.id, role="recipient"))
+    db.add(ThreadParticipant(thread_id=th1.id, user_id=tutor.id, role="sender"))
+    db.add(Message(thread_id=th1.id, sender_id=tutor.id,
+                   body="Bonjour à tous,\n\nLes séances de décembre auront lieu les 7, 14 et 21. Bilan de trimestre le 21/12 à 11h.\n\nSophie Martinez"))
+    db.flush()
+
+    th2 = Thread(tenant_id=tid, type="direct", subject="Progrès de Julie en algèbre",
+                 created_by=tutor.id)
+    db.add(th2); db.flush()
+    db.add(ThreadParticipant(thread_id=th2.id, user_id=tutor.id, role="sender"))
+    db.add(ThreadParticipant(thread_id=th2.id, user_id=parent_petit.id, role="recipient"))
+    db.add(Message(thread_id=th2.id, sender_id=tutor.id,
+                   body="Bonjour M. Petit,\n\nJulie fait d'excellents progrès ! Son bilan de T1 est 16/20. Elle a bien assimilé les fractions et la géométrie.\n\nSophie"))
+    db.add(Message(thread_id=th2.id, sender_id=parent_petit.id,
+                   body="Merci pour ce suivi Sophie ! Julie apprécie beaucoup vos séances. On continue en janvier ?"))
+    db.add(Message(thread_id=th2.id, sender_id=tutor.id,
+                   body="Absolument ! Je vous enverrai les créneaux semaine prochaine. Bonnes fêtes à vous !"))
+    db.flush()
+
+    print("  TutorPro: 1 tutor, 4 students, 3 weekly sessions, 4 assessments, 2 message threads")
 
 
 def seed_enterprise(db):
@@ -751,7 +821,45 @@ def seed_enterprise(db):
         create_user(db, tid, email, first, last, roles["student"].id)
 
     db.flush()
-    print("  FormaTech: 1 admin, 5 employees")
+
+    # Re-fetch employees
+    employees = [
+        db.query(User).filter(User.email == email, User.tenant_id == tid).first()
+        for email in ["jean.dupont@demo.edulia.io", "marie.lefevre@demo.edulia.io",
+                      "ahmed.benali@demo.edulia.io", "sophie.blanc@demo.edulia.io",
+                      "thomas.nguyen@demo.edulia.io"]
+    ]
+    employees = [e for e in employees if e]
+
+    # Message threads for enterprise
+    th_ent1 = Thread(tenant_id=tid, type="announcement", subject="Formation cybersécurité - 15 novembre",
+                     created_by=admin.id)
+    db.add(th_ent1); db.flush()
+    for emp in employees:
+        db.add(ThreadParticipant(thread_id=th_ent1.id, user_id=emp.id, role="recipient"))
+    db.add(ThreadParticipant(thread_id=th_ent1.id, user_id=admin.id, role="sender"))
+    db.add(Message(thread_id=th_ent1.id, sender_id=admin.id,
+                   body="Bonjour à tous,\n\nUne formation obligatoire en cybersécurité est organisée le 15 novembre de 9h à 17h. Inscription sur le portail RH avant le 10/11.\n\nNathalie Durand - DRH"))
+    db.add(Message(thread_id=th_ent1.id, sender_id=employees[0].id,
+                   body="Bonjour Nathalie, est-ce que la formation sera disponible en distanciel pour les collaborateurs en télétravail ce jour-là ?"))
+    db.add(Message(thread_id=th_ent1.id, sender_id=admin.id,
+                   body="Oui Jean, un lien Teams sera disponible. La présence physique est toutefois recommandée pour les ateliers pratiques."))
+    db.flush()
+
+    th_ent2 = Thread(tenant_id=tid, type="direct", subject="Validation plan de formation T4",
+                     created_by=admin.id)
+    db.add(th_ent2); db.flush()
+    db.add(ThreadParticipant(thread_id=th_ent2.id, user_id=admin.id, role="sender"))
+    db.add(ThreadParticipant(thread_id=th_ent2.id, user_id=employees[1].id, role="recipient"))
+    db.add(Message(thread_id=th_ent2.id, sender_id=admin.id,
+                   body="Marie, pouvez-vous valider votre plan de formation T4 ? Il manque votre signature sur le document partagé."))
+    db.add(Message(thread_id=th_ent2.id, sender_id=employees[1].id,
+                   body="Bien sûr Nathalie, je m'en occupe aujourd'hui. J'ai aussi ajouté une demande pour la certification Excel avancé."))
+    db.add(Message(thread_id=th_ent2.id, sender_id=admin.id,
+                   body="Parfait, la certification est bien prévue au budget Q4. Validé !"))
+    db.flush()
+
+    print("  FormaTech: 1 admin, 5 employees, 2 message threads")
 
 
 
