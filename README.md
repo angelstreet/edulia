@@ -1,6 +1,6 @@
 # Edulia
 
-Open-source school management platform — a modern alternative to École Directe and Pronote. Unified support for K-12 schools and tutoring centers.
+Open-source education platform — one core, multiple workspace types. Schools, tutoring centers, and training organizations run on the same engine with different configurations.
 
 **Live demo:** https://edulia.angelstreet.io
 
@@ -21,25 +21,24 @@ Open-source school management platform — a modern alternative to École Direct
 
 ## Features
 
-**Implemented (Scope 0-2):**
+**Core (built):**
 - Multi-tenant architecture with row-level isolation
 - Authentication (login, JWT refresh, password reset, invite flow)
 - Role-based access control (admin, teacher, student, parent, tutor)
 - User management with CSV import
-- School structure (campuses, academic years, terms, classes/groups)
+- Organization structure (campuses, academic years, terms, classes/groups)
 - Subjects with color coding
 - Messaging (threaded conversations, compose, notifications)
 - File upload with ClamAV virus scanning
 - Role-based dashboards with widgets
-- Admin settings (module toggles, grading scales)
+- Admin settings (module toggles, branding, workspace config)
 - Responsive layout with mobile bottom nav
 
-**Roadmap (Scope 3+):**
-- Timetable, attendance, gradebook
-- Homework diary, report cards, QCM/quizzes
-- Parent/student portals
-- Tutoring (calendar, bookings, learning plans)
-- Billing, e-signatures (DocuSeal), PDF report cards
+**Next modules:**
+- Timetable, attendance, gradebook, homework
+- Report cards, QCM/quizzes, school life
+- Booking, learning plans, hour packages (tutoring)
+- Billing, calendar, PDF exports
 
 ## Quick Start (Docker)
 
@@ -134,7 +133,7 @@ pytest
 
 ## Architecture
 
-- **Multi-tenant:** Each tenant (school/center) has isolated data via `tenant_id` foreign keys
+- **Multi-tenant:** Each workspace (school/center/enterprise) has isolated data via `tenant_id` foreign keys
 - **RBAC:** Roles (admin, teacher, student, parent, tutor) with granular permissions
 - **JWT auth:** Access tokens (30min) + refresh tokens (7 days), stored in Zustand + localStorage
 - **API design:** RESTful, versioned (`/api/v1/`), FastAPI auto-docs at `/docs`
