@@ -45,8 +45,8 @@ export function UsersPage() {
         q: search || undefined,
         role: roleFilter || undefined,
       });
-      setUsers(data.data);
-      setTotalPages(data.meta.total_pages);
+      setUsers(data.items);
+      setTotalPages(Math.ceil(data.total / data.page_size) || 1);
     } catch {
       // API not connected yet — show empty state
       setUsers([]);

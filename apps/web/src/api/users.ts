@@ -22,13 +22,10 @@ export interface UserData {
 }
 
 export interface PaginatedUsers {
-  data: UserData[];
-  meta: {
-    page: number;
-    per_page: number;
-    total: number;
-    total_pages: number;
-  };
+  items: UserData[];
+  total: number;
+  page: number;
+  page_size: number;
 }
 
 export interface CreateUserPayload {

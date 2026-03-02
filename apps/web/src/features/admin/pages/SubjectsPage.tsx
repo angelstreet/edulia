@@ -22,7 +22,7 @@ export function SubjectsPage() {
     setLoading(true);
     try {
       const { data } = await getSubjects();
-      setSubjects(data.data);
+      setSubjects(Array.isArray(data) ? data : data.data || []);
     } catch {
       setSubjects([]);
     } finally {

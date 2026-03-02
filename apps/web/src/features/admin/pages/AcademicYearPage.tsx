@@ -26,7 +26,7 @@ export function AcademicYearPage() {
     setLoading(true);
     try {
       const { data } = await getAcademicYears();
-      setYears(data.data);
+      setYears(Array.isArray(data) ? data : data.data || []);
     } catch {
       setYears([]);
     } finally {
