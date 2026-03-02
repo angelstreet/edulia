@@ -16,6 +16,13 @@ class FileResponse(BaseModel):
     visibility: str
     context_type: str | None
     context_id: UUID | None
+    category: str = "general"
+    source_module: str | None = None
     created_at: datetime
 
     model_config = {"from_attributes": True}
+
+
+class CategoryCount(BaseModel):
+    category: str
+    count: int

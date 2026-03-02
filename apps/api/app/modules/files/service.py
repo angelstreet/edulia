@@ -13,6 +13,7 @@ def upload(
     db: Session, tenant_id: UUID, uploaded_by: UUID, file: UploadFile,
     folder: str | None = None, visibility: str = "private",
     context_type: str | None = None, context_id: UUID | None = None,
+    category: str = "general", source_module: str | None = None,
 ) -> File:
     # Validate extension
     ext = os.path.splitext(file.filename or "")[1].lower()
@@ -39,6 +40,8 @@ def upload(
         visibility=visibility,
         context_type=context_type,
         context_id=context_id,
+        category=category,
+        source_module=source_module,
     )
     db.add(db_file)
     db.commit()
@@ -56,13 +59,27 @@ def get_file(db: Session, file_id: UUID) -> File:
 def list_files(
     db: Session, tenant_id: UUID,
     context_type: str | None = None, context_id: UUID | None = None,
+    category: str | None = None,
 ) -> list[File]:
     query = db.query(File).filter(File.tenant_id == tenant_id)
     if context_type:
         query = query.filter(File.context_type == context_type)
     if context_id:
         query = query.filter(File.context_id == context_id)
+    if category:
+        query = query.filter(File.category == category)
     return query.order_by(File.created_at.desc()).all()
+
+
+def get_category_counts(db: Session, tenant_id: UUID) -> list[dict]:
+    from sqlalchemy import func
+    rows = (
+        db.query(File.category, func.count(File.id).label("count"))
+        .filter(File.tenant_id == tenant_id)
+        .group_by(File.category)
+        .all()
+    )
+    return [{"category": row.category or "general", "count": row.count} for row in rows]
 
 
 def remove_file(db: Session, file_id: UUID) -> None:

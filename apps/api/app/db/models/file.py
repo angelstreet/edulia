@@ -16,3 +16,5 @@ class File(Base, TenantMixin):
     visibility = Column(String(20), default="private")  # private|group|public
     context_type = Column(String(50), nullable=True)
     context_id = Column(UUID(as_uuid=True), nullable=True)
+    category = Column(String(50), default="general")  # general|administrative|school_life|grades|invoices|enrollment
+    source_module = Column(String(100), nullable=True)

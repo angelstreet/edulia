@@ -6,7 +6,14 @@ export interface FileData {
   size: number;
   mime_type: string;
   url: string;
+  category: string;
+  source_module: string | null;
   created_at: string;
+}
+
+export interface CategoryCount {
+  category: string;
+  count: number;
 }
 
 export function uploadFile(file: File, onProgress?: (pct: number) => void) {
@@ -20,6 +27,14 @@ export function uploadFile(file: File, onProgress?: (pct: number) => void) {
       }
     },
   });
+}
+
+export function getFiles(params: { category?: string } = {}) {
+  return client.get<FileData[]>('/v1/files', { params });
+}
+
+export function getCategories() {
+  return client.get<CategoryCount[]>('/v1/files/categories');
 }
 
 export function getFile(id: string) {
