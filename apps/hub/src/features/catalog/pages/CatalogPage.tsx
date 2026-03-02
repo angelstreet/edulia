@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useLandingTheme } from '../../../hooks/useLandingTheme';
 import { HubNavbar } from '../../../components/layout/HubNavbar';
 import { HubFooter } from '../../../components/layout/HubFooter';
-import { getCourses, Course } from '../../../api/catalog';
+import { getCourses, type Course } from '../../../api/catalog';
 import { Search, Clock, ExternalLink, BookOpen } from 'lucide-react';
 
 const DIFFICULTIES = ['', 'beginner', 'intermediate', 'advanced'];

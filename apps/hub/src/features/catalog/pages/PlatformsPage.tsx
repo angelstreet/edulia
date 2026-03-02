@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLandingTheme } from '../../../hooks/useLandingTheme';
 import { HubNavbar } from '../../../components/layout/HubNavbar';
 import { HubFooter } from '../../../components/layout/HubFooter';
-import { getPlatforms, Platform } from '../../../api/catalog';
+import { getPlatforms, type Platform } from '../../../api/catalog';
 import { Globe, ExternalLink } from 'lucide-react';
 
 export function PlatformsPage() {

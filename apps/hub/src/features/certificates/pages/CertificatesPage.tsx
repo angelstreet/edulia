@@ -3,7 +3,7 @@ import { useLandingTheme } from '../../../hooks/useLandingTheme';
 import { HubNavbar } from '../../../components/layout/HubNavbar';
 import { HubFooter } from '../../../components/layout/HubFooter';
 import { useAuth } from '../../../stores/authStore';
-import { getMyCertificates, createCertificate, deleteCertificate, Certificate } from '../../../api/certificates';
+import { getMyCertificates, createCertificate, deleteCertificate, type Certificate } from '../../../api/certificates';
 import { Award, Plus, Trash2, ExternalLink } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 

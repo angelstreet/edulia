@@ -4,8 +4,8 @@ import { useLandingTheme } from '../../../hooks/useLandingTheme';
 import { HubNavbar } from '../../../components/layout/HubNavbar';
 import { HubFooter } from '../../../components/layout/HubFooter';
 import { useAuth } from '../../../stores/authStore';
-import { getMyCertificates, Certificate } from '../../../api/certificates';
-import { getMyPortfolio, Portfolio } from '../../../api/portfolio';
+import { getMyCertificates, type Certificate } from '../../../api/certificates';
+import { getMyPortfolio, type Portfolio } from '../../../api/portfolio';
 import { Award, User, BookOpen, ArrowRight } from 'lucide-react';
 
 export function DashboardPage() {

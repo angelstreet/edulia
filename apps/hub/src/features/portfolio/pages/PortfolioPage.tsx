@@ -3,8 +3,8 @@ import { useLandingTheme } from '../../../hooks/useLandingTheme';
 import { HubNavbar } from '../../../components/layout/HubNavbar';
 import { HubFooter } from '../../../components/layout/HubFooter';
 import { useAuth } from '../../../stores/authStore';
-import { getMyPortfolio, updateMyPortfolio, Portfolio } from '../../../api/portfolio';
-import { getMyCertificates, Certificate } from '../../../api/certificates';
+import { getMyPortfolio, updateMyPortfolio, type Portfolio } from '../../../api/portfolio';
+import { getMyCertificates, type Certificate } from '../../../api/certificates';
 import { User, Award, Link as LinkIcon, Save } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
