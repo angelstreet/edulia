@@ -20,6 +20,10 @@ import { HomeworkPage } from '../features/homework/pages/HomeworkPage';
 import { SubmissionPage } from '../features/homework/pages/SubmissionPage';
 import { DirectoryPage } from '../features/community/pages/DirectoryPage';
 import { DocumentsPage } from '../features/documents/pages/DocumentsPage';
+import { FormsListPage } from '../features/forms/pages/FormsListPage';
+import { FormBuilderPage } from '../features/forms/pages/FormBuilderPage';
+import { FormFillPage } from '../features/forms/pages/FormFillPage';
+import { FormResultsPage } from '../features/forms/pages/FormResultsPage';
 import { AuthGuard } from './guards/AuthGuard';
 import { RoleGuard } from './guards/RoleGuard';
 import { AppShell } from '../components/layout/AppShell';
@@ -93,6 +97,10 @@ export const router = createBrowserRouter([
       { path: 'settings', element: <SettingsPage /> },
       { path: 'community', element: <DirectoryPage /> },
       { path: 'documents', element: <DocumentsPage /> },
+      { path: 'forms', element: <FormsListPage /> },
+      { path: 'forms/new', element: <FormBuilderPage /> },
+      { path: 'forms/:id/fill', element: <FormFillPage /> },
+      { path: 'forms/:id/results', element: <FormResultsPage /> },
     ],
   },
 
