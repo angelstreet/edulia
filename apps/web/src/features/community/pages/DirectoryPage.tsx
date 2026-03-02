@@ -95,7 +95,7 @@ export function DirectoryPage() {
                         <p className="text-xs text-muted-foreground truncate">{u.group_name}</p>
                       )}
                     </div>
-                    <Badge variant="info" className="ml-auto shrink-0">{role}</Badge>
+                    <div className="ml-auto shrink-0"><Badge variant="info">{role}</Badge></div>
                   </div>
                 ))}
               </div>

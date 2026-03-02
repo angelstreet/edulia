@@ -7,10 +7,10 @@ import { Spinner } from '../../../components/ui/Spinner';
 import { useCurrentUser } from '../../../hooks/useCurrentUser';
 import { getForms, type FormData } from '../../../api/forms';
 
-const STATUS_VARIANTS: Record<string, 'info' | 'success' | 'warning' | 'error'> = {
+const STATUS_VARIANTS: Record<string, 'info' | 'success' | 'warning' | 'danger'> = {
   draft: 'warning',
   published: 'success',
-  closed: 'error',
+  closed: 'danger',
 };
 
 export function FormsListPage() {
@@ -73,7 +73,7 @@ export function FormsListPage() {
                     {isAdmin && <span>· {form.response_count} responses</span>}
                   </div>
                 </div>
-                <Badge variant={STATUS_VARIANTS[form.status] || 'info'}>{form.status}</Badge>
+                <Badge variant={STATUS_VARIANTS[form.status] ?? 'info'}>{form.status}</Badge>
               </div>
             </div>
           ))}
