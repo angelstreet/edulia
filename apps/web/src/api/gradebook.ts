@@ -102,3 +102,25 @@ export function bulkCreateGrades(assessmentId: string, grades: GradeInput[]) {
 export function getStudentAverages(studentId: string, params: { term_id?: string } = {}) {
   return client.get<StudentAveragesData>(`/v1/gradebook/students/${studentId}/averages`, { params });
 }
+
+export interface StudentGradeDetail {
+  assessment_id: string;
+  assessment_title: string;
+  assessment_date: string;
+  max_score: number;
+  coefficient: number;
+  score: number | null;
+  is_absent: boolean;
+  is_exempt: boolean;
+  comment: string | null;
+}
+
+export interface StudentSubjectGrades {
+  subject_id: string;
+  subject_name: string;
+  average: number | null;
+  grades: StudentGradeDetail[];
+}
+
+export const getStudentSubjectGrades = (studentId: string, subjectId: string) =>
+  client.get<StudentSubjectGrades>(`/v1/gradebook/students/${studentId}/subjects/${subjectId}/grades`);

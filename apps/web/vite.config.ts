@@ -3,11 +3,16 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
-// https://vite.dev/config/
 export default defineConfig({
   server: {
-    allowedHosts: ['edulia.angelstreet.io', 'localhost'],
+    allowedHosts: true,
     hmr: false,
+    proxy: {
+      '/api': {
+        target: 'http://192.168.0.120:8000',
+        changeOrigin: true,
+      },
+    },
   },
   plugins: [react(), tailwindcss()],
   resolve: {

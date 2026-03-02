@@ -102,3 +102,25 @@ class StudentAveragesResponse(BaseModel):
     term_id: UUID | None
     averages: list[SubjectAverage]
     general_average: Decimal | None
+
+
+# --- Student subject detail ---
+
+class StudentGradeDetail(BaseModel):
+    assessment_id: UUID
+    assessment_title: str
+    assessment_date: date
+    max_score: Decimal
+    coefficient: Decimal
+    score: Decimal | None
+    is_absent: bool
+    is_exempt: bool
+    comment: str | None
+
+    model_config = {"from_attributes": True}
+
+class StudentSubjectGradesResponse(BaseModel):
+    subject_id: UUID
+    subject_name: str
+    average: Decimal | None
+    grades: list[StudentGradeDetail]

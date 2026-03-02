@@ -395,45 +395,56 @@ def seed_school(db):
 
     # Assessments
     assessments = []
+    # (subject, group, term, category, teacher, title, date, max_score, coefficient)
     assess_defs = [
         (subjects["MATH"].id, classes["6eA"].id, t1.id, cat_math.id, prof_martin.id,
-         "Contrôle Ch.3 - Fractions", date(2025, 10, 5), 20),
+         "Contrôle Ch.3 - Fractions", date(2025, 10, 5), 20, 2),
         (subjects["MATH"].id, classes["6eA"].id, t1.id, cat_math.id, prof_martin.id,
-         "Contrôle Ch.4 - Géométrie", date(2025, 10, 25), 20),
+         "Interrogation surprise - Calcul", date(2025, 10, 12), 10, 1),
         (subjects["MATH"].id, classes["6eA"].id, t1.id, cat_math.id, prof_martin.id,
-         "Contrôle Ch.5 - Calcul mental", date(2025, 11, 15), 20),
+         "Contrôle Ch.4 - Géométrie", date(2025, 10, 25), 20, 2),
+        (subjects["MATH"].id, classes["6eA"].id, t1.id, cat_math.id, prof_martin.id,
+         "DM - Problèmes ouverts", date(2025, 11, 3), 20, 1),
+        (subjects["MATH"].id, classes["6eA"].id, t1.id, cat_math.id, prof_martin.id,
+         "Contrôle Ch.5 - Calcul mental", date(2025, 11, 15), 20, 2),
         (subjects["FR"].id, classes["6eA"].id, t1.id, cat_fr.id, prof_dubois.id,
-         "Dictée n°3", date(2025, 10, 8), 20),
+         "Dictée n°3", date(2025, 10, 8), 20, 1),
         (subjects["FR"].id, classes["6eA"].id, t1.id, cat_fr.id, prof_dubois.id,
-         "Rédaction - Mon animal", date(2025, 10, 20), 20),
+         "Rédaction - Mon animal", date(2025, 10, 20), 20, 2),
         (subjects["FR"].id, classes["6eA"].id, t1.id, cat_fr.id, prof_dubois.id,
-         "Contrôle grammaire", date(2025, 11, 10), 20),
+         "Lecture - Compréhension", date(2025, 10, 30), 10, 1),
+        (subjects["FR"].id, classes["6eA"].id, t1.id, cat_fr.id, prof_dubois.id,
+         "Contrôle grammaire", date(2025, 11, 10), 20, 2),
+        (subjects["FR"].id, classes["6eA"].id, t1.id, cat_fr.id, prof_dubois.id,
+         "Oral - Exposé libre", date(2025, 11, 18), 20, 1),
     ]
-    for subj_id, grp_id, term_id, cat_id, teacher_id, title, dt, max_score in assess_defs:
+    for subj_id, grp_id, term_id, cat_id, teacher_id, title, dt, max_score, coeff in assess_defs:
         a = Assessment(
             tenant_id=tid, subject_id=subj_id, group_id=grp_id, term_id=term_id,
             category_id=cat_id, teacher_id=teacher_id, title=title,
-            date=dt, max_score=max_score, coefficient=Decimal("1"), is_published=True,
+            date=dt, max_score=max_score, coefficient=Decimal(str(coeff)), is_published=True,
         )
         db.add(a)
         db.flush()
         assessments.append(a)
 
-    # Grades for all 6eA students
+    # Grades for all 6eA students (10 assessments: 5 math + 5 french)
+    # Each tuple: (score, comment or None)
     grade_data = {
-        "emma.leroy@demo.edulia.io":    [16, 14, 15, 13, 15, 14],
-        "lucas.moreau@demo.edulia.io":  [11, 12, 10, 9, 11, 13],
-        "lea.bernard@demo.edulia.io":   [14, 15, 16, 17, 14, 15],
-        "hugo.petit@demo.edulia.io":    [8, 10, 9, 12, 11, 10],
-        "chloe.robert@demo.edulia.io":  [18, 17, 19, 16, 18, 17],
-        "nathan.richard@demo.edulia.io":[13, 12, 14, 11, 13, 12],
+        "emma.leroy@demo.edulia.io":    [(16,None),(8,"Peut mieux faire"),(14,None),(17,"Excellent travail"),(15,None),(13,None),(15,"Bonne rédaction"),(8,None),(14,None),(16,"Très bon oral")],
+        "lucas.moreau@demo.edulia.io":  [(11,None),(5,None),(12,"En progrès"),(9,None),(10,None),(9,None),(11,None),(6,None),(13,"Effort remarqué"),(10,None)],
+        "lea.bernard@demo.edulia.io":   [(14,None),(9,None),(15,None),(18,"Remarquable"),(16,None),(17,"Excellente dictée"),(14,None),(9,None),(15,None),(17,None)],
+        "hugo.petit@demo.edulia.io":    [(8,"Revoir les fractions"),(4,None),(10,None),(6,None),(9,None),(12,None),(11,None),(5,None),(10,None),(8,None)],
+        "chloe.robert@demo.edulia.io":  [(18,None),(10,None),(17,None),(19,"Félicitations"),(19,None),(16,None),(18,"Très beau texte"),(10,None),(17,None),(19,"Bravo")],
+        "nathan.richard@demo.edulia.io":[(13,None),(7,None),(12,None),(11,None),(14,None),(11,None),(13,None),(7,None),(12,None),(14,None)],
     }
-    for email, scores in grade_data.items():
+    for email, grade_list in grade_data.items():
         st = students[email]
-        for i, score in enumerate(scores):
+        for i, (score, comment) in enumerate(grade_list):
             db.add(Grade(
                 assessment_id=assessments[i].id, student_id=st.id,
                 score=Decimal(str(score)),
+                comment=comment,
             ))
 
     db.flush()
@@ -487,7 +498,7 @@ def seed_school(db):
     db.flush()
 
     # ========== MESSAGING ==========
-    # Thread 1: Teacher → Parents (announcement)
+    # Thread 1: Teacher → Parents (announcement) with reply
     t1_thread = Thread(tenant_id=tid, type="announcement", subject="Réunion parents-professeurs 15 novembre",
                        created_by=prof_martin.id)
     db.add(t1_thread)
@@ -496,10 +507,16 @@ def seed_school(db):
         db.add(ThreadParticipant(thread_id=t1_thread.id, user_id=u.id,
                                  role="sender" if u == prof_martin else "recipient"))
     db.add(Message(thread_id=t1_thread.id, sender_id=prof_martin.id,
-                   body="Chers parents,\n\nLa réunion parents-professeurs aura lieu le vendredi 15 novembre à 18h en salle polyvalente.\n\nCordialement,\nM. Martin"))
+                   body="Chers parents,\n\nLa réunion parents-professeurs aura lieu le vendredi 15 novembre à 18h en salle polyvalente. Merci de confirmer votre présence.\n\nCordialement,\nM. Martin"))
+    db.add(Message(thread_id=t1_thread.id, sender_id=parent_leroy.id,
+                   body="Bonjour M. Martin,\n\nNous serons présents. Est-il possible de prendre un créneau individuel pour discuter des résultats d'Emma en maths ?\n\nM. Leroy"))
+    db.add(Message(thread_id=t1_thread.id, sender_id=prof_martin.id,
+                   body="Bien sûr M. Leroy, je vous réserve le créneau de 18h30. À vendredi !"))
+    db.add(Message(thread_id=t1_thread.id, sender_id=parent_moreau.id,
+                   body="Nous viendrons également. Merci pour l'organisation."))
     db.flush()
 
-    # Thread 2: Prof Dubois → Parent Leroy (individual)
+    # Thread 2: Prof Dubois → Parent Leroy (individual conversation)
     t2_thread = Thread(tenant_id=tid, type="direct", subject="Progrès d'Emma en dictée",
                        created_by=prof_dubois.id)
     db.add(t2_thread)
@@ -507,9 +524,13 @@ def seed_school(db):
     db.add(ThreadParticipant(thread_id=t2_thread.id, user_id=prof_dubois.id, role="sender"))
     db.add(ThreadParticipant(thread_id=t2_thread.id, user_id=parent_leroy.id, role="recipient"))
     db.add(Message(thread_id=t2_thread.id, sender_id=prof_dubois.id,
-                   body="Bonjour M. Leroy,\n\nJe voulais vous informer qu'Emma a fait de gros progrès en dictée ce trimestre. Sa dernière note est 15/20.\n\nMme Dubois"))
+                   body="Bonjour M. Leroy,\n\nJe voulais vous informer qu'Emma a fait de gros progrès en dictée ce trimestre. Sa dernière note est 15/20, en nette progression par rapport au début d'année.\n\nMme Dubois"))
     db.add(Message(thread_id=t2_thread.id, sender_id=parent_leroy.id,
-                   body="Merci beaucoup Mme Dubois, nous sommes très contents de ses progrès. Nous l'encourageons à continuer.\n\nCordialement"))
+                   body="Merci beaucoup Mme Dubois ! Nous sommes ravis de ses progrès. Elle travaille dur le soir avec ses listes de mots. Avez-vous des conseils pour continuer ?"))
+    db.add(Message(thread_id=t2_thread.id, sender_id=prof_dubois.id,
+                   body="C'est un très bon réflexe ! Je lui ai donné une fiche de vocabulaire supplémentaire. Continuer la lecture à voix haute aide aussi beaucoup pour l'orthographe."))
+    db.add(Message(thread_id=t2_thread.id, sender_id=parent_leroy.id,
+                   body="Parfait, nous allons essayer. Merci encore pour votre suivi !"))
     db.flush()
 
     # Thread 3: Admin → All (announcement)
@@ -519,9 +540,9 @@ def seed_school(db):
     db.flush()
     db.add(ThreadParticipant(thread_id=t3_thread.id, user_id=admin.id, role="sender"))
     db.add(Message(thread_id=t3_thread.id, sender_id=admin.id,
-                   body="En raison d'une journée pédagogique, les cours du mercredi 6 novembre seront annulés. L'accueil reste ouvert de 8h à 12h."))
+                   body="En raison d'une journée pédagogique, les cours du mercredi 6 novembre seront annulés. L'accueil périscolaire reste ouvert de 8h à 12h.\n\nLa direction"))
 
-    # Thread 4: Parent → Teacher (question)
+    # Thread 4: Parent → Teacher (question + answer)
     t4_thread = Thread(tenant_id=tid, type="direct", subject="Question sur le contrôle de maths",
                        created_by=parent_leroy.id)
     db.add(t4_thread)
@@ -530,9 +551,44 @@ def seed_school(db):
     db.add(ThreadParticipant(thread_id=t4_thread.id, user_id=prof_martin.id, role="recipient"))
     db.add(Message(thread_id=t4_thread.id, sender_id=parent_leroy.id,
                    body="Bonjour M. Martin,\n\nEmma m'a dit qu'un contrôle était prévu la semaine prochaine. Pourriez-vous me préciser les chapitres concernés ?\n\nMerci"))
+    db.add(Message(thread_id=t4_thread.id, sender_id=prof_martin.id,
+                   body="Bonjour M. Leroy,\n\nLe contrôle portera sur les chapitres 4 et 5 : géométrie de base et calcul mental. Emma a bien travaillé en classe, je suis confiant.\n\nM. Martin"))
+    db.add(Message(thread_id=t4_thread.id, sender_id=parent_leroy.id,
+                   body="Merci pour ces précisions ! On va réviser ce week-end."))
+
+    # Thread 5: Teacher → Parent Moreau (behavior concern)
+    t5_thread = Thread(tenant_id=tid, type="direct", subject="Comportement de Lucas en classe",
+                       created_by=prof_martin.id)
+    db.add(t5_thread)
+    db.flush()
+    db.add(ThreadParticipant(thread_id=t5_thread.id, user_id=prof_martin.id, role="sender"))
+    db.add(ThreadParticipant(thread_id=t5_thread.id, user_id=parent_moreau.id, role="recipient"))
+    db.add(Message(thread_id=t5_thread.id, sender_id=prof_martin.id,
+                   body="Bonjour Mme Moreau,\n\nJe souhaite vous alerter sur le comportement de Lucas ces dernières semaines. Il a du mal à se concentrer et bavarde beaucoup avec ses voisins. Ses résultats s'en ressentent.\n\nPeut-on en discuter ?\nM. Martin"))
+    db.add(Message(thread_id=t5_thread.id, sender_id=parent_moreau.id,
+                   body="Merci de m'en informer M. Martin. Nous avons remarqué la même chose à la maison. Il est un peu perturbé en ce moment. Nous allons en parler avec lui ce soir."))
+    db.add(Message(thread_id=t5_thread.id, sender_id=prof_martin.id,
+                   body="Je comprends, ce sont des choses qui arrivent à cet âge. N'hésitez pas à me contacter si vous avez besoin. Je vais aussi le placer devant pour l'aider à se concentrer."))
+    db.add(Message(thread_id=t5_thread.id, sender_id=parent_moreau.id,
+                   body="C'est une bonne idée, merci. Tenez-nous au courant de l'évolution."))
+
+    # Thread 6: Admin → Teachers (staff announcement)
+    t6_thread = Thread(tenant_id=tid, type="announcement", subject="Formation numérique - 22 novembre",
+                       created_by=admin.id)
+    db.add(t6_thread)
+    db.flush()
+    for u in [admin, prof_martin, prof_dubois]:
+        db.add(ThreadParticipant(thread_id=t6_thread.id, user_id=u.id,
+                                 role="sender" if u == admin else "recipient"))
+    db.add(Message(thread_id=t6_thread.id, sender_id=admin.id,
+                   body="Chers collègues,\n\nUne formation sur les outils numériques pédagogiques est organisée le 22 novembre de 14h à 17h en salle informatique. Inscription obligatoire avant le 18/11.\n\nLa direction"))
+    db.add(Message(thread_id=t6_thread.id, sender_id=prof_dubois.id,
+                   body="Merci pour l'info. Je serai présente. Est-ce qu'on abordera l'utilisation des tablettes en classe ?"))
+    db.add(Message(thread_id=t6_thread.id, sender_id=admin.id,
+                   body="Oui, c'est au programme ! Tablettes, TBI et plateforme Edulia seront couverts."))
     db.flush()
 
-    # ========== FORMS ==========
+        # ========== FORMS ==========
     # Form 1: Museum trip consent
     form1 = Form(tenant_id=tid, title="Autorisation sortie musée des Beaux-Arts",
                  description="Sortie pédagogique au musée des Beaux-Arts de Lyon, le 20 novembre 2025.",

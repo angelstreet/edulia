@@ -14,6 +14,7 @@ from app.modules.gradebook.schemas import (
     GradeCategoryResponse,
     GradeResponse,
     StudentAveragesResponse,
+    StudentSubjectGradesResponse,
 )
 from app.modules.gradebook.service import (
     bulk_create_grades,
@@ -23,6 +24,7 @@ from app.modules.gradebook.service import (
     list_assessments,
     list_grade_categories,
     get_student_averages,
+    get_student_subject_grades,
 )
 
 router = APIRouter(prefix="/api/v1/gradebook", tags=["gradebook"])
@@ -106,3 +108,14 @@ def student_averages(
     db: Session = Depends(get_db),
 ):
     return get_student_averages(db, current_user.tenant_id, student_id, term_id)
+
+
+@router.get("/students/{student_id}/subjects/{subject_id}/grades", response_model=StudentSubjectGradesResponse)
+def student_subject_grades(
+    student_id: UUID,
+    subject_id: UUID,
+    term_id: UUID | None = Query(None),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    return get_student_subject_grades(db, current_user.tenant_id, student_id, subject_id, term_id)

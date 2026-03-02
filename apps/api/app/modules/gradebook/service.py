@@ -162,3 +162,68 @@ def get_student_averages(
         "averages": averages,
         "general_average": general_average,
     }
+
+
+def get_student_subject_grades(
+    db: Session,
+    tenant_id: UUID,
+    student_id: UUID,
+    subject_id: UUID,
+    term_id: UUID | None = None,
+) -> dict:
+    """Get all grades for a student in a specific subject."""
+    query = (
+        db.query(
+            Assessment.id.label("assessment_id"),
+            Assessment.title.label("assessment_title"),
+            Assessment.date.label("assessment_date"),
+            Assessment.max_score,
+            Assessment.coefficient,
+            Grade.score,
+            Grade.is_absent,
+            Grade.is_exempt,
+            Grade.comment,
+        )
+        .join(Grade, Grade.assessment_id == Assessment.id)
+        .filter(
+            Assessment.tenant_id == tenant_id,
+            Assessment.subject_id == subject_id,
+            Grade.student_id == student_id,
+        )
+    )
+    if term_id:
+        query = query.filter(Assessment.term_id == term_id)
+
+    rows = query.order_by(Assessment.date.desc()).all()
+
+    # Compute average
+    weighted_sum = Decimal("0")
+    weighted_max = Decimal("0")
+    for r in rows:
+        if r.score is not None and not r.is_absent and not r.is_exempt:
+            weighted_sum += r.score * r.coefficient
+            weighted_max += r.max_score * r.coefficient
+
+    avg = round((weighted_sum / weighted_max) * 20, 2) if weighted_max > 0 else None
+
+    subject = db.query(Subject.name).filter(Subject.id == subject_id).scalar()
+
+    return {
+        "subject_id": subject_id,
+        "subject_name": subject or "Unknown",
+        "average": avg,
+        "grades": [
+            {
+                "assessment_id": r.assessment_id,
+                "assessment_title": r.assessment_title,
+                "assessment_date": r.assessment_date,
+                "max_score": r.max_score,
+                "coefficient": r.coefficient,
+                "score": r.score,
+                "is_absent": r.is_absent,
+                "is_exempt": r.is_exempt,
+                "comment": r.comment,
+            }
+            for r in rows
+        ],
+    }
