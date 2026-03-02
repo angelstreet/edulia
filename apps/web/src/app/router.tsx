@@ -12,6 +12,7 @@ import { TenantSettingsPage } from '../features/admin/pages/TenantSettingsPage';
 import { MessagesPage } from '../features/messaging/pages/MessagesPage';
 import { SettingsPage } from '../features/settings/pages/SettingsPage';
 import { TimetablePage } from '../features/timetable/pages/TimetablePage';
+import { AttendancePage } from '../features/attendance/pages/AttendancePage';
 import { GradebookPage } from '../features/gradebook/pages/GradebookPage';
 import { GradeEntryPage } from '../features/gradebook/pages/GradeEntryPage';
 import { StudentGradesPage } from '../features/gradebook/pages/StudentGradesPage';
@@ -78,6 +79,7 @@ export const router = createBrowserRouter([
         ),
       },
       { path: 'timetable', element: <TimetablePage /> },
+      { path: 'attendance', element: <AttendancePage /> },
       { path: 'gradebook', element: <GradebookPage /> },
       { path: 'gradebook/:assessmentId', element: <GradeEntryPage /> },
       { path: 'grades', element: <StudentGradesPage /> },

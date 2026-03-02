@@ -9,3 +9,4 @@ from app.db.models.file import File  # noqa: F401
 from app.db.models.gradebook import Assessment, Grade, GradeCategory  # noqa: F401
 from app.db.models.timetable import Room, Session, SessionException  # noqa: F401
 from app.db.models.attendance import AttendanceRecord  # noqa: F401
+from app.db.models.homework import Homework, Submission  # noqa: F401
