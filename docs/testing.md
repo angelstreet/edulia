@@ -97,18 +97,141 @@ test.describe('Feature Name', () => {
 });
 ```
 
-## CI Integration
+## Non-Regression Pipeline (TODO)
 
-Add to your CI pipeline:
+The goal is two layers of automated non-regression testing, matching the pattern used in [Konto](https://github.com/angelstreet/konto):
+
+### Layer 1 — Pre-push Git Hook (local)
+
+A Husky pre-push hook runs fast checks before code leaves the developer's machine.
+
+```
+.husky/pre-push
+```
+
+What it should run:
+
+| Step | Command | Purpose |
+|------|---------|---------|
+| 1 | `cd apps/web && npx tsc --noEmit` | Catch TypeScript errors |
+| 2 | `cd apps/web && npm run build` | Verify production build |
+| 3 | `cd apps/api && pytest tests/ -v --tb=short` | Backend unit/integration tests |
+
+Setup (when ready to implement):
+
+```bash
+npm install -D husky          # at monorepo root
+npx husky init                # creates .husky/ directory
+# then write the pre-push script
+```
+
+The hook blocks `git push` if any step fails — broken code never reaches GitHub.
+
+### Layer 2 — GitHub Actions CI (remote)
+
+A workflow triggered on every push/PR to `main` runs the full suite in a clean environment.
+
+```
+.github/workflows/ci.yml
+```
+
+What it should run:
+
+| Job | Steps |
+|-----|-------|
+| **lint-and-build** | Checkout → Node 20 setup → `npm ci` → `tsc --noEmit` → `npm run build` (web) |
+| **api-tests** | Checkout → Python 3.12 setup → `pip install -r requirements.txt` → `pytest` |
+| **e2e-tests** | Checkout → Node 20 → `npx playwright install chromium --with-deps` → `npm run test:e2e` against staging URL |
+
+Secrets needed in GitHub repo settings:
+
+| Secret | Example |
+|--------|---------|
+| `STAGING_URL` | `https://edulia.angelstreet.io` |
+| `TEST_EMAIL` | `admin@edulia.angelstreet.io` |
+| `TEST_PASSWORD` | (the test admin password) |
+
+Example workflow:
 
 ```yaml
-- name: E2E Tests
-  run: |
-    cd apps/web
-    npx playwright install chromium --with-deps
-    npm run test:e2e
-  env:
-    BASE_URL: ${{ secrets.STAGING_URL }}
-    TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
-    TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+        working-directory: apps/web
+      - run: npx tsc --noEmit
+        working-directory: apps/web
+      - run: npm run build
+        working-directory: apps/web
+
+  api-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+        working-directory: apps/api
+      - run: pytest tests/ -v --tb=short
+        working-directory: apps/api
+
+  e2e-tests:
+    runs-on: ubuntu-latest
+    needs: lint-and-build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+        working-directory: apps/web
+      - run: npx playwright install chromium --with-deps
+        working-directory: apps/web
+      - run: npm run test:e2e
+        working-directory: apps/web
+        env:
+          BASE_URL: ${{ secrets.STAGING_URL }}
+          TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
+          TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
 ```
+
+### How the two layers work together
+
+```
+Developer pushes code
+        │
+        ▼
+  ┌─────────────┐   fail → push blocked, fix locally
+  │  Pre-push   │
+  │  (Husky)    │
+  └──────┬──────┘
+         │ pass
+         ▼
+  Code reaches GitHub
+         │
+         ▼
+  ┌─────────────┐   fail → red badge, PR blocked
+  │  GitHub CI   │
+  │  (Actions)   │
+  └──────┬──────┘
+         │ pass
+         ▼
+  Safe to merge / deploy
+```
+
+Pre-push catches ~90% of issues instantly (no waiting for CI). GitHub Actions catches environment-specific issues and runs E2E against the real staging server.
