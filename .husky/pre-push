@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+
+echo "[pre-push] Running TypeScript check..."
+cd apps/web && npx tsc --noEmit || exit 1
+
+echo "[pre-push] Running production build..."
+npm run build || exit 1
+
+echo "[pre-push] Running API tests..."
+cd ../api
+if [ -d ".venv" ]; then
+  . .venv/bin/activate
+  python -m pytest app/tests/ -v --tb=short || exit 1
+else
+  echo "[pre-push] Skipping API tests — no Python venv at apps/api/.venv (run in CI instead)"
+fi
+
+echo "[pre-push] All checks passed."

@@ -1,0 +1,30 @@
+{
+  "name": "edulia",
+  "version": "1.0.0",
+  "description": "Open-source school management platform — a modern alternative to École Directe and Pronote. Unified support for K-12 schools and tutoring centers.",
+  "main": "ecosystem.config.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "build:web": "cd apps/web && npm run build",
+    "typecheck:web": "cd apps/web && npx tsc --noEmit",
+    "test:api": "cd apps/api && python -m pytest app/tests/ -v --tb=short",
+    "test:e2e": "cd apps/web && npx playwright test",
+    "prepare": "husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/angelstreet/edulia.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/angelstreet/edulia/issues"
+  },
+  "homepage": "https://github.com/angelstreet/edulia#readme",
+  "devDependencies": {
+    "husky": "^9.1.7"
+  }
+}
