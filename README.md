@@ -1,155 +1,121 @@
 # Edulia
 
-Open-source education platform — one core, multiple workspace types. Schools, tutoring centers, and training organizations run on the same engine with different configurations.
+**One platform for teaching and learning.** Open-source, modular, self-hostable.
 
-**Live demo:** https://edulia.angelstreet.io
+Two products, one codebase:
 
-## Tech Stack
+| | **Edulia** | **EduliaHub** |
+|---|---|---|
+| **What** | School & institution management | Learning marketplace & portfolio |
+| **For** | Schools, tutoring centers, enterprises | Anyone who wants to learn |
+| **Features** | Timetable, grades, attendance, messaging, billing | Course catalog, certificates, portfolio, curriculum |
+| **Access** | Invitation-only (institution creates accounts) | Self-signup (free) |
+| **URL** | [edulia.angelstreet.io](https://edulia.angelstreet.io) | [eduliahub.angelstreet.io](https://eduliahub.angelstreet.io) |
 
-| Layer | Technology |
-|-------|-----------|
-| Frontend | React 19 + Vite + TypeScript |
-| UI | Tailwind CSS + shadcn/ui + Lucide icons |
-| State | Zustand |
-| API | Python FastAPI |
-| Database | PostgreSQL 16 + SQLAlchemy 2 + Alembic |
-| Real-time | Socket.IO + Redis Pub/Sub |
-| File storage | S3-compatible (MinIO) |
-| Auth | JWT + RBAC + OIDC-ready |
-| i18n | French / English (i18next) |
-| Deploy | Docker + PM2 + Nginx |
-
-## Features
-
-**Core (built):**
-- Multi-tenant architecture with row-level isolation
-- Authentication (login, JWT refresh, password reset, invite flow)
-- Role-based access control (admin, teacher, student, parent, tutor)
-- User management with CSV import
-- Organization structure (campuses, academic years, terms, classes/groups)
-- Subjects with color coding
-- Messaging (threaded conversations, compose, notifications)
-- File upload with ClamAV virus scanning
-- Role-based dashboards with widgets
-- Admin settings (module toggles, branding, workspace config)
-- Responsive layout with mobile bottom nav
-
-**Next modules:**
-- Timetable, attendance, gradebook, homework
-- Report cards, QCM/quizzes, school life
-- Booking, learning plans, hour packages (tutoring)
-- Billing, calendar, PDF exports
-
-## Quick Start (Docker)
-
-```bash
-git clone https://github.com/angelstreet/edulia.git
-cd edulia
-cp .env.example .env
-docker-compose up
-```
-
-- Frontend: http://localhost:5173
-- API: http://localhost:8000
-- API docs: http://localhost:8000/docs
-
-## Project Structure
+## Architecture
 
 ```
 edulia/
 ├── apps/
-│   ├── api/                  # FastAPI backend
-│   │   ├── app/
-│   │   │   ├── core/         # Security, middleware, permissions
-│   │   │   ├── db/           # Models, migrations, database
-│   │   │   └── modules/      # auth, users, groups, messaging,
-│   │   │                     # subjects, academic_years, files,
-│   │   │                     # notifications, tenant
-│   │   ├── alembic/          # DB migrations
-│   │   └── requirements.txt
-│   ├── web/                  # React frontend
-│   │   ├── src/
-│   │   │   ├── api/          # Axios client + service files
-│   │   │   ├── app/          # Router, guards, providers
-│   │   │   ├── components/   # ui/ (shadcn wrappers), layout/, common/
-│   │   │   ├── features/     # auth, admin, dashboard, messaging, settings
-│   │   │   ├── hooks/        # useAuth, useCurrentUser, usePermission
-│   │   │   ├── stores/       # Zustand (auth, notifications)
-│   │   │   ├── locales/      # fr/, en/
-│   │   │   └── styles/       # Tailwind + brand variables
-│   │   └── package.json
-│   └── socketio/             # Real-time server (Node.js)
-├── docs/dev/                 # Architecture & design docs
-├── ecosystem.config.js       # PM2 production config
-├── docker-compose.yml
-└── Makefile
+│   ├── api/          # Shared FastAPI backend (Python 3.11)
+│   ├── web/          # Edulia admin frontend (React + Vite + Tailwind)
+│   ├── hub/          # EduliaHub frontend (React + Vite + Tailwind)
+│   └── socketio/     # Real-time notifications (Socket.IO + Redis)
+├── packages/
+│   └── shared/       # Shared types and utilities
+└── docs/
+    └── dev/          # Architecture docs, module specs, roadmap
 ```
 
-## Production Deployment
+One backend serves both frontends. One database. Shared auth (SSO between both).
 
-The app runs on 3 VMs behind an Nginx reverse proxy:
+## Tech Stack
 
-| VM | Role | Services |
-|----|------|----------|
-| 120 | App server | FastAPI (Gunicorn), React (PM2 serve), Socket.IO, Celery, ClamAV |
-| 121 | Database | PostgreSQL 16 |
-| 122 | Storage | MinIO, Redis |
+| Layer | Choice |
+|---|---|
+| Backend | Python 3.11, FastAPI, SQLAlchemy 2, Alembic |
+| Database | PostgreSQL 16 |
+| Cache/Queue | Redis, Celery |
+| Frontend | React 19, Vite 7, TypeScript, Tailwind CSS 4 |
+| UI Components | shadcn/ui, Lucide icons |
+| State | Zustand |
+| i18n | i18next (French + English) |
+| Files | S3-compatible (MinIO) |
+| Real-time | Socket.IO + Redis Pub/Sub |
+| Auth | JWT + RBAC |
 
-See [docs/dev/INSTALLATION-GUIDE.md](docs/dev/INSTALLATION-GUIDE.md) for step-by-step setup.
+## Quick Start
 
-**PM2 processes:**
+### Prerequisites
 
-```
-edulia-api        Gunicorn + Uvicorn (4 workers, port 8000)
-edulia-frontend   PM2 serve (port 3000, SPA mode)
-edulia-socketio   Node.js (port 3001)
-edulia-worker     Celery (4 concurrent tasks)
-edulia-beat       Celery Beat scheduler
-```
+- Python 3.11+
+- Node.js 22+
+- PostgreSQL 16
+- Redis
 
-## Development
+### Backend
 
-**Backend:**
 ```bash
 cd apps/api
-python -m venv .venv && source .venv/bin/activate
+python -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
+cp .env.example .env  # Edit with your DB/Redis credentials
 alembic upgrade head
-uvicorn app.main:app --reload
+python -m app.main
+# API running at http://localhost:8000
 ```
 
-**Frontend:**
+### Edulia (admin frontend)
+
 ```bash
 cd apps/web
 npm install
 npm run dev
+# http://localhost:3000
 ```
 
-**Run tests:**
+### EduliaHub (learning hub frontend)
+
+```bash
+cd apps/hub
+npm install
+npm run dev
+# http://localhost:3004
+```
+
+### Seed data
+
 ```bash
 cd apps/api
-pytest
+python scripts/create_tenant.py  # Creates default tenant + admin user
 ```
 
-## Architecture
+## Infrastructure
 
-- **Multi-tenant:** Each workspace (school/center/enterprise) has isolated data via `tenant_id` foreign keys
-- **RBAC:** Roles (admin, teacher, student, parent, tutor) with granular permissions
-- **JWT auth:** Access tokens (30min) + refresh tokens (7 days), stored in Zustand + localStorage
-- **API design:** RESTful, versioned (`/api/v1/`), FastAPI auto-docs at `/docs`
-- **Real-time:** Socket.IO with Redis adapter for horizontal scaling
-- **File storage:** S3-compatible with 3 buckets (uploads, avatars, documents)
+Production runs on 3 dedicated VMs:
 
-## GDPR Compliance
+| VM | Role | Services |
+|---|---|---|
+| 120 | App server | Edulia (:3000), EduliaHub (:3004), API (:8000), Socket.IO (:3001) |
+| 121 | Database | PostgreSQL 16 (:5432) |
+| 122 | Storage/Cache | MinIO (:9000), Redis (:6379), Prometheus, Grafana |
 
-Built for French/EU data protection from day one:
-- EU hosting required
-- Data minimization + right to access/deletion/portability
-- Configurable data retention (default 3 years)
-- Audit logging
-- No third-party trackers
-- CNIL-compliant
+## Documentation
+
+| Doc | Description |
+|---|---|
+| [00-ARCHITECTURE.md](docs/dev/00-ARCHITECTURE.md) | Core architecture: one core + config wrappers |
+| [01-MODULES.md](docs/dev/01-MODULES.md) | Module catalog (9 core + 15 toggleable) |
+| [02-WORKSPACE-TEMPLATES.md](docs/dev/02-WORKSPACE-TEMPLATES.md) | School / tutoring / enterprise presets |
+| [03-ROADMAP.md](docs/dev/03-ROADMAP.md) | What's built, what's next |
+| [04-MISSING-FEATURES.md](docs/dev/04-MISSING-FEATURES.md) | Ecole Directe gap analysis |
+| [05-COURSES-AND-PORTFOLIO.md](docs/dev/05-COURSES-AND-PORTFOLIO.md) | Courses, curriculum, certificates, portfolio |
+| [06-EDULIAHUB-ARCHITECTURE.md](docs/dev/06-EDULIAHUB-ARCHITECTURE.md) | EduliaHub architecture & implementation plan |
 
 ## License
 
-[AGPL-3.0](LICENSE) — free for self-hosted deployments. Commercial license available for SaaS and proprietary use.
+**AGPL-3.0** — free to self-host. Commercial license available for SaaS deployments.
+
+## Contributing
+
+PRs welcome. See the docs above for architecture context before diving in.

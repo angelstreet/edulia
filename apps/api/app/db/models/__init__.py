@@ -12,3 +12,6 @@ from app.db.models.attendance import AttendanceRecord  # noqa: F401
 from app.db.models.homework import Homework, Submission  # noqa: F401
 from app.db.models.forms import Form, FormField, FormResponse  # noqa: F401
 from app.db.models.wallet import Wallet, WalletTransaction, ServiceCatalog, ServiceSubscription  # noqa: F401
+from app.db.models.catalog import Course, LearningPlatform  # noqa: F401
+from app.db.models.certificate import Certificate  # noqa: F401
+from app.db.models.portfolio import Portfolio  # noqa: F401

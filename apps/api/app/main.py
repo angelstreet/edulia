@@ -20,6 +20,10 @@ from app.modules.homework.router import router as homework_router
 from app.modules.community.router import router as community_router
 from app.modules.forms.router import router as forms_router
 from app.modules.wallet.router import router as wallet_router
+from app.modules.catalog.router import router as catalog_router
+from app.modules.certificates.router import router as certificates_router
+from app.modules.portfolio.router import router as portfolio_router
+from app.modules.dashboard.router import router as dashboard_router
 
 app = FastAPI(title="Edulia API", version="0.1.0")
 
@@ -55,6 +59,10 @@ app.include_router(homework_router)
 app.include_router(community_router)
 app.include_router(forms_router)
 app.include_router(wallet_router)
+app.include_router(catalog_router)
+app.include_router(certificates_router)
+app.include_router(portfolio_router)
+app.include_router(dashboard_router)
 
 
 @app.get("/api/health")

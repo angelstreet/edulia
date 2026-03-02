@@ -1,35 +1,41 @@
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { AlertsWidget } from './widgets/AlertsWidget';
-import { RecentGrades } from './widgets/RecentGrades';
-
-const MOCK_CHILDREN = [
-  { id: '1', name: 'Lucas Martin' },
-  { id: '2', name: 'Emma Martin' },
-];
+import { useEffect, useState } from 'react';
+import { GraduationCap, AlertCircle } from 'lucide-react';
+import { getDashboardStats, type DashboardStats } from '../../../api/dashboard';
 
 export function ParentDashboard() {
-  const { t } = useTranslation();
-  const [selectedChild, setSelectedChild] = useState(MOCK_CHILDREN[0].id);
+  const [data, setData] = useState<DashboardStats | null>(null);
+
+  useEffect(() => {
+    getDashboardStats().then(r => setData(r.data)).catch(() => {});
+  }, []);
+
+  if (!data) return <div className="animate-pulse p-8">Chargement...</div>;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div className="rounded-xl border bg-card p-6 shadow-sm">
-        <label className="flex flex-col gap-1">
-          <strong className="text-sm">{t('selectChild', 'Select child')}</strong>
-          <select
-            className="h-9 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none"
-            value={selectedChild}
-            onChange={(e) => setSelectedChild(e.target.value)}
-          >
-            {MOCK_CHILDREN.map((c) => (
-              <option key={c.id} value={c.id}>{c.name}</option>
-            ))}
-          </select>
-        </label>
+    <div className="space-y-6">
+      <h2 className="text-xl font-semibold text-gray-900">Mes enfants</h2>
+      {data.children?.length === 0 && (
+        <p className="text-gray-500">Aucun enfant associé à votre compte.</p>
+      )}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {data.children?.map(child => (
+          <div key={child.id} className="bg-white rounded-xl border p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">{child.name}</h3>
+            <div className="flex gap-6">
+              <div className="flex items-center gap-2">
+                <GraduationCap className="w-5 h-5 text-green-600" />
+                <span className="text-lg font-bold">{child.average}/20</span>
+                <span className="text-sm text-gray-500">moyenne</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <AlertCircle className="w-5 h-5 text-red-500" />
+                <span className="text-lg font-bold">{child.absences}</span>
+                <span className="text-sm text-gray-500">absences</span>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
-      <AlertsWidget />
-      <RecentGrades />
     </div>
   );
 }

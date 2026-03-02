@@ -10,6 +10,7 @@ from app.modules.auth.schemas import (
     RefreshRequest,
     ResetPasswordRequest,
     TokenResponse,
+    RegisterRequest,
     UserInfo,
 )
 from app.modules.auth.service import (
@@ -78,3 +79,62 @@ def reset_password_endpoint(request: ResetPasswordRequest, db: Session = Depends
 def accept_invite_endpoint(request: InviteAcceptRequest, db: Session = Depends(get_db)):
     user = accept_invite(db, request.token, request.password)
     return {"message": "Account activated", "user_id": str(user.id)}
+
+
+@router.post("/register", response_model=TokenResponse)
+def register(request: RegisterRequest, db: Session = Depends(get_db)):
+    """Self-signup for EduliaHub learners. Creates user in the hub tenant."""
+    from app.db.models.tenant import Tenant
+    from app.db.models.user import Role, User, UserRole
+    from app.core.security import hash_password, create_access_token, create_refresh_token
+
+    # Get or create the hub tenant
+    hub_tenant = db.query(Tenant).filter(Tenant.slug == "eduliahub").first()
+    if not hub_tenant:
+        hub_tenant = Tenant(name="EduliaHub", slug="eduliahub", type="hub",
+                           settings={"enabled_modules": []})
+        db.add(hub_tenant)
+        db.flush()
+        # Create learner role
+        learner_role = Role(tenant_id=hub_tenant.id, code="learner",
+                           display_name="Learner", is_system=True,
+                           permissions=["messaging.thread.send"])
+        db.add(learner_role)
+        db.flush()
+
+    # Check if email already exists in hub tenant
+    existing = db.query(User).filter(User.email == request.email,
+                                      User.tenant_id == hub_tenant.id).first()
+    if existing:
+        from fastapi import HTTPException
+        raise HTTPException(409, "Email already registered")
+
+    # Get learner role
+    learner_role = db.query(Role).filter(Role.tenant_id == hub_tenant.id,
+                                          Role.code == "learner").first()
+
+    user = User(
+        tenant_id=hub_tenant.id,
+        email=request.email,
+        password_hash=hash_password(request.password),
+        first_name=request.first_name,
+        last_name=request.last_name,
+        display_name=f"{request.first_name} {request.last_name}",
+        status="active",
+    )
+    db.add(user)
+    db.flush()
+
+    db.add(UserRole(user_id=user.id, role_id=learner_role.id, scope_type="tenant"))
+    db.commit()
+
+    access_token = create_access_token({"sub": str(user.id), "tenant_id": str(hub_tenant.id)})
+    refresh_token = create_refresh_token({"sub": str(user.id)})
+    return TokenResponse(
+        access_token=access_token, refresh_token=refresh_token,
+        user=UserInfo(
+            id=user.id, tenant_id=hub_tenant.id, email=user.email,
+            first_name=user.first_name, last_name=user.last_name,
+            display_name=user.display_name, role="learner", permissions=[],
+        ),
+    )

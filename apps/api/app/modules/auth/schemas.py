@@ -51,3 +51,10 @@ class ResetPasswordRequest(BaseModel):
 class InviteAcceptRequest(BaseModel):
     token: str
     password: str
+
+
+class RegisterRequest(BaseModel):
+    email: str
+    password: str
+    first_name: str
+    last_name: str
