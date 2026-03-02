@@ -1,4 +1,4 @@
-import { useSyncExternalStore, useCallback } from 'react';
+import { useSyncExternalStore } from 'react';
 
 export type Theme = 'light-green' | 'warm-yellow' | 'dark-teal';
 
@@ -25,10 +25,26 @@ function setThemeGlobal(t: Theme) {
   listeners.forEach(cb => cb());
 }
 
+// Cache derived object so getSnapshot returns stable references
+let cachedResult: any = null;
+let cachedTheme: Theme | null = null;
+
+function buildResult(theme: Theme) {
+  return { theme, setTheme: setThemeGlobal, ...themes[theme] };
+}
+
+function getResult() {
+  const theme = currentTheme;
+  if (cachedTheme !== theme || !cachedResult) {
+    cachedTheme = theme;
+    cachedResult = buildResult(theme);
+  }
+  return cachedResult;
+}
+
 export function useLandingTheme() {
-  const theme = useSyncExternalStore(subscribe, getSnapshot);
-  const setTheme = useCallback((t: Theme) => setThemeGlobal(t), []);
-  return { theme, setTheme, ...themes[theme] };
+  useSyncExternalStore(subscribe, getSnapshot);
+  return getResult();
 }
 
 export const themeKeys: Theme[] = ['light-green', 'warm-yellow', 'dark-teal'];
