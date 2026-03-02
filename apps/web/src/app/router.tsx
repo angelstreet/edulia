@@ -18,6 +18,7 @@ import { GradeEntryPage } from '../features/gradebook/pages/GradeEntryPage';
 import { StudentGradesPage } from '../features/gradebook/pages/StudentGradesPage';
 import { HomeworkPage } from '../features/homework/pages/HomeworkPage';
 import { SubmissionPage } from '../features/homework/pages/SubmissionPage';
+import { DirectoryPage } from '../features/community/pages/DirectoryPage';
 import { AuthGuard } from './guards/AuthGuard';
 import { RoleGuard } from './guards/RoleGuard';
 import { AppShell } from '../components/layout/AppShell';
@@ -89,6 +90,7 @@ export const router = createBrowserRouter([
       { path: 'homework/:id', element: <SubmissionPage /> },
       { path: 'messages', element: <MessagesPage /> },
       { path: 'settings', element: <SettingsPage /> },
+      { path: 'community', element: <DirectoryPage /> },
     ],
   },
 

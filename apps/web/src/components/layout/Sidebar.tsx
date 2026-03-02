@@ -14,6 +14,8 @@ import {
   ClipboardList,
   Mail,
   CreditCard,
+  FolderOpen,
+  FileText,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -33,6 +35,10 @@ const NAV_BY_ROLE: Record<string, NavItem[]> = {
     { to: '/admin/settings', label: 'tenantSettings', icon: Settings },
     { to: '/timetable', label: 'timetable', icon: Calendar },
     { to: '/attendance', label: 'attendance', icon: ClipboardCheck },
+    { to: '/community', label: 'directory', icon: Users },
+    { to: '/documents', label: 'documents', icon: FolderOpen },
+    { to: '/forms', label: 'forms', icon: FileText },
+    { to: '/wallet', label: 'wallet', icon: CreditCard },
   ],
   teacher: [
     { to: '/dashboard', label: 'dashboard', icon: LayoutGrid },
@@ -55,6 +61,10 @@ const NAV_BY_ROLE: Record<string, NavItem[]> = {
     { to: '/grades', label: 'grades', icon: BarChart3 },
     { to: '/messages', label: 'messages', icon: Mail },
     { to: '/billing', label: 'billing', icon: CreditCard },
+    { to: '/documents', label: 'documents', icon: FolderOpen },
+    { to: '/forms', label: 'forms', icon: FileText },
+    { to: '/wallet', label: 'wallet', icon: CreditCard },
+    { to: '/community', label: 'directory', icon: Users },
   ],
   tutor: [
     { to: '/dashboard', label: 'dashboard', icon: LayoutGrid },
