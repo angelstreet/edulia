@@ -12,7 +12,10 @@ from app.modules.messaging.router import router as messaging_router
 from app.modules.notifications.router import router as notifications_router
 from app.modules.subjects.router import router as subjects_router
 from app.modules.tenant.router import router as tenant_router
+from app.modules.attendance.router import router as attendance_router
+from app.modules.timetable.router import router as timetable_router
 from app.modules.users.router import router as users_router
+from app.modules.gradebook.router import router as gradebook_router
 
 app = FastAPI(title="Edulia API", version="0.1.0")
 
@@ -41,6 +44,9 @@ app.include_router(groups_router)
 app.include_router(messaging_router)
 app.include_router(notifications_router)
 app.include_router(files_router)
+app.include_router(timetable_router)
+app.include_router(attendance_router)
+app.include_router(gradebook_router)
 
 
 @app.get("/api/health")

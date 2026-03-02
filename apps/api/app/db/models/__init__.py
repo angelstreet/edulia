@@ -6,3 +6,6 @@ from app.db.models.group import Group, GroupMembership  # noqa: F401
 from app.db.models.message import Message, Thread, ThreadParticipant  # noqa: F401
 from app.db.models.notification import Notification  # noqa: F401
 from app.db.models.file import File  # noqa: F401
+from app.db.models.gradebook import Assessment, Grade, GradeCategory  # noqa: F401
+from app.db.models.timetable import Room, Session, SessionException  # noqa: F401
+from app.db.models.attendance import AttendanceRecord  # noqa: F401

@@ -11,6 +11,10 @@ import { AcademicYearPage } from '../features/admin/pages/AcademicYearPage';
 import { TenantSettingsPage } from '../features/admin/pages/TenantSettingsPage';
 import { MessagesPage } from '../features/messaging/pages/MessagesPage';
 import { SettingsPage } from '../features/settings/pages/SettingsPage';
+import { TimetablePage } from '../features/timetable/pages/TimetablePage';
+import { GradebookPage } from '../features/gradebook/pages/GradebookPage';
+import { GradeEntryPage } from '../features/gradebook/pages/GradeEntryPage';
+import { StudentGradesPage } from '../features/gradebook/pages/StudentGradesPage';
 import { AuthGuard } from './guards/AuthGuard';
 import { RoleGuard } from './guards/RoleGuard';
 import { AppShell } from '../components/layout/AppShell';
@@ -73,6 +77,10 @@ export const router = createBrowserRouter([
           </RoleGuard>
         ),
       },
+      { path: 'timetable', element: <TimetablePage /> },
+      { path: 'gradebook', element: <GradebookPage /> },
+      { path: 'gradebook/:assessmentId', element: <GradeEntryPage /> },
+      { path: 'grades', element: <StudentGradesPage /> },
       { path: 'messages', element: <MessagesPage /> },
       { path: 'settings', element: <SettingsPage /> },
     ],

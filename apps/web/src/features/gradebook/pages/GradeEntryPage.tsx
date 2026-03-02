@@ -1,0 +1,173 @@
+import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Button } from '../../../components/ui/Button';
+import { Spinner } from '../../../components/ui/Spinner';
+import { getAssessmentGrades, bulkCreateGrades, type GradeData, type GradeInput } from '../../../api/gradebook';
+
+interface GradeRow {
+  student_id: string;
+  score: string;
+  is_absent: boolean;
+  is_exempt: boolean;
+  comment: string;
+}
+
+export function GradeEntryPage() {
+  const { t } = useTranslation();
+  const { assessmentId } = useParams<{ assessmentId: string }>();
+  const navigate = useNavigate();
+  const [, setGrades] = useState<GradeData[]>([]);
+  const [rows, setRows] = useState<GradeRow[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+
+  const fetchGrades = useCallback(async () => {
+    if (!assessmentId) return;
+    setLoading(true);
+    try {
+      const { data } = await getAssessmentGrades(assessmentId);
+      const list = Array.isArray(data) ? data : [];
+      setGrades(list);
+      setRows(list.map((g) => ({
+        student_id: g.student_id,
+        score: g.score !== null ? String(g.score) : '',
+        is_absent: g.is_absent,
+        is_exempt: g.is_exempt,
+        comment: g.comment || '',
+      })));
+    } catch {
+      setGrades([]);
+      setRows([]);
+    } finally {
+      setLoading(false);
+    }
+  }, [assessmentId]);
+
+  useEffect(() => { fetchGrades(); }, [fetchGrades]);
+
+  const updateRow = (index: number, field: keyof GradeRow, value: string | boolean) => {
+    setRows((prev) => {
+      const next = [...prev];
+      next[index] = { ...next[index], [field]: value };
+      return next;
+    });
+  };
+
+  const handleSave = async () => {
+    if (!assessmentId) return;
+    setSaving(true);
+    try {
+      const payload: GradeInput[] = rows.map((r) => ({
+        student_id: r.student_id,
+        score: r.score !== '' ? parseFloat(r.score) : null,
+        is_absent: r.is_absent,
+        is_exempt: r.is_exempt,
+        comment: r.comment || null,
+      }));
+      await bulkCreateGrades(assessmentId, payload);
+      fetchGrades();
+    } catch { /* ignore */ }
+    setSaving(false);
+  };
+
+  const stats = useMemo(() => {
+    const scores = rows
+      .filter((r) => r.score !== '' && !r.is_absent && !r.is_exempt)
+      .map((r) => parseFloat(r.score));
+    if (scores.length === 0) return null;
+    const min = Math.min(...scores);
+    const max = Math.max(...scores);
+    const avg = scores.reduce((a, b) => a + b, 0) / scores.length;
+    return { min: min.toFixed(1), max: max.toFixed(1), avg: avg.toFixed(1), count: scores.length };
+  }, [rows]);
+
+  if (loading) {
+    return <div className="flex justify-center py-12"><Spinner /></div>;
+  }
+
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <Button variant="secondary" onClick={() => navigate('/gradebook')}>
+            &larr; {t('back', 'Back')}
+          </Button>
+          <h1 className="text-2xl font-bold">{t('gradeEntry', 'Grade Entry')}</h1>
+        </div>
+        <Button variant="primary" loading={saving} onClick={handleSave}>
+          {t('saveGrades', 'Save Grades')}
+        </Button>
+      </div>
+
+      {rows.length === 0 ? (
+        <p className="text-muted-foreground">{t('noGradesYet', 'No grades entered yet for this assessment.')}</p>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse text-sm">
+            <thead>
+              <tr className="border-b">
+                <th className="text-left p-2">#</th>
+                <th className="text-left p-2">{t('student', 'Student')}</th>
+                <th className="text-left p-2">{t('score', 'Score')}</th>
+                <th className="text-center p-2">{t('absent', 'Abs')}</th>
+                <th className="text-center p-2">{t('exempt', 'Exc')}</th>
+                <th className="text-left p-2">{t('comment', 'Comment')}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((row, i) => (
+                <tr key={row.student_id} className="border-b hover:bg-muted/30">
+                  <td className="p-2 text-muted-foreground">{i + 1}</td>
+                  <td className="p-2 font-medium">{row.student_id.slice(0, 8)}...</td>
+                  <td className="p-2">
+                    <input
+                      type="number"
+                      step="0.5"
+                      min="0"
+                      className="h-8 w-20 rounded border border-input bg-transparent px-2 text-sm outline-none focus:border-ring"
+                      value={row.score}
+                      onChange={(e) => updateRow(i, 'score', e.target.value)}
+                      disabled={row.is_absent || row.is_exempt}
+                    />
+                  </td>
+                  <td className="p-2 text-center">
+                    <input
+                      type="checkbox"
+                      checked={row.is_absent}
+                      onChange={(e) => updateRow(i, 'is_absent', e.target.checked)}
+                    />
+                  </td>
+                  <td className="p-2 text-center">
+                    <input
+                      type="checkbox"
+                      checked={row.is_exempt}
+                      onChange={(e) => updateRow(i, 'is_exempt', e.target.checked)}
+                    />
+                  </td>
+                  <td className="p-2">
+                    <input
+                      type="text"
+                      className="h-8 w-full rounded border border-input bg-transparent px-2 text-sm outline-none focus:border-ring"
+                      value={row.comment}
+                      onChange={(e) => updateRow(i, 'comment', e.target.value)}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {stats && (
+        <div className="mt-4 flex gap-6 p-3 bg-muted/30 rounded-lg text-sm">
+          <span><strong>{t('min', 'Min')}:</strong> {stats.min}</span>
+          <span><strong>{t('max', 'Max')}:</strong> {stats.max}</span>
+          <span><strong>{t('average', 'Avg')}:</strong> {stats.avg}</span>
+          <span><strong>{t('graded', 'Graded')}:</strong> {stats.count}/{rows.length}</span>
+        </div>
+      )}
+    </div>
+  );
+}
