@@ -27,15 +27,35 @@ jobs:
   test-api:
     name: API Tests (pytest)
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: edulia
+          POSTGRES_PASSWORD: edulia
+          POSTGRES_DB: edulia
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U edulia"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     defaults:
       run:
         working-directory: apps/api
+    env:
+      DATABASE_URL: postgresql://edulia:edulia@localhost:5432/edulia
+      SECRET_KEY: ci-test-secret-key
+      REDIS_URL: ""
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - run: pip install -r requirements.txt
+      - run: |
+          PGPASSWORD=edulia psql -h localhost -U edulia -c "CREATE DATABASE edulia_test;" || true
       - run: python -m pytest app/tests/ -v --tb=short
 
   test-e2e:
