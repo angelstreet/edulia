@@ -36,7 +36,7 @@ Modules ordered by priority. Each module is independent work that can be built o
 
 After these 4: a school can use Edulia for daily operations (schedule, attendance, grades, homework).
 
-### Priority 2 — School Complete
+### Priority 2 — School Complete + École Directe Parity
 
 | # | Module | Key deliverables |
 |---|---|---|
@@ -46,14 +46,18 @@ After these 4: a school can use Edulia for daily operations (schedule, attendanc
 | 8 | **enrollment** | Online forms, document upload, review workflow |
 | 9 | **billing** | Invoice generation, Stripe payment, receipts |
 | 10 | **calendar** | School events, holidays, iCal export |
+| 11 | **forms** | Surveys, consent forms, dynamic form builder (see [04-MISSING-FEATURES.md](04-MISSING-FEATURES.md)) |
+| 12 | **document_categories** | Tabbed document view by category, auto-linking from modules |
+| 13 | **wallet** | Prepaid balance, service catalog (cantine, garderie), auto-debit |
+| 14 | **community** | School directory, parent delegates, privacy controls |
 
 ### Priority 3 — Tutoring
 
 | # | Module | Key deliverables |
 |---|---|---|
-| 11 | **booking** | Tutor availability, slot booking, reschedule/cancel |
-| 12 | **learning_plans** | Per-student goals, progress notes, milestones |
-| 13 | **packages** | Hour bundles, credit tracking, monthly plans |
+| 15 | **booking** | Tutor availability, slot booking, reschedule/cancel |
+| 16 | **learning_plans** | Per-student goals, progress notes, milestones |
+| 17 | **packages** | Hour bundles, credit tracking, monthly plans |
 
 Billing (module 9) is shared — build it once, tutoring reuses it with different policies.
 
@@ -61,11 +65,11 @@ Billing (module 9) is shared — build it once, tutoring reuses it with differen
 
 | # | Item | What |
 |---|---|---|
-| 14 | **Parent portal** | Per-child view aggregating grades, attendance, messages, payments |
-| 15 | **Student portal** | Personal dashboard with grades, timetable, homework |
-| 16 | **cloud** | Personal file storage, shared spaces, folder hierarchy |
-| 17 | **Real-time** | Socket.IO notifications (currently polling only) |
-| 18 | **PWA** | Service worker, offline, push notifications |
+| 18 | **Parent portal** | Per-child view aggregating grades, attendance, messages, payments |
+| 19 | **Student portal** | Personal dashboard with grades, timetable, homework |
+| 20 | **cloud** | Personal file storage, shared spaces, folder hierarchy |
+| 21 | **Real-time** | Socket.IO notifications (currently polling only) |
+| 22 | **PWA** | Service worker, offline, push notifications |
 
 ## How to Build a Module
 
@@ -90,3 +94,4 @@ Detailed data models and UI wireframes for all modules are preserved in the arch
 - [archive/02-SCHOOL-SCOPE.md](archive/02-SCHOOL-SCOPE.md) — School module data models + wireframes
 - [archive/03-TUTORING-SCOPE.md](archive/03-TUTORING-SCOPE.md) — Tutoring module data models
 - [archive/08-BUILD-PHASES.md](archive/08-BUILD-PHASES.md) — Original 54 micro-steps with test criteria
+- [04-MISSING-FEATURES.md](04-MISSING-FEATURES.md) — École Directe gap analysis (forms, document categories, wallet, community)
