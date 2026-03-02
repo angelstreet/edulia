@@ -24,6 +24,8 @@ import { FormsListPage } from '../features/forms/pages/FormsListPage';
 import { FormBuilderPage } from '../features/forms/pages/FormBuilderPage';
 import { FormFillPage } from '../features/forms/pages/FormFillPage';
 import { FormResultsPage } from '../features/forms/pages/FormResultsPage';
+import { WalletPage } from '../features/wallet/pages/WalletPage';
+import { ServicesPage } from '../features/wallet/pages/ServicesPage';
 import { AuthGuard } from './guards/AuthGuard';
 import { RoleGuard } from './guards/RoleGuard';
 import { AppShell } from '../components/layout/AppShell';
@@ -101,6 +103,8 @@ export const router = createBrowserRouter([
       { path: 'forms/new', element: <FormBuilderPage /> },
       { path: 'forms/:id/fill', element: <FormFillPage /> },
       { path: 'forms/:id/results', element: <FormResultsPage /> },
+      { path: 'wallet', element: <WalletPage /> },
+      { path: 'services', element: <ServicesPage /> },
     ],
   },
 

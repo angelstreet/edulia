@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../../components/ui/Button';
 import { Input } from '../../../components/ui/Input';
-import { createForm, type FormFieldCreate } from '../../../api/forms';
+import { createForm, updateForm as updateFormApi, type FormFieldCreate } from '../../../api/forms';
 
 const FIELD_TYPES = ['text', 'textarea', 'checkbox', 'radio', 'select', 'date', 'file'];
 
@@ -74,8 +74,7 @@ export function FormBuilderPage() {
         fields: fields.map(({ _key, _optionInput, ...f }) => f),
       });
       if (status === 'published') {
-        const { updateForm } = await import('../../../api/forms');
-        await updateForm(data.id, { status: 'published' });
+        await updateFormApi(data.id, { status: 'published' });
       }
       navigate('/forms');
     } catch {
