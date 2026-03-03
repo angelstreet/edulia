@@ -4,8 +4,8 @@ const BASE = process.env.BASE_URL || 'http://192.168.0.120:3000';
 
 async function login(page, email: string) {
   await page.goto(`${BASE}/login`);
-  await page.fill('input[name="email"]', email);
-  await page.fill('input[name="password"]', 'demo2026');
+  await page.fill('input[id="email"]', email);
+  await page.fill('input[id="password"]', 'demo2026');
   await page.click('button[type="submit"]');
   await page.waitForURL('**/dashboard**', { timeout: 10000 });
 }
