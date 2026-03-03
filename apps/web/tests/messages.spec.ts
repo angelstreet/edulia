@@ -1,9 +1,9 @@
 import { test, expect } from '@playwright/test';
 
-const BASE = process.env.BASE_URL || 'http://192.168.0.120:3000';
+const BASE = process.env.BASE_URL || 'https://edulia.angelstreet.io';
 
 async function login(page, email: string) {
-  await page.goto(`${BASE}/login`);
+  await page.goto(`${BASE}/login`, { waitUntil: 'networkidle' });
   await page.fill('input[id="email"]', email);
   await page.fill('input[id="password"]', 'demo2026');
   await page.click('button[type="submit"]');

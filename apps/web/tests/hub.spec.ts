@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-const HUB = process.env.HUB_URL || 'http://192.168.0.120:3001';
+const HUB = process.env.HUB_URL || 'https://eduliahub.angelstreet.io';
 
 test('hub catalog loads courses', async ({ page }) => {
   await page.goto(HUB);

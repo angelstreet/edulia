@@ -6,9 +6,9 @@ const PASSWORD = process.env.TEST_PASSWORD || 'ChangeMe123!';
 test.describe('Authentication', () => {
   test.beforeEach(async ({ page }) => {
     // Navigate first so localStorage is accessible on the correct origin
-    await page.goto('/login');
+    await page.goto('/login', { waitUntil: 'networkidle' });
     await page.evaluate(() => localStorage.removeItem('auth-storage'));
-    await page.reload();
+    await page.reload({ waitUntil: 'networkidle' });
   });
 
   test('login page renders correctly', async ({ page }) => {

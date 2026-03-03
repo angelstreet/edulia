@@ -5,7 +5,7 @@ const PASSWORD = process.env.TEST_PASSWORD || 'ChangeMe123!';
 
 test.describe('Admin Navigation', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/login');
+    await page.goto('/login', { waitUntil: 'networkidle' });
     await page.getByLabel('Email address').fill(EMAIL);
     await page.getByLabel('Password').fill(PASSWORD);
     await page.getByRole('button', { name: 'Log in' }).click();
