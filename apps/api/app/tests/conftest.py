@@ -7,6 +7,15 @@ import requests
 from typing import Optional
 
 import os
+
+def pytest_addoption(parser):
+    parser.addoption("--api-base-url", action="store", default=None,
+                     help="Base URL for API tests")
+
+@pytest.fixture(scope="session")
+def api_base_url(request):
+    return request.config.getoption("--api-base-url") or os.getenv("EDULIA_TEST_BASE_URL", "http://192.168.0.120:8000")
+
 BASE_URL = os.getenv("EDULIA_TEST_BASE_URL", "http://192.168.0.120:8000")
 PASSWORD = "demo2026"
 
