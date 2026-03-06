@@ -10,6 +10,7 @@ import {
   Calendar,
   BarChart3,
   CreditCard,
+  ClipboardList,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -42,11 +43,12 @@ const TABS_BY_ROLE: Record<string, Tab[]> = {
     { to: '/dashboard', label: 'dashboard', icon: LayoutGrid },
     { to: '/grades', label: 'grades', icon: BarChart3 },
     { to: '/messages', label: 'messages', icon: Mail },
-    { to: '/billing', label: 'billing', icon: CreditCard },
+    { to: '/wallet', label: 'wallet', icon: CreditCard },
   ],
   tutor: [
     { to: '/dashboard', label: 'dashboard', icon: LayoutGrid },
-    { to: '/calendar', label: 'calendar', icon: Calendar },
+    { to: '/timetable', label: 'timetable', icon: Calendar },
+    { to: '/homework', label: 'homework', icon: ClipboardList },
     { to: '/messages', label: 'messages', icon: Mail },
   ],
 };

@@ -57,10 +57,8 @@ const NAV_BY_ROLE: Record<string, NavItem[]> = {
   ],
   parent: [
     { to: '/dashboard', label: 'dashboard', icon: LayoutGrid },
-    { to: '/children', label: 'children', icon: Users },
     { to: '/grades', label: 'grades', icon: BarChart3 },
     { to: '/messages', label: 'messages', icon: Mail },
-    { to: '/billing', label: 'billing', icon: CreditCard },
     { to: '/documents', label: 'documents', icon: FolderOpen },
     { to: '/forms', label: 'forms', icon: FileText },
     { to: '/wallet', label: 'wallet', icon: CreditCard },
@@ -68,8 +66,8 @@ const NAV_BY_ROLE: Record<string, NavItem[]> = {
   ],
   tutor: [
     { to: '/dashboard', label: 'dashboard', icon: LayoutGrid },
-    { to: '/calendar', label: 'calendar', icon: Calendar },
-    { to: '/students', label: 'students', icon: Users },
+    { to: '/timetable', label: 'timetable', icon: Calendar },
+    { to: '/homework', label: 'homework', icon: FileText },
     { to: '/messages', label: 'messages', icon: Mail },
   ],
 };
