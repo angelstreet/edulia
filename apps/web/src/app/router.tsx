@@ -30,6 +30,12 @@ import { ServicesPage } from '../features/wallet/pages/ServicesPage';
 import { AuthGuard } from './guards/AuthGuard';
 import { RoleGuard } from './guards/RoleGuard';
 import { AppShell } from '../components/layout/AppShell';
+import { useAuthStore } from '../stores/authStore';
+
+function FallbackRedirect() {
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  return <Navigate to={isAuthenticated ? '/dashboard' : '/landing'} replace />;
+}
 
 export const router = createBrowserRouter([
   // Public routes
@@ -107,9 +113,13 @@ export const router = createBrowserRouter([
       { path: 'forms/:id/results', element: <FormResultsPage /> },
       { path: 'wallet', element: <WalletPage /> },
       { path: 'services', element: <ServicesPage /> },
+      { path: 'children', element: <Navigate to="/grades" replace /> },
+      { path: 'billing', element: <Navigate to="/wallet" replace /> },
+      { path: 'calendar', element: <Navigate to="/timetable" replace /> },
+      { path: 'students', element: <Navigate to="/community" replace /> },
     ],
   },
 
   // Catch-all
-  { path: '*', element: <Navigate to="/landing" replace /> },
+  { path: '*', element: <FallbackRedirect /> },
 ]);
