@@ -1,6 +1,6 @@
 # 03 — Roadmap: Built, In Progress, Next
 
-Last updated: 2026-03-10
+Last updated: 2026-03-11
 
 ---
 
@@ -92,7 +92,21 @@ Last updated: 2026-03-10
 
 ---
 
-### 🟢 NOW: Enrollment Module
+### ✅ DONE: Enrollment Module (shipped 2026-03-11)
+
+- `EnrollmentRequest` model: parent/child info, status workflow (pending→reviewing→approved→rejected), documents, admin notes
+- Migration `e2f3a4b5c6d7`: `enrollment_requests` table
+- Service: on approval auto-creates student `User` + assigns role + adds `GroupMembership`
+- Endpoints: `POST /enrollment`, `GET /enrollment`, `GET /enrollment/my`, `GET /enrollment/{id}`, `PATCH /enrollment/{id}/review`
+- Notifications: admins alerted on new request; parent alerted on each status change
+- Admin UI: status filter tabs, review table, approve/reject modal with notes
+- Parent UI: submit form (pre-filled from auth), my requests list with status badges
+- Routes: `/admin/enrollment` (admin-guarded), `/enrollment` (parent-facing)
+- 10 HTTP integration tests + 5 Playwright E2E
+
+---
+
+### 🔵 BACKLOG: PWA + Offline
 
 ### 🟡 SOON: Billing / Stripe Real Payments
 
@@ -175,7 +189,7 @@ For tutor accounts (already have role):
 | Gradebook audit & gap fix | ✅ Shipped 2026-03-08 |
 | Billing / Stripe Real Payments | ✅ Shipped 2026-03-09 |
 | Real-Time Notifications | ✅ Shipped 2026-03-10 |
-| Enrollment Module | 🟢 Next |
+| Enrollment Module | ✅ Shipped 2026-03-11 |
 
 ---
 
