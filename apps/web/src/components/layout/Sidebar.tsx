@@ -19,6 +19,7 @@ import {
   Baby,
   AlertTriangle,
   Zap,
+  LogIn,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -65,6 +66,7 @@ const NAV_BY_ROLE: Record<string, NavItem[]> = {
     { to: '/grades', label: 'grades', icon: BarChart3 },
     { to: '/homework', label: 'homework', icon: ClipboardList },
     { to: '/activities', label: 'activities', icon: Zap },
+    { to: '/join', label: 'joinSession', icon: LogIn },
     { to: '/calendar', label: 'calendar', icon: Calendar },
     { to: '/messages', label: 'messages', icon: Mail },
   ],
@@ -76,6 +78,7 @@ const NAV_BY_ROLE: Record<string, NavItem[]> = {
     { to: '/documents', label: 'documents', icon: FolderOpen },
     { to: '/forms', label: 'forms', icon: FileText },
     { to: '/activities', label: 'activities', icon: Zap },
+    { to: '/join', label: 'joinSession', icon: LogIn },
     { to: '/wallet', label: 'wallet', icon: CreditCard },
     { to: '/community', label: 'directory', icon: Users },
   ],

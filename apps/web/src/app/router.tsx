@@ -35,6 +35,9 @@ import { ActivityBuilderPage } from '../features/activities/pages/ActivityBuilde
 import { AttemptPage } from '../features/activities/pages/AttemptPage';
 import { ActivityResultsPage } from '../features/activities/pages/ActivityResultsPage';
 import { ReportingPage } from '../features/activities/pages/ReportingPage';
+import { SessionLaunchPage } from '../features/activities/pages/SessionLaunchPage';
+import { JoinPage } from '../features/activities/pages/JoinPage';
+import { LobbyPage } from '../features/activities/pages/LobbyPage';
 import { NotFoundPage } from '../features/errors/pages/NotFoundPage';
 import { AuthGuard } from './guards/AuthGuard';
 import { RoleGuard } from './guards/RoleGuard';
@@ -126,6 +129,10 @@ export const router = createBrowserRouter([
       { path: 'activities/report', element: <ReportingPage /> },
       { path: 'activities/:id/attempt', element: <AttemptPage /> },
       { path: 'activities/:id/results', element: <ActivityResultsPage /> },
+      { path: 'activities/:id/launch', element: <SessionLaunchPage /> },
+      { path: 'join', element: <JoinPage /> },
+      { path: 'session/:code/lobby', element: <LobbyPage /> },
+      { path: 'session/:code/live', element: <Navigate to="/activities" replace /> },
     ],
   },
 

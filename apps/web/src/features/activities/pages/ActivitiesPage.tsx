@@ -63,6 +63,11 @@ export function ActivitiesPage() {
     navigate(`/activities/${activityId}/attempt`);
   };
 
+  const handleLaunchLive = (e: React.MouseEvent, activityId: string) => {
+    e.stopPropagation();
+    navigate(`/activities/${activityId}/launch`);
+  };
+
   if (loading) {
     return <div className="flex justify-center py-12"><Spinner /></div>;
   }
@@ -107,6 +112,17 @@ export function ActivitiesPage() {
                     <span className="text-sm text-muted-foreground">{group.name}</span>
                   )}
                 </div>
+                {isTeacher && activity.status === 'published' && (
+                  <div className="shrink-0 ml-3">
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      onClick={(e) => handleLaunchLive(e, activity.id)}
+                    >
+                      {t('launchLive', 'Launch Live')}
+                    </Button>
+                  </div>
+                )}
                 {!isTeacher && activity.status === 'published' && (
                   <div className="shrink-0 ml-3">
                     <Button

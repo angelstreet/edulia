@@ -227,5 +227,17 @@
   "viewDetails": "View details",
   "noReports": "No activity reports yet",
   "noReportsDesc": "Publish activities and students will start submitting.",
-  "correctRate": "correct"
+  "correctRate": "correct",
+  "joinSession": "Join Session",
+  "liveSession": "Live Session",
+  "joinCode": "Join code",
+  "studentsJoined": "Students joined",
+  "waitingForTeacher": "Waiting for the teacher to start…",
+  "startSession": "Start Session",
+  "connected": "Connected",
+  "connecting": "Connecting…",
+  "disconnected": "Disconnected",
+  "sessionNotFound": "Session not found. Check the code and try again.",
+  "enterJoinCode": "Enter the 6-character code shown by your teacher:",
+  "launchLive": "Launch Live"
 }

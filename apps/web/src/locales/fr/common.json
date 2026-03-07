@@ -228,5 +228,17 @@
   "viewDetails": "Voir les détails",
   "noReports": "Aucun rapport d'activité pour le moment",
   "noReportsDesc": "Publiez des activités et les élèves commenceront à soumettre.",
-  "correctRate": "correct"
+  "correctRate": "correct",
+  "joinSession": "Rejoindre la session",
+  "liveSession": "Session en direct",
+  "joinCode": "Code de session",
+  "studentsJoined": "Élèves connectés",
+  "waitingForTeacher": "En attente du démarrage par l'enseignant…",
+  "startSession": "Démarrer la session",
+  "connected": "Connecté",
+  "connecting": "Connexion…",
+  "disconnected": "Déconnecté",
+  "sessionNotFound": "Session introuvable. Vérifiez le code et réessayez.",
+  "enterJoinCode": "Entrez le code à 6 caractères affiché par votre enseignant :",
+  "launchLive": "Lancer en direct"
 }

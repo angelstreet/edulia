@@ -16,6 +16,8 @@ from app.modules.activity.schemas import (
     AttemptResult,
     AttemptStartResponse,
     AttemptSubmitRequest,
+    LiveSessionCreate,
+    LiveSessionResponse,
     StudentReport,
 )
 from app.modules.activity.service import (
@@ -33,9 +35,11 @@ from app.modules.activity.service import (
     submit_attempt,
     update_activity,
 )
+from app.modules.activity import session_service
 
 router = APIRouter(prefix="/api/v1/activities", tags=["activities"])
 students_router = APIRouter(prefix="/api/v1/students", tags=["students"])
+sessions_router = APIRouter(prefix="/api/v1/sessions", tags=["sessions"])
 
 
 def _get_user_role(user: User) -> str:
@@ -249,3 +253,53 @@ def student_activity_scores(
     if role not in ("teacher", "admin"):
         raise ForbiddenException("Only teachers and admins can access student reports")
     return get_student_report(db, student_id, current_user.tenant_id)
+
+
+# ---------------------------------------------------------------------------
+# Feature 4 — Live Session Infrastructure (REST endpoints)
+# ---------------------------------------------------------------------------
+
+
+@sessions_router.post("", response_model=LiveSessionResponse, status_code=201)
+def create_session_endpoint(
+    request: LiveSessionCreate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Teacher/admin: create a live session for an activity. Returns the join code."""
+    role = _get_user_role(current_user)
+    if role not in ("teacher", "admin"):
+        raise ForbiddenException("Only teachers and admins can create live sessions")
+    return session_service.create_session(
+        db,
+        tenant_id=current_user.tenant_id,
+        teacher_id=current_user.id,
+        activity_id=request.activity_id,
+    )
+
+
+@sessions_router.get("/{join_code}", response_model=LiveSessionResponse)
+def get_session_endpoint(
+    join_code: str,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Any authenticated user: look up a session by join code (needed for students to join)."""
+    return session_service.get_session_by_code(db, join_code)
+
+
+@sessions_router.post("/{join_code}/finish", response_model=LiveSessionResponse)
+def finish_session_endpoint(
+    join_code: str,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Teacher/admin: mark a session as finished."""
+    role = _get_user_role(current_user)
+    if role not in ("teacher", "admin"):
+        raise ForbiddenException("Only teachers and admins can finish live sessions")
+    live_session = session_service.get_session_by_code(db, join_code)
+    # Ensure only the owning teacher (or an admin) can finish the session
+    if role == "teacher" and str(live_session.teacher_id) != str(current_user.id):
+        raise ForbiddenException("You are not the teacher of this session")
+    return session_service.finish_session(db, live_session.id)

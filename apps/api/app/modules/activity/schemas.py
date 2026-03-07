@@ -173,3 +173,33 @@ class StudentReport(BaseModel):
     attempts: list[StudentActivityScore]
     avg_score: float | None
     total_submitted: int
+
+
+# ---------------------------------------------------------------------------
+# Feature 4 — Live Session Infrastructure
+# ---------------------------------------------------------------------------
+
+
+class LiveSessionCreate(BaseModel):
+    activity_id: UUID
+
+
+class LiveSessionResponse(BaseModel):
+    id: UUID
+    tenant_id: UUID
+    activity_id: UUID
+    teacher_id: UUID
+    join_code: str
+    state: str
+    current_question_index: int
+    started_at: datetime | None
+    ended_at: datetime | None
+    created_at: datetime
+
+    model_config = {"from_attributes": True}
+
+
+class WSMessage(BaseModel):
+    """Generic WebSocket message envelope."""
+    type: str
+    data: dict = {}

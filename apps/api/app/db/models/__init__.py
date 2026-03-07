@@ -19,3 +19,4 @@ from app.db.models.calendar import CalendarEvent  # noqa: F401
 from app.db.models.school_life import Incident  # noqa: F401
 from app.db.models.activity import Activity  # noqa: F401
 from app.db.models.activity_attempt import ActivityAttempt  # noqa: F401
+from app.db.models.live_session import LiveSession  # noqa: F401
