@@ -273,10 +273,13 @@ def seed_school(db):
         students[email] = s
         db.add(GroupMembership(group_id=classes[cls].id, user_id=s.id, role_in_group="member"))
 
-    # Add teachers to their class groups
-    # Each teacher teaches all classes for their subject, but we add them to 6eA as "teacher" member
+    # Add teachers to all classes they teach so the organigramme shows them per class
+    teacher_class_pairs = set()
     for subj_code, teacher in teachers.items():
-        db.add(GroupMembership(group_id=classes["6eA"].id, user_id=teacher.id, role_in_group="teacher"))
+        for cls_name in classes:
+            teacher_class_pairs.add((classes[cls_name].id, teacher.id))
+    for group_id, teacher_id in teacher_class_pairs:
+        db.add(GroupMembership(group_id=group_id, user_id=teacher_id, role_in_group="teacher"))
 
     # Parents — 2 demo parents
     parent_leroy = create_user(db, tid, "parent.leroy@demo.edulia.io", "François", "Leroy", roles["parent"].id)

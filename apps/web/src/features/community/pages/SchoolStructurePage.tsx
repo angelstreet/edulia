@@ -75,123 +75,91 @@ function DirectionSection({ staff }: { staff: DirectoryUser[] }) {
 }
 
 // ─── ClassCard ────────────────────────────────────────────────────────────────
+// Teachers are always visible. Students expand on click.
 
-function ClassCard({
-  group,
-  defaultOpen = false,
-}: {
-  group: GroupData;
-  defaultOpen?: boolean;
-}) {
+function ClassCard({ group }: { group: GroupData }) {
   const { t } = useTranslation();
-  const [open, setOpen] = useState(defaultOpen);
+  const [studentsOpen, setStudentsOpen] = useState(false);
   const [loaded, setLoaded] = useState<LoadedClass | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  const toggle = async () => {
-    if (!open && !loaded) {
-      setLoading(true);
-      try {
-        const { data } = await getGroup(group.id);
+  // Always auto-load on mount so teachers are immediately visible
+  useEffect(() => {
+    getGroup(group.id)
+      .then(({ data }) => {
         const { teachers, students } = splitMembers(data.members ?? []);
         setLoaded({ groupId: group.id, teachers, students });
-      } catch {
-        setLoaded({ groupId: group.id, teachers: [], students: [] });
-      } finally {
-        setLoading(false);
-      }
-    }
-    setOpen((v) => !v);
-  };
-
-  // auto-load when defaultOpen
-  useEffect(() => {
-    if (defaultOpen && !loaded) {
-      setLoading(true);
-      getGroup(group.id)
-        .then(({ data }) => {
-          const { teachers, students } = splitMembers(data.members ?? []);
-          setLoaded({ groupId: group.id, teachers, students });
-        })
-        .catch(() => setLoaded({ groupId: group.id, teachers: [], students: [] }))
-        .finally(() => setLoading(false));
-    }
+      })
+      .catch(() => setLoaded({ groupId: group.id, teachers: [], students: [] }))
+      .finally(() => setLoading(false));
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [group.id]);
 
   return (
-    <div className="border rounded-xl bg-card overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-      {/* Card header */}
-      <button
-        onClick={toggle}
-        className="w-full flex items-center justify-between px-5 py-4 text-left gap-3 hover:bg-accent/5 transition-colors"
-      >
-        <div className="flex items-center gap-3 min-w-0">
-          <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-            <GraduationCap className="w-5 h-5 text-primary" />
+    <div className="border rounded-xl bg-card overflow-hidden shadow-sm">
+      {/* Class header */}
+      <div className="flex items-center gap-3 px-5 py-4">
+        <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+          <GraduationCap className="w-5 h-5 text-primary" />
+        </div>
+        <div className="min-w-0">
+          <p className="font-semibold text-base">{group.name}</p>
+        </div>
+      </div>
+
+      {/* Teachers — always visible */}
+      <div className="border-t px-5 py-3">
+        {loading ? (
+          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <Spinner />
           </div>
-          <div className="min-w-0">
-            <p className="font-semibold text-base truncate">{group.name}</p>
-            <p className="text-xs text-muted-foreground mt-0.5">
-              {group.member_count} {t('members', 'members')}
+        ) : loaded && loaded.teachers.length > 0 ? (
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">
+              {t('teachers', 'Teachers')}
             </p>
-          </div>
-        </div>
-        <div className="shrink-0 text-muted-foreground">
-          {open ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-        </div>
-      </button>
-
-      {/* Expanded content */}
-      {open && (
-        <div className="border-t px-5 py-4 space-y-4">
-          {loading ? (
-            <div className="flex justify-center py-4">
-              <Spinner />
+            <div className="flex flex-wrap gap-2">
+              {loaded.teachers.map((teacher) => (
+                <span
+                  key={teacher.user_id}
+                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-sm font-medium border border-blue-100"
+                >
+                  {teacher.display_name}
+                </span>
+              ))}
             </div>
-          ) : loaded ? (
-            <>
-              {/* Teachers */}
-              {loaded.teachers.length > 0 && (
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">
-                    {t('teachers', 'Teachers')}
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {loaded.teachers.map((t) => (
-                      <span
-                        key={t.user_id}
-                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-sm font-medium border border-blue-100"
-                      >
-                        {t.display_name}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
+          </div>
+        ) : (
+          !loading && <p className="text-xs text-muted-foreground">{t('noTeachersAssigned', 'No teachers assigned')}</p>
+        )}
+      </div>
 
-              {/* Students */}
-              {loaded.students.length > 0 ? (
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">
-                    {t('students', 'Students')} ({loaded.students.length})
-                  </p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {loaded.students.map((s) => (
-                      <span
-                        key={s.user_id}
-                        className="inline-flex items-center px-2.5 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-medium"
-                      >
-                        {s.display_name}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ) : (
-                <p className="text-sm text-muted-foreground">{t('noStudents', 'No students yet.')}</p>
-              )}
-            </>
-          ) : null}
+      {/* Students — collapsible */}
+      {loaded && loaded.students.length > 0 && (
+        <div className="border-t">
+          <button
+            onClick={() => setStudentsOpen((v) => !v)}
+            className="w-full flex items-center justify-between px-5 py-2.5 text-left hover:bg-accent/5 transition-colors"
+          >
+            <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+              {t('students', 'Students')} ({loaded.students.length})
+            </p>
+            {studentsOpen ? <ChevronUp className="w-3.5 h-3.5 text-muted-foreground" /> : <ChevronDown className="w-3.5 h-3.5 text-muted-foreground" />}
+          </button>
+          {studentsOpen && (
+            <div className="px-5 pb-4">
+              <div className="flex flex-wrap gap-1.5">
+                {loaded.students.map((s) => (
+                  <span
+                    key={s.user_id}
+                    className="inline-flex items-center px-2.5 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-medium"
+                  >
+                    {s.display_name}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -200,7 +168,7 @@ function ClassCard({
 
 // ─── Level section ────────────────────────────────────────────────────────────
 
-function LevelSection({ name, classes, defaultOpenId }: { name: string; classes: GroupData[]; defaultOpenId?: string }) {
+function LevelSection({ name, classes }: { name: string; classes: GroupData[] }) {
   if (classes.length === 0) return null;
   return (
     <section>
@@ -211,7 +179,7 @@ function LevelSection({ name, classes, defaultOpenId }: { name: string; classes:
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {classes.map((c) => (
-          <ClassCard key={c.id} group={c} defaultOpen={c.id === defaultOpenId} />
+          <ClassCard key={c.id} group={c} />
         ))}
       </div>
     </section>
@@ -355,7 +323,7 @@ export function SchoolStructurePage() {
                 <div className="flex-1 h-px bg-border" />
               </div>
             )}
-            <ClassCard group={group} defaultOpen />
+            <ClassCard group={group} />
           </div>
         ))}
       </div>
