@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Usage: ./scripts/deploy-dev.sh [--migrate]
-# Push local commits to prod VM. API auto-reloads, frontend HMR refreshes.
+# Push local commits to VM. Vite dev server picks up changes via HMR.
 set -e
 
 REMOTE="edulia-app"
@@ -14,9 +14,12 @@ git push origin main
 echo "→ Pulling on $REMOTE..."
 ssh $REMOTE "cd $REMOTE_DIR && git pull origin main"
 
+echo "→ Restarting API..."
+ssh $REMOTE "pm2 restart edulia-api"
+
 if [[ "$1" == "--migrate" ]]; then
   echo "→ Running migrations..."
   ssh $REMOTE "cd $REMOTE_DIR/apps/api && set -a && source $ENV_FILE && set +a && source $VENV && alembic upgrade head"
 fi
 
-echo "✓ Done — uvicorn reloaded automatically, vite HMR active"
+echo "✓ Done — Vite HMR active, API restarted"

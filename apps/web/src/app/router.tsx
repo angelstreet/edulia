@@ -28,6 +28,7 @@ import { FormBuilderPage } from '../features/forms/pages/FormBuilderPage';
 import { FormFillPage } from '../features/forms/pages/FormFillPage';
 import { FormResultsPage } from '../features/forms/pages/FormResultsPage';
 import { WalletPage } from '../features/wallet/pages/WalletPage';
+import { BillingPage } from '../features/billing/pages/BillingPage';
 import { ServicesPage } from '../features/wallet/pages/ServicesPage';
 import { CalendarPage } from '../features/calendar/pages/CalendarPage';
 import { SchoolLifePage } from '../features/school-life/pages/SchoolLifePage';
