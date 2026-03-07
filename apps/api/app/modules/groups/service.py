@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session, joinedload
 
 from app.core.exceptions import NotFoundException
 from app.db.models.group import Group, GroupMembership
+from app.db.models.user import User
 
 
 def create_group(db: Session, tenant_id: UUID, **kwargs) -> Group:
@@ -48,6 +49,19 @@ def get_group_detail(db: Session, group_id: UUID) -> dict:
     if not group:
         raise NotFoundException("Group not found")
     active_members = [m for m in group.memberships if m.left_at is None]
+    user_ids = [m.user_id for m in active_members]
+    users = {u.id: u for u in db.query(User).filter(User.id.in_(user_ids)).all()} if user_ids else {}
+    members_data = [
+        {
+            "id": m.id,
+            "user_id": m.user_id,
+            "role_in_group": m.role_in_group,
+            "role": m.role_in_group,
+            "display_name": users[m.user_id].display_name if m.user_id in users else "",
+            "joined_at": m.joined_at,
+        }
+        for m in active_members
+    ]
     return {
         "id": group.id,
         "tenant_id": group.tenant_id,
@@ -57,7 +71,7 @@ def get_group_detail(db: Session, group_id: UUID) -> dict:
         "capacity": group.capacity,
         "created_at": group.created_at,
         "member_count": len(active_members),
-        "members": active_members,
+        "members": members_data,
     }
 
 

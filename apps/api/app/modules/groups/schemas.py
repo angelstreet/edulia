@@ -28,6 +28,8 @@ class MemberResponse(BaseModel):
     id: UUID
     user_id: UUID
     role_in_group: str
+    role: str = ""
+    display_name: str = ""
     joined_at: datetime
 
     model_config = {"from_attributes": True}
