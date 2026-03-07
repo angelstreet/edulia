@@ -4,7 +4,6 @@ import { ChevronDown, ChevronUp, GraduationCap, Shield, Users } from 'lucide-rea
 import { Spinner } from '../../../components/ui/Spinner';
 import { getGroups, getGroup, type GroupData, type GroupMember } from '../../../api/groups';
 import { getDirectory, type DirectoryUser } from '../../../api/community';
-import { getDashboardStats } from '../../../api/dashboard';
 import { useCurrentUser } from '../../../hooks/useCurrentUser';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -249,6 +248,7 @@ export function SchoolStructurePage() {
         setAdminStaff(Array.isArray(adminRes.data) ? adminRes.data : []);
 
         if (role === 'student' && user?.id) {
+          // Students only see their own class
           const { data: dir } = await getDirectory();
           const me = Array.isArray(dir) ? dir.find((u) => u.id === user.id) : null;
           if (me?.group_name) {
@@ -262,28 +262,8 @@ export function SchoolStructurePage() {
           } else {
             setFilteredClasses([]);
           }
-        } else if (role === 'parent' && user?.id) {
-          const { data: stats } = await getDashboardStats();
-          const children = stats.children ?? [];
-          if (children.length === 0) { setFilteredClasses([]); return; }
-
-          const { data: dir } = await getDirectory();
-          const dirList = Array.isArray(dir) ? dir : [];
-
-          const nodes: ClassNode[] = [];
-          for (const child of children) {
-            const childEntry = dirList.find((u) => u.id === child.id);
-            if (childEntry?.group_name) {
-              const grp = groups.find((g) => g.name === childEntry.group_name);
-              if (grp) {
-                const levelGroup = grp.parent_id ? groups.find((g) => g.id === grp.parent_id) : null;
-                nodes.push({ group: grp, levelName: levelGroup?.name ?? null });
-              }
-            }
-          }
-          setFilteredClasses(nodes);
         }
-        // admin / teacher → filteredClasses stays null → show all
+        // admin / teacher / parent → filteredClasses stays null → show full org chart
       } catch {
         setAllGroups([]);
         setFilteredClasses([]);
