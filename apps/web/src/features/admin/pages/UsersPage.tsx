@@ -134,7 +134,9 @@ export function UsersPage() {
         />
       ) : (
         <>
-          <Table columns={columns} data={users} />
+          <div className="overflow-x-auto -mx-6 px-6 md:mx-0 md:px-0">
+            <Table columns={columns} data={users} />
+          </div>
           <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
         </>
       )}

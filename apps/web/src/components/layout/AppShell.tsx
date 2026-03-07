@@ -2,6 +2,7 @@ import { Outlet } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { Topbar } from './Topbar';
 import { MobileNav } from './MobileNav';
+import { InstallPrompt } from '../pwa/InstallPrompt';
 
 export function AppShell() {
   return (
@@ -14,6 +15,7 @@ export function AppShell() {
         </main>
       </div>
       <MobileNav />
+      <InstallPrompt />
     </div>
   );
 }

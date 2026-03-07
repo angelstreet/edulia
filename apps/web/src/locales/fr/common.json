@@ -299,5 +299,9 @@
   "rejectEnrollment": "Rejeter",
   "adminNotes": "Notes administrateur",
   "enrollmentApproved": "Approuvé — compte élève créé",
-  "myEnrollments": "Mes demandes"
+  "myEnrollments": "Mes demandes",
+  "installApp": "Installer Edulia",
+  "installAppDesc": "Ajouter à l'écran d'accueil",
+  "install": "Installer",
+  "dismiss": "Fermer"
 }

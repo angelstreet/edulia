@@ -34,7 +34,7 @@ export function Topbar() {
 
   return (
     <header className="h-14 border-b bg-white flex items-center justify-between px-6">
-      <div className="flex items-center">
+      <div className="flex items-center min-w-0 max-w-[160px] sm:max-w-xs md:max-w-none truncate">
         <Breadcrumb />
       </div>
       <div className="flex items-center gap-3">

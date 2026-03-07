@@ -298,5 +298,9 @@
   "rejectEnrollment": "Reject",
   "adminNotes": "Admin Notes",
   "enrollmentApproved": "Approved — student account created",
-  "myEnrollments": "My Requests"
+  "myEnrollments": "My Requests",
+  "installApp": "Install Edulia",
+  "installAppDesc": "Add to home screen for quick access",
+  "install": "Install",
+  "dismiss": "Dismiss"
 }

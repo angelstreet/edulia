@@ -138,8 +138,8 @@ export function GradeEntryPage() {
       {rows.length === 0 ? (
         <p className="text-muted-foreground">{t('noGradesYet', 'No grades entered yet for this assessment.')}</p>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse text-sm">
+        <div className="overflow-x-auto -mx-6 px-6 md:mx-0 md:px-0">
+          <table className="w-full min-w-[560px] border-collapse text-sm">
             <thead>
               <tr className="border-b">
                 <th className="text-left p-2">#</th>
@@ -162,7 +162,7 @@ export function GradeEntryPage() {
                       type="number"
                       step="0.5"
                       min="0"
-                      className="h-8 w-20 rounded border border-input bg-transparent px-2 text-sm outline-none focus:border-ring disabled:opacity-60"
+                      className="h-8 w-20 min-w-[4rem] rounded border border-input bg-transparent px-2 text-sm outline-none focus:border-ring disabled:opacity-60"
                       value={row.score}
                       onChange={(e) => updateRow(i, 'score', e.target.value)}
                       disabled={isQcmSource || row.is_absent || row.is_exempt}

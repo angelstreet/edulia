@@ -98,9 +98,9 @@ export function StudentGradesPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
         <h1 className="text-2xl font-bold">{isParent ? t('childGrades', "My Child's Grades") : t('myGrades', 'My Grades')}</h1>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-wrap">
           {averages.length > 0 && (
             <button onClick={downloadReport}
               className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition">
@@ -174,7 +174,8 @@ export function StudentGradesPage() {
                   {detailLoading ? (
                     <div className="flex justify-center py-4"><Spinner /></div>
                   ) : detail && detail.grades.length > 0 ? (
-                    <table className="w-full mt-3 text-sm">
+                    <div className="overflow-x-auto -mx-4 px-4">
+                    <table className="w-full min-w-[480px] mt-3 text-sm">
                       <thead>
                         <tr className="text-muted-foreground text-left border-b">
                           <th className="pb-2 font-medium">Assessment</th>
@@ -200,6 +201,7 @@ export function StudentGradesPage() {
                         ))}
                       </tbody>
                     </table>
+                    </div>
                   ) : (
                     <p className="py-4 text-muted-foreground text-sm">No detailed grades available.</p>
                   )}

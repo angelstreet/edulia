@@ -175,7 +175,34 @@ export function EnrollmentPage() {
           {t('noUsers', 'No enrollment requests found.')}
         </div>
       ) : (
-        <Table columns={columns} data={requests} />
+        <>
+          {/* Desktop table */}
+          <div className="hidden md:block overflow-x-auto">
+            <Table columns={columns} data={requests} />
+          </div>
+          {/* Mobile card layout */}
+          <div className="flex flex-col gap-3 md:hidden">
+            {requests.map((row) => (
+              <div key={row.id} className="border rounded-lg p-4 bg-white space-y-2">
+                <div className="flex items-start justify-between gap-2">
+                  <span className="font-medium text-sm">
+                    {row.child_first_name} {row.child_last_name}
+                  </span>
+                  <StatusBadge status={row.status} />
+                </div>
+                <p className="text-xs text-gray-500">
+                  {row.parent_first_name} {row.parent_last_name} · {row.parent_email}
+                </p>
+                <p className="text-xs text-gray-400">
+                  {t('requestedClass', 'Class')}: {row.requested_group_id ?? '—'} · {new Date(row.created_at).toLocaleDateString()}
+                </p>
+                <Button variant="ghost" size="sm" onClick={() => openReview(row)}>
+                  {t('reviewEnrollment', 'Review')}
+                </Button>
+              </div>
+            ))}
+          </div>
+        </>
       )}
 
       <Modal
@@ -191,7 +218,7 @@ export function EnrollmentPage() {
               </div>
             )}
 
-            <div className="grid grid-cols-2 gap-4 text-sm">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
               <div>
                 <p className="font-semibold text-gray-600 mb-1">{t('childInfo', 'Child Information')}</p>
                 <p>

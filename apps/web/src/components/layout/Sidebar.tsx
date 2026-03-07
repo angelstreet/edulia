@@ -46,6 +46,7 @@ const NAV_BY_ROLE: Record<string, NavItem[]> = {
     { to: '/forms', label: 'forms', icon: FileText },
     { to: '/activities', label: 'activities', icon: Zap },
     { to: '/activities/report', label: 'reports', icon: BarChart3 },
+    { to: '/admin/enrollment', label: 'enrollment', icon: ClipboardList },
     { to: '/wallet', label: 'wallet', icon: CreditCard },
   ],
   teacher: [
@@ -79,6 +80,7 @@ const NAV_BY_ROLE: Record<string, NavItem[]> = {
     { to: '/forms', label: 'forms', icon: FileText },
     { to: '/activities', label: 'activities', icon: Zap },
     { to: '/join', label: 'joinSession', icon: LogIn },
+    { to: '/enrollment', label: 'enrollment', icon: ClipboardList },
     { to: '/wallet', label: 'wallet', icon: CreditCard },
     { to: '/community', label: 'directory', icon: Users },
   ],

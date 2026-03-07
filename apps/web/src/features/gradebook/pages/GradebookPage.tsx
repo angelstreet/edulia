@@ -108,7 +108,7 @@ export function GradebookPage() {
         </Button>
       </div>
 
-      <div className="flex gap-4 mb-6 flex-wrap">
+      <div className="flex flex-col sm:flex-row gap-4 mb-6 flex-wrap">
         <div className="flex flex-col gap-1">
           <label className="text-sm font-medium">{t('class', 'Class')}</label>
           <select

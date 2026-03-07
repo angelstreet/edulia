@@ -25,6 +25,7 @@ const TABS_BY_ROLE: Record<string, Tab[]> = {
   admin: [
     { to: '/dashboard', label: 'dashboard', icon: LayoutGrid },
     { to: '/admin/users', label: 'users', icon: Users },
+    { to: '/admin/enrollment', label: 'enrollment', icon: ClipboardList },
     { to: '/messages', label: 'messages', icon: Mail },
     { to: '/settings', label: 'settings', icon: Settings },
   ],
@@ -43,6 +44,7 @@ const TABS_BY_ROLE: Record<string, Tab[]> = {
   parent: [
     { to: '/dashboard', label: 'dashboard', icon: LayoutGrid },
     { to: '/children', label: 'children', icon: Baby },
+    { to: '/enrollment', label: 'enrollment', icon: ClipboardList },
     { to: '/messages', label: 'messages', icon: Mail },
     { to: '/wallet', label: 'wallet', icon: CreditCard },
   ],
