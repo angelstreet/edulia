@@ -18,6 +18,11 @@ class ForbiddenException(AppException):
         super().__init__(status_code=403, detail=detail)
 
 
+class BadRequestException(AppException):
+    def __init__(self, detail: str = "Bad Request"):
+        super().__init__(status_code=400, detail=detail)
+
+
 class ConflictException(AppException):
     def __init__(self, detail: str = "Conflict"):
         super().__init__(status_code=409, detail=detail)

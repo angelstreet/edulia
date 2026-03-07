@@ -250,5 +250,16 @@
   "submitAnswer": "Soumettre la réponse",
   "answerSubmitted": "Réponse envoyée ! En attente de la correction…",
   "studentsAnswered": "élèves ont répondu",
-  "liveResults": "Résultats en direct"
+  "liveResults": "Résultats en direct",
+  "sessionReplay": "Replay de session",
+  "replayNote": "Vous rejouez cette session. Répondez à toutes les questions puis soumettez.",
+  "replayDeadline": "Disponible jusqu'au",
+  "replayNotAvailable": "Le replay n'est pas disponible pour cette session.",
+  "replayDeadlinePassed": "La date limite de replay est dépassée.",
+  "enableReplay": "Activer le replay",
+  "replaySettings": "Paramètres du replay",
+  "openReplayForStudents": "Ouvrir le replay pour les élèves",
+  "replaySaved": "Paramètres de replay enregistrés !",
+  "viewSessionResults": "Voir les résultats de la session",
+  "optional": "optionnel"
 }

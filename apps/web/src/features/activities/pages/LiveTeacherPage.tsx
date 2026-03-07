@@ -142,11 +142,19 @@ export function LiveTeacherPage() {
   if (phase === 'finished') {
     return (
       <div className="max-w-2xl mx-auto py-8 flex flex-col gap-6">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between flex-wrap gap-3">
           <h1 className="text-2xl font-bold">{t('sessionFinished', 'Session finished!')}</h1>
-          <Button variant="secondary" onClick={() => navigate('/activities')}>
-            {t('activities', 'Activities')}
-          </Button>
+          <div className="flex items-center gap-3">
+            <Button
+              variant="primary"
+              onClick={() => navigate(`/session/${joinCode}/results`)}
+            >
+              {t('viewSessionResults', 'View Session Results')} →
+            </Button>
+            <Button variant="secondary" onClick={() => navigate('/activities')}>
+              {t('activities', 'Activities')}
+            </Button>
+          </div>
         </div>
 
         <div className="border rounded-xl overflow-hidden">

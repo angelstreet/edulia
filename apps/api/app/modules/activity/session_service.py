@@ -4,9 +4,11 @@ from uuid import UUID
 
 from sqlalchemy.orm import Session as DBSession
 
-from app.core.exceptions import NotFoundException
+from app.core.exceptions import BadRequestException, ForbiddenException, NotFoundException
 from app.db.models.activity import Activity
+from app.db.models.activity_attempt import ActivityAttempt
 from app.db.models.live_session import LiveSession, _generate_join_code
+from app.modules.activity.scoring import score_attempt
 
 logger = logging.getLogger(__name__)
 
@@ -120,3 +122,184 @@ def set_session_state(
     db.commit()
     db.refresh(session)
     return session
+
+
+# ---------------------------------------------------------------------------
+# Feature 6 — Replay Mode
+# ---------------------------------------------------------------------------
+
+
+def enable_replay(
+    db: DBSession,
+    join_code: str,
+    replay_deadline: datetime | None,
+) -> LiveSession:
+    """
+    Teacher enables replay on a finished session.
+    Raises 400 if session is not in 'finished' state.
+    """
+    session = get_session_by_code(db, join_code)
+    if session.state != "finished":
+        raise BadRequestException("Session must be finished to enable replay")
+    session.replay_open = True
+    session.replay_deadline = replay_deadline
+    db.commit()
+    db.refresh(session)
+    return session
+
+
+def submit_replay_attempt(
+    db: DBSession,
+    join_code: str,
+    student_id: UUID,
+    tenant_id: UUID,
+    answers: list[dict],
+) -> tuple[ActivityAttempt, list[dict]]:
+    """
+    Student submits a replay attempt for a finished session.
+
+    - Validates replay_open and deadline.
+    - If student already has an attempt for this activity (due to unique constraint
+      on (activity_id, student_id)), returns the existing attempt with empty
+      question_results rather than creating a duplicate.
+    - Otherwise creates a new attempt with mode='replay', scores it, and returns it.
+    """
+    session = get_session_by_code(db, join_code)
+
+    if not session.replay_open:
+        raise ForbiddenException("Replay is not open for this session")
+
+    if session.replay_deadline is not None and datetime.utcnow() > session.replay_deadline:
+        raise ForbiddenException("Replay deadline has passed")
+
+    # Check for existing attempt (unique constraint is on activity_id + student_id)
+    existing = (
+        db.query(ActivityAttempt)
+        .filter(
+            ActivityAttempt.activity_id == session.activity_id,
+            ActivityAttempt.student_id == student_id,
+        )
+        .first()
+    )
+    if existing:
+        # Return existing attempt; compute question_results from stored answers if submitted
+        question_results = _build_question_results(db, session.activity_id, existing.answers or [])
+        return existing, question_results
+
+    # Load the activity to get questions
+    activity = get_activity_by_id(db, session.activity_id)
+
+    # Score the attempt
+    scored, max_scored = score_attempt(activity.questions or [], answers)
+    question_results = _build_question_results_from_questions(activity.questions or [], answers)
+
+    now = datetime.utcnow()
+    attempt = ActivityAttempt(
+        tenant_id=tenant_id,
+        activity_id=session.activity_id,
+        student_id=student_id,
+        session_id=session.id,
+        mode="replay",
+        started_at=now,
+        submitted_at=now,
+        scored_at=now,
+        answers=answers,
+        score=scored,
+        max_score=max_scored,
+    )
+    db.add(attempt)
+    db.commit()
+    db.refresh(attempt)
+    return attempt, question_results
+
+
+def get_replay_attempt(
+    db: DBSession,
+    join_code: str,
+    student_id: UUID,
+) -> ActivityAttempt | None:
+    """
+    Return the student's existing attempt for the session's activity, or None.
+    (Due to the unique constraint there is at most one attempt per student per activity.)
+    """
+    session = get_session_by_code(db, join_code)
+    return (
+        db.query(ActivityAttempt)
+        .filter(
+            ActivityAttempt.activity_id == session.activity_id,
+            ActivityAttempt.student_id == student_id,
+        )
+        .first()
+    )
+
+
+def _build_question_results(
+    db: DBSession,
+    activity_id: UUID,
+    answers: list[dict],
+) -> list[dict]:
+    """Load activity and build question results from stored answers."""
+    activity = db.query(Activity).filter(Activity.id == activity_id).first()
+    if not activity:
+        return []
+    return _build_question_results_from_questions(activity.questions or [], answers)
+
+
+def _build_question_results_from_questions(
+    questions: list[dict],
+    answers: list[dict],
+) -> list[dict]:
+    """Build per-question result dicts given question definitions and student answers."""
+    answer_map = {a.get("question_id", ""): a for a in answers}
+    question_results = []
+    for q in questions:
+        q_id = q.get("id", "")
+        q_type = q.get("type", "single")
+        points = q.get("points", 1)
+        answer = answer_map.get(q_id, {})
+        given = set(answer.get("choice_ids", []))
+        correct_choice_ids = [c["id"] for c in q.get("choices", []) if c.get("is_correct")]
+
+        if q_type == "open":
+            question_results.append({
+                "question_id": q_id,
+                "correct": None,
+                "correct_choice_ids": [],
+                "points_earned": 0.0,
+            })
+        elif q_type == "single":
+            is_correct = (
+                len(given) == 1
+                and bool(correct_choice_ids)
+                and list(given)[0] == correct_choice_ids[0]
+            )
+            question_results.append({
+                "question_id": q_id,
+                "correct": is_correct,
+                "correct_choice_ids": correct_choice_ids,
+                "points_earned": float(points) if is_correct else 0.0,
+            })
+        elif q_type == "multi":
+            correct_set = set(correct_choice_ids)
+            total_correct = len(correct_set)
+            correct_selected = len(given & correct_set)
+            incorrect_selected = len(given - correct_set)
+            if total_correct > 0:
+                raw = max(0, (correct_selected - incorrect_selected) / total_correct)
+            else:
+                raw = 0.0
+            earned = raw * points
+            question_results.append({
+                "question_id": q_id,
+                "correct": correct_set == given,
+                "correct_choice_ids": correct_choice_ids,
+                "points_earned": round(earned, 4),
+            })
+        else:
+            question_results.append({
+                "question_id": q_id,
+                "correct": False,
+                "correct_choice_ids": correct_choice_ids,
+                "points_earned": 0.0,
+            })
+    return question_results

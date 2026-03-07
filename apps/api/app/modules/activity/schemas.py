@@ -194,9 +194,25 @@ class LiveSessionResponse(BaseModel):
     current_question_index: int
     started_at: datetime | None
     ended_at: datetime | None
+    replay_open: bool
+    replay_deadline: datetime | None
     created_at: datetime
 
     model_config = {"from_attributes": True}
+
+
+# ---------------------------------------------------------------------------
+# Feature 6 — Replay Mode
+# ---------------------------------------------------------------------------
+
+
+class ReplayEnableRequest(BaseModel):
+    replay_open: bool = True
+    replay_deadline: datetime | None = None
+
+
+class ReplaySubmitRequest(BaseModel):
+    answers: list[AnswerInput]
 
 
 class WSMessage(BaseModel):

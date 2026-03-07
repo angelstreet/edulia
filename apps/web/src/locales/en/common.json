@@ -249,5 +249,16 @@
   "submitAnswer": "Submit Answer",
   "answerSubmitted": "Answer submitted! Waiting for reveal…",
   "studentsAnswered": "students answered",
-  "liveResults": "Live Results"
+  "liveResults": "Live Results",
+  "sessionReplay": "Session Replay",
+  "replayNote": "You are replaying this session. Answer all questions then submit.",
+  "replayDeadline": "Available until",
+  "replayNotAvailable": "Replay is not available for this session.",
+  "replayDeadlinePassed": "The replay deadline has passed.",
+  "enableReplay": "Enable Replay",
+  "replaySettings": "Replay Settings",
+  "openReplayForStudents": "Open replay for students",
+  "replaySaved": "Replay settings saved!",
+  "viewSessionResults": "View Session Results",
+  "optional": "optional"
 }

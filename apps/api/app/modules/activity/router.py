@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 
 from app.core.dependencies import get_current_user
-from app.core.exceptions import ForbiddenException, NotFoundException
+from app.core.exceptions import BadRequestException, ForbiddenException, NotFoundException
 from app.db.database import get_db
 from app.db.models.user import User
 from app.modules.activity.schemas import (
@@ -18,6 +18,8 @@ from app.modules.activity.schemas import (
     AttemptSubmitRequest,
     LiveSessionCreate,
     LiveSessionResponse,
+    ReplayEnableRequest,
+    ReplaySubmitRequest,
     StudentReport,
 )
 from app.modules.activity.service import (
@@ -303,3 +305,64 @@ def finish_session_endpoint(
     if role == "teacher" and str(live_session.teacher_id) != str(current_user.id):
         raise ForbiddenException("You are not the teacher of this session")
     return session_service.finish_session(db, live_session.id)
+
+
+# ---------------------------------------------------------------------------
+# Feature 6 — Replay Mode
+# ---------------------------------------------------------------------------
+
+
+@sessions_router.patch("/{join_code}/replay", response_model=LiveSessionResponse)
+def enable_replay_endpoint(
+    join_code: str,
+    request: ReplayEnableRequest,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Teacher/admin: enable replay on a finished session."""
+    role = _get_user_role(current_user)
+    if role not in ("teacher", "admin"):
+        raise ForbiddenException("Only teachers and admins can enable replay")
+    return session_service.enable_replay(db, join_code, request.replay_deadline)
+
+
+@sessions_router.post("/{join_code}/replay/attempt", response_model=AttemptResult)
+def submit_replay_attempt_endpoint(
+    join_code: str,
+    request: ReplaySubmitRequest,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Student: submit answers for a replay attempt on a finished session."""
+    role = _get_user_role(current_user)
+    if role in ("teacher", "admin"):
+        raise ForbiddenException("Teachers and admins cannot submit replay attempts")
+
+    answers = [a.model_dump() for a in request.answers]
+    attempt, question_results = session_service.submit_replay_attempt(
+        db,
+        join_code=join_code,
+        student_id=current_user.id,
+        tenant_id=current_user.tenant_id,
+        answers=answers,
+    )
+    result = AttemptResult.model_validate(attempt)
+    result.question_results = question_results
+    return result
+
+
+@sessions_router.get("/{join_code}/replay/attempt", response_model=AttemptResult)
+def get_replay_attempt_endpoint(
+    join_code: str,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Student: get their replay (or any) attempt result for this session's activity."""
+    role = _get_user_role(current_user)
+    if role in ("teacher", "admin"):
+        raise ForbiddenException("Teachers and admins do not have replay attempts")
+
+    attempt = session_service.get_replay_attempt(db, join_code, current_user.id)
+    if not attempt:
+        raise NotFoundException("No attempt found for this session's activity")
+    return AttemptResult.model_validate(attempt)
