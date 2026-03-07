@@ -45,6 +45,9 @@ import { LiveStudentPage } from '../features/activities/pages/LiveStudentPage';
 import { ReplayPage } from '../features/activities/pages/ReplayPage';
 import { SessionResultsPage } from '../features/activities/pages/SessionResultsPage';
 import { NotFoundPage } from '../features/errors/pages/NotFoundPage';
+import { AbsencesPage } from '../features/absences/pages/AbsencesPage';
+import { HealthRecordPage } from '../features/health/pages/HealthRecordPage';
+import { TutoringCRMPage } from '../features/tutoring/pages/TutoringCRMPage';
 import { AuthGuard } from './guards/AuthGuard';
 import { RoleGuard } from './guards/RoleGuard';
 import { AppShell } from '../components/layout/AppShell';
@@ -151,6 +154,16 @@ export const router = createBrowserRouter([
       { path: 'session/:code/question', element: <LiveStudentPage /> },
       { path: 'session/:code/replay', element: <ReplayPage /> },
       { path: 'session/:code/results', element: <SessionResultsPage /> },
+      { path: 'absences', element: <AbsencesPage /> },
+      {
+        path: 'health',
+        element: (
+          <RoleGuard roles={['admin', 'teacher']}>
+            <HealthRecordPage />
+          </RoleGuard>
+        ),
+      },
+      { path: 'tutoring', element: <TutoringCRMPage /> },
     ],
   },
 

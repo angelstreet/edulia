@@ -21,3 +21,6 @@ from app.db.models.activity import Activity  # noqa: F401
 from app.db.models.activity_attempt import ActivityAttempt  # noqa: F401
 from app.db.models.live_session import LiveSession  # noqa: F401
 from app.db.models.enrollment import EnrollmentRequest  # noqa: F401
+from app.db.models.absence_justification import AbsenceJustification  # noqa: F401
+from app.db.models.health_record import HealthRecord  # noqa: F401
+from app.db.models.tutoring import TutoringSession, TutoringPackage, TutoringInvoice  # noqa: F401

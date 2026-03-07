@@ -303,5 +303,22 @@
   "installApp": "Installer Edulia",
   "installAppDesc": "Ajouter à l'écran d'accueil",
   "install": "Installer",
-  "dismiss": "Fermer"
+  "dismiss": "Fermer",
+  "submitJustification": "Soumettre une justification",
+  "absenceDate": "Date d'absence",
+  "reason": "Motif",
+  "illness": "Maladie",
+  "family": "Famille",
+  "transport": "Transport",
+  "healthRecords": "Dossiers de santé",
+  "allergies": "Allergies",
+  "emergencyContact": "Contact d'urgence",
+  "tutoringCRM": "CRM Tutorat",
+  "myStudents": "Mes élèves",
+  "logSession": "Enregistrer une séance",
+  "generateInvoice": "Générer une facture",
+  "downloadPdf": "Télécharger PDF",
+  "sessionDate": "Date de la séance",
+  "duration": "Durée (min)",
+  "ratePerHour": "Tarif (€/h)"
 }

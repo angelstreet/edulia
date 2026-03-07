@@ -32,6 +32,9 @@ from app.modules.activity.router import sessions_router as activity_sessions_rou
 from app.modules.activity.router import students_router as activity_students_router
 from app.modules.activity.session_ws import ws_router as session_ws_router
 from app.modules.enrollment.router import router as enrollment_router
+from app.modules.absence.router import router as absence_router
+from app.modules.health.router import router as health_router
+from app.modules.tutoring.router import router as tutoring_router
 
 app = FastAPI(title="Edulia API", version="0.1.0")
 
@@ -79,6 +82,9 @@ app.include_router(activity_students_router)
 app.include_router(activity_sessions_router)
 app.include_router(session_ws_router)
 app.include_router(enrollment_router)
+app.include_router(absence_router)
+app.include_router(health_router)
+app.include_router(tutoring_router)
 
 
 @app.get("/api/health")

@@ -50,8 +50,8 @@ const TABS_BY_ROLE: Record<string, Tab[]> = {
   ],
   tutor: [
     { to: '/dashboard', label: 'dashboard', icon: LayoutGrid },
+    { to: '/tutoring', label: 'tutoringCRM', icon: Users },
     { to: '/timetable', label: 'timetable', icon: Calendar },
-    { to: '/homework', label: 'homework', icon: ClipboardList },
     { to: '/messages', label: 'messages', icon: Mail },
   ],
 };

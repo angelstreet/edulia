@@ -43,6 +43,12 @@ class Settings(BaseSettings):
     # Wallet low-balance threshold (cents)
     WALLET_LOW_BALANCE_THRESHOLD_CENTS: int = 500
 
+    # Twilio SMS
+    TWILIO_ACCOUNT_SID: str = ""
+    TWILIO_AUTH_TOKEN: str = ""
+    TWILIO_FROM_NUMBER: str = ""
+    SMS_ENABLED: bool = False
+
     model_config = {"env_file": ".env", "env_file_encoding": "utf-8", "extra": "ignore"}
 
 

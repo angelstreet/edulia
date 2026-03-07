@@ -20,6 +20,7 @@ import {
   AlertTriangle,
   Zap,
   LogIn,
+  Heart,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -39,6 +40,8 @@ const NAV_BY_ROLE: Record<string, NavItem[]> = {
     { to: '/admin/settings', label: 'tenantSettings', icon: Settings },
     { to: '/timetable', label: 'timetable', icon: Calendar },
     { to: '/attendance', label: 'attendance', icon: ClipboardCheck },
+    { to: '/absences', label: 'absences', icon: ClipboardCheck },
+    { to: '/health', label: 'healthRecords', icon: Heart },
     { to: '/calendar', label: 'calendar', icon: Calendar },
     { to: '/school-life', label: 'schoolLife', icon: AlertTriangle },
     { to: '/community', label: 'directory', icon: Users },
@@ -53,6 +56,8 @@ const NAV_BY_ROLE: Record<string, NavItem[]> = {
     { to: '/dashboard', label: 'dashboard', icon: LayoutGrid },
     { to: '/timetable', label: 'timetable', icon: Calendar },
     { to: '/attendance', label: 'attendance', icon: ClipboardCheck },
+    { to: '/absences', label: 'absences', icon: ClipboardCheck },
+    { to: '/health', label: 'healthRecords', icon: Heart },
     { to: '/gradebook', label: 'gradebook', icon: BarChart3 },
     { to: '/homework', label: 'homework', icon: ClipboardList },
     { to: '/activities', label: 'activities', icon: Zap },
@@ -74,6 +79,7 @@ const NAV_BY_ROLE: Record<string, NavItem[]> = {
   parent: [
     { to: '/dashboard', label: 'dashboard', icon: LayoutGrid },
     { to: '/children', label: 'children', icon: Baby },
+    { to: '/absences', label: 'absences', icon: ClipboardCheck },
     { to: '/calendar', label: 'calendar', icon: Calendar },
     { to: '/messages', label: 'messages', icon: Mail },
     { to: '/documents', label: 'documents', icon: FolderOpen },
@@ -87,6 +93,7 @@ const NAV_BY_ROLE: Record<string, NavItem[]> = {
   tutor: [
     { to: '/dashboard', label: 'dashboard', icon: LayoutGrid },
     { to: '/timetable', label: 'timetable', icon: Calendar },
+    { to: '/tutoring', label: 'tutoringCRM', icon: Users },
     { to: '/calendar', label: 'calendar', icon: Calendar },
     { to: '/homework', label: 'homework', icon: FileText },
     { to: '/activities', label: 'activities', icon: Zap },
