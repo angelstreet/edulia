@@ -49,7 +49,6 @@ import { NotFoundPage } from '../features/errors/pages/NotFoundPage';
 import { AbsencesPage } from '../features/absences/pages/AbsencesPage';
 import { HealthRecordPage } from '../features/health/pages/HealthRecordPage';
 import { TutoringCRMPage } from '../features/tutoring/pages/TutoringCRMPage';
-import { BillingPage } from '../features/billing/pages/BillingPage';
 import { AuthGuard } from './guards/AuthGuard';
 import { RoleGuard } from './guards/RoleGuard';
 import { AppShell } from '../components/layout/AppShell';

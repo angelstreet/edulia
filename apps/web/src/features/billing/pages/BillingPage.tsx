@@ -11,7 +11,7 @@ import {
   getInvoices, createInvoice, updateInvoice, downloadInvoicePdf,
   type InvoiceData, type LineItem, type PaymentScheduleEntry,
 } from '../../../api/billing';
-import { getDirectory } from '../../../api/community';
+import { getDirectory, type DirectoryUser } from '../../../api/community';
 
 const STATUS_COLORS: Record<string, 'default' | 'success' | 'warning' | 'danger'> = {
   draft: 'default',
@@ -30,7 +30,7 @@ function currentAcademicYear() {
   return `${year}-${year + 1}`;
 }
 
-interface Student { id: string; first_name: string; last_name: string; }
+
 
 const EMPTY_ITEM = (): LineItem => ({ description: '', qty: 1, unit_price_cents: 0, total_cents: 0 });
 const EMPTY_SCHED = (): PaymentScheduleEntry => ({ date: '', amount_cents: 0 });
@@ -44,7 +44,7 @@ export function BillingPage() {
   const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState('');
   const [showCreate, setShowCreate] = useState(false);
-  const [students, setStudents] = useState<Student[]>([]);
+  const [students, setStudents] = useState<DirectoryUser[]>([]);
 
   // Create form state
   const [studentId, setStudentId] = useState('');
@@ -82,7 +82,7 @@ export function BillingPage() {
 
   useEffect(() => {
     if (!showCreate || !canManage) return;
-    getDirectory({ role: 'student' }).then(r => setStudents(r.data?.users || [])).catch(() => {});
+    getDirectory({ role: 'student' }).then(r => setStudents(r.data || [])).catch(() => {});
   }, [showCreate, canManage]);
 
   // Recompute totals when line items change
@@ -131,7 +131,7 @@ export function BillingPage() {
     try {
       await createInvoice({
         student_id: studentId,
-        student_name: `${selected.last_name} ${selected.first_name}`,
+        student_name: selected.display_name,
         student_class: studentClass || undefined,
         parent_name: parentName || undefined,
         parent_address: { line1: parentLine1, line2: parentLine2, postal_code: parentPostal, city: parentCity },
@@ -263,7 +263,7 @@ export function BillingPage() {
                 >
                   <option value="">{t('selectStudent', '— select —')}</option>
                   {students.map(s => (
-                    <option key={s.id} value={s.id}>{s.last_name} {s.first_name}</option>
+                    <option key={s.id} value={s.id}>{s.display_name}</option>
                   ))}
                 </select>
               </div>
