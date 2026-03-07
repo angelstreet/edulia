@@ -76,26 +76,47 @@ A school can use Edulia for daily operations: schedule, attendance, grades, home
 
 ---
 
+## Priority 5 — Interactive Teaching (Next Major Investment)
+
+> Full vision, use cases, and architecture: see [11-INTERACTIVE-TEACHING.md](11-INTERACTIVE-TEACHING.md)
+
+The strategic direction for Edulia is **real-time interactive teaching**, not
+file-based homework submission. One teacher, anywhere in the world, running
+a live or async activity for students across multiple timezones — auto-scored,
+auto-reported, no manual grading for objective exercises.
+
+| Phase | What | Status |
+|---|---|---|
+| A | Async QCM: activity builder + student attempt + auto-score + teacher report | ❌ Not started |
+| B | Live session: WebSocket + Redis Pub/Sub, Kahoot-style real-time QCM | ❌ Not started |
+| C | Replay mode + multi-timezone async catch-up | ❌ Not started |
+| D | Game types (drag/match, ordering, fill-in-blank), gradebook integration | ❌ Not started |
+
+**Infrastructure needed:** FastAPI WebSockets (native), Redis Pub/Sub (Redis already on VM 122).
+
+---
+
 ## What's Left for Pilot Launch
 
-### Must-have before going live with a school
+### Must-have before going live
 | Item | Effort | Why |
 |---|---|---|
-| Notifications bell UI | Small | Backend ready, users need to see alerts |
+| Interactive Teaching Phase A | Large | Core differentiator — async QCM with auto-score |
 
-### Nice-to-have for pilot (can launch without)
-| Item | Effort | Why |
-|---|---|---|
-| QCM / Quizzes | Large | Useful but not blocking |
-| Enrollment module | Large | Schools can use paper enrollment initially |
-| Stripe real payment | Medium | Top-up is recorded manually for now |
-| Auto-debit recurring services | Medium | Needs Celery/cron scheduler |
+### Deprioritised (legacy workflow, not the future)
+| Item | Notes |
+|---|---|
+| File/PDF homework submission | Paper-era. Students will use interactive activities instead. |
+| Notifications bell | Backend scaffolded but no producers. Only useful once live sessions exist. |
+| Enrollment module | Schools can use paper enrollment for pilot. |
+| Stripe real payment | Manual top-up recording is fine for pilot. |
+| QCM bolted onto homework | Superseded by Interactive Teaching module. |
 
 ### Post-pilot
 - Tutoring module suite (booking, plans, packages)
-- Real-time notifications (Socket.IO)
-- PWA / offline
-- Cloud file storage
+- PWA / offline support
+- Gradebook integration for activity scores
+- Parent-visible activity results
 
 ---
 
