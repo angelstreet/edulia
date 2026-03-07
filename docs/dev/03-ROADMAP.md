@@ -1,10 +1,15 @@
-# 03 — Roadmap: What's Built, What's Next
+# 03 — Roadmap: Built, In Progress, Next
 
-## What's Built (Core)
+Last updated: 2026-03-07
 
+---
+
+## What's Built
+
+### Core Infrastructure
 | Module | Backend | Frontend | Notes |
 |---|---|---|---|
-| auth | JWT, refresh, reset, invite | Login, forgot/reset password, accept invite | |
+| auth | JWT, refresh, reset, invite | Login, forgot/reset, accept invite | |
 | users | CRUD, roles, CSV import | Users page, user form | |
 | groups | CRUD, memberships | Classes page | |
 | structure | Academic years, terms, campuses | Academic year page | |
@@ -12,132 +17,157 @@
 | messaging | Threads, messages, compose | Messages page, thread view | |
 | files | Upload, S3, ClamAV, categories | Documents page (tabbed, upload, delete) | |
 | settings | Tenant config, branding | Settings page | |
-| dashboards | Role-based widgets | Admin/Teacher/Student/Parent dashboards | |
+| dashboards | Role-based widgets | Admin/Teacher/Student/Parent/Tutor/Enterprise dashboards | |
 
-**Infrastructure:**
-- 3 VMs (app/db/storage) behind Nginx reverse proxy
-- CI/CD: Husky pre-push hook + GitHub Actions (build, pytest, Playwright E2E)
-- 21 Playwright E2E tests + 52 pytest API tests
-
----
-
-## Priority 1 — School MVP ✅ COMPLETE
-
-| # | Module | Status | Notes |
-|---|---|---|---|
-| 1 | **timetable** | ✅ Done | Session CRUD, weekly grid view |
-| 2 | **attendance** | ✅ Done | Roll call UI, date/group/session selectors |
-| 3 | **gradebook** | ✅ Done | Grade entry, averages, coefficients, student/parent view, PDF report cards |
-| 4 | **homework** | ✅ Done | Assign, submit, teacher grading with feedback |
-
-A school can use Edulia for daily operations: schedule, attendance, grades, homework.
-
----
-
-## Priority 2 — School Complete + École Directe Parity
-
-| # | Module | Status | Notes |
-|---|---|---|---|
-| 5 | **report_cards** | ✅ Done | PDF export from gradebook, per-subject averages |
-| 6 | **qcm** | ❌ Not started | Quiz builder, question bank, auto-grading |
-| 7 | **school_life** | ✅ Done | Incidents (type, severity, status), admin/teacher create, resolve flow |
-| 8 | **enrollment** | ❌ Not started | Online forms, document upload, review workflow |
-| 9 | **billing / Stripe** | ⚠️ Partial | Wallet + service catalog done; Stripe top-up and auto-debit recurring not implemented |
-| 10 | **calendar** | ✅ Done | School events (type, color), role-filtered, admin CRUD |
-| 11 | **forms** | ✅ Done | Dynamic form builder, fill, results view, target roles |
-| 12 | **document_categories** | ✅ Done | Tabbed view, category filter, upload with category |
-| 13 | **wallet** | ✅ Done | Prepaid balance, top-up, service catalog, subscriptions, transaction history |
-| 14 | **community** | ✅ Done | Directory + school organigramme (class tree, members) |
-| — | **notifications UI** | ⚠️ Partial | Backend API complete; no bell/dropdown in app shell yet |
-| — | **parent children page** | ✅ Done | Dedicated /children page with per-child stats + quick links |
-
----
-
-## Priority 3 — Tutoring
-
-| # | Module | Status |
+### School MVP (P1) — ✅ Complete
+| Module | Status | What it does |
 |---|---|---|
-| 15 | **booking** | ❌ Not started |
-| 16 | **learning_plans** | ❌ Not started |
-| 17 | **packages** | ❌ Not started |
+| timetable | ✅ | Session CRUD, weekly grid, week navigation, today highlight |
+| attendance | ✅ | Roll call UI, date/group/session selectors |
+| gradebook | ✅ | Manual grade entry (score + comment per student), coefficients, weighted averages, student/parent view |
+| homework | ✅ | Teacher assigns with file/text, student submits, teacher grades with feedback |
+| report_cards | ✅ | PDF export from gradebook, per-subject averages per term |
+| school_life | ✅ | Incidents (type, severity, status), admin/teacher create, resolve flow |
+| calendar | ✅ | School events (type, color), role-filtered, admin CRUD |
+| forms | ✅ | Dynamic form builder, fill, results view, target roles |
+| community | ✅ | Directory + school organigramme (class tree, members) |
+| wallet | ✅ | Prepaid balance, top-up, service catalog, subscriptions, transaction history |
+| notifications | ⚠️ | Backend API complete, bell/dropdown in app shell, read_at tracking. No producers yet. |
+| parent portal | ✅ | /children page + ParentDashboard + StudentGradesPage child selector |
+| student portal | ✅ | Dashboard + grades + homework + timetable |
 
----
-
-## Priority 4 — Polish
-
-| # | Item | Status | Notes |
-|---|---|---|---|
-| 18 | **Parent portal** | ✅ Done | /children page + ParentDashboard + StudentGradesPage child selector |
-| 19 | **Student portal** | ✅ Done | Dashboard + grades + homework + timetable |
-| 20 | **cloud** | ❌ Not started | Personal file storage, folder hierarchy |
-| 21 | **Real-time notifications** | ❌ Not started | Socket.IO / SSE (currently no polling) |
-| 22 | **PWA** | ❌ Not started | Service worker, offline, push notifications |
-| 23 | **iCal export** | ❌ Not started | Calendar events export |
-
----
-
-## Priority 5 — Interactive Teaching (Next Major Investment)
-
-> Full vision, use cases, and architecture: see [11-INTERACTIVE-TEACHING.md](11-INTERACTIVE-TEACHING.md)
-
-The strategic direction for Edulia is **real-time interactive teaching**, not
-file-based homework submission. One teacher, anywhere in the world, running
-a live or async activity for students across multiple timezones — auto-scored,
-auto-reported, no manual grading for objective exercises.
-
-| Phase | What | Status |
+### Interactive Teaching (P5) — ✅ Complete (Features 1–6)
+| Feature | Status | What it does |
 |---|---|---|
-| A | Async QCM: activity builder + student attempt + auto-score + teacher report | ❌ Not started |
-| B | Live session: WebSocket + Redis Pub/Sub, Kahoot-style real-time QCM | ❌ Not started |
-| C | Replay mode + multi-timezone async catch-up | ❌ Not started |
-| D | Game types (drag/match, ordering, fill-in-blank), gradebook integration | ❌ Not started |
+| F1 — Async Activity Builder | ✅ | Teacher creates QCM, draft → publish workflow |
+| F2 — Async Attempt + Auto-score | ✅ | Student submits at home, server scores instantly, reveals correct answers |
+| F3 — Auto-reporting Dashboard | ✅ | Per-activity stats, per-question error rates, per-student scores |
+| F4 — Live Session Infrastructure | ✅ | Join codes, WebSocket + Redis pub/sub, lobby waiting room |
+| F5 — Live QCM Real-Time | ✅ | Real-time question delivery, live answer bars, countdown, score reveal |
+| F6 — Replay Mode | ✅ | Students replay finished live session async within deadline |
 
-**Infrastructure needed:** FastAPI WebSockets (native), Redis Pub/Sub (Redis already on VM 122).
+**Test coverage:** 37 HTTP integration tests + 18 Playwright E2E scenarios across all 6 features.
 
 ---
 
-## What's Left for Pilot Launch
+## Next Up — Ordered Execution Queue
 
-### Must-have before going live
-| Item | Effort | Why |
-|---|---|---|
-| Interactive Teaching Phase A | Large | Core differentiator — async QCM with auto-score |
+### 🔴 NOW: Gradebook ↔ Activity Integration
 
-### Deprioritised (legacy workflow, not the future)
-| Item | Notes |
-|---|---|
-| File/PDF homework submission | Paper-era. Students will use interactive activities instead. |
-| Notifications bell | Backend scaffolded but no producers. Only useful once live sessions exist. |
-| Enrollment module | Schools can use paper enrollment for pilot. |
-| Stripe real payment | Manual top-up recording is fine for pilot. |
-| QCM bolted onto homework | Superseded by Interactive Teaching module. |
+**Why:** Activities (auto-scored QCM) live in a silo. Teachers want QCM scores to appear in the gradebook alongside manual grades, feeding into term averages and report cards.
 
-### Post-pilot
-- Tutoring module suite (booking, plans, packages)
-- PWA / offline support
-- Gradebook integration for activity scores
+**What to build:**
+- Backend: `POST /api/v1/activities/{id}/push-to-gradebook` — teacher pushes activity scores as an Assessment in gradebook (creates Assessment + bulk-creates Grades from attempt scores)
+- Frontend: "Push to Gradebook" button on `ActivityResultsPage` → modal to select subject/group/term/coefficient → confirm
+- Gradebook then shows activity scores with a badge "from QCM" (read-only, not manually editable)
+- Students and parents see QCM grades alongside manual grades in their grade view
+
+**Effort:** Small-Medium (both systems exist, just need the bridge)
+
+---
+
+### 🟠 NEXT: Gradebook Audit & Gap Fix
+
+The gradebook module exists but may have gaps. Audit and fix:
+
+1. **Term selector** — does grade entry require selecting a term? Is it wired to the academic year/term structure?
+2. **Assessment creation flow** — teacher needs to create an assessment (title, date, max score, coefficient, category) before entering grades. Is this UX smooth?
+3. **Category management** — grade categories (homework, test, oral, participation) with weights. Does the UI exist?
+4. **Student-facing view** — can students see their grades per subject, per term, running average?
+5. **Parent-facing view** — can parents see their child's grades?
+6. **Average computation** — weighted by coefficient, split by term. Is it correct?
+
+**Effort:** Small (likely just missing UI glue, all DB/API already exists)
+
+---
+
+### 🟡 SOON: Billing / Stripe Real Payments
+
+Current state: wallet top-up and service catalog exist but Stripe checkout is not wired.
+
+**What to build:**
+- Stripe payment intent for wallet top-up (server-side, webhook handler for confirmation)
+- Auto-debit Celery task: daily/weekly recurring service charges from wallet
+- Low balance email alert (when wallet < threshold)
+- Monthly statement PDF
+
+**Effort:** Medium (Stripe SDK + Celery already in stack)
+
+---
+
+### 🟡 SOON: Real-Time Notifications
+
+Backend API is complete (read_at tracking, notification types). No producers exist.
+
+**What to build:**
+- Notification producers in key modules: new homework → notify students, new grade → notify student+parent, live session started → notify enrolled students, replay enabled → notify students
+- SSE or WebSocket push to frontend (reuse existing Redis pub/sub infrastructure)
+- Bell icon badge with unread count
+- Notification panel auto-refresh
+
+**Effort:** Medium
+
+---
+
+### 🟢 LATER: Enrollment Module
+
+Online enrollment: parent fills form, uploads documents, admin reviews and approves.
+
+**What to build:**
+- `enrollment_requests` table (family info, child info, documents, status: pending/reviewing/approved/rejected)
+- Admin review workflow with notes
+- Parent tracks status
+- On approval: create User (student) + Group membership automatically
+
+**Effort:** Medium
+
+---
+
+### 🟢 LATER: PWA + Offline
+
+- Service worker, installable on iPad/phone
+- Offline: view timetable, grades, homework (last fetched)
+- Push notifications via Web Push API
+
+**Effort:** Medium
+
+---
+
+### 🔵 BACKLOG: Interactive Teaching — Phase D
+
+Game types beyond QCM:
+- Drag & match (e.g., match country → capital)
+- Ordering / sequencing questions
+- Fill-in-the-blank
+- Gradebook integration (auto-push live session scores)
 - Parent-visible activity results
 
 ---
 
-## How to Build a Module
+### 🔵 BACKLOG: Tutoring Suite (P3)
 
-1. **Database** — Add SQLAlchemy models in `apps/api/app/db/models/`
-2. **Migration** — Write Alembic migration in `alembic/versions/`
-3. **Schemas** — Pydantic models in `apps/api/app/modules/<module>/schemas.py`
-4. **Service** — Business logic in `apps/api/app/modules/<module>/service.py`
-5. **Router** — FastAPI endpoints in `apps/api/app/modules/<module>/router.py`
-6. **Register** — Import router in `app/main.py`, import model in `app/db/models/__init__.py`
-7. **Frontend API** — Axios client in `apps/web/src/api/<module>.ts`
-8. **Pages** — React pages in `apps/web/src/features/<module>/pages/`
-9. **Route** — Add to `apps/web/src/app/router.tsx`
-10. **Sidebar** — Add nav item in `apps/web/src/components/layout/Sidebar.tsx`
-11. **i18n** — Add keys to `src/locales/en/common.json` and `fr/common.json`
+For tutor accounts (already have role):
+- `booking` — tutor availability calendar, student books slot
+- `learning_plans` — structured curriculum per student
+- `packages` — session bundles, pricing, payment
 
-## Reference
+---
 
-- [archive/01-CORE-SHELL.md](archive/01-CORE-SHELL.md) — Core entity specs
-- [archive/02-SCHOOL-SCOPE.md](archive/02-SCHOOL-SCOPE.md) — School module data models + wireframes
-- [archive/03-TUTORING-SCOPE.md](archive/03-TUTORING-SCOPE.md) — Tutoring module data models
-- [archive/08-BUILD-PHASES.md](archive/08-BUILD-PHASES.md) — Original 54 micro-steps with test criteria
-- [04-MISSING-FEATURES.md](04-MISSING-FEATURES.md) — École Directe gap analysis
+## Current Sprint
+
+| Item | Status |
+|---|---|
+| Interactive Teaching F1–F6 | ✅ Shipped 2026-03-07 |
+| Gradebook ↔ Activity Integration | 🔴 Next |
+| Gradebook audit & gap fix | 🟠 After |
+
+---
+
+## Tech Debt / Known Issues
+
+| Issue | Where | Fix |
+|---|---|---|
+| Notification producers missing | All modules | Add on each write operation |
+| Activity scores not in gradebook | Activities + Gradebook | Push-to-gradebook bridge |
+| WS answer store is in-memory | session_ws.py | Persist to Redis for multi-pod (post-MVP) |
+| Open questions score 0 | scoring.py | Manual grading flow for open QCM (backlog) |
