@@ -17,11 +17,11 @@ import {
   type PaymentScheduleEntry,
 } from '../../../api/billing';
 
-const STATUS_COLORS: Record<string, 'default' | 'success' | 'warning' | 'destructive'> = {
+const STATUS_COLORS: Record<string, 'default' | 'success' | 'warning' | 'danger'> = {
   draft: 'default',
   sent: 'warning',
   paid: 'success',
-  cancelled: 'destructive',
+  cancelled: 'danger',
 };
 
 function formatCents(cents: number) {
