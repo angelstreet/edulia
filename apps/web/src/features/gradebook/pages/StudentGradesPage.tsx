@@ -29,9 +29,9 @@ export function StudentGradesPage() {
   // Load academic years and flatten terms
   useEffect(() => {
     getAcademicYears()
-      .then(({ data: res }) => {
-        const years = Array.isArray(res) ? res : (res as { data: typeof res }).data ?? [];
-        const allTerms = (Array.isArray(years) ? years : []).flatMap((y) => y.terms ?? []);
+      .then(({ data }) => {
+        const years = data.data ?? [];
+        const allTerms = years.flatMap((y) => y.terms ?? []);
         setTerms(allTerms);
       })
       .catch(() => {});
