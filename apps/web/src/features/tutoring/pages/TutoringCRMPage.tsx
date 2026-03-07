@@ -451,7 +451,7 @@ export function TutoringCRMPage() {
             />
           ) : (
             <div className="overflow-x-auto">
-              <Table columns={myStudentsColumns} data={myStudents} />
+              <Table columns={myStudentsColumns} data={myStudents} keyField="student_id" />
             </div>
           )}
         </div>

@@ -42,6 +42,7 @@ export interface TutoringInvoiceData {
 }
 
 export interface MyStudent {
+  id?: string;
   student_id: string;
   session_count: number;
   last_session: string | null;
