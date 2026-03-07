@@ -17,3 +17,4 @@ from app.db.models.certificate import Certificate  # noqa: F401
 from app.db.models.portfolio import Portfolio  # noqa: F401
 from app.db.models.calendar import CalendarEvent  # noqa: F401
 from app.db.models.school_life import Incident  # noqa: F401
+from app.db.models.activity import Activity  # noqa: F401

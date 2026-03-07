@@ -30,6 +30,8 @@ import { ServicesPage } from '../features/wallet/pages/ServicesPage';
 import { CalendarPage } from '../features/calendar/pages/CalendarPage';
 import { SchoolLifePage } from '../features/school-life/pages/SchoolLifePage';
 import { ChildrenPage } from '../features/children/pages/ChildrenPage';
+import { ActivitiesPage } from '../features/activities/pages/ActivitiesPage';
+import { ActivityBuilderPage } from '../features/activities/pages/ActivityBuilderPage';
 import { NotFoundPage } from '../features/errors/pages/NotFoundPage';
 import { AuthGuard } from './guards/AuthGuard';
 import { RoleGuard } from './guards/RoleGuard';
@@ -116,6 +118,8 @@ export const router = createBrowserRouter([
       { path: 'calendar', element: <CalendarPage /> },
       { path: 'school-life', element: <SchoolLifePage /> },
       { path: 'students', element: <Navigate to="/community" replace /> },
+      { path: 'activities', element: <ActivitiesPage /> },
+      { path: 'activities/new', element: <ActivityBuilderPage /> },
     ],
   },
 
