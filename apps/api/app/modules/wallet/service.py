@@ -171,5 +171,63 @@ def _tx_to_dict(tx: WalletTransaction) -> dict:
         "description": tx.description,
         "reference_type": tx.reference_type,
         "reference_id": tx.reference_id,
+        "stripe_payment_intent_id": getattr(tx, 'stripe_payment_intent_id', None),
         "created_at": tx.created_at,
     }
+
+
+def create_payment_intent(amount_cents: int, currency: str = "eur", metadata: dict | None = None) -> dict:
+    """Create a Stripe PaymentIntent. Returns {client_secret, payment_intent_id}."""
+    import stripe
+    from app.config import settings
+    stripe.api_key = settings.STRIPE_SECRET_KEY
+    if not stripe.api_key:
+        raise AppException(503, "Stripe not configured")
+    intent = stripe.PaymentIntent.create(
+        amount=amount_cents,
+        currency=currency,
+        metadata=metadata or {},
+        automatic_payment_methods={"enabled": True},
+    )
+    return {"client_secret": intent.client_secret, "payment_intent_id": intent.id}
+
+
+def handle_stripe_webhook(db: Session, payload: bytes, sig_header: str) -> dict:
+    """Verify Stripe webhook and process payment_intent.succeeded → topup wallet."""
+    import stripe
+    from app.config import settings
+    stripe.api_key = settings.STRIPE_SECRET_KEY
+    try:
+        event = stripe.Webhook.construct_event(payload, sig_header, settings.STRIPE_WEBHOOK_SECRET)
+    except stripe.error.SignatureVerificationError:
+        raise AppException(400, "Invalid Stripe signature")
+
+    if event["type"] == "payment_intent.succeeded":
+        pi = event["data"]["object"]
+        pi_id = pi["id"]
+        amount_cents = pi["amount"]
+        currency = pi.get("currency", "eur").upper()
+        meta = pi.get("metadata", {})
+        user_id = meta.get("user_id")
+        tenant_id = meta.get("tenant_id")
+        if user_id and tenant_id:
+            from uuid import UUID as _UUID
+            # Idempotency: skip if already processed
+            existing = db.query(WalletTransaction).filter(
+                WalletTransaction.stripe_payment_intent_id == pi_id
+            ).first()
+            if not existing:
+                wallet = get_or_create_wallet(db, _UUID(tenant_id), _UUID(user_id))
+                wallet.balance_cents += amount_cents
+                wallet.last_topped_up = datetime.utcnow()
+                tx = WalletTransaction(
+                    wallet_id=wallet.id,
+                    amount_cents=amount_cents,
+                    type="topup",
+                    description=f"Stripe top-up {pi_id}",
+                    stripe_payment_intent_id=pi_id,
+                )
+                db.add(tx)
+                db.commit()
+
+    return {"received": True}

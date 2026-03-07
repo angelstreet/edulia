@@ -18,6 +18,12 @@ export interface TransactionData {
   reference_type: string | null;
   reference_id: string | null;
   created_at: string;
+  stripe_payment_intent_id?: string | null;
+}
+
+export interface PaymentIntentData {
+  client_secret: string;
+  payment_intent_id: string;
 }
 
 export interface ServiceData {
@@ -81,4 +87,8 @@ export function getSubscriptions(studentId?: string) {
 
 export function cancelSubscription(subscriptionId: string) {
   return client.delete<SubscriptionData>(`/v1/wallet/subscriptions/${subscriptionId}`);
+}
+
+export function createPaymentIntent(amount_cents: number) {
+  return client.post<PaymentIntentData>('/v1/wallet/create-payment-intent', { amount_cents });
 }

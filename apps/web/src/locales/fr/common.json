@@ -280,5 +280,10 @@
   "allTerms": "Toutes les périodes",
   "selectSubject": "Choisir une matière...",
   "term": "Période",
-  "subjectFilter": "Matière"
+  "subjectFilter": "Matière",
+  "cardDetails": "Détails de la carte",
+  "paySecurely": "Payer en sécurité",
+  "paymentSuccessful": "Paiement réussi ! Solde en cours de mise à jour...",
+  "stripeNotConfigured": "Paiement en ligne non configuré",
+  "amountEuros": "Montant (€)"
 }

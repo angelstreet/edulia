@@ -29,6 +29,7 @@ class WalletTransaction(Base):
     description = Column(String(500), nullable=True)
     reference_type = Column(String(50), nullable=True)
     reference_id = Column(UUID(as_uuid=True), nullable=True)
+    stripe_payment_intent_id = Column(String(255), nullable=True, unique=True, index=True)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
 
     wallet = relationship("Wallet", back_populates="transactions")

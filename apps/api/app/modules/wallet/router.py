@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, Query, Request
 from sqlalchemy.orm import Session
 
 from app.core.dependencies import get_current_user
@@ -6,6 +6,8 @@ from app.db.database import get_db
 from app.db.models.user import User
 from app.modules.wallet.schemas import (
     DebitRequest,
+    PaymentIntentRequest,
+    PaymentIntentResponse,
     ServiceCreate,
     ServiceResponse,
     SubscribeRequest,
@@ -16,10 +18,12 @@ from app.modules.wallet.schemas import (
 )
 from app.modules.wallet.service import (
     cancel_subscription,
+    create_payment_intent,
     create_service,
     debit,
     get_transactions,
     get_wallet,
+    handle_stripe_webhook,
     list_services,
     list_subscriptions,
     subscribe,
@@ -124,3 +128,31 @@ def delete_subscription(
     db: Session = Depends(get_db),
 ):
     return cancel_subscription(db, subscription_id, current_user.tenant_id)
+
+
+@router.post("/api/v1/wallet/create-payment-intent", response_model=PaymentIntentResponse, status_code=201)
+def wallet_create_payment_intent(
+    request: PaymentIntentRequest,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Create a Stripe PaymentIntent for wallet top-up."""
+    result = create_payment_intent(
+        amount_cents=request.amount_cents,
+        metadata={
+            "user_id": str(current_user.id),
+            "tenant_id": str(current_user.tenant_id),
+        },
+    )
+    return result
+
+
+@router.post("/api/v1/stripe/webhook", status_code=200)
+async def stripe_webhook(
+    request: Request,
+    db: Session = Depends(get_db),
+):
+    """Stripe webhook — receives payment_intent.succeeded and credits wallet."""
+    payload = await request.body()
+    sig_header = request.headers.get("stripe-signature", "")
+    return handle_stripe_webhook(db, payload, sig_header)

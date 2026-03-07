@@ -279,5 +279,10 @@
   "allTerms": "All terms",
   "selectSubject": "Select subject...",
   "term": "Term",
-  "subjectFilter": "Subject"
+  "subjectFilter": "Subject",
+  "cardDetails": "Card Details",
+  "paySecurely": "Pay Securely",
+  "paymentSuccessful": "Payment successful! Balance updating...",
+  "stripeNotConfigured": "Online payment not configured",
+  "amountEuros": "Amount (€)"
 }
