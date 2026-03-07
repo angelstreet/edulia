@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime
 
-from sqlalchemy import Column, DateTime, ForeignKey, String, Text
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Text
 from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy.orm import relationship
 
@@ -43,3 +43,7 @@ class EnrollmentRequest(Base, TenantMixin):
 
     # Submitter user (if parent is already a user)
     submitted_by = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=True)
+    # Payment gate (optional): enrollment confirmed after invoice paid
+    invoice_id = Column(UUID(as_uuid=True), nullable=True)
+    payment_minimum_cents = Column(Integer, nullable=False, default=0)  # 0 = full required
+

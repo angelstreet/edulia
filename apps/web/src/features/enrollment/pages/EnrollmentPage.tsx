@@ -15,6 +15,7 @@ const STATUS_COLORS: Record<string, string> = {
   reviewing: 'bg-blue-100 text-blue-800',
   approved: 'bg-green-100 text-green-800',
   rejected: 'bg-red-100 text-red-800',
+  pending_payment: 'bg-purple-100 text-purple-800',
 };
 
 interface GroupData {
@@ -328,7 +329,14 @@ export function EnrollmentPage() {
                       {new Date(req.created_at).toLocaleDateString()}
                     </td>
                     <td className="px-4 py-3">
+                      {req.status === 'pending_payment' ? (
+                    <div className="flex items-center gap-2 flex-wrap">
                       <StatusBadge status={req.status} />
+                      <a href="/billing" className="text-xs underline text-purple-700 font-medium">
+                        → Pay invoice to confirm
+                      </a>
+                    </div>
+                  ) : <StatusBadge status={req.status} />}
                     </td>
                     <td className="px-4 py-3 text-gray-600 max-w-xs truncate">
                       {req.admin_notes ?? '—'}

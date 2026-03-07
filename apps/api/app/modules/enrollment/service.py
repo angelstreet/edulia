@@ -47,8 +47,10 @@ def review_request(
     reviewer_id: UUID,
     status: str,
     admin_notes: str | None = None,
+    invoice_id: UUID | None = None,
+    payment_minimum_cents: int | None = None,
 ) -> EnrollmentRequest:
-    valid_statuses = ("reviewing", "approved", "rejected")
+    valid_statuses = ("reviewing", "pending_payment", "approved", "rejected")
     if status not in valid_statuses:
         raise AppException(400, f"Invalid status. Must be one of: {valid_statuses}")
 
@@ -60,6 +62,11 @@ def review_request(
     req.admin_notes = admin_notes
     req.reviewed_by = reviewer_id
     req.reviewed_at = datetime.utcnow()
+
+    if status == "pending_payment" and invoice_id:
+        req.invoice_id = invoice_id
+    if payment_minimum_cents is not None:
+        req.payment_minimum_cents = payment_minimum_cents
 
     if status == "approved":
         # Auto-create student user

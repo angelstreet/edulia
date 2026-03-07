@@ -345,3 +345,72 @@ def _fallback_pdf(invoice: SchoolInvoice) -> bytes:
     body += b"xref\n0 5\n0000000000 65535 f \n"
     body += b"trailer\n<< /Size 5 /Root 1 0 R >>\nstartxref\n9\n%%EOF\n"
     return body
+
+
+def pay_from_wallet(
+    db,
+    invoice_id,
+    tenant_id,
+    user_id,
+    amount_cents: int,
+):
+    """Debit wallet for invoice payment. Auto-approve linked enrollment if threshold met."""
+    from app.modules.wallet.service import get_or_create_wallet
+    from app.db.models.wallet import WalletTransaction
+
+    inv = get_invoice(db, invoice_id, tenant_id)
+    if inv.status in ("paid", "cancelled"):
+        raise AppException(400, "Invoice already paid or cancelled")
+
+    wallet = get_or_create_wallet(db, tenant_id, user_id)
+    if wallet.balance_cents < amount_cents:
+        raise AppException(400, "Insufficient wallet balance")
+
+    # Debit wallet
+    wallet.balance_cents -= amount_cents
+    tx = WalletTransaction(
+        wallet_id=wallet.id,
+        amount_cents=-amount_cents,
+        type="debit",
+        description=f"Invoice payment: {inv.invoice_number}",
+        reference_type="school_invoice",
+        reference_id=inv.id,
+    )
+    db.add(tx)
+
+    # Update invoice paid amount
+    inv.paid_cents = (inv.paid_cents or 0) + amount_cents
+    if inv.paid_cents >= inv.total_due_cents:
+        inv.status = "paid"
+
+    # Check enrollment threshold
+    if inv.enrollment_request_id:
+        from app.db.models.enrollment import EnrollmentRequest
+        enroll = db.query(EnrollmentRequest).filter(
+            EnrollmentRequest.id == inv.enrollment_request_id
+        ).first()
+        if enroll and enroll.status == "pending_payment":
+            minimum = enroll.payment_minimum_cents or inv.total_due_cents
+            if inv.paid_cents >= minimum:
+                from app.modules.enrollment.service import _create_student_user
+                from app.db.models.group import GroupMembership
+                enroll.status = "approved"
+                from datetime import datetime
+                enroll.reviewed_at = datetime.utcnow()
+                student = _create_student_user(db, enroll)
+                enroll.student_user_id = student.id
+                if enroll.requested_group_id:
+                    existing = db.query(GroupMembership).filter(
+                        GroupMembership.group_id == enroll.requested_group_id,
+                        GroupMembership.user_id == student.id,
+                    ).first()
+                    if not existing:
+                        db.add(GroupMembership(
+                            group_id=enroll.requested_group_id,
+                            user_id=student.id,
+                            role_in_group="member",
+                        ))
+
+    db.commit()
+    db.refresh(inv)
+    return inv

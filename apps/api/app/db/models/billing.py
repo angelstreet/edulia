@@ -41,3 +41,6 @@ class SchoolInvoice(Base, TenantMixin):
 
     contact_info = Column(Text, nullable=True)              # free text footer note
     notes = Column(Text, nullable=True)
+    paid_cents = Column(Integer, nullable=False, default=0)
+    enrollment_request_id = Column(UUID(as_uuid=True), nullable=True)
+

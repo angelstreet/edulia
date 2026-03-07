@@ -1,6 +1,6 @@
 import client from './client';
 
-export type EnrollmentStatus = 'pending' | 'reviewing' | 'approved' | 'rejected';
+export type EnrollmentStatus = 'pending' | 'reviewing' | 'pending_payment' | 'approved' | 'rejected';
 
 export interface EnrollmentData {
   id: string;
@@ -20,6 +20,8 @@ export interface EnrollmentData {
   reviewed_at: string | null;
   documents: string[];
   student_user_id: string | null;
+  invoice_id: string | null;
+  payment_minimum_cents: number;
   submitted_by: string | null;
   created_at: string;
   updated_at: string;
@@ -39,7 +41,9 @@ export interface EnrollmentCreatePayload {
 }
 
 export interface EnrollmentReviewPayload {
-  status: 'reviewing' | 'approved' | 'rejected';
+  status: 'reviewing' | 'pending_payment' | 'approved' | 'rejected';
+  invoice_id?: string;
+  payment_minimum_cents?: number;
   admin_notes?: string;
 }
 

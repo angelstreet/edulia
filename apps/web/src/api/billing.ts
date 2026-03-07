@@ -35,6 +35,8 @@ export interface InvoiceData {
   bank_account: string | null;
   contact_info: string | null;
   notes: string | null;
+  paid_cents: number;
+  enrollment_request_id: string | null;
 }
 
 export interface InvoiceCreate {
@@ -66,3 +68,6 @@ export const updateInvoice = (id: string, data: { status?: string; notes?: strin
 
 export const downloadInvoicePdf = (id: string): string =>
   `/api/v1/billing/invoices/${id}/pdf`;
+
+export const payFromWallet = (id: string, amount_cents: number) =>
+  client.post<InvoiceData>(`/v1/billing/invoices/${id}/pay-from-wallet`, { amount_cents });

@@ -117,6 +117,8 @@ def review_enrollment(
         reviewer_id=current_user.id,
         status=body.status,
         admin_notes=body.admin_notes,
+        invoice_id=body.invoice_id,
+        payment_minimum_cents=body.payment_minimum_cents,
     )
     # Notify parent (best effort)
     try:

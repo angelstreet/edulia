@@ -16,9 +16,10 @@ const STATUS_COLORS: Record<string, string> = {
   reviewing: 'bg-blue-100 text-blue-800',
   approved: 'bg-green-100 text-green-800',
   rejected: 'bg-red-100 text-red-800',
+  pending_payment: 'bg-purple-100 text-purple-800',
 };
 
-const STATUS_FILTERS = ['', 'pending', 'reviewing', 'approved', 'rejected'] as const;
+const STATUS_FILTERS = ['', 'pending', 'reviewing', 'pending_payment', 'approved', 'rejected'] as const;
 
 function StatusBadge({ status }: { status: string }) {
   return (
@@ -36,7 +37,9 @@ export function EnrollmentPage() {
   const [statusFilter, setStatusFilter] = useState('');
   const [loading, setLoading] = useState(true);
   const [selectedRequest, setSelectedRequest] = useState<EnrollmentData | null>(null);
-  const [reviewStatus, setReviewStatus] = useState<'reviewing' | 'approved' | 'rejected'>('reviewing');
+  const [reviewStatus, setReviewStatus] = useState<'reviewing' | 'pending_payment' | 'approved' | 'rejected'>('reviewing');
+  const [invoiceId, setInvoiceId] = useState('');
+  const [payMin, setPayMin] = useState('');
   const [reviewNotes, setReviewNotes] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
@@ -61,6 +64,8 @@ export function EnrollmentPage() {
     setSelectedRequest(row);
     setReviewStatus('reviewing');
     setReviewNotes(row.admin_notes ?? '');
+    setInvoiceId('');
+    setPayMin('');
     setSuccessMessage('');
   }
 
@@ -76,6 +81,8 @@ export function EnrollmentPage() {
       await reviewEnrollment(selectedRequest.id, {
         status: reviewStatus,
         admin_notes: reviewNotes || undefined,
+        invoice_id: invoiceId || undefined,
+        payment_minimum_cents: payMin ? Math.round(parseFloat(payMin) * 100) : undefined,
       });
       if (reviewStatus === 'approved') {
         setSuccessMessage(t('enrollmentApproved', 'Approved — student account created'));
@@ -262,11 +269,40 @@ export function EnrollmentPage() {
                     }
                   >
                     <option value="reviewing">Reviewing</option>
+                    <option value="pending_payment">{t('requestPayment', 'Request payment')}</option>
                     <option value="approved">{t('approveEnrollment', 'Approve')}</option>
                     <option value="rejected">{t('rejectEnrollment', 'Reject')}</option>
                   </select>
                 </div>
 
+
+                {reviewStatus === 'pending_payment' && (
+                  <>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        {t('invoiceId', 'Invoice ID (from /billing)')}
+                      </label>
+                      <input
+                        className="w-full h-9 rounded-md border border-input bg-transparent px-3 py-1 text-sm"
+                        value={invoiceId}
+                        onChange={e => setInvoiceId(e.target.value)}
+                        placeholder="UUID of the invoice"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        {t('minimumPayment', 'Minimum payment to confirm (€, blank = full)')}
+                      </label>
+                      <input
+                        type="number" step="0.01"
+                        className="w-full h-9 rounded-md border border-input bg-transparent px-3 py-1 text-sm"
+                        value={payMin}
+                        onChange={e => setPayMin(e.target.value)}
+                        placeholder="e.g. 200 for partial deposit"
+                      />
+                    </div>
+                  </>
+                )}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     {t('adminNotes', 'Admin Notes')}

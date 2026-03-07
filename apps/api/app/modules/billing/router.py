@@ -2,6 +2,7 @@ from uuid import UUID
 from typing import List, Optional
 
 from fastapi import APIRouter, Depends, Query
+from pydantic import BaseModel
 from fastapi.responses import Response
 from sqlalchemy.orm import Session
 
@@ -16,6 +17,7 @@ from app.modules.billing.service import (
     get_invoice,
     list_invoices,
     update_invoice,
+    pay_from_wallet,
 )
 
 router = APIRouter(prefix="/api/v1/billing", tags=["billing"])
@@ -101,3 +103,17 @@ def download_pdf(
         media_type="application/pdf",
         headers={"Content-Disposition": f"attachment; filename={filename}"},
     )
+
+
+class PayFromWalletRequest(BaseModel):
+    amount_cents: int
+
+
+@router.post("/invoices/{invoice_id}/pay-from-wallet", response_model=InvoiceResponse)
+def pay_invoice_from_wallet(
+    invoice_id: UUID,
+    body: PayFromWalletRequest,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    return pay_from_wallet(db, invoice_id, current_user.tenant_id, current_user.id, body.amount_cents)
