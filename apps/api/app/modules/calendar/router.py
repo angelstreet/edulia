@@ -21,7 +21,11 @@ def get_events(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    return list_events(db, current_user.tenant_id, current_user.role, start, end)
+    user_role = next(
+        (ur.role.code for ur in current_user.user_roles if ur.role and ur.revoked_at is None),
+        "student",
+    )
+    return list_events(db, current_user.tenant_id, user_role, start, end)
 
 
 @router.post("/events", response_model=EventResponse, status_code=201)

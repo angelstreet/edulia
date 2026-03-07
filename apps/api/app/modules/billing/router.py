@@ -24,7 +24,7 @@ router = APIRouter(prefix="/api/v1/billing", tags=["billing"])
 
 
 def _can_manage(user: User) -> bool:
-    roles = {ur.role.name for ur in user.user_roles if ur.role}
+    roles = {ur.role.code for ur in user.user_roles if ur.role}
     return bool(roles & {"admin", "teacher", "tutor"})
 
 

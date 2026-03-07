@@ -1,15 +1,17 @@
 import asyncio
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, Header, Query, Request
 from fastapi.responses import StreamingResponse
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 import redis.asyncio as aioredis
 
 from app.core.dependencies import get_current_user
+from app.core.exceptions import UnauthorizedException
+from app.core.security import decode_token
 from app.db.database import get_db
 from app.db.models.notification import Notification
-from app.db.models.user import User
+from app.db.models.user import User, UserRole
 from app.modules.notifications.schemas import NotificationResponse
 from app.modules.notifications.service import list_notifications, mark_all_read, mark_read
 
@@ -59,13 +61,41 @@ def unread_count(
     return {"count": count}
 
 
+def _get_user_from_query_token(token: str, db: Session) -> User:
+    """Resolve a JWT passed as ?token= query param (for EventSource clients)."""
+    payload = decode_token(token)
+    if not payload or payload.get("type") != "access":
+        raise UnauthorizedException("Invalid or expired token")
+    user_id = payload.get("sub")
+    user = (
+        db.query(User)
+        .options(joinedload(User.user_roles).joinedload(UserRole.role))
+        .filter(User.id == user_id)
+        .first()
+    )
+    if not user:
+        raise UnauthorizedException("User not found")
+    return user
+
+
 @router.get("/stream")
 async def notification_stream(
     request: Request,
-    current_user: User = Depends(get_current_user),
+    token: str | None = Query(None),
+    authorization: str | None = Header(None),
+    db: Session = Depends(get_db),
 ):
-    """SSE endpoint — pushes real-time notifications to the client via Redis pub/sub."""
+    """SSE endpoint — accepts ?token= (EventSource) or Authorization header."""
     from app.config import settings
+
+    # Resolve user from ?token= query param (EventSource) or Authorization header
+    if token:
+        current_user = _get_user_from_query_token(token, db)
+    elif authorization and authorization.startswith("Bearer "):
+        jwt = authorization.split(" ", 1)[1]
+        current_user = _get_user_from_query_token(jwt, db)
+    else:
+        raise UnauthorizedException("Missing token")
 
     async def event_generator():
         r = aioredis.from_url(settings.REDIS_URL)
