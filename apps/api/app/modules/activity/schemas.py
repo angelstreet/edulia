@@ -131,3 +131,45 @@ class AttemptResult(BaseModel):
     # [{question_id, correct: bool, correct_choice_ids: [str], points_earned: float}]
 
     model_config = {"from_attributes": True}
+
+
+# ---------------------------------------------------------------------------
+# Feature 3 — Teacher Auto-Reporting Dashboard
+# ---------------------------------------------------------------------------
+
+
+class QuestionErrorRate(BaseModel):
+    question_id: str
+    question_text: str
+    error_rate: float  # 0.0 to 1.0 — fraction who answered wrong
+
+
+class ActivityReport(BaseModel):
+    id: UUID
+    title: str
+    type: str
+    status: str
+    group_id: str | None
+    subject_id: str | None
+    created_at: datetime
+    total_attempts: int
+    avg_score: float | None      # None if no submissions yet
+    max_score: float | None      # max possible score (from activity questions)
+    completion_rate: float       # submitted / total_attempts (always 0 if no attempts)
+    question_error_rates: list[QuestionErrorRate]
+
+
+class StudentActivityScore(BaseModel):
+    activity_id: UUID
+    activity_title: str
+    score: float | None
+    max_score: float | None
+    submitted_at: datetime | None
+    mode: str  # async | live | replay
+
+
+class StudentReport(BaseModel):
+    student_id: UUID
+    attempts: list[StudentActivityScore]
+    avg_score: float | None
+    total_submitted: int

@@ -219,5 +219,13 @@
   "perQuestion": "per question",
   "pointsEarned": "Points",
   "activityNotAvailable": "This activity is not available.",
-  "noSubmissions": "No submissions yet."
+  "noSubmissions": "No submissions yet.",
+  "reports": "Reports",
+  "activityReports": "Activity Reports",
+  "totalActivities": "Total Activities",
+  "avgCompletion": "Avg Completion",
+  "viewDetails": "View details",
+  "noReports": "No activity reports yet",
+  "noReportsDesc": "Publish activities and students will start submitting.",
+  "correctRate": "correct"
 }

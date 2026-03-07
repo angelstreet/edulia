@@ -220,5 +220,13 @@
   "perQuestion": "par question",
   "pointsEarned": "Points",
   "activityNotAvailable": "Cette activité n'est pas disponible.",
-  "noSubmissions": "Aucune soumission pour le moment."
+  "noSubmissions": "Aucune soumission pour le moment.",
+  "reports": "Rapports",
+  "activityReports": "Rapports d'activités",
+  "totalActivities": "Total des activités",
+  "avgCompletion": "Complétion moyenne",
+  "viewDetails": "Voir les détails",
+  "noReports": "Aucun rapport d'activité pour le moment",
+  "noReportsDesc": "Publiez des activités et les élèves commenceront à soumettre.",
+  "correctRate": "correct"
 }

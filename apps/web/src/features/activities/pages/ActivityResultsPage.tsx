@@ -6,8 +6,10 @@ import { Spinner } from '../../../components/ui/Spinner';
 import {
   getActivity,
   getAllAttempts,
+  getActivityReport,
   type ActivityData,
   type AttemptResult,
+  type ActivityReport,
 } from '../../../api/activities';
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -27,13 +29,19 @@ export function ActivityResultsPage() {
   const [loading, setLoading] = useState(true);
   const [activity, setActivity] = useState<ActivityData | null>(null);
   const [attempts, setAttempts] = useState<AttemptResult[]>([]);
+  const [report, setReport] = useState<ActivityReport | null>(null);
 
   useEffect(() => {
     if (!activityId) return;
-    Promise.all([getActivity(activityId), getAllAttempts(activityId)])
-      .then(([actRes, attRes]) => {
+    Promise.all([
+      getActivity(activityId),
+      getAllAttempts(activityId),
+      getActivityReport(activityId).catch(() => null),
+    ])
+      .then(([actRes, attRes, repRes]) => {
         setActivity(actRes.data);
         setAttempts(Array.isArray(attRes.data) ? attRes.data : []);
+        setReport(repRes ? repRes.data : null);
       })
       .catch(() => {
         setAttempts([]);
@@ -100,7 +108,7 @@ export function ActivityResultsPage() {
         {activity?.title ?? '\u2026'} — {t('activityResults', 'Results')}
       </h1>
 
-      {/* Summary bar */}
+      {/* Summary bar — prefer aggregated report data when available */}
       <div className="grid grid-cols-3 gap-3">
         <div className="p-4 border rounded-xl bg-card text-center">
           <p className="text-2xl font-bold text-primary">{submitted.length}</p>
@@ -110,7 +118,11 @@ export function ActivityResultsPage() {
         </div>
         <div className="p-4 border rounded-xl bg-card text-center">
           <p className="text-2xl font-bold text-primary">
-            {avgScore !== null ? `${avgScore}${maxScoreRef !== null ? `/${maxScoreRef}` : ''}` : '—'}
+            {report?.avg_score !== undefined && report?.avg_score !== null
+              ? `${report.avg_score.toFixed(1)}${report.max_score !== null ? `/${report.max_score}` : ''}`
+              : avgScore !== null
+              ? `${avgScore}${maxScoreRef !== null ? `/${maxScoreRef}` : ''}`
+              : '—'}
           </p>
           <p className="text-xs text-muted-foreground mt-0.5">
             {t('avgScore', 'Average score')}
@@ -118,7 +130,11 @@ export function ActivityResultsPage() {
         </div>
         <div className="p-4 border rounded-xl bg-card text-center">
           <p className="text-2xl font-bold text-primary">
-            {submitted.length > 0 ? `${submitted.length}` : '0'}
+            {report !== null
+              ? `${Math.round(report.completion_rate * 100)}%`
+              : submitted.length > 0
+              ? `${submitted.length}`
+              : '0'}
           </p>
           <p className="text-xs text-muted-foreground mt-0.5">
             {t('completion', 'Completion')}
@@ -126,8 +142,49 @@ export function ActivityResultsPage() {
         </div>
       </div>
 
-      {/* Per-question error rate */}
-      {questionStats.length > 0 && (
+      {/* Aggregated per-question error rates from report endpoint */}
+      {report && report.question_error_rates.length > 0 && (
+        <div className="border rounded-xl bg-card p-5 space-y-4">
+          <h2 className="font-semibold text-sm uppercase tracking-wide text-muted-foreground">
+            {t('errorRate', 'Error rate')} {t('perQuestion', 'per question')}
+          </h2>
+          <div className="space-y-3">
+            {report.question_error_rates.map((q, idx) => {
+              const correctPct = Math.round((1 - q.error_rate) * 100);
+              const wrongPct = 100 - correctPct;
+              return (
+                <div key={q.question_id}>
+                  <div className="flex items-center justify-between mb-1">
+                    <p className="text-sm font-medium truncate max-w-[70%]">
+                      Q{idx + 1}: {q.question_text}
+                    </p>
+                    <span className="text-xs text-muted-foreground shrink-0 ml-2">
+                      {wrongPct}% {t('wrong', 'Wrong')}
+                    </span>
+                  </div>
+                  <div className="h-2.5 rounded-full bg-muted overflow-hidden flex">
+                    {correctPct > 0 && (
+                      <div
+                        className="h-full bg-green-500 transition-all"
+                        style={{ width: `${correctPct}%` }}
+                      />
+                    )}
+                    {wrongPct > 0 && (
+                      <div
+                        className="h-full bg-red-400 transition-all"
+                        style={{ width: `${wrongPct}%` }}
+                      />
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Fallback per-question breakdown from local attempt data (when report endpoint unavailable) */}
+      {!report && questionStats.length > 0 && (
         <div className="border rounded-xl bg-card p-5 space-y-4">
           <h2 className="font-semibold text-sm uppercase tracking-wide text-muted-foreground">
             {t('errorRate', 'Error rate')} {t('perQuestion', 'per question')}

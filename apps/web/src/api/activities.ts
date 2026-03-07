@@ -111,3 +111,54 @@ export function getMyAttempt(activityId: string) {
 export function getAllAttempts(activityId: string) {
   return client.get<AttemptResult[]>(`/v1/activities/${activityId}/attempts`);
 }
+
+// ── Feature 3: Teacher Auto-Reporting Dashboard ───────────────────────────────
+
+export interface QuestionErrorRate {
+  question_id: string;
+  question_text: string;
+  error_rate: number; // 0.0 to 1.0
+}
+
+export interface ActivityReport {
+  id: string;
+  title: string;
+  type: string;
+  status: string;
+  group_id: string | null;
+  subject_id: string | null;
+  created_at: string;
+  total_attempts: number;
+  avg_score: number | null;
+  max_score: number | null;
+  completion_rate: number; // 0.0 to 1.0
+  question_error_rates: QuestionErrorRate[];
+}
+
+export interface StudentActivityScore {
+  activity_id: string;
+  activity_title: string;
+  score: number | null;
+  max_score: number | null;
+  submitted_at: string | null;
+  mode: string;
+}
+
+export interface StudentReport {
+  student_id: string;
+  attempts: StudentActivityScore[];
+  avg_score: number | null;
+  total_submitted: number;
+}
+
+export function getActivityReports() {
+  return client.get<ActivityReport[]>('/v1/activities/report');
+}
+
+export function getActivityReport(activityId: string) {
+  return client.get<ActivityReport>(`/v1/activities/${activityId}/report`);
+}
+
+export function getStudentReport(studentId: string) {
+  return client.get<StudentReport>(`/v1/students/${studentId}/activity-scores`);
+}

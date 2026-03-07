@@ -9,19 +9,24 @@ from app.db.database import get_db
 from app.db.models.user import User
 from app.modules.activity.schemas import (
     ActivityCreate,
+    ActivityReport,
     ActivityResponse,
     ActivityResponseStripped,
     ActivityUpdate,
     AttemptResult,
     AttemptStartResponse,
     AttemptSubmitRequest,
+    StudentReport,
 )
 from app.modules.activity.service import (
     create_activity,
     delete_activity,
     get_activity,
+    get_activity_report,
+    get_all_activity_reports,
     get_all_attempts,
     get_my_attempt,
+    get_student_report,
     list_activities,
     start_attempt,
     strip_correct_answers,
@@ -30,6 +35,7 @@ from app.modules.activity.service import (
 )
 
 router = APIRouter(prefix="/api/v1/activities", tags=["activities"])
+students_router = APIRouter(prefix="/api/v1/students", tags=["students"])
 
 
 def _get_user_role(user: User) -> str:
@@ -71,6 +77,39 @@ def create(
         questions=[q.model_dump() for q in request.questions],
         scheduled_at=request.scheduled_at,
     )
+
+
+# ---------------------------------------------------------------------------
+# Feature 3 — Teacher Auto-Reporting Dashboard
+# NOTE: This route is intentionally registered BEFORE /{activity_id} so that
+# FastAPI does not interpret the literal path segment "report" as an activity_id.
+# ---------------------------------------------------------------------------
+
+
+@router.get("/report", response_model=list[ActivityReport])
+def activity_reports(
+    teacher_id: UUID | None = Query(None),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Teacher/admin: list all activities for the tenant with aggregated stats."""
+    role = _get_user_role(current_user)
+    if role not in ("teacher", "admin"):
+        raise ForbiddenException("Only teachers and admins can access activity reports")
+    return get_all_activity_reports(db, current_user.tenant_id, teacher_id=teacher_id)
+
+
+@router.get("/{activity_id}/report", response_model=ActivityReport)
+def activity_report_detail(
+    activity_id: UUID,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Teacher/admin: get detailed report for a single activity."""
+    role = _get_user_role(current_user)
+    if role not in ("teacher", "admin"):
+        raise ForbiddenException("Only teachers and admins can access activity reports")
+    return get_activity_report(db, activity_id, current_user.tenant_id)
 
 
 @router.get("/{activity_id}", response_model=ActivityResponse)
@@ -192,3 +231,21 @@ def attempts_list(
 
     attempts = get_all_attempts(db, activity_id)
     return [AttemptResult.model_validate(a) for a in attempts]
+
+
+# ---------------------------------------------------------------------------
+# Feature 3 — Per-student report (separate router: /api/v1/students/...)
+# ---------------------------------------------------------------------------
+
+
+@students_router.get("/{student_id}/activity-scores", response_model=StudentReport)
+def student_activity_scores(
+    student_id: UUID,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Teacher/admin: get all activity scores for a specific student."""
+    role = _get_user_role(current_user)
+    if role not in ("teacher", "admin"):
+        raise ForbiddenException("Only teachers and admins can access student reports")
+    return get_student_report(db, student_id, current_user.tenant_id)

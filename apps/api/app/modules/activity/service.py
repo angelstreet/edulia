@@ -274,3 +274,205 @@ def get_all_attempts(db: Session, activity_id: UUID) -> list[ActivityAttempt]:
         .order_by(ActivityAttempt.submitted_at.desc())
         .all()
     )
+
+
+# ---------------------------------------------------------------------------
+# Feature 3 — Teacher Auto-Reporting Dashboard
+# ---------------------------------------------------------------------------
+
+# Type alias for student attempt score dicts (for internal clarity)
+_StudentScoreDict = dict
+
+
+def _compute_activity_report(activity: Activity, attempts: list[ActivityAttempt]) -> dict:
+    """Compute report dict for a single activity given its attempts."""
+    questions = activity.questions or []
+
+    # Compute max_score from question points
+    if questions:
+        max_score = float(sum(q.get("points", 1) for q in questions))
+    else:
+        max_score = None
+
+    total_attempts = len(attempts)
+    submitted = [a for a in attempts if a.submitted_at is not None]
+    n_submitted = len(submitted)
+
+    # avg_score: mean of submitted scores, None if no submissions
+    if submitted:
+        scores = [float(a.score) for a in submitted if a.score is not None]
+        avg_score = round(sum(scores) / len(scores), 4) if scores else None
+    else:
+        avg_score = None
+
+    # completion_rate
+    if total_attempts > 0:
+        completion_rate = n_submitted / total_attempts
+    else:
+        completion_rate = 0.0
+
+    # question_error_rates: re-evaluate each attempt's answer per question
+    question_error_rates = []
+    for q in questions:
+        q_id = q.get("id", "")
+        q_text = q.get("text", "")
+        n_answered = 0
+        n_wrong = 0
+        for attempt in submitted:
+            answers = attempt.answers or []
+            answer = next((a for a in answers if a.get("question_id") == q_id), None)
+            if answer is None:
+                continue
+            n_answered += 1
+            # Re-score this single question+answer pair
+            q_score, q_max = score_attempt([q], [answer])
+            if q_score < q_max:
+                n_wrong += 1
+        error_rate = n_wrong / n_answered if n_answered > 0 else 0.0
+        question_error_rates.append({
+            "question_id": q_id,
+            "question_text": q_text,
+            "error_rate": round(error_rate, 4),
+        })
+
+    return {
+        "id": activity.id,
+        "title": activity.title,
+        "type": activity.type,
+        "status": activity.status,
+        "group_id": str(activity.group_id) if activity.group_id else None,
+        "subject_id": str(activity.subject_id) if activity.subject_id else None,
+        "created_at": activity.created_at,
+        "total_attempts": total_attempts,
+        "avg_score": avg_score,
+        "max_score": max_score,
+        "completion_rate": round(completion_rate, 4),
+        "question_error_rates": question_error_rates,
+    }
+
+
+def get_activity_report(db: Session, activity_id: UUID, tenant_id: UUID) -> dict:
+    """
+    Compute report for a single activity.
+    Raises 404 if activity not found or belongs to a different tenant.
+    """
+    activity = (
+        db.query(Activity)
+        .filter(Activity.id == activity_id, Activity.tenant_id == tenant_id)
+        .first()
+    )
+    if not activity:
+        raise NotFoundException("Activity not found")
+
+    attempts = (
+        db.query(ActivityAttempt)
+        .filter(ActivityAttempt.activity_id == activity_id)
+        .all()
+    )
+
+    return _compute_activity_report(activity, attempts)
+
+
+def get_all_activity_reports(
+    db: Session,
+    tenant_id: UUID,
+    teacher_id: UUID | None = None,
+) -> list[dict]:
+    """
+    List all activities for the tenant with their report stats.
+    If teacher_id provided, filter to activities created by that teacher.
+    """
+    query = db.query(Activity).filter(Activity.tenant_id == tenant_id)
+    if teacher_id is not None:
+        query = query.filter(Activity.created_by == teacher_id)
+    activities = query.order_by(Activity.created_at.desc()).all()
+
+    if not activities:
+        return []
+
+    activity_ids = [a.id for a in activities]
+    all_attempts = (
+        db.query(ActivityAttempt)
+        .filter(ActivityAttempt.activity_id.in_(activity_ids))
+        .all()
+    )
+
+    # Group attempts by activity_id for efficient lookup
+    attempts_by_activity: dict = {}
+    for attempt in all_attempts:
+        key = attempt.activity_id
+        if key not in attempts_by_activity:
+            attempts_by_activity[key] = []
+        attempts_by_activity[key].append(attempt)
+
+    reports = []
+    for activity in activities:
+        activity_attempts = attempts_by_activity.get(activity.id, [])
+        reports.append(_compute_activity_report(activity, activity_attempts))
+
+    return reports
+
+
+def get_student_report(db: Session, student_id: UUID, tenant_id: UUID) -> dict:
+    """
+    All activity attempts for a student within a tenant.
+    Computes avg_score across submitted attempts.
+    Returns StudentReport structure.
+    """
+    attempts = (
+        db.query(ActivityAttempt)
+        .filter(
+            ActivityAttempt.student_id == student_id,
+            ActivityAttempt.tenant_id == tenant_id,
+        )
+        .order_by(ActivityAttempt.submitted_at.desc())
+        .all()
+    )
+
+    if not attempts:
+        return {
+            "student_id": student_id,
+            "attempts": [],
+            "avg_score": None,
+            "total_submitted": 0,
+        }
+
+    # Fetch all relevant activities in one query
+    activity_ids = list({a.activity_id for a in attempts})
+    activities = (
+        db.query(Activity)
+        .filter(Activity.id.in_(activity_ids))
+        .all()
+    )
+    activity_map = {a.id: a for a in activities}
+
+    attempt_scores: list[_StudentScoreDict] = []
+    submitted_scores: list[float] = []
+
+    for attempt in attempts:
+        activity = activity_map.get(attempt.activity_id)
+        activity_title = activity.title if activity else "Unknown"
+        score_val = float(attempt.score) if attempt.score is not None else None
+        max_score_val = float(attempt.max_score) if attempt.max_score is not None else None
+
+        attempt_scores.append({
+            "activity_id": attempt.activity_id,
+            "activity_title": activity_title,
+            "score": score_val,
+            "max_score": max_score_val,
+            "submitted_at": attempt.submitted_at,
+            "mode": attempt.mode,
+        })
+
+        if attempt.submitted_at is not None and score_val is not None:
+            submitted_scores.append(score_val)
+
+    total_submitted = sum(1 for a in attempts if a.submitted_at is not None)
+    avg_score = round(sum(submitted_scores) / len(submitted_scores), 4) if submitted_scores else None
+
+    return {
+        "student_id": student_id,
+        "attempts": attempt_scores,
+        "avg_score": avg_score,
+        "total_submitted": total_submitted,
+    }
