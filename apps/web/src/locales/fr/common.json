@@ -285,5 +285,19 @@
   "paySecurely": "Payer en sécurité",
   "paymentSuccessful": "Paiement réussi ! Solde en cours de mise à jour...",
   "stripeNotConfigured": "Paiement en ligne non configuré",
-  "amountEuros": "Montant (€)"
+  "amountEuros": "Montant (€)",
+  "enrollment": "Inscription",
+  "enrollmentRequests": "Demandes d'inscription",
+  "submitEnrollment": "Soumettre une inscription",
+  "childName": "Nom de l'enfant",
+  "parentInfo": "Informations du parent",
+  "childInfo": "Informations de l'enfant",
+  "requestedClass": "Classe demandée",
+  "enrollmentStatus": "Statut",
+  "reviewEnrollment": "Examiner",
+  "approveEnrollment": "Approuver",
+  "rejectEnrollment": "Rejeter",
+  "adminNotes": "Notes administrateur",
+  "enrollmentApproved": "Approuvé — compte élève créé",
+  "myEnrollments": "Mes demandes"
 }

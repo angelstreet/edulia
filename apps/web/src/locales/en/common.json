@@ -284,5 +284,19 @@
   "paySecurely": "Pay Securely",
   "paymentSuccessful": "Payment successful! Balance updating...",
   "stripeNotConfigured": "Online payment not configured",
-  "amountEuros": "Amount (€)"
+  "amountEuros": "Amount (€)",
+  "enrollment": "Enrollment",
+  "enrollmentRequests": "Enrollment Requests",
+  "submitEnrollment": "Submit Enrollment",
+  "childName": "Child's Name",
+  "parentInfo": "Parent Information",
+  "childInfo": "Child Information",
+  "requestedClass": "Requested Class",
+  "enrollmentStatus": "Status",
+  "reviewEnrollment": "Review",
+  "approveEnrollment": "Approve",
+  "rejectEnrollment": "Reject",
+  "adminNotes": "Admin Notes",
+  "enrollmentApproved": "Approved — student account created",
+  "myEnrollments": "My Requests"
 }

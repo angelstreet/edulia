@@ -10,6 +10,8 @@ import { ClassesPage } from '../features/admin/pages/ClassesPage';
 import { SubjectsPage } from '../features/admin/pages/SubjectsPage';
 import { AcademicYearPage } from '../features/admin/pages/AcademicYearPage';
 import { TenantSettingsPage } from '../features/admin/pages/TenantSettingsPage';
+import { EnrollmentPage as EnrollmentAdminPage } from '../features/admin/pages/EnrollmentPage';
+import { EnrollmentPage } from '../features/enrollment/pages/EnrollmentPage';
 import { MessagesPage } from '../features/messaging/pages/MessagesPage';
 import { SettingsPage } from '../features/settings/pages/SettingsPage';
 import { TimetablePage } from '../features/timetable/pages/TimetablePage';
@@ -106,6 +108,15 @@ export const router = createBrowserRouter([
           </RoleGuard>
         ),
       },
+      {
+        path: 'admin/enrollment',
+        element: (
+          <RoleGuard roles={['admin']}>
+            <EnrollmentAdminPage />
+          </RoleGuard>
+        ),
+      },
+      { path: 'enrollment', element: <EnrollmentPage /> },
       { path: 'timetable', element: <TimetablePage /> },
       { path: 'attendance', element: <AttendancePage /> },
       { path: 'gradebook', element: <GradebookPage /> },
