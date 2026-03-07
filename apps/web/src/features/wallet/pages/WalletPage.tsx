@@ -25,13 +25,16 @@ export function WalletPage() {
   const [topupAmount, setTopupAmount] = useState('');
   const [topping, setTopping] = useState(false);
   const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(false);
 
   const fetchAll = async () => {
     setLoading(true);
     try {
       const [wRes, tRes] = await Promise.all([getWallet(), getTransactions(page)]);
       setWallet(wRes.data);
-      setTransactions(Array.isArray(tRes.data) ? tRes.data : []);
+      const txList = Array.isArray(tRes.data) ? tRes.data : [];
+      setTransactions(txList);
+      setHasMore(txList.length === 20);
     } catch {
       setWallet(null);
     } finally {
@@ -99,7 +102,7 @@ export function WalletPage() {
             <Button variant="ghost" size="sm" onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={page === 1}>
               ← Prev
             </Button>
-            <Button variant="ghost" size="sm" onClick={() => setPage((p) => p + 1)}>
+            <Button variant="ghost" size="sm" onClick={() => setPage((p) => p + 1)} disabled={!hasMore}>
               Next →
             </Button>
           </div>

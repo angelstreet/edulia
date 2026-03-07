@@ -53,7 +53,12 @@ export function Topbar() {
             <span className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-semibold">
               {user?.display_name?.charAt(0).toUpperCase() || 'U'}
             </span>
-            <span className="text-sm hidden md:inline">{user?.display_name}</span>
+            <span className="text-sm hidden md:inline">
+              {user?.display_name}
+              {user?.role === 'student' && user?.studentGroup && (
+                <span className="ml-1 text-muted-foreground font-normal">/ {user.studentGroup.name}</span>
+              )}
+            </span>
           </button>
           {menuOpen && (
             <div className="absolute top-full right-0 mt-1 min-w-[200px] bg-white border border-border rounded-lg shadow-md z-50 py-2">

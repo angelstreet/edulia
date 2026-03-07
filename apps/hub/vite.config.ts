@@ -5,8 +5,10 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   server: {
+    port: 3004,
+    host: '0.0.0.0',
     allowedHosts: true,
-    hmr: false,
+    hmr: true,
     proxy: {
       '/api': {
         target: 'http://192.168.0.120:8000',

@@ -5,7 +5,8 @@ import { Button } from '../../../components/ui/Button';
 import { Input } from '../../../components/ui/Input';
 import { createForm, updateForm as updateFormApi, type FormFieldCreate } from '../../../api/forms';
 
-const FIELD_TYPES = ['text', 'textarea', 'checkbox', 'radio', 'select', 'date', 'file'];
+const FIELD_TYPES = ['text', 'textarea', 'checkbox', 'radio', 'select', 'date'];
+const ALL_ROLES = ['admin', 'teacher', 'student', 'parent', 'tutor'];
 
 interface FieldDraft extends FormFieldCreate {
   _key: string;
@@ -31,7 +32,12 @@ export function FormBuilderPage() {
   const [description, setDescription] = useState('');
   const [type, setType] = useState('survey');
   const [deadline, setDeadline] = useState('');
+  const [targetRoles, setTargetRoles] = useState<string[]>([]);
   const [fields, setFields] = useState<FieldDraft[]>([newField(0)]);
+
+  const toggleRole = (role: string) => {
+    setTargetRoles((prev) => prev.includes(role) ? prev.filter((r) => r !== role) : [...prev, role]);
+  };
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
 
@@ -71,6 +77,7 @@ export function FormBuilderPage() {
         type,
         target_roles: [],
         deadline: deadline || undefined,
+        target_roles: targetRoles,
         fields: fields.map(({ _key, _optionInput, ...f }) => f),
       });
       if (status === 'published') {
@@ -128,6 +135,25 @@ export function FormBuilderPage() {
               value={deadline}
               onChange={(e) => setDeadline(e.target.value)}
             />
+          </div>
+        </div>
+        <div>
+          <label className="text-sm font-medium block mb-1">{t('targetRoles', 'Visible to')} <span className="text-muted-foreground font-normal">(leave empty for everyone)</span></label>
+          <div className="flex flex-wrap gap-2">
+            {ALL_ROLES.map((role) => (
+              <button
+                key={role}
+                type="button"
+                onClick={() => toggleRole(role)}
+                className={`px-3 py-1 rounded-full text-sm border transition-colors ${
+                  targetRoles.includes(role)
+                    ? 'bg-primary text-primary-foreground border-primary'
+                    : 'bg-background text-muted-foreground border-input hover:border-primary'
+                }`}
+              >
+                {role.charAt(0).toUpperCase() + role.slice(1)}
+              </button>
+            ))}
           </div>
         </div>
       </div>

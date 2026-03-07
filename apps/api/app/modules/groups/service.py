@@ -81,6 +81,38 @@ def delete_group(db: Session, group_id: UUID) -> None:
     db.commit()
 
 
+def list_groups_for_user(db: Session, user_id: UUID, tenant_id: UUID) -> list[dict]:
+    memberships = (
+        db.query(GroupMembership)
+        .filter(GroupMembership.user_id == user_id, GroupMembership.left_at.is_(None))
+        .all()
+    )
+    group_ids = [m.group_id for m in memberships]
+    if not group_ids:
+        return []
+    groups = (
+        db.query(Group)
+        .options(joinedload(Group.memberships))
+        .filter(Group.id.in_(group_ids), Group.tenant_id == tenant_id)
+        .order_by(Group.name)
+        .all()
+    )
+    result = []
+    for g in groups:
+        active_members = [m for m in g.memberships if m.left_at is None]
+        result.append({
+            "id": g.id,
+            "tenant_id": g.tenant_id,
+            "type": g.type,
+            "name": g.name,
+            "description": g.description,
+            "capacity": g.capacity,
+            "created_at": g.created_at,
+            "member_count": len(active_members),
+        })
+    return result
+
+
 def add_member(db: Session, group_id: UUID, user_id: UUID, role_in_group: str = "member") -> GroupMembership:
     membership = GroupMembership(group_id=group_id, user_id=user_id, role_in_group=role_in_group)
     db.add(membership)

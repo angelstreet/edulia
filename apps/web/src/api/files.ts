@@ -16,10 +16,11 @@ export interface CategoryCount {
   count: number;
 }
 
-export function uploadFile(file: File, onProgress?: (pct: number) => void) {
+export function uploadFile(file: File, category = 'general', onProgress?: (pct: number) => void) {
   const form = new FormData();
   form.append('file', file);
   return client.post<FileData>('/v1/files/upload', form, {
+    params: { category },
     headers: { 'Content-Type': 'multipart/form-data' },
     onUploadProgress: (e) => {
       if (onProgress && e.total) {

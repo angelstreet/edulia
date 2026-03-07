@@ -33,9 +33,11 @@ export function FormFillPage() {
   const validate = () => {
     const errs: Record<string, string> = {};
     for (const field of form?.fields || []) {
-      if (field.required && !answers[field.id]) {
-        errs[field.id] = 'This field is required';
-      }
+      if (!field.required) continue;
+      const val = answers[field.id];
+      const empty = val === undefined || val === null || val === '' ||
+        (Array.isArray(val) && val.length === 0);
+      if (empty) errs[field.id] = 'This field is required';
     }
     setErrors(errs);
     return Object.keys(errs).length === 0;

@@ -11,16 +11,28 @@ from app.modules.homework.schemas import (
     HomeworkCreate,
     HomeworkResponse,
     SubmissionCreate,
+    SubmissionGrade,
     SubmissionResponse,
 )
 from app.modules.homework.service import (
     create_homework,
     create_submission,
+    get_homework,
     get_homework_submissions,
+    grade_submission,
     list_homework,
 )
 
 router = APIRouter(prefix="/api/v1/homework", tags=["homework"])
+
+
+@router.get("/{homework_id}", response_model=HomeworkResponse)
+def get_one(
+    homework_id: UUID,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    return get_homework(db, homework_id)
 
 
 @router.post("", response_model=HomeworkResponse, status_code=201)
@@ -62,3 +74,14 @@ def submit(
     db: Session = Depends(get_db),
 ):
     return create_submission(db, homework_id, current_user.id, **request.model_dump())
+
+
+@router.patch("/{homework_id}/submissions/{submission_id}", response_model=SubmissionResponse)
+def grade(
+    homework_id: UUID,
+    submission_id: UUID,
+    request: SubmissionGrade,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    return grade_submission(db, submission_id, request.grade, request.teacher_feedback, request.status)

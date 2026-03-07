@@ -72,3 +72,13 @@ export function subscribeService(serviceId: string, studentId: string, daysOfWee
     days_of_week: daysOfWeek,
   });
 }
+
+export function getSubscriptions(studentId?: string) {
+  return client.get<SubscriptionData[]>('/v1/wallet/subscriptions', {
+    params: studentId ? { student_id: studentId } : {},
+  });
+}
+
+export function cancelSubscription(subscriptionId: string) {
+  return client.delete<SubscriptionData>(`/v1/wallet/subscriptions/${subscriptionId}`);
+}

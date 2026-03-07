@@ -7,7 +7,7 @@ import { getDirectory, type DirectoryUser } from '../../../api/community';
 
 const ROLES = ['', 'admin', 'teacher', 'student', 'parent'];
 
-export function DirectoryPage() {
+export function DirectoryPage({ embedded = false }: { embedded?: boolean }) {
   const { t } = useTranslation();
   const [users, setUsers] = useState<DirectoryUser[]>([]);
   const [loading, setLoading] = useState(true);
@@ -43,12 +43,14 @@ export function DirectoryPage() {
 
   return (
     <div>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold">{t('directory', 'Directory')}</h1>
-        <p className="text-muted-foreground text-sm mt-1">
-          {t('directoryDesc', 'School community — names and roles only')}
-        </p>
-      </div>
+      {!embedded && (
+        <div className="mb-6">
+          <h1 className="text-2xl font-bold">{t('directory', 'Directory')}</h1>
+          <p className="text-muted-foreground text-sm mt-1">
+            {t('directoryDesc', 'School community — names and roles only')}
+          </p>
+        </div>
+      )}
 
       <div className="flex gap-3 mb-6">
         <div className="flex-1">

@@ -5,11 +5,16 @@ import { EmptyState } from '../../../components/ui/EmptyState';
 import { WeekGrid } from '../components/WeekGrid';
 import { getSessions, getRooms, type SessionData, type RoomData } from '../../../api/timetable';
 import { getSubjects, type SubjectData } from '../../../api/subjects';
-import { getGroups, type GroupData } from '../../../api/groups';
+import { getGroups, getMyGroups, type GroupData } from '../../../api/groups';
 import { getUsers, type UserData } from '../../../api/users';
+import { useAuthStore } from '../../../stores/authStore';
 
 export function TimetablePage() {
   const { t } = useTranslation();
+  const user = useAuthStore((s) => s.user);
+  const setStudentGroup = useAuthStore((s) => s.setStudentGroup);
+  const isStudent = user?.role === 'student';
+
   const [sessions, setSessions] = useState<SessionData[]>([]);
   const [subjects, setSubjects] = useState<Record<string, SubjectData>>({});
   const [teachers, setTeachers] = useState<Record<string, string>>({});
@@ -22,10 +27,11 @@ export function TimetablePage() {
   useEffect(() => {
     async function loadRefData() {
       try {
+        const groupFetch = isStudent ? getMyGroups() : getGroups();
         const [subjectsRes, usersRes, groupsRes, roomsRes] = await Promise.all([
           getSubjects(),
           getUsers({ role: 'teacher', per_page: 500 }),
-          getGroups(),
+          groupFetch,
           getRooms(),
         ]);
         const subjectsArr: SubjectData[] = Array.isArray(subjectsRes.data)
@@ -44,7 +50,10 @@ export function TimetablePage() {
           ? groupsRes.data
           : (groupsRes.data as { data: GroupData[] }).data || [];
         setGroups(groupsArr);
-        if (groupsArr.length > 0) setSelectedGroupId(groupsArr[0].id);
+        if (groupsArr.length > 0) {
+          setSelectedGroupId(groupsArr[0].id);
+          if (isStudent) setStudentGroup({ id: String(groupsArr[0].id), name: groupsArr[0].name });
+        }
 
         const roomsArr: RoomData[] = Array.isArray(roomsRes.data) ? roomsRes.data : [];
         const rMap: Record<string, string> = {};
@@ -55,7 +64,7 @@ export function TimetablePage() {
       }
     }
     loadRefData();
-  }, []);
+  }, [isStudent, setStudentGroup]);
 
   const fetchSessions = useCallback(async () => {
     if (!selectedGroupId) return;
@@ -78,20 +87,22 @@ export function TimetablePage() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold">{t('timetable', 'Timetable')}</h1>
-        <div className="flex items-center gap-3">
-          <label className="text-sm font-medium">{t('class', 'Class')}:</label>
-          <select
-            className="h-9 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none"
-            value={selectedGroupId}
-            onChange={(e) => setSelectedGroupId(e.target.value)}
-          >
-            {groups.map((g) => (
-              <option key={g.id} value={g.id}>
-                {g.name}
-              </option>
-            ))}
-          </select>
-        </div>
+        {!isStudent && (
+          <div className="flex items-center gap-3">
+            <label className="text-sm font-medium">{t('class', 'Class')}:</label>
+            <select
+              className="h-9 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none"
+              value={selectedGroupId}
+              onChange={(e) => setSelectedGroupId(e.target.value)}
+            >
+              {groups.map((g) => (
+                <option key={g.id} value={g.id}>
+                  {g.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
       </div>
 
       {loading ? (

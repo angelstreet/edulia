@@ -15,3 +15,5 @@ from app.db.models.wallet import Wallet, WalletTransaction, ServiceCatalog, Serv
 from app.db.models.catalog import Course, LearningPlatform  # noqa: F401
 from app.db.models.certificate import Certificate  # noqa: F401
 from app.db.models.portfolio import Portfolio  # noqa: F401
+from app.db.models.calendar import CalendarEvent  # noqa: F401
+from app.db.models.school_life import Incident  # noqa: F401

@@ -15,11 +15,13 @@ from app.modules.wallet.schemas import (
     WalletResponse,
 )
 from app.modules.wallet.service import (
+    cancel_subscription,
     create_service,
     debit,
     get_transactions,
     get_wallet,
     list_services,
+    list_subscriptions,
     subscribe,
     topup,
 )
@@ -104,3 +106,21 @@ def subscribe_service(
         days_of_week=request.days_of_week,
         start_date=request.start_date,
     )
+
+
+@router.get("/api/v1/wallet/subscriptions", response_model=list[SubscriptionResponse])
+def get_subscriptions(
+    student_id: UUID | None = Query(None),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    return list_subscriptions(db, current_user.tenant_id, student_id)
+
+
+@router.delete("/api/v1/wallet/subscriptions/{subscription_id}", response_model=SubscriptionResponse)
+def delete_subscription(
+    subscription_id: UUID,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    return cancel_subscription(db, subscription_id, current_user.tenant_id)

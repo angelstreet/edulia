@@ -21,6 +21,10 @@ export function getGroups(params: { type?: string; parent_id?: string } = {}) {
   return client.get<{ data: GroupData[] }>('/v1/groups', { params });
 }
 
+export function getMyGroups() {
+  return client.get<GroupData[]>('/v1/groups/my');
+}
+
 export function getGroup(id: string) {
   return client.get<GroupData & { members: GroupMember[] }>(`/v1/groups/${id}`);
 }

@@ -41,6 +41,12 @@ class SubmissionCreate(BaseModel):
     content: str | None = None
 
 
+class SubmissionGrade(BaseModel):
+    grade: Decimal | None = None
+    teacher_feedback: str | None = None
+    status: str = "graded"
+
+
 class SubmissionResponse(BaseModel):
     id: UUID
     homework_id: UUID

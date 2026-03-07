@@ -45,10 +45,18 @@ export function createHomework(data: {
   return client.post<HomeworkData>('/v1/homework', data);
 }
 
+export function getHomeworkById(homeworkId: string) {
+  return client.get<HomeworkData>(`/v1/homework/${homeworkId}`);
+}
+
 export function getSubmissions(homeworkId: string) {
   return client.get<SubmissionData[]>(`/v1/homework/${homeworkId}/submissions`);
 }
 
 export function submitHomework(homeworkId: string, data: { content?: string }) {
   return client.post<SubmissionData>(`/v1/homework/${homeworkId}/submit`, data);
+}
+
+export function gradeSubmission(homeworkId: string, submissionId: string, data: { grade?: number; teacher_feedback?: string; status?: string }) {
+  return client.patch<SubmissionData>(`/v1/homework/${homeworkId}/submissions/${submissionId}`, data);
 }

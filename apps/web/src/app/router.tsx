@@ -19,7 +19,7 @@ import { GradeEntryPage } from '../features/gradebook/pages/GradeEntryPage';
 import { StudentGradesPage } from '../features/gradebook/pages/StudentGradesPage';
 import { HomeworkPage } from '../features/homework/pages/HomeworkPage';
 import { SubmissionPage } from '../features/homework/pages/SubmissionPage';
-import { DirectoryPage } from '../features/community/pages/DirectoryPage';
+import { CommunityPage } from '../features/community/pages/CommunityPage';
 import { DocumentsPage } from '../features/documents/pages/DocumentsPage';
 import { FormsListPage } from '../features/forms/pages/FormsListPage';
 import { FormBuilderPage } from '../features/forms/pages/FormBuilderPage';
@@ -27,6 +27,9 @@ import { FormFillPage } from '../features/forms/pages/FormFillPage';
 import { FormResultsPage } from '../features/forms/pages/FormResultsPage';
 import { WalletPage } from '../features/wallet/pages/WalletPage';
 import { ServicesPage } from '../features/wallet/pages/ServicesPage';
+import { CalendarPage } from '../features/calendar/pages/CalendarPage';
+import { SchoolLifePage } from '../features/school-life/pages/SchoolLifePage';
+import { ChildrenPage } from '../features/children/pages/ChildrenPage';
 import { NotFoundPage } from '../features/errors/pages/NotFoundPage';
 import { AuthGuard } from './guards/AuthGuard';
 import { RoleGuard } from './guards/RoleGuard';
@@ -100,7 +103,7 @@ export const router = createBrowserRouter([
       { path: 'homework/:id', element: <SubmissionPage /> },
       { path: 'messages', element: <MessagesPage /> },
       { path: 'settings', element: <SettingsPage /> },
-      { path: 'community', element: <DirectoryPage /> },
+      { path: 'community', element: <CommunityPage /> },
       { path: 'documents', element: <DocumentsPage /> },
       { path: 'forms', element: <FormsListPage /> },
       { path: 'forms/new', element: <FormBuilderPage /> },
@@ -108,9 +111,10 @@ export const router = createBrowserRouter([
       { path: 'forms/:id/results', element: <FormResultsPage /> },
       { path: 'wallet', element: <WalletPage /> },
       { path: 'services', element: <ServicesPage /> },
-      { path: 'children', element: <Navigate to="/grades" replace /> },
+      { path: 'children', element: <ChildrenPage /> },
       { path: 'billing', element: <Navigate to="/wallet" replace /> },
-      { path: 'calendar', element: <Navigate to="/timetable" replace /> },
+      { path: 'calendar', element: <CalendarPage /> },
+      { path: 'school-life', element: <SchoolLifePage /> },
       { path: 'students', element: <Navigate to="/community" replace /> },
     ],
   },

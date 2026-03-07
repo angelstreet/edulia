@@ -17,6 +17,7 @@ import {
   FolderOpen,
   FileText,
   Baby,
+  AlertTriangle,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -36,6 +37,8 @@ const NAV_BY_ROLE: Record<string, NavItem[]> = {
     { to: '/admin/settings', label: 'tenantSettings', icon: Settings },
     { to: '/timetable', label: 'timetable', icon: Calendar },
     { to: '/attendance', label: 'attendance', icon: ClipboardCheck },
+    { to: '/calendar', label: 'calendar', icon: Calendar },
+    { to: '/school-life', label: 'schoolLife', icon: AlertTriangle },
     { to: '/community', label: 'directory', icon: Users },
     { to: '/documents', label: 'documents', icon: FolderOpen },
     { to: '/forms', label: 'forms', icon: FileText },
@@ -47,6 +50,8 @@ const NAV_BY_ROLE: Record<string, NavItem[]> = {
     { to: '/attendance', label: 'attendance', icon: ClipboardCheck },
     { to: '/gradebook', label: 'gradebook', icon: BarChart3 },
     { to: '/homework', label: 'homework', icon: ClipboardList },
+    { to: '/calendar', label: 'calendar', icon: Calendar },
+    { to: '/school-life', label: 'schoolLife', icon: AlertTriangle },
     { to: '/messages', label: 'messages', icon: Mail },
   ],
   student: [
@@ -54,11 +59,13 @@ const NAV_BY_ROLE: Record<string, NavItem[]> = {
     { to: '/timetable', label: 'timetable', icon: Calendar },
     { to: '/grades', label: 'grades', icon: BarChart3 },
     { to: '/homework', label: 'homework', icon: ClipboardList },
+    { to: '/calendar', label: 'calendar', icon: Calendar },
     { to: '/messages', label: 'messages', icon: Mail },
   ],
   parent: [
     { to: '/dashboard', label: 'dashboard', icon: LayoutGrid },
     { to: '/children', label: 'children', icon: Baby },
+    { to: '/calendar', label: 'calendar', icon: Calendar },
     { to: '/messages', label: 'messages', icon: Mail },
     { to: '/documents', label: 'documents', icon: FolderOpen },
     { to: '/forms', label: 'forms', icon: FileText },
@@ -68,6 +75,7 @@ const NAV_BY_ROLE: Record<string, NavItem[]> = {
   tutor: [
     { to: '/dashboard', label: 'dashboard', icon: LayoutGrid },
     { to: '/timetable', label: 'timetable', icon: Calendar },
+    { to: '/calendar', label: 'calendar', icon: Calendar },
     { to: '/homework', label: 'homework', icon: FileText },
     { to: '/messages', label: 'messages', icon: Mail },
   ],

@@ -12,6 +12,7 @@ export interface AuthUser {
   role: string;
   permissions: string[];
   tenant_id: string;
+  studentGroup?: { id: string; name: string };
 }
 
 interface AuthState {
@@ -24,6 +25,7 @@ interface AuthState {
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   clearError: () => void;
+  setStudentGroup: (group: { id: string; name: string }) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -66,6 +68,11 @@ export const useAuthStore = create<AuthState>()(
       },
 
       clearError: () => set({ error: null }),
+
+      setStudentGroup: (group) =>
+        set((state) => ({
+          user: state.user ? { ...state.user, studentGroup: group } : null,
+        })),
     }),
     {
       name: "auth-storage",

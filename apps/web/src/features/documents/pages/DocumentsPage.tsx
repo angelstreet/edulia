@@ -1,7 +1,10 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Spinner } from '../../../components/ui/Spinner';
-import { getFiles, getCategories, type FileData, type CategoryCount } from '../../../api/files';
+import { Button } from '../../../components/ui/Button';
+import { Modal } from '../../../components/ui/Modal';
+import { getFiles, getCategories, uploadFile, deleteFile, type FileData, type CategoryCount } from '../../../api/files';
+import { useCurrentUser } from '../../../hooks/useCurrentUser';
 
 const CATEGORIES = [
   { key: '', label: 'All' },
@@ -21,10 +24,17 @@ function formatBytes(bytes: number) {
 
 export function DocumentsPage() {
   const { t } = useTranslation();
+  const user = useCurrentUser();
+  const isAdmin = user?.role === 'admin';
   const [files, setFiles] = useState<FileData[]>([]);
   const [counts, setCounts] = useState<CategoryCount[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('');
+  const [showUpload, setShowUpload] = useState(false);
+  const [uploadCategory, setUploadCategory] = useState('general');
+  const [uploadProgress, setUploadProgress] = useState<number | null>(null);
+  const [deleting, setDeleting] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const fetchFiles = useCallback(async () => {
     setLoading(true);
@@ -50,10 +60,39 @@ export function DocumentsPage() {
     window.open(`/api/v1/files/${file.id}/download`, '_blank');
   };
 
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadProgress(0);
+    try {
+      await uploadFile(file, uploadCategory, (pct) => setUploadProgress(pct));
+      setShowUpload(false);
+      setUploadProgress(null);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+      fetchFiles();
+    } catch {
+      setUploadProgress(null);
+    }
+  };
+
+  const handleDelete = async (fileId: string) => {
+    setDeleting(fileId);
+    try {
+      await deleteFile(fileId);
+      fetchFiles();
+    } catch { /* ignore */ }
+    setDeleting(null);
+  };
+
   return (
     <div>
-      <div className="mb-6">
+      <div className="mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-bold">{t('documents', 'Documents')}</h1>
+        {isAdmin && (
+          <Button variant="primary" onClick={() => setShowUpload(true)}>
+            + {t('upload', 'Upload')}
+          </Button>
+        )}
       </div>
 
       {/* Category tabs */}
@@ -100,16 +139,63 @@ export function DocumentsPage() {
                   {formatBytes(file.size ?? 0)} · {new Date(file.created_at).toLocaleDateString()}
                 </p>
               </div>
-              <button
-                onClick={() => handleDownload(file)}
-                className="text-xs text-primary hover:underline shrink-0"
-              >
-                {t('download', 'Download')}
-              </button>
+              <div className="flex items-center gap-3 shrink-0">
+                <button
+                  onClick={() => handleDownload(file)}
+                  className="text-xs text-primary hover:underline"
+                >
+                  {t('download', 'Download')}
+                </button>
+                {isAdmin && (
+                  <button
+                    onClick={() => handleDelete(file.id)}
+                    disabled={deleting === file.id}
+                    className="text-xs text-red-500 hover:underline disabled:opacity-50"
+                  >
+                    {deleting === file.id ? '…' : t('delete', 'Delete')}
+                  </button>
+                )}
+              </div>
             </div>
           ))}
         </div>
       )}
+
+      {/* Upload modal */}
+      <Modal open={showUpload} title={t('upload', 'Upload Document')} onClose={() => setShowUpload(false)}>
+        <div className="flex flex-col gap-4">
+          <div>
+            <label className="text-sm font-medium block mb-1">{t('category', 'Category')}</label>
+            <select
+              className="w-full border rounded-md px-3 py-2 text-sm bg-background"
+              value={uploadCategory}
+              onChange={(e) => setUploadCategory(e.target.value)}
+            >
+              {CATEGORIES.filter((c) => c.key).map((c) => (
+                <option key={c.key} value={c.key}>{c.label}</option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="text-sm font-medium block mb-1">{t('file', 'File')}</label>
+            <input
+              ref={fileInputRef}
+              type="file"
+              onChange={handleUpload}
+              disabled={uploadProgress !== null}
+              className="w-full text-sm file:mr-3 file:py-1.5 file:px-3 file:rounded file:border-0 file:text-sm file:bg-primary file:text-white hover:file:opacity-90"
+            />
+          </div>
+          {uploadProgress !== null && (
+            <div className="w-full bg-muted rounded-full h-2">
+              <div
+                className="bg-primary h-2 rounded-full transition-all"
+                style={{ width: `${uploadProgress}%` }}
+              />
+            </div>
+          )}
+        </div>
+      </Modal>
     </div>
   );
 }

@@ -137,6 +137,31 @@ def subscribe(
     return sub
 
 
+def list_subscriptions(db: Session, tenant_id: UUID, student_id: UUID | None = None) -> list[ServiceSubscription]:
+    query = (
+        db.query(ServiceSubscription)
+        .filter(ServiceSubscription.tenant_id == tenant_id, ServiceSubscription.status == "active")
+    )
+    if student_id:
+        query = query.filter(ServiceSubscription.student_id == student_id)
+    return query.order_by(ServiceSubscription.start_date.desc()).all()
+
+
+def cancel_subscription(db: Session, subscription_id: UUID, tenant_id: UUID) -> ServiceSubscription:
+    sub = (
+        db.query(ServiceSubscription)
+        .filter(ServiceSubscription.id == subscription_id, ServiceSubscription.tenant_id == tenant_id)
+        .first()
+    )
+    if not sub:
+        raise NotFoundException("Subscription not found")
+    sub.status = "cancelled"
+    sub.end_date = datetime.utcnow()
+    db.commit()
+    db.refresh(sub)
+    return sub
+
+
 def _tx_to_dict(tx: WalletTransaction) -> dict:
     return {
         "id": tx.id,

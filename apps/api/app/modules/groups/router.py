@@ -20,6 +20,7 @@ from app.modules.groups.service import (
     delete_group,
     get_group_detail,
     list_groups,
+    list_groups_for_user,
     remove_member,
     update_group,
 )
@@ -39,6 +40,14 @@ def create(
         "name": group.name, "description": group.description, "capacity": group.capacity,
         "created_at": group.created_at, "member_count": 0,
     })
+
+
+@router.get("/my", response_model=list[GroupResponse])
+def list_my(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    return list_groups_for_user(db, current_user.id, current_user.tenant_id)
 
 
 @router.get("", response_model=list[GroupResponse])

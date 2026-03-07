@@ -54,6 +54,26 @@ def get_homework_submissions(db: Session, homework_id: UUID) -> list[Submission]
     )
 
 
+def get_submission(db: Session, submission_id: UUID) -> Submission:
+    sub = db.query(Submission).filter(Submission.id == submission_id).first()
+    if not sub:
+        raise NotFoundException("Submission not found")
+    return sub
+
+
+def grade_submission(db: Session, submission_id: UUID, grade, teacher_feedback: str | None, status: str) -> Submission:
+    sub = get_submission(db, submission_id)
+    if grade is not None:
+        sub.grade = grade
+    if teacher_feedback is not None:
+        sub.teacher_feedback = teacher_feedback
+    sub.status = status
+    sub.graded_at = datetime.utcnow()
+    db.commit()
+    db.refresh(sub)
+    return sub
+
+
 def create_submission(db: Session, homework_id: UUID, student_id: UUID, **kwargs) -> Submission:
     hw = db.query(Homework).filter(Homework.id == homework_id).first()
     if not hw:
