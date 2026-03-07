@@ -19,10 +19,10 @@ export function Breadcrumb() {
           <span key={path} className="flex items-center">
             <span className="mx-1.5">/</span>
             {isLast ? (
-              <span className="text-foreground">{segment}</span>
+              <span className="text-foreground">{t(segment, segment)}</span>
             ) : (
               <Link to={path} className="text-primary hover:underline">
-                {segment}
+                {t(segment, segment)}
               </Link>
             )}
           </span>

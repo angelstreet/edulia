@@ -1,6 +1,6 @@
 """add activity attempt table
 
-Revision ID: a1b2c3d4e5f6
+Revision ID: c9d8e7f6a5b4
 Revises: f7a8b9c0d1e2
 Create Date: 2026-03-07 13:00:00.000000
 
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 
-revision: str = 'a1b2c3d4e5f6'
+revision: str = 'c9d8e7f6a5b4'
 down_revision: Union[str, None] = 'f7a8b9c0d1e2'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
