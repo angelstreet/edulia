@@ -78,6 +78,10 @@ export function getAssessments(params: { group_id?: string; subject_id?: string;
   return client.get<AssessmentData[]>('/v1/gradebook/assessments', { params });
 }
 
+export function getAssessmentById(assessmentId: string) {
+  return client.get<AssessmentData>(`/v1/gradebook/assessments/${assessmentId}`);
+}
+
 export function createAssessment(data: {
   subject_id: string;
   group_id: string;
@@ -125,8 +129,8 @@ export interface StudentSubjectGrades {
   grades: StudentGradeDetail[];
 }
 
-export const getStudentSubjectGrades = (studentId: string, subjectId: string) =>
-  client.get<StudentSubjectGrades>(`/v1/gradebook/students/${studentId}/subjects/${subjectId}/grades`);
+export const getStudentSubjectGrades = (studentId: string, subjectId: string, params: { term_id?: string } = {}) =>
+  client.get<StudentSubjectGrades>(`/v1/gradebook/students/${studentId}/subjects/${subjectId}/grades`, { params });
 
 // Convenience: flatten all terms from all academic years
 export async function getAllTerms(): Promise<TermData[]> {

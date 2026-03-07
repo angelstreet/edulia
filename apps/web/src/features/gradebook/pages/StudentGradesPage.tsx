@@ -5,6 +5,7 @@ import { EmptyState } from '../../../components/ui/EmptyState';
 import { useCurrentUser } from '../../../hooks/useCurrentUser';
 import { useAuthStore } from '../../../stores/authStore';
 import { getStudentAverages, getStudentSubjectGrades, type StudentAveragesData, type StudentSubjectGrades } from '../../../api/gradebook';
+import { getAcademicYears, type TermData } from '../../../api/academicYears';
 import { getDashboardStats } from '../../../api/dashboard';
 import { ChevronDown, ChevronUp, Users, Download } from 'lucide-react';
 import client from '../../../api/client';
@@ -22,6 +23,19 @@ export function StudentGradesPage() {
   const [detailLoading, setDetailLoading] = useState(false);
   const [children, setChildren] = useState<Child[]>([]);
   const [selectedChildId, setSelectedChildId] = useState<string | null>(null);
+  const [terms, setTerms] = useState<TermData[]>([]);
+  const [selectedTermId, setSelectedTermId] = useState('');
+
+  // Load academic years and flatten terms
+  useEffect(() => {
+    getAcademicYears()
+      .then(({ data: res }) => {
+        const years = Array.isArray(res) ? res : (res as { data: typeof res }).data ?? [];
+        const allTerms = (Array.isArray(years) ? years : []).flatMap((y) => y.terms ?? []);
+        setTerms(allTerms);
+      })
+      .catch(() => {});
+  }, []);
 
   // Load parent's children from dashboard stats
   useEffect(() => {
@@ -51,18 +65,20 @@ export function StudentGradesPage() {
   useEffect(() => {
     if (!targetId) { setLoading(false); return; }
     setLoading(true);
-    getStudentAverages(targetId)
+    const params = selectedTermId ? { term_id: selectedTermId } : {};
+    getStudentAverages(targetId, params)
       .then(({ data: d }) => setData(d))
       .catch(() => setData(null))
       .finally(() => setLoading(false));
-  }, [targetId]);
+  }, [targetId, selectedTermId]);
 
   const toggleSubject = async (subjectId: string) => {
     if (expanded === subjectId) { setExpanded(null); setDetail(null); return; }
     setExpanded(subjectId);
     setDetailLoading(true);
     try {
-      const { data: d } = await getStudentSubjectGrades(targetId!, subjectId);
+      const params = selectedTermId ? { term_id: selectedTermId } : {};
+      const { data: d } = await getStudentSubjectGrades(targetId!, subjectId, params);
       setDetail(d);
     } catch { setDetail(null); }
     finally { setDetailLoading(false); }
@@ -113,6 +129,23 @@ export function StudentGradesPage() {
               </button>
             ))}
           </div>
+        </div>
+      )}
+
+      {/* Term filter */}
+      {terms.length > 0 && (
+        <div className="flex items-center gap-2 mb-4">
+          <label className="text-sm font-medium">{t('term', 'Term')}</label>
+          <select
+            value={selectedTermId}
+            onChange={(e) => { setSelectedTermId(e.target.value); setExpanded(null); setDetail(null); }}
+            className="h-8 rounded border border-input bg-transparent px-2 text-sm outline-none focus:border-ring"
+          >
+            <option value="">{t('allTerms', 'All terms')}</option>
+            {terms.map((term) => (
+              <option key={term.id} value={term.id}>{term.name}</option>
+            ))}
+          </select>
         </div>
       )}
 

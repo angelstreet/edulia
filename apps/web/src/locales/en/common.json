@@ -274,5 +274,10 @@
   "coefficient": "Coefficient",
   "noSubjectForGradebook": "This activity has no subject assigned. Edit the activity to add a subject before pushing to gradebook.",
   "noGroupForGradebook": "This activity has no group assigned.",
-  "pushError": "Could not push to gradebook. Please try again."
+  "pushError": "Could not push to gradebook. Please try again.",
+  "allSubjects": "All subjects",
+  "allTerms": "All terms",
+  "selectSubject": "Select subject...",
+  "term": "Term",
+  "subjectFilter": "Subject"
 }

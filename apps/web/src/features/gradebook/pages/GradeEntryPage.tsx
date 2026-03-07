@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from '../../../components/ui/Button';
 import { Spinner } from '../../../components/ui/Spinner';
-import { getAssessments, getAssessmentGrades, bulkCreateGrades, type AssessmentData, type GradeData, type GradeInput } from '../../../api/gradebook';
+import { getAssessmentById, getAssessmentGrades, bulkCreateGrades, type AssessmentData, type GradeData, type GradeInput } from '../../../api/gradebook';
+import { getGroup } from '../../../api/groups';
 
 interface GradeRow {
   student_id: string;
@@ -22,15 +23,16 @@ export function GradeEntryPage() {
   const [rows, setRows] = useState<GradeRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [studentNames, setStudentNames] = useState<Record<string, string>>({});
   const isQcmSource = Boolean(assessment?.source_activity_id);
 
   const fetchGrades = useCallback(async () => {
     if (!assessmentId) return;
     setLoading(true);
     try {
-      const [gradesRes, assessmentsRes] = await Promise.all([
+      const [gradesRes, assessmentRes] = await Promise.all([
         getAssessmentGrades(assessmentId),
-        getAssessments(),
+        getAssessmentById(assessmentId),
       ]);
       const list = Array.isArray(gradesRes.data) ? gradesRes.data : [];
       setGrades(list);
@@ -41,9 +43,23 @@ export function GradeEntryPage() {
         is_exempt: g.is_exempt,
         comment: g.comment || '',
       })));
-      const allAssessments = Array.isArray(assessmentsRes.data) ? assessmentsRes.data : [];
-      const found = allAssessments.find((a) => a.id === assessmentId) ?? null;
+      const found = assessmentRes.data ?? null;
       setAssessment(found);
+
+      // Load group members to build student name map
+      if (found?.group_id) {
+        try {
+          const groupRes = await getGroup(found.group_id);
+          const members = groupRes.data?.members ?? [];
+          const nameMap: Record<string, string> = {};
+          for (const m of members) {
+            nameMap[m.user_id] = m.display_name || m.email || m.user_id.slice(0, 8);
+          }
+          setStudentNames(nameMap);
+        } catch {
+          setStudentNames({});
+        }
+      }
     } catch {
       setGrades([]);
       setRows([]);
@@ -138,7 +154,9 @@ export function GradeEntryPage() {
               {rows.map((row, i) => (
                 <tr key={row.student_id} className="border-b hover:bg-muted/30">
                   <td className="p-2 text-muted-foreground">{i + 1}</td>
-                  <td className="p-2 font-medium">{row.student_id.slice(0, 8)}...</td>
+                  <td className="p-2 font-medium">
+                    {studentNames[row.student_id] ?? `${row.student_id.slice(0, 8)}...`}
+                  </td>
                   <td className="p-2">
                     <input
                       type="number"

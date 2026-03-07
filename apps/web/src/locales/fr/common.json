@@ -275,5 +275,10 @@
   "coefficient": "Coefficient",
   "noSubjectForGradebook": "Cette activité n'a pas de matière assignée. Modifiez l'activité pour ajouter une matière avant d'exporter.",
   "noGroupForGradebook": "Cette activité n'a pas de groupe assigné.",
-  "pushError": "Impossible d'exporter vers le carnet de notes. Veuillez réessayer."
+  "pushError": "Impossible d'exporter vers le carnet de notes. Veuillez réessayer.",
+  "allSubjects": "Toutes les matières",
+  "allTerms": "Toutes les périodes",
+  "selectSubject": "Choisir une matière...",
+  "term": "Période",
+  "subjectFilter": "Matière"
 }

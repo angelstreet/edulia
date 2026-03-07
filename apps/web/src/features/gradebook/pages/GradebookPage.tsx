@@ -9,28 +9,44 @@ import { EmptyState } from '../../../components/ui/EmptyState';
 import { Badge } from '../../../components/ui/Badge';
 import { getGroups, type GroupData } from '../../../api/groups';
 import { getAssessments, createAssessment, type AssessmentData } from '../../../api/gradebook';
+import { getSubjects, type SubjectData } from '../../../api/subjects';
+import { getAcademicYears, type AcademicYearData, type TermData } from '../../../api/academicYears';
 
 export function GradebookPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [groups, setGroups] = useState<GroupData[]>([]);
+  const [subjects, setSubjects] = useState<SubjectData[]>([]);
+  const [terms, setTerms] = useState<TermData[]>([]);
   const [assessments, setAssessments] = useState<AssessmentData[]>([]);
   const [loading, setLoading] = useState(false);
   const [selectedGroupId, setSelectedGroupId] = useState('');
-  const [selectedSubjectId] = useState('');
-  const [selectedTermId] = useState('');
+  const [selectedSubjectId, setSelectedSubjectId] = useState('');
+  const [selectedTermId, setSelectedTermId] = useState('');
   const [showForm, setShowForm] = useState(false);
   const [saving, setSaving] = useState(false);
   const [newTitle, setNewTitle] = useState('');
   const [newDate, setNewDate] = useState('');
   const [newMaxScore, setNewMaxScore] = useState('20');
   const [newCoefficient, setNewCoefficient] = useState('1');
+  const [newSubjectId, setNewSubjectId] = useState('');
+  const [newTermId, setNewTermId] = useState('');
 
   useEffect(() => {
     getGroups().then(({ data }) => {
       const list = Array.isArray(data) ? data : data.data || [];
       setGroups(list);
     }).catch(() => setGroups([]));
+
+    getSubjects().then(({ data }) => {
+      setSubjects(Array.isArray(data) ? data : data.data || []);
+    }).catch(() => {});
+
+    getAcademicYears().then(({ data }) => {
+      const years = Array.isArray(data) ? data : data.data || [];
+      const allTerms = years.flatMap((y: AcademicYearData) => y.terms ?? []);
+      setTerms(allTerms);
+    }).catch(() => {});
   }, []);
 
   const fetchAssessments = useCallback(async () => {
@@ -51,14 +67,21 @@ export function GradebookPage() {
 
   useEffect(() => { fetchAssessments(); }, [fetchAssessments]);
 
+  const openCreateModal = () => {
+    setNewSubjectId(selectedSubjectId);
+    setNewTermId(selectedTermId);
+    setShowForm(true);
+  };
+
   const handleCreate = async () => {
     if (!newTitle.trim() || !selectedGroupId || !newDate) return;
+    if (!newSubjectId || !newTermId) return;
     setSaving(true);
     try {
       await createAssessment({
-        subject_id: selectedSubjectId,
+        subject_id: newSubjectId,
         group_id: selectedGroupId,
-        term_id: selectedTermId,
+        term_id: newTermId,
         title: newTitle,
         date: newDate,
         max_score: parseFloat(newMaxScore) || 20,
@@ -69,6 +92,8 @@ export function GradebookPage() {
       setNewDate('');
       setNewMaxScore('20');
       setNewCoefficient('1');
+      setNewSubjectId('');
+      setNewTermId('');
       fetchAssessments();
     } catch { /* ignore */ }
     setSaving(false);
@@ -78,12 +103,12 @@ export function GradebookPage() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold">{t('gradebook', 'Gradebook')}</h1>
-        <Button variant="primary" onClick={() => setShowForm(true)} disabled={!selectedGroupId}>
+        <Button variant="primary" onClick={openCreateModal} disabled={!selectedGroupId}>
           + {t('newAssessment', 'New Assessment')}
         </Button>
       </div>
 
-      <div className="flex gap-4 mb-6">
+      <div className="flex gap-4 mb-6 flex-wrap">
         <div className="flex flex-col gap-1">
           <label className="text-sm font-medium">{t('class', 'Class')}</label>
           <select
@@ -94,6 +119,34 @@ export function GradebookPage() {
             <option value="">{t('selectClass', 'Select a class...')}</option>
             {groups.map((g) => (
               <option key={g.id} value={g.id}>{g.name}</option>
+            ))}
+          </select>
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <label className="text-sm font-medium">{t('subjectFilter', 'Subject')}</label>
+          <select
+            className="h-9 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none"
+            value={selectedSubjectId}
+            onChange={(e) => setSelectedSubjectId(e.target.value)}
+          >
+            <option value="">{t('allSubjects', 'All subjects')}</option>
+            {subjects.map((s) => (
+              <option key={s.id} value={s.id}>{s.name}</option>
+            ))}
+          </select>
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <label className="text-sm font-medium">{t('term', 'Term')}</label>
+          <select
+            className="h-9 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none"
+            value={selectedTermId}
+            onChange={(e) => setSelectedTermId(e.target.value)}
+          >
+            <option value="">{t('allTerms', 'All terms')}</option>
+            {terms.map((term) => (
+              <option key={term.id} value={term.id}>{term.name}</option>
             ))}
           </select>
         </div>
@@ -123,6 +176,11 @@ export function GradebookPage() {
                 <span className="text-sm text-muted-foreground">
                   {a.date} &middot; /{a.max_score} &middot; {t('coeff', 'Coeff')} {a.coefficient}
                 </span>
+                {a.subject_id && subjects.find((s) => s.id === a.subject_id)?.name && (
+                  <span className="text-xs text-muted-foreground">
+                    {subjects.find((s) => s.id === a.subject_id)?.name}
+                  </span>
+                )}
               </div>
               <div className="flex items-center gap-2">
                 <Badge variant={a.is_published ? 'success' : 'default'}>
@@ -140,6 +198,37 @@ export function GradebookPage() {
           <Input id="date" label={t('date', 'Date')} type="date" value={newDate} onChange={(e) => setNewDate(e.currentTarget.value)} required />
           <Input id="maxScore" label={t('maxScore', 'Max Score')} type="number" value={newMaxScore} onChange={(e) => setNewMaxScore(e.currentTarget.value)} />
           <Input id="coefficient" label={t('coefficient', 'Coefficient')} type="number" value={newCoefficient} onChange={(e) => setNewCoefficient(e.currentTarget.value)} />
+
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-medium">{t('subjectFilter', 'Subject')} *</label>
+            <select
+              required
+              className="h-9 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none"
+              value={newSubjectId}
+              onChange={(e) => setNewSubjectId(e.target.value)}
+            >
+              <option value="">{t('selectSubject', 'Select subject...')}</option>
+              {subjects.map((s) => (
+                <option key={s.id} value={s.id}>{s.name}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-medium">{t('term', 'Term')} *</label>
+            <select
+              required
+              className="h-9 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none"
+              value={newTermId}
+              onChange={(e) => setNewTermId(e.target.value)}
+            >
+              <option value="">{t('selectTerm', 'Select term...')}</option>
+              {terms.map((term) => (
+                <option key={term.id} value={term.id}>{term.name}</option>
+              ))}
+            </select>
+          </div>
+
           <div className="flex gap-2 justify-end mt-4">
             <Button variant="secondary" onClick={() => setShowForm(false)}>{t('cancel')}</Button>
             <Button variant="primary" loading={saving} onClick={handleCreate}>{t('save')}</Button>

@@ -20,6 +20,7 @@ from app.modules.gradebook.service import (
     bulk_create_grades,
     create_assessment,
     create_grade_category,
+    get_assessment,
     get_assessment_grades,
     list_assessments,
     list_grade_categories,
@@ -63,6 +64,15 @@ def create(
 ):
     assessment = create_assessment(db, current_user.tenant_id, current_user.id, **request.model_dump())
     return assessment
+
+
+@router.get("/assessments/{assessment_id}", response_model=AssessmentResponse)
+def get_assessment_detail(
+    assessment_id: UUID,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    return get_assessment(db, assessment_id)
 
 
 @router.get("/assessments", response_model=list[AssessmentResponse])
