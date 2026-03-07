@@ -23,12 +23,12 @@ export const useNotificationStore = create<NotificationState>((set) => ({
     })),
   markRead: (id) =>
     set((s) => ({
-      notifications: s.notifications.map((n) => (n.id === id ? { ...n, is_read: true } : n)),
+      notifications: s.notifications.map((n) => (n.id === id ? { ...n, read_at: new Date().toISOString() } : n)),
       unreadCount: Math.max(0, s.unreadCount - 1),
     })),
   markAllRead: () =>
     set((s) => ({
-      notifications: s.notifications.map((n) => ({ ...n, is_read: true })),
+      notifications: s.notifications.map((n) => ({ ...n, read_at: new Date().toISOString() })),
       unreadCount: 0,
     })),
 }));

@@ -63,7 +63,7 @@ export function NotificationPanel() {
                   key={n.id}
                   className={cn(
                     'flex items-start gap-3 px-4 py-3 border-b border-border cursor-pointer hover:bg-muted/50 transition-colors',
-                    !n.is_read && 'bg-primary/5'
+                    !n.read_at && 'bg-primary/5'
                   )}
                   onClick={() => handleClick(n)}
                 >

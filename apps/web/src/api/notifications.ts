@@ -4,17 +4,14 @@ export interface NotificationData {
   id: string;
   type: string;
   title: string;
-  body: string;
+  body: string | null;
   link: string | null;
-  is_read: boolean;
+  read_at: string | null;
   created_at: string;
 }
 
-export function getNotifications(params: { page?: number; per_page?: number } = {}) {
-  return client.get<{ data: NotificationData[]; meta: { total: number; unread_count: number } }>(
-    '/v1/notifications',
-    { params },
-  );
+export function getNotifications(_params: { page?: number; per_page?: number } = {}) {
+  return client.get<NotificationData[]>('/v1/notifications');
 }
 
 export function markNotificationRead(id: string) {
