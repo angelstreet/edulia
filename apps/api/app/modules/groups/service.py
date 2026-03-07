@@ -4,6 +4,8 @@ from sqlalchemy.orm import Session, joinedload
 
 from app.core.exceptions import NotFoundException
 from app.db.models.group import Group, GroupMembership
+from app.db.models.timetable import Session as TimetableSession
+from app.db.models.subject import Subject
 from app.db.models.user import User
 
 
@@ -51,6 +53,20 @@ def get_group_detail(db: Session, group_id: UUID) -> dict:
     active_members = [m for m in group.memberships if m.left_at is None]
     user_ids = [m.user_id for m in active_members]
     users = {u.id: u for u in db.query(User).filter(User.id.in_(user_ids)).all()} if user_ids else {}
+
+    # Build teacher → subjects map from timetable sessions for this group
+    teacher_subjects: dict = {}
+    sessions = (
+        db.query(TimetableSession)
+        .filter(TimetableSession.group_id == group_id, TimetableSession.status == "active")
+        .all()
+    )
+    subject_ids = list({s.subject_id for s in sessions})
+    subjects_map = {s.id: s.name for s in db.query(Subject).filter(Subject.id.in_(subject_ids)).all()} if subject_ids else {}
+    for s in sessions:
+        teacher_subjects.setdefault(s.teacher_id, set()).add(subjects_map.get(s.subject_id, ""))
+    teacher_subjects = {tid: sorted(names - {""}) for tid, names in teacher_subjects.items()}
+
     members_data = [
         {
             "id": m.id,
@@ -58,6 +74,7 @@ def get_group_detail(db: Session, group_id: UUID) -> dict:
             "role_in_group": m.role_in_group,
             "role": m.role_in_group,
             "display_name": users[m.user_id].display_name if m.user_id in users else "",
+            "subjects": teacher_subjects.get(m.user_id, []),
             "joined_at": m.joined_at,
         }
         for m in active_members

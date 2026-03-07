@@ -30,6 +30,7 @@ class MemberResponse(BaseModel):
     role_in_group: str
     role: str = ""
     display_name: str = ""
+    subjects: list[str] = []
     joined_at: datetime
 
     model_config = {"from_attributes": True}

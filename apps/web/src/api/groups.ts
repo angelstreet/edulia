@@ -15,6 +15,7 @@ export interface GroupMember {
   display_name: string;
   email: string;
   role: string;
+  subjects: string[];
 }
 
 export function getGroups(params: { type?: string; parent_id?: string } = {}) {
