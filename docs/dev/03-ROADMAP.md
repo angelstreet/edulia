@@ -1,6 +1,6 @@
 # 03 — Roadmap: Built, In Progress, Next
 
-Last updated: 2026-03-11
+Last updated: 2026-03-12
 
 ---
 
@@ -106,7 +106,26 @@ Last updated: 2026-03-11
 
 ---
 
-### 🔵 BACKLOG: PWA + Offline
+### ✅ DONE: PWA + Mobile/Tablet Layout (shipped 2026-03-12)
+
+**PWA:**
+- `vite-plugin-pwa` + Workbox: autoUpdate service worker, web app manifest
+- NetworkFirst for API routes (timetable, grades, homework) — works offline with last-fetched data
+- CacheFirst for static assets (30-day cache)
+- `InstallPrompt` banner: shows on eligible browsers, dismissable, standalone-mode aware
+- index.html: full PWA meta tags (theme-color, apple-mobile-web-app-*, description)
+
+**Mobile/tablet layout audit:**
+- All tables wrapped with `overflow-x-auto` + negative margin bleed
+- Filter rows stack vertically on mobile (`flex-col sm:flex-row`)
+- Dashboard grids: `grid-cols-1 sm:grid-cols-2 lg:grid-cols-4`
+- Topbar breadcrumb truncated on mobile
+- EnrollmentPage admin: card layout on mobile, table on md+
+- Enrollment links added to MobileNav + Sidebar (admin + parent)
+
+---
+
+### 🔵 BACKLOG: PWA + Offline (promoted — done above)
 
 ### 🟡 SOON: Billing / Stripe Real Payments
 
