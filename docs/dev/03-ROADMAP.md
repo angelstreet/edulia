@@ -1,6 +1,6 @@
 # 03 — Roadmap: Built, In Progress, Next
 
-Last updated: 2026-03-07
+Last updated: 2026-03-08
 
 ---
 
@@ -52,34 +52,24 @@ Last updated: 2026-03-07
 
 ## Next Up — Ordered Execution Queue
 
-### 🔴 NOW: Gradebook ↔ Activity Integration
+### ✅ DONE: Gradebook ↔ Activity Integration (shipped 2026-03-07)
 
-**Why:** Activities (auto-scored QCM) live in a silo. Teachers want QCM scores to appear in the gradebook alongside manual grades, feeding into term averages and report cards.
+- `POST /api/v1/activities/{id}/push-to-gradebook` — score scaling, idempotency via `source_activity_id`
+- "Push to Gradebook" button + modal on ActivityResultsPage
+- QCM badge on assessments in gradebook; read-only grade cells for QCM-sourced grades
+- 10 HTTP integration tests + 5 Playwright E2E
 
-**What to build:**
-- Backend: `POST /api/v1/activities/{id}/push-to-gradebook` — teacher pushes activity scores as an Assessment in gradebook (creates Assessment + bulk-creates Grades from attempt scores)
-- Frontend: "Push to Gradebook" button on `ActivityResultsPage` → modal to select subject/group/term/coefficient → confirm
-- Gradebook then shows activity scores with a badge "from QCM" (read-only, not manually editable)
-- Students and parents see QCM grades alongside manual grades in their grade view
+### ✅ DONE: Gradebook Audit & Gap Fix (shipped 2026-03-08)
 
-**Effort:** Small-Medium (both systems exist, just need the bridge)
-
----
-
-### 🟠 NEXT: Gradebook Audit & Gap Fix
-
-The gradebook module exists but may have gaps. Audit and fix:
-
-1. **Term selector** — does grade entry require selecting a term? Is it wired to the academic year/term structure?
-2. **Assessment creation flow** — teacher needs to create an assessment (title, date, max score, coefficient, category) before entering grades. Is this UX smooth?
-3. **Category management** — grade categories (homework, test, oral, participation) with weights. Does the UI exist?
-4. **Student-facing view** — can students see their grades per subject, per term, running average?
-5. **Parent-facing view** — can parents see their child's grades?
-6. **Average computation** — weighted by coefficient, split by term. Is it correct?
-
-**Effort:** Small (likely just missing UI glue, all DB/API already exists)
+- GradebookPage: working term + subject filter selects; assessment creation modal passes subject_id + term_id
+- GradeEntryPage: student names resolved from group members (no more UUID slugs); QCM grades read-only
+- StudentGradesPage: term filter dropdown; passes term_id to averages and subject drill-down
+- Backend: `GET /gradebook/assessments/{id}` endpoint added
+- 10 HTTP integration tests + 5 Playwright E2E
 
 ---
+
+### 🔴 NOW: Billing / Stripe Real Payments
 
 ### 🟡 SOON: Billing / Stripe Real Payments
 
@@ -158,8 +148,9 @@ For tutor accounts (already have role):
 | Item | Status |
 |---|---|
 | Interactive Teaching F1–F6 | ✅ Shipped 2026-03-07 |
-| Gradebook ↔ Activity Integration | 🔴 Next |
-| Gradebook audit & gap fix | 🟠 After |
+| Gradebook ↔ Activity Integration | ✅ Shipped 2026-03-07 |
+| Gradebook audit & gap fix | ✅ Shipped 2026-03-08 |
+| Billing / Stripe Real Payments | 🔴 Next |
 
 ---
 
@@ -168,6 +159,6 @@ For tutor accounts (already have role):
 | Issue | Where | Fix |
 |---|---|---|
 | Notification producers missing | All modules | Add on each write operation |
-| Activity scores not in gradebook | Activities + Gradebook | Push-to-gradebook bridge |
+| Activity scores not in gradebook | Activities + Gradebook | ✅ Fixed — push-to-gradebook bridge |
 | WS answer store is in-memory | session_ws.py | Persist to Redis for multi-pod (post-MVP) |
 | Open questions score 0 | scoring.py | Manual grading flow for open QCM (backlog) |
