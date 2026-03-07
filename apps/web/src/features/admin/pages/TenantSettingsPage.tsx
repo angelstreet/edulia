@@ -145,6 +145,38 @@ export function TenantSettingsPage() {
             </div>
           </div>
         </Card>
+
+        <Card title={t('billingInfo', 'Billing / Invoice info')}>
+          <p className="text-xs text-muted-foreground mb-3">{t('billingInfoDesc', 'This information appears on all invoices generated from /billing.')}</p>
+          <div className="flex flex-col gap-3">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="flex flex-col gap-1">
+                <label className="text-sm font-medium">SIRET</label>
+                <input className="h-9 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none" value={settings.siret ?? ''} onChange={e => setSettings({ ...settings, siret: e.target.value })} placeholder="781 118 716 00013" />
+              </div>
+              <div className="flex flex-col gap-1">
+                <label className="text-sm font-medium">N° ICS</label>
+                <input className="h-9 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none" value={settings.ics ?? ''} onChange={e => setSettings({ ...settings, ics: e.target.value })} placeholder="FR76ZZZ404070" />
+              </div>
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-medium">{t('schoolAddress', 'School address (for invoice header)')}</label>
+              <textarea rows={2} className="rounded-md border border-input bg-transparent px-3 py-1.5 text-sm shadow-xs outline-none resize-none" value={settings.school_address ?? ''} onChange={e => setSettings({ ...settings, school_address: e.target.value })} placeholder={"31 Rue Blaise Pascal\n76100 Rouen"} />
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-medium">{t('schoolPhone', 'School phone')}</label>
+              <input className="h-9 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none" value={settings.school_phone ?? ''} onChange={e => setSettings({ ...settings, school_phone: e.target.value })} placeholder="01 23 45 67 89" />
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-medium">{t('defaultBankAccount', 'Default IBAN (for direct debit info)')}</label>
+              <input className="h-9 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none" value={settings.default_bank_account ?? ''} onChange={e => setSettings({ ...settings, default_bank_account: e.target.value })} placeholder="FR76 1234 5678 9012 3456 7890 123" />
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-medium">{t('defaultContactInfo', 'Default contact note (invoice footer)')}</label>
+              <textarea rows={2} className="rounded-md border border-input bg-transparent px-3 py-1.5 text-sm shadow-xs outline-none resize-none" value={settings.default_contact_info ?? ''} onChange={e => setSettings({ ...settings, default_contact_info: e.target.value })} placeholder="En cas de questions, veuillez contacter…" />
+            </div>
+          </div>
+        </Card>
       </div>
     </div>
   );

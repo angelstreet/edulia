@@ -22,6 +22,12 @@ export interface TenantSettings {
   attendance_mode: string;
   file_upload_max_mb: number;
   data_retention_years: number;
+  siret?: string;
+  ics?: string;
+  school_address?: string;
+  school_phone?: string;
+  default_bank_account?: string;
+  default_contact_info?: string;
 }
 
 export interface TenantBranding {

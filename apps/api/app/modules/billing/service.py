@@ -109,8 +109,8 @@ def generate_pdf(invoice: SchoolInvoice, tenant: Tenant) -> bytes:
     settings = tenant.settings or {}
 
     school_name = tenant.name
-    school_address = settings.get("address", "")
-    school_phone = settings.get("phone", "")
+    school_address = settings.get("school_address", settings.get("address", ""))
+    school_phone = settings.get("school_phone", settings.get("phone", ""))
     school_siret = settings.get("siret", "")
     school_ics = settings.get("ics", "")
 
