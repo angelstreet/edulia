@@ -48,6 +48,7 @@ import { NotFoundPage } from '../features/errors/pages/NotFoundPage';
 import { AbsencesPage } from '../features/absences/pages/AbsencesPage';
 import { HealthRecordPage } from '../features/health/pages/HealthRecordPage';
 import { TutoringCRMPage } from '../features/tutoring/pages/TutoringCRMPage';
+import { BillingPage } from '../features/billing/pages/BillingPage';
 import { AuthGuard } from './guards/AuthGuard';
 import { RoleGuard } from './guards/RoleGuard';
 import { AppShell } from '../components/layout/AppShell';
@@ -138,7 +139,7 @@ export const router = createBrowserRouter([
       { path: 'wallet', element: <WalletPage /> },
       { path: 'services', element: <ServicesPage /> },
       { path: 'children', element: <ChildrenPage /> },
-      { path: 'billing', element: <Navigate to="/wallet" replace /> },
+      { path: 'billing', element: <BillingPage /> },
       { path: 'calendar', element: <CalendarPage /> },
       { path: 'school-life', element: <SchoolLifePage /> },
       { path: 'students', element: <Navigate to="/community" replace /> },

@@ -23,4 +23,5 @@ from app.db.models.live_session import LiveSession  # noqa: F401
 from app.db.models.enrollment import EnrollmentRequest  # noqa: F401
 from app.db.models.absence_justification import AbsenceJustification  # noqa: F401
 from app.db.models.health_record import HealthRecord  # noqa: F401
-from app.db.models.tutoring import TutoringSession, TutoringPackage, TutoringInvoice  # noqa: F401
+from app.db.models.tutoring import TutoringSession, TutoringPackage, TutoringInvoice
+from app.db.models.billing import SchoolInvoice  # noqa: F401  # noqa: F401
