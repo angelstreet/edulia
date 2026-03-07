@@ -9,7 +9,11 @@ export default defineConfig({
     port: 3000,
     host: '0.0.0.0',
     allowedHosts: true,
-    hmr: true,
+    hmr: {
+      host: 'edulia.angelstreet.io',
+      clientPort: 443,
+      protocol: 'wss',
+    },
     proxy: {
       '/api': {
         target: 'http://192.168.0.120:8000',
