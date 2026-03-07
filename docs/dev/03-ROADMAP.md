@@ -1,6 +1,6 @@
 # 03 — Roadmap: Built, In Progress, Next
 
-Last updated: 2026-03-09
+Last updated: 2026-03-10
 
 ---
 
@@ -81,7 +81,18 @@ Last updated: 2026-03-09
 
 ---
 
-### 🔴 NOW: Real-Time Notifications
+### ✅ DONE: Real-Time Notifications (shipped 2026-03-10)
+
+- Producers added to homework (assign → notify students), gradebook (bulk grades → notify student), activity (live session start → notify group, replay enabled → notify group)
+- All producers wrapped in `try/except` — never block main flow
+- `GET /api/v1/notifications/stream` — SSE endpoint via Redis pub/sub with heartbeat + cleanup
+- `GET /api/v1/notifications/unread-count` — fast badge count
+- Frontend: `useNotifications` uses SSE-first with 30s polling fallback; NotificationPanel auto-refreshes on open
+- 10 HTTP integration tests + 5 Playwright E2E
+
+---
+
+### 🟢 NOW: Enrollment Module
 
 ### 🟡 SOON: Billing / Stripe Real Payments
 
@@ -163,7 +174,8 @@ For tutor accounts (already have role):
 | Gradebook ↔ Activity Integration | ✅ Shipped 2026-03-07 |
 | Gradebook audit & gap fix | ✅ Shipped 2026-03-08 |
 | Billing / Stripe Real Payments | ✅ Shipped 2026-03-09 |
-| Real-Time Notifications | 🔴 Next |
+| Real-Time Notifications | ✅ Shipped 2026-03-10 |
+| Enrollment Module | 🟢 Next |
 
 ---
 
@@ -171,7 +183,7 @@ For tutor accounts (already have role):
 
 | Issue | Where | Fix |
 |---|---|---|
-| Notification producers missing | All modules | Add on each write operation |
+| Notification producers missing | All modules | ✅ Fixed — homework, gradebook, activity producers added |
 | Activity scores not in gradebook | Activities + Gradebook | ✅ Fixed — push-to-gradebook bridge |
 | WS answer store is in-memory | session_ws.py | Persist to Redis for multi-pod (post-MVP) |
 | Open questions score 0 | scoring.py | Manual grading flow for open QCM (backlog) |
