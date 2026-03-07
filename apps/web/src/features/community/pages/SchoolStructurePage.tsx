@@ -119,17 +119,11 @@ function ClassCard({ group }: { group: GroupData }) {
             </p>
             <div className="flex flex-wrap gap-2">
               {loaded.teachers.map((teacher) => (
-                <div key={teacher.user_id} className="inline-flex flex-col gap-0.5">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-sm font-medium border border-blue-100">
-                    {teacher.display_name}
+                <div key={teacher.user_id} className="flex flex-col px-3 py-2 rounded-lg bg-blue-50 border border-blue-100 min-w-[100px]">
+                  <span className="text-sm font-semibold text-blue-700 leading-tight">{teacher.display_name}</span>
+                  <span className="text-xs text-blue-500 leading-tight mt-0.5">
+                    {teacher.subjects && teacher.subjects.length > 0 ? teacher.subjects.join(', ') : '—'}
                   </span>
-                  {teacher.subjects && teacher.subjects.length > 0 && (
-                    <div className="flex flex-wrap gap-1 px-1">
-                      {teacher.subjects.map((s) => (
-                        <span key={s} className="text-xs text-muted-foreground bg-slate-100 rounded px-1.5 py-0.5">{s}</span>
-                      ))}
-                    </div>
-                  )}
                 </div>
               ))}
             </div>
