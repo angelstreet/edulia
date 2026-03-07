@@ -42,6 +42,22 @@ def list_directory(
     query = query.distinct()
     users = query.order_by(User.last_name, User.first_name).all()
 
+    # Populate group_name from active group memberships
+    user_ids = [u.id for u in users]
+    memberships = (
+        db.query(GroupMembership)
+        .options(joinedload(GroupMembership.group))
+        .filter(
+            GroupMembership.user_id.in_(user_ids),
+            GroupMembership.left_at.is_(None),
+        )
+        .all()
+    ) if user_ids else []
+    group_by_user: dict = {}
+    for m in memberships:
+        if m.group and m.user_id not in group_by_user:
+            group_by_user[m.user_id] = m.group.name
+
     result = []
     for u in users:
         active_roles = [ur.role.code for ur in u.user_roles if ur.revoked_at is None and ur.role]
@@ -49,7 +65,7 @@ def list_directory(
             "id": u.id,
             "display_name": u.display_name or f"{u.first_name} {u.last_name}",
             "role": active_roles[0] if active_roles else "unknown",
-            "group_name": None,
+            "group_name": group_by_user.get(u.id),
         })
     return result
 

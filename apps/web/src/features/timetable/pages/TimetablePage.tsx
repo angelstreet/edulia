@@ -7,6 +7,8 @@ import { getSessions, getRooms, type SessionData, type RoomData } from '../../..
 import { getSubjects, type SubjectData } from '../../../api/subjects';
 import { getGroups, getMyGroups, type GroupData } from '../../../api/groups';
 import { getUsers, type UserData } from '../../../api/users';
+import { getDirectory } from '../../../api/community';
+import { getDashboardStats } from '../../../api/dashboard';
 import { useAuthStore } from '../../../stores/authStore';
 
 export function TimetablePage() {
@@ -14,6 +16,7 @@ export function TimetablePage() {
   const user = useAuthStore((s) => s.user);
   const setStudentGroup = useAuthStore((s) => s.setStudentGroup);
   const isStudent = user?.role === 'student';
+  const isParent = user?.role === 'parent';
 
   const [sessions, setSessions] = useState<SessionData[]>([]);
   const [subjects, setSubjects] = useState<Record<string, SubjectData>>({});
@@ -28,12 +31,18 @@ export function TimetablePage() {
     async function loadRefData() {
       try {
         const groupFetch = isStudent ? getMyGroups() : getGroups();
-        const [subjectsRes, usersRes, groupsRes, roomsRes] = await Promise.all([
+        const extraFetch = isParent
+          ? Promise.all([getDashboardStats(), getDirectory()])
+          : Promise.resolve(null);
+
+        const [subjectsRes, usersRes, groupsRes, roomsRes, parentExtra] = await Promise.all([
           getSubjects(),
           getUsers({ role: 'teacher', per_page: 500 }),
           groupFetch,
           getRooms(),
+          extraFetch,
         ]);
+
         const subjectsArr: SubjectData[] = Array.isArray(subjectsRes.data)
           ? subjectsRes.data
           : (subjectsRes.data as { data: SubjectData[] }).data || [];
@@ -46,9 +55,24 @@ export function TimetablePage() {
         for (const u of usersArr) teacherMap[u.id] = u.display_name;
         setTeachers(teacherMap);
 
-        const groupsArr: GroupData[] = Array.isArray(groupsRes.data)
+        const allGroupsArr: GroupData[] = Array.isArray(groupsRes.data)
           ? groupsRes.data
           : (groupsRes.data as { data: GroupData[] }).data || [];
+
+        let groupsArr = allGroupsArr;
+
+        if (isParent && parentExtra) {
+          const [statsRes, dirRes] = parentExtra;
+          const children = statsRes.data.children ?? [];
+          const dirList = Array.isArray(dirRes.data) ? dirRes.data : [];
+          const childGroupNames = new Set<string>();
+          for (const child of children) {
+            const entry = dirList.find((u: { id: string; group_name?: string | null }) => u.id === child.id);
+            if (entry?.group_name) childGroupNames.add(entry.group_name);
+          }
+          groupsArr = allGroupsArr.filter((g) => childGroupNames.has(g.name));
+        }
+
         setGroups(groupsArr);
         if (groupsArr.length > 0) {
           setSelectedGroupId(groupsArr[0].id);
@@ -64,7 +88,7 @@ export function TimetablePage() {
       }
     }
     loadRefData();
-  }, [isStudent, setStudentGroup]);
+  }, [isStudent, isParent, setStudentGroup]);
 
   const fetchSessions = useCallback(async () => {
     if (!selectedGroupId) return;
@@ -87,7 +111,7 @@ export function TimetablePage() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold">{t('timetable', 'Timetable')}</h1>
-        {!isStudent && (
+        {!isStudent && !isParent && (
           <div className="flex items-center gap-3">
             <label className="text-sm font-medium">{t('class', 'Class')}:</label>
             <select
@@ -101,6 +125,14 @@ export function TimetablePage() {
                 </option>
               ))}
             </select>
+          </div>
+        )}
+        {isParent && groups.length > 0 && (
+          <div className="flex items-center gap-3">
+            <label className="text-sm font-medium">{t('class', 'Class')}:</label>
+            <span className="h-9 flex items-center px-3 text-sm rounded-md border border-input bg-muted/40 text-muted-foreground">
+              {groups.find((g) => g.id === selectedGroupId)?.name ?? groups[0]?.name}
+            </span>
           </div>
         )}
       </div>
