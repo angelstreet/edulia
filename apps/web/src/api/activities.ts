@@ -60,3 +60,54 @@ export function updateActivity(id: string, patch: Partial<ActivityCreate> & { st
 export function deleteActivity(id: string) {
   return client.delete(`/v1/activities/${id}`);
 }
+
+// ── Feature 2: Attempt + Auto-Scoring ────────────────────────────────────────
+
+export interface AnswerInput {
+  question_id: string;
+  choice_ids: string[];
+  text?: string;
+  answered_at_ms?: number;
+}
+
+export interface QuestionResult {
+  question_id: string;
+  correct: boolean;
+  correct_choice_ids: string[];
+  points_earned: number;
+}
+
+export interface AttemptResult {
+  id: string;
+  activity_id: string;
+  student_id: string;
+  mode: string;
+  started_at: string;
+  submitted_at: string | null;
+  answers: AnswerInput[];
+  score: number | null;
+  max_score: number | null;
+  scored_at: string | null;
+  question_results: QuestionResult[] | null;
+}
+
+export interface AttemptStartResponse {
+  attempt_id: string;
+  activity: ActivityData; // questions have NO is_correct field
+}
+
+export function startAttempt(activityId: string) {
+  return client.post<AttemptStartResponse>(`/v1/activities/${activityId}/attempt/start`);
+}
+
+export function submitAttempt(activityId: string, attemptId: string, answers: AnswerInput[]) {
+  return client.post<AttemptResult>(`/v1/activities/${activityId}/attempt/${attemptId}/submit`, { answers });
+}
+
+export function getMyAttempt(activityId: string) {
+  return client.get<AttemptResult>(`/v1/activities/${activityId}/attempt/my`);
+}
+
+export function getAllAttempts(activityId: string) {
+  return client.get<AttemptResult[]>(`/v1/activities/${activityId}/attempts`);
+}

@@ -202,5 +202,22 @@
   "closed": "Closed",
   "startActivity": "Start",
   "noActivities": "No activities yet",
-  "noActivitiesDesc": "Activities assigned to your class will appear here."
+  "noActivitiesDesc": "Activities assigned to your class will appear here.",
+  "submitAnswers": "Submit Answers",
+  "yourScore": "Your Score",
+  "yourAnswer": "Your answer",
+  "correct": "Correct",
+  "wrong": "Wrong",
+  "correctAnswer": "Correct answer",
+  "questionOf": "Question {{current}} of {{total}} answered",
+  "alreadySubmitted": "Already submitted",
+  "activityResults": "Results",
+  "avgScore": "Average score",
+  "completion": "Completion",
+  "notSubmitted": "Not submitted",
+  "errorRate": "Error rate",
+  "perQuestion": "per question",
+  "pointsEarned": "Points",
+  "activityNotAvailable": "This activity is not available.",
+  "noSubmissions": "No submissions yet."
 }

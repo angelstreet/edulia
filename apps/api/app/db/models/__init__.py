@@ -18,3 +18,4 @@ from app.db.models.portfolio import Portfolio  # noqa: F401
 from app.db.models.calendar import CalendarEvent  # noqa: F401
 from app.db.models.school_life import Incident  # noqa: F401
 from app.db.models.activity import Activity  # noqa: F401
+from app.db.models.activity_attempt import ActivityAttempt  # noqa: F401

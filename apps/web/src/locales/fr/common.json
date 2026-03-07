@@ -203,5 +203,22 @@
   "closed": "Clôturé",
   "startActivity": "Démarrer",
   "noActivities": "Aucune activité pour le moment",
-  "noActivitiesDesc": "Les activités assignées à votre classe apparaîtront ici."
+  "noActivitiesDesc": "Les activités assignées à votre classe apparaîtront ici.",
+  "submitAnswers": "Valider les réponses",
+  "yourScore": "Votre score",
+  "yourAnswer": "Votre réponse",
+  "correct": "Correct",
+  "wrong": "Incorrect",
+  "correctAnswer": "Bonne réponse",
+  "questionOf": "Question {{current}} sur {{total}} répondue(s)",
+  "alreadySubmitted": "Déjà soumis",
+  "activityResults": "Résultats",
+  "avgScore": "Score moyen",
+  "completion": "Complétions",
+  "notSubmitted": "Non soumis",
+  "errorRate": "Taux d'erreur",
+  "perQuestion": "par question",
+  "pointsEarned": "Points",
+  "activityNotAvailable": "Cette activité n'est pas disponible.",
+  "noSubmissions": "Aucune soumission pour le moment."
 }

@@ -32,6 +32,8 @@ import { SchoolLifePage } from '../features/school-life/pages/SchoolLifePage';
 import { ChildrenPage } from '../features/children/pages/ChildrenPage';
 import { ActivitiesPage } from '../features/activities/pages/ActivitiesPage';
 import { ActivityBuilderPage } from '../features/activities/pages/ActivityBuilderPage';
+import { AttemptPage } from '../features/activities/pages/AttemptPage';
+import { ActivityResultsPage } from '../features/activities/pages/ActivityResultsPage';
 import { NotFoundPage } from '../features/errors/pages/NotFoundPage';
 import { AuthGuard } from './guards/AuthGuard';
 import { RoleGuard } from './guards/RoleGuard';
@@ -120,6 +122,8 @@ export const router = createBrowserRouter([
       { path: 'students', element: <Navigate to="/community" replace /> },
       { path: 'activities', element: <ActivitiesPage /> },
       { path: 'activities/new', element: <ActivityBuilderPage /> },
+      { path: 'activities/:id/attempt', element: <AttemptPage /> },
+      { path: 'activities/:id/results', element: <ActivityResultsPage /> },
     ],
   },
 
