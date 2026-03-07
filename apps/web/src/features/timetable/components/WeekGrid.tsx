@@ -38,10 +38,6 @@ function addDays(d: Date, n: number): Date {
   return date;
 }
 
-function formatMonthYear(d: Date, locale: string): string {
-  return d.toLocaleDateString(locale, { month: 'long', year: 'numeric' });
-}
-
 function formatDayDate(d: Date, locale: string): string {
   return d.toLocaleDateString(locale, { day: 'numeric' });
 }
