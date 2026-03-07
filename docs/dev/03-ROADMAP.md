@@ -1,6 +1,6 @@
 # 03 — Roadmap: Built, In Progress, Next
 
-Last updated: 2026-03-12
+Last updated: 2026-03-13
 
 ---
 
@@ -125,6 +125,24 @@ Last updated: 2026-03-12
 
 ---
 
+### ✅ DONE: School Gaps + Tutor CRM (shipped 2026-03-13)
+
+**School gaps:**
+- `absence_justifications` table: parent submits justification per absence date (reason, description, optional document URL), status workflow pending→accepted→rejected, admin/teacher review with notes
+- `health_records` table: one-to-one per student — allergies, medical conditions, medications, blood type, emergency contact, doctor info
+- Twilio SMS integration (`send_sms()`) — no-op when `SMS_ENABLED=false`; SMS sent on absence status change
+- Migrations: `f3a4b5c6d7e8` (absence/health)
+
+**Tutor CRM:**
+- `tutoring_sessions`: date, duration, rate per session, status (scheduled/completed/cancelled/no_show), homework given, package link, invoiced flag
+- `tutoring_packages`: session bundles (total/used), price, paid status
+- `tutoring_invoices`: auto-generated from uninvoiced completed sessions, line items (JSONB), PDF download via reportlab, invoice number `INV-YYYYMM-XXXX`
+- 9 REST endpoints: `/v1/tutoring/sessions`, `/packages`, `/invoices/generate`, `/invoices/{id}/pdf`, `/my-students`
+- Frontend: 4-tab CRM page (My Students | Sessions | Packages | Invoices) with log-session modal, package modal, invoice generation
+- Migration: `a4b5c6d7e8f9` (tutoring tables)
+
+---
+
 ### 🔵 BACKLOG: PWA + Offline (promoted — done above)
 
 ### 🟡 SOON: Billing / Stripe Real Payments
@@ -209,6 +227,8 @@ For tutor accounts (already have role):
 | Billing / Stripe Real Payments | ✅ Shipped 2026-03-09 |
 | Real-Time Notifications | ✅ Shipped 2026-03-10 |
 | Enrollment Module | ✅ Shipped 2026-03-11 |
+| PWA + Mobile/Tablet Layout | ✅ Shipped 2026-03-12 |
+| School Gaps + Tutor CRM | ✅ Shipped 2026-03-13 |
 
 ---
 
