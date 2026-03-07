@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ChevronDown, ChevronUp, GraduationCap, Users } from 'lucide-react';
+import { ChevronDown, ChevronUp, GraduationCap, Shield, Users } from 'lucide-react';
 import { Spinner } from '../../../components/ui/Spinner';
 import { getGroups, getGroup, type GroupData, type GroupMember } from '../../../api/groups';
-import { getDirectory } from '../../../api/community';
+import { getDirectory, type DirectoryUser } from '../../../api/community';
 import { getDashboardStats } from '../../../api/dashboard';
 import { useCurrentUser } from '../../../hooks/useCurrentUser';
 
@@ -39,6 +39,39 @@ function splitMembers(members: GroupMember[]) {
     teachers: members.filter((m) => m.role === 'teacher' || m.role === 'leader'),
     students: members.filter((m) => m.role === 'member'),
   };
+}
+
+// ─── Direction card ───────────────────────────────────────────────────────────
+
+function DirectionSection({ staff }: { staff: DirectoryUser[] }) {
+  const { t } = useTranslation();
+  if (staff.length === 0) return null;
+
+  return (
+    <section>
+      <div className="flex items-center gap-3 mb-3">
+        <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
+          {t('direction', 'Direction')}
+        </h2>
+        <div className="flex-1 h-px bg-border" />
+      </div>
+      <div className="border rounded-xl bg-card shadow-sm p-5">
+        <div className="flex flex-wrap gap-3">
+          {staff.map((u) => (
+            <div key={u.id} className="flex items-center gap-2.5 px-3 py-2 rounded-lg bg-primary/5 border border-primary/10">
+              <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
+                <Shield className="w-4 h-4 text-primary" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold leading-tight">{u.display_name}</p>
+                <p className="text-xs text-muted-foreground capitalize">{t(u.role, u.role)}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 }
 
 // ─── ClassCard ────────────────────────────────────────────────────────────────
@@ -187,7 +220,7 @@ function LevelSection({ name, classes, defaultOpenId }: { name: string; classes:
 
 // ─── School summary banner ─────────────────────────────────────────────────────
 
-function SchoolBanner({ groups }: { groups: GroupData[] }) {
+function SchoolBanner({ groups, adminCount }: { groups: GroupData[]; adminCount: number }) {
   const { t } = useTranslation();
   const classCount = groups.filter((g) => g.type === 'class').length;
   const totalStudents = groups
@@ -210,6 +243,15 @@ function SchoolBanner({ groups }: { groups: GroupData[] }) {
         <p className="text-xs text-muted-foreground uppercase tracking-wide">{t('students', 'Students')}</p>
         <p className="text-2xl font-bold">{totalStudents}</p>
       </div>
+      {adminCount > 0 && (
+        <>
+          <div className="w-px h-8 bg-border hidden sm:block" />
+          <div>
+            <p className="text-xs text-muted-foreground uppercase tracking-wide">{t('staff', 'Staff')}</p>
+            <p className="text-2xl font-bold">{adminCount}</p>
+          </div>
+        </>
+      )}
     </div>
   );
 }
@@ -222,6 +264,7 @@ export function SchoolStructurePage() {
   const role = user?.role ?? 'student';
 
   const [allGroups, setAllGroups] = useState<GroupData[]>([]);
+  const [adminStaff, setAdminStaff] = useState<DirectoryUser[]>([]);
   const [filteredClasses, setFilteredClasses] = useState<ClassNode[] | null>(null); // null = show all
   const [loading, setLoading] = useState(true);
 
@@ -229,12 +272,15 @@ export function SchoolStructurePage() {
     async function load() {
       setLoading(true);
       try {
-        const { data } = await getGroups();
-        const groups: GroupData[] = data.data ?? [];
+        const [groupsRes, adminRes] = await Promise.all([
+          getGroups(),
+          getDirectory({ role: 'admin' }),
+        ]);
+        const groups: GroupData[] = groupsRes.data.data ?? [];
         setAllGroups(groups);
+        setAdminStaff(Array.isArray(adminRes.data) ? adminRes.data : []);
 
         if (role === 'student' && user?.id) {
-          // Find this student's group via directory
           const { data: dir } = await getDirectory();
           const me = Array.isArray(dir) ? dir.find((u) => u.id === user.id) : null;
           if (me?.group_name) {
@@ -249,7 +295,6 @@ export function SchoolStructurePage() {
             setFilteredClasses([]);
           }
         } else if (role === 'parent' && user?.id) {
-          // Find each child's group
           const { data: stats } = await getDashboardStats();
           const children = stats.children ?? [];
           if (children.length === 0) { setFilteredClasses([]); return; }
@@ -289,15 +334,19 @@ export function SchoolStructurePage() {
   if (filteredClasses !== null) {
     if (filteredClasses.length === 0) {
       return (
-        <div className="flex flex-col items-center justify-center py-16 text-center gap-2">
-          <GraduationCap className="w-10 h-10 text-muted-foreground" />
-          <p className="text-muted-foreground">{t('noClassAssigned', 'No class assigned yet.')}</p>
+        <div className="space-y-6">
+          <DirectionSection staff={adminStaff} />
+          <div className="flex flex-col items-center justify-center py-16 text-center gap-2">
+            <GraduationCap className="w-10 h-10 text-muted-foreground" />
+            <p className="text-muted-foreground">{t('noClassAssigned', 'No class assigned yet.')}</p>
+          </div>
         </div>
       );
     }
 
     return (
       <div className="space-y-6">
+        <DirectionSection staff={adminStaff} />
         {filteredClasses.map(({ group, levelName }) => (
           <div key={group.id}>
             {levelName && (
@@ -318,16 +367,22 @@ export function SchoolStructurePage() {
 
   if (levels.length === 0 && rootClasses.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-16 text-center gap-2">
-        <GraduationCap className="w-10 h-10 text-muted-foreground" />
-        <p className="text-muted-foreground">{t('noClassesYet', 'No classes created yet.')}</p>
+      <div className="space-y-6">
+        <DirectionSection staff={adminStaff} />
+        <div className="flex flex-col items-center justify-center py-16 text-center gap-2">
+          <GraduationCap className="w-10 h-10 text-muted-foreground" />
+          <p className="text-muted-foreground">{t('noClassesYet', 'No classes created yet.')}</p>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="space-y-6">
-      <SchoolBanner groups={allGroups} />
+      <SchoolBanner groups={allGroups} adminCount={adminStaff.length} />
+
+      {/* Direction — admin staff at top of org chart */}
+      <DirectionSection staff={adminStaff} />
 
       {/* Levels with their classes */}
       {levels.map((level) => (
