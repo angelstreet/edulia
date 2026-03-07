@@ -14,8 +14,8 @@ git push origin main
 echo "→ Pulling on $REMOTE..."
 ssh $REMOTE "cd $REMOTE_DIR && git pull origin main"
 
-echo "→ Restarting dev API..."
-ssh $REMOTE "pm2 restart edulia-api-dev"
+echo "→ Restarting dev servers..."
+ssh $REMOTE "pm2 restart edulia-api-dev edulia-web-dev"
 
 if [[ "$1" == "--migrate" ]]; then
   echo "→ Running migrations..."
