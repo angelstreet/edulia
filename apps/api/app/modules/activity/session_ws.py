@@ -20,7 +20,7 @@ from app.modules.activity.session_service import (
 
 logger = logging.getLogger(__name__)
 
-ws_router = APIRouter()
+ws_router = APIRouter(prefix="/api")
 
 # ---------------------------------------------------------------------------
 # In-memory stores (reset on server restart — acceptable for MVP)
