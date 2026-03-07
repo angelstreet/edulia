@@ -243,7 +243,7 @@ export function SchoolStructurePage() {
           getGroups(),
           getDirectory({ role: 'admin' }),
         ]);
-        const groups: GroupData[] = groupsRes.data.data ?? [];
+        const groups: GroupData[] = Array.isArray(groupsRes.data) ? groupsRes.data : (groupsRes.data.data ?? []);
         setAllGroups(groups);
         setAdminStaff(Array.isArray(adminRes.data) ? adminRes.data : []);
 
