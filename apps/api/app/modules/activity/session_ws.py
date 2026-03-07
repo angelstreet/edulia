@@ -1,6 +1,7 @@
 import asyncio
 import json
 import logging
+from copy import deepcopy
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, Query, WebSocket, WebSocketDisconnect
@@ -8,13 +9,33 @@ from sqlalchemy.orm import Session as DBSession
 
 from app.config import settings
 from app.core.security import decode_token
-from app.db.database import get_db
-from app.modules.activity.session_service import get_session_by_code
+from app.db.database import SessionLocal, get_db
+from app.modules.activity.scoring import score_attempt
+from app.modules.activity.session_service import (
+    advance_session_question,
+    get_activity_by_id,
+    get_session_by_code,
+    set_session_state,
+)
 
 logger = logging.getLogger(__name__)
 
 ws_router = APIRouter()
 
+# ---------------------------------------------------------------------------
+# In-memory stores (reset on server restart — acceptable for MVP)
+# ---------------------------------------------------------------------------
+
+# {join_code: {question_index: {student_id: [selected_ids]}}}
+_session_answers: dict[str, dict] = {}
+
+# {join_code: set[WebSocket]}  — used for direct broadcast on the same pod
+_session_connections: dict[str, set] = {}
+
+
+# ---------------------------------------------------------------------------
+# Redis helper
+# ---------------------------------------------------------------------------
 
 async def get_redis_client():
     """
@@ -36,6 +57,329 @@ async def get_redis_client():
         logger.warning(f"Redis unavailable: {e}")
         return None
 
+
+# ---------------------------------------------------------------------------
+# Utility helpers
+# ---------------------------------------------------------------------------
+
+def _strip_is_correct(question: dict) -> dict:
+    """Return a copy of the question dict with is_correct removed from all choices."""
+    q = deepcopy(question)
+    for choice in q.get("choices", []):
+        choice.pop("is_correct", None)
+    return q
+
+
+def _get_correct_ids(question: dict) -> list[str]:
+    """Return list of choice IDs where is_correct is True."""
+    return [c["id"] for c in question.get("choices", []) if c.get("is_correct")]
+
+
+def _compute_counts(join_code: str, question_index: int) -> dict:
+    """Compute choice-id → count map for a given question from in-memory store."""
+    answers_for_q = _session_answers.get(join_code, {}).get(question_index, {})
+    counts: dict[str, int] = {}
+    for selected_ids in answers_for_q.values():
+        for cid in selected_ids:
+            counts[cid] = counts.get(cid, 0) + 1
+    return counts
+
+
+async def _broadcast(redis, channel: str, join_code: str, msg: dict) -> None:
+    """
+    Publish a message to the Redis channel so ALL pods fan it out to their
+    connected WebSockets (including this pod via its own pubsub subscription).
+    Direct-send via _session_connections is handled by listen_redis on each pod.
+    """
+    if redis is not None:
+        await redis.publish(channel, json.dumps(msg))
+
+
+# ---------------------------------------------------------------------------
+# DB helpers to run synchronous SQLAlchemy inside async handlers
+# ---------------------------------------------------------------------------
+
+def _db_advance_question(session_id, new_index, new_state, set_started_at=False):
+    db = SessionLocal()
+    try:
+        return advance_session_question(db, session_id, new_index, new_state, set_started_at)
+    finally:
+        db.close()
+
+
+def _db_set_state(session_id, new_state, ended_at=False):
+    db = SessionLocal()
+    try:
+        return set_session_state(db, session_id, new_state, ended_at)
+    finally:
+        db.close()
+
+
+def _db_get_session_and_activity(join_code):
+    """Return (session, activity) tuple. Opens its own DB connection."""
+    db = SessionLocal()
+    try:
+        session = get_session_by_code(db, join_code)
+        activity = get_activity_by_id(db, session.activity_id)
+        # Detach data we need before closing
+        session_data = {
+            "id": session.id,
+            "state": session.state,
+            "current_question_index": session.current_question_index,
+            "teacher_id": session.teacher_id,
+            "activity_id": session.activity_id,
+        }
+        questions = activity.questions or []
+        return session_data, list(questions)
+    finally:
+        db.close()
+
+
+# ---------------------------------------------------------------------------
+# Teacher message handlers
+# ---------------------------------------------------------------------------
+
+async def _handle_next_question(
+    websocket: WebSocket,
+    redis,
+    channel: str,
+    join_code: str,
+    loop,
+) -> None:
+    """
+    Advance the session to the next question.
+    lobby → active (index=0)
+    reveal → active (index++)
+    If no more questions while in reveal → finish.
+    """
+    session_data, questions = await loop.run_in_executor(
+        None, _db_get_session_and_activity, join_code
+    )
+
+    state = session_data["state"]
+    session_id = session_data["id"]
+    current_index = session_data["current_question_index"]
+
+    if state == "lobby":
+        new_index = 0
+        set_started_at = True
+    elif state == "reveal":
+        new_index = current_index + 1
+        set_started_at = False
+    else:
+        # Ignore in other states
+        logger.debug(f"next_question ignored in state={state}")
+        return
+
+    # Check if there are questions left
+    if new_index >= len(questions):
+        # No more questions — finish the session
+        await loop.run_in_executor(None, _db_set_state, session_id, "finished", True)
+        scores = _compute_scores(join_code, questions)
+        await _broadcast(redis, channel, join_code, {
+            "type": "session_finished",
+            "data": {"scores": scores},
+        })
+        await _broadcast(redis, channel, join_code, {
+            "type": "state_change",
+            "data": {"state": "finished", "current_question_index": current_index},
+        })
+        return
+
+    # Persist new state
+    await loop.run_in_executor(
+        None,
+        _db_advance_question,
+        session_id,
+        new_index,
+        "active",
+        set_started_at,
+    )
+
+    question = questions[new_index]
+    time_limit_s = question.get("time_limit_s", None)
+
+    await _broadcast(redis, channel, join_code, {
+        "type": "question_start",
+        "data": {
+            "index": new_index,
+            "question": _strip_is_correct(question),
+            "time_limit_s": time_limit_s,
+        },
+    })
+    await _broadcast(redis, channel, join_code, {
+        "type": "state_change",
+        "data": {"state": "active", "current_question_index": new_index},
+    })
+
+
+async def _handle_reveal_question(
+    websocket: WebSocket,
+    redis,
+    channel: str,
+    join_code: str,
+    loop,
+) -> None:
+    """Show correct answers for current question. Transitions active → reveal."""
+    session_data, questions = await loop.run_in_executor(
+        None, _db_get_session_and_activity, join_code
+    )
+
+    state = session_data["state"]
+    session_id = session_data["id"]
+    current_index = session_data["current_question_index"]
+
+    if state != "active":
+        logger.debug(f"reveal_question ignored in state={state}")
+        return
+
+    await loop.run_in_executor(None, _db_set_state, session_id, "reveal")
+
+    question = questions[current_index] if current_index < len(questions) else {}
+    counts = _compute_counts(join_code, current_index)
+    correct_ids = _get_correct_ids(question)
+
+    await _broadcast(redis, channel, join_code, {
+        "type": "question_reveal",
+        "data": {
+            "question_index": current_index,
+            "question": question,  # full question WITH is_correct
+            "counts": counts,
+            "correct_ids": correct_ids,
+        },
+    })
+    await _broadcast(redis, channel, join_code, {
+        "type": "state_change",
+        "data": {"state": "reveal", "current_question_index": current_index},
+    })
+
+
+async def _handle_finish_session(
+    websocket: WebSocket,
+    redis,
+    channel: str,
+    join_code: str,
+    loop,
+) -> None:
+    """End the session and broadcast final scores."""
+    session_data, questions = await loop.run_in_executor(
+        None, _db_get_session_and_activity, join_code
+    )
+
+    session_id = session_data["id"]
+    current_index = session_data["current_question_index"]
+
+    await loop.run_in_executor(None, _db_set_state, session_id, "finished", True)
+
+    scores = _compute_scores(join_code, questions)
+    await _broadcast(redis, channel, join_code, {
+        "type": "session_finished",
+        "data": {"scores": scores},
+    })
+    await _broadcast(redis, channel, join_code, {
+        "type": "state_change",
+        "data": {"state": "finished", "current_question_index": current_index},
+    })
+
+
+# ---------------------------------------------------------------------------
+# Student message handlers
+# ---------------------------------------------------------------------------
+
+async def _handle_answer(
+    websocket: WebSocket,
+    redis,
+    channel: str,
+    join_code: str,
+    student_id: str,
+    data: dict,
+    loop,
+) -> None:
+    """
+    Record a student's answer and broadcast updated choice counts to all
+    connected clients (teacher sees live bars).
+    """
+    session_data, questions = await loop.run_in_executor(
+        None, _db_get_session_and_activity, join_code
+    )
+
+    state = session_data["state"]
+    current_index = session_data["current_question_index"]
+
+    if state != "active":
+        logger.debug(f"answer ignored in state={state}")
+        return
+
+    question_index = data.get("question_index")
+    selected_ids = data.get("selected_ids", [])
+
+    # Validate the student is answering the current question
+    if question_index != current_index:
+        logger.debug(
+            f"answer for question {question_index} ignored; current={current_index}"
+        )
+        return
+
+    # Store the answer (last answer wins — student can change before reveal)
+    if join_code not in _session_answers:
+        _session_answers[join_code] = {}
+    if question_index not in _session_answers[join_code]:
+        _session_answers[join_code][question_index] = {}
+    _session_answers[join_code][question_index][student_id] = selected_ids
+
+    # Broadcast updated counts
+    counts = _compute_counts(join_code, question_index)
+    await _broadcast(redis, channel, join_code, {
+        "type": "answer_update",
+        "data": {
+            "question_index": question_index,
+            "counts": counts,
+        },
+    })
+
+
+# ---------------------------------------------------------------------------
+# Score computation
+# ---------------------------------------------------------------------------
+
+def _compute_scores(join_code: str, questions: list[dict]) -> list[dict]:
+    """
+    Compute per-student scores using score_attempt().
+    Returns list of {student_id, score, max_score}.
+    """
+    all_answers = _session_answers.get(join_code, {})
+
+    # Collect all student IDs that answered at least one question
+    student_ids: set[str] = set()
+    for q_answers in all_answers.values():
+        student_ids.update(q_answers.keys())
+
+    results = []
+    for student_id in student_ids:
+        # Build answers list expected by score_attempt:
+        # [{question_id, choice_ids}]
+        answers_list = []
+        for q_idx, q in enumerate(questions):
+            q_id = q.get("id", "")
+            selected = all_answers.get(q_idx, {}).get(student_id, [])
+            answers_list.append({
+                "question_id": q_id,
+                "choice_ids": selected,
+            })
+
+        score, max_score = score_attempt(questions, answers_list)
+        results.append({
+            "student_id": student_id,
+            "score": float(score),
+            "max_score": float(max_score),
+        })
+
+    return results
+
+
+# ---------------------------------------------------------------------------
+# Main WebSocket endpoint
+# ---------------------------------------------------------------------------
 
 @ws_router.websocket("/ws/session/{join_code}")
 async def session_websocket(
@@ -60,7 +404,7 @@ async def session_websocket(
     7. Publish student_joined event if the connecting user is a student.
     8. Run two concurrent tasks:
        - listen_redis: forward Redis channel messages to this WebSocket.
-       - listen_ws: forward this WebSocket messages to Redis channel.
+       - listen_ws: handle incoming WS messages (state machine).
     9. Handle disconnect and clean up gracefully.
 
     Fallback (Redis unavailable): keep connection open, echo messages back
@@ -90,6 +434,11 @@ async def session_websocket(
     is_teacher = str(session.teacher_id) == str(user_id)
     channel = f"session:{session.join_code}"
 
+    # Register connection in local store
+    if join_code not in _session_connections:
+        _session_connections[join_code] = set()
+    _session_connections[join_code].add(websocket)
+
     # 4. Send initial state snapshot to the connecting client
     await websocket.send_json({
         "type": "session_state",
@@ -116,6 +465,7 @@ async def session_websocket(
                     parsed = {"raw": data}
                 await websocket.send_json({"type": "echo", "data": parsed})
         except WebSocketDisconnect:
+            _session_connections.get(join_code, set()).discard(websocket)
             return
         return
 
@@ -129,6 +479,8 @@ async def session_websocket(
     # 7. Set up pub/sub
     pubsub = redis.pubsub()
     await pubsub.subscribe(channel)
+
+    loop = asyncio.get_event_loop()
 
     async def listen_redis():
         """Forward Redis pub/sub messages to this WebSocket client."""
@@ -145,30 +497,55 @@ async def session_websocket(
             logger.debug(f"listen_redis terminated: {exc}")
 
     async def listen_ws():
-        """Forward WebSocket messages to Redis channel (teacher → all students, student → teacher)."""
+        """
+        Handle incoming WebSocket messages and drive the session state machine.
+
+        Teacher messages: next_question, reveal_question, finish_session
+        Student messages: answer
+        """
         try:
             while True:
                 text = await websocket.receive_text()
                 try:
                     msg = json.loads(text)
-                    msg_type = msg.get("type", "")
+                except Exception:
+                    logger.debug("Received non-JSON WS message, ignoring")
+                    continue
 
-                    if is_teacher:
-                        # Teacher controls: broadcast to all subscribers on this channel
-                        await redis.publish(channel, json.dumps({
-                            "type": msg_type,
-                            "data": msg.get("data", {}),
-                            "from": "teacher",
-                        }))
+                msg_type = msg.get("type", "")
+                data = msg.get("data", {})
+
+                if is_teacher:
+                    # Only teacher can send control messages
+                    if msg_type == "next_question":
+                        await _handle_next_question(
+                            websocket, redis, channel, join_code, loop
+                        )
+                    elif msg_type == "reveal_question":
+                        await _handle_reveal_question(
+                            websocket, redis, channel, join_code, loop
+                        )
+                    elif msg_type == "finish_session":
+                        await _handle_finish_session(
+                            websocket, redis, channel, join_code, loop
+                        )
                     else:
-                        # Student: publish answer/event so teacher receives it
-                        await redis.publish(channel, json.dumps({
-                            "type": msg_type,
-                            "data": {**msg.get("data", {}), "student_id": str(user_id)},
-                            "from": "student",
-                        }))
-                except Exception as exc:
-                    logger.debug(f"Failed to publish WebSocket message: {exc}")
+                        logger.debug(f"Unknown teacher message type: {msg_type}")
+                else:
+                    # Only students can send answer messages
+                    if msg_type == "answer":
+                        await _handle_answer(
+                            websocket,
+                            redis,
+                            channel,
+                            join_code,
+                            str(user_id),
+                            data,
+                            loop,
+                        )
+                    else:
+                        logger.debug(f"Unknown student message type: {msg_type}")
+
         except WebSocketDisconnect:
             pass
 
@@ -178,6 +555,7 @@ async def session_websocket(
     except Exception as exc:
         logger.debug(f"session_websocket gather terminated: {exc}")
     finally:
+        _session_connections.get(join_code, set()).discard(websocket)
         try:
             await pubsub.unsubscribe(channel)
         except Exception:

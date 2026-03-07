@@ -239,5 +239,15 @@
   "disconnected": "Disconnected",
   "sessionNotFound": "Session not found. Check the code and try again.",
   "enterJoinCode": "Enter the 6-character code shown by your teacher:",
-  "launchLive": "Launch Live"
+  "launchLive": "Launch Live",
+  "startFirstQuestion": "Start First Question",
+  "revealAnswers": "Reveal Answers",
+  "nextQuestion": "Next Question",
+  "finishSession": "Finish Session",
+  "sessionFinished": "Session finished!",
+  "waitingForQuestion": "Waiting for the next question…",
+  "submitAnswer": "Submit Answer",
+  "answerSubmitted": "Answer submitted! Waiting for reveal…",
+  "studentsAnswered": "students answered",
+  "liveResults": "Live Results"
 }

@@ -38,6 +38,8 @@ import { ReportingPage } from '../features/activities/pages/ReportingPage';
 import { SessionLaunchPage } from '../features/activities/pages/SessionLaunchPage';
 import { JoinPage } from '../features/activities/pages/JoinPage';
 import { LobbyPage } from '../features/activities/pages/LobbyPage';
+import { LiveTeacherPage } from '../features/activities/pages/LiveTeacherPage';
+import { LiveStudentPage } from '../features/activities/pages/LiveStudentPage';
 import { NotFoundPage } from '../features/errors/pages/NotFoundPage';
 import { AuthGuard } from './guards/AuthGuard';
 import { RoleGuard } from './guards/RoleGuard';
@@ -132,7 +134,8 @@ export const router = createBrowserRouter([
       { path: 'activities/:id/launch', element: <SessionLaunchPage /> },
       { path: 'join', element: <JoinPage /> },
       { path: 'session/:code/lobby', element: <LobbyPage /> },
-      { path: 'session/:code/live', element: <Navigate to="/activities" replace /> },
+      { path: 'session/:code/live', element: <LiveTeacherPage /> },
+      { path: 'session/:code/question', element: <LiveStudentPage /> },
     ],
   },
 

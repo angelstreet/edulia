@@ -240,5 +240,15 @@
   "disconnected": "Déconnecté",
   "sessionNotFound": "Session introuvable. Vérifiez le code et réessayez.",
   "enterJoinCode": "Entrez le code à 6 caractères affiché par votre enseignant :",
-  "launchLive": "Lancer en direct"
+  "launchLive": "Lancer en direct",
+  "startFirstQuestion": "Démarrer la première question",
+  "revealAnswers": "Révéler les réponses",
+  "nextQuestion": "Question suivante",
+  "finishSession": "Terminer la session",
+  "sessionFinished": "Session terminée !",
+  "waitingForQuestion": "En attente de la prochaine question…",
+  "submitAnswer": "Soumettre la réponse",
+  "answerSubmitted": "Réponse envoyée ! En attente de la correction…",
+  "studentsAnswered": "élèves ont répondu",
+  "liveResults": "Résultats en direct"
 }

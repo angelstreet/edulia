@@ -5,6 +5,7 @@ from uuid import UUID
 from sqlalchemy.orm import Session as DBSession
 
 from app.core.exceptions import NotFoundException
+from app.db.models.activity import Activity
 from app.db.models.live_session import LiveSession, _generate_join_code
 
 logger = logging.getLogger(__name__)
@@ -66,6 +67,56 @@ def finish_session(db: DBSession, session_id: UUID) -> LiveSession:
     session = get_session_by_id(db, session_id)
     session.state = 'finished'
     session.ended_at = datetime.utcnow()
+    db.commit()
+    db.refresh(session)
+    return session
+
+
+def get_activity_by_id(db: DBSession, activity_id: UUID) -> Activity:
+    """Get activity by id. Raises NotFoundException if not found."""
+    activity = db.query(Activity).filter(Activity.id == activity_id).first()
+    if not activity:
+        raise NotFoundException("Activity not found")
+    return activity
+
+
+def advance_session_question(
+    db: DBSession,
+    session_id: UUID,
+    new_index: int,
+    new_state: str,
+    set_started_at: bool = False,
+) -> LiveSession:
+    """
+    Update current_question_index and state on a live session.
+    Optionally sets started_at=now() when transitioning from lobby→active.
+    Commits and refreshes.
+    """
+    session = get_session_by_id(db, session_id)
+    session.current_question_index = new_index
+    session.state = new_state
+    if set_started_at:
+        session.started_at = datetime.utcnow()
+    db.commit()
+    db.refresh(session)
+    return session
+
+
+def set_session_state(
+    db: DBSession,
+    session_id: UUID,
+    new_state: str,
+    ended_at: bool = False,
+) -> LiveSession:
+    """
+    Update just the state on a live session.
+    Optionally sets ended_at=now() for finished state.
+    Commits and refreshes.
+    """
+    session = get_session_by_id(db, session_id)
+    session.state = new_state
+    if ended_at:
+        session.ended_at = datetime.utcnow()
     db.commit()
     db.refresh(session)
     return session
