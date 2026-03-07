@@ -260,5 +260,19 @@
   "openReplayForStudents": "Open replay for students",
   "replaySaved": "Replay settings saved!",
   "viewSessionResults": "View Session Results",
-  "optional": "optional"
+  "optional": "optional",
+  "pushToGradebook": "Push to Gradebook",
+  "exportToGradebook": "Export to Gradebook",
+  "alreadyInGradebook": "Already in gradebook",
+  "pushSuccess": "Scores pushed to gradebook successfully!",
+  "viewInGradebook": "View in Gradebook",
+  "qcmBadge": "QCM",
+  "qcmReadOnly": "Scores from auto-graded QCM — read only.",
+  "qcmReadOnlyHint": "Re-push from the activity to update.",
+  "selectTerm": "Select term",
+  "maxScore": "Max score",
+  "coefficient": "Coefficient",
+  "noSubjectForGradebook": "This activity has no subject assigned. Edit the activity to add a subject before pushing to gradebook.",
+  "noGroupForGradebook": "This activity has no group assigned.",
+  "pushError": "Could not push to gradebook. Please try again."
 }

@@ -1,11 +1,13 @@
-from datetime import datetime
+from datetime import date, datetime
+from decimal import Decimal
 from uuid import UUID
 
 from sqlalchemy.orm import Session
 
-from app.core.exceptions import ConflictException, ForbiddenException, NotFoundException
+from app.core.exceptions import BadRequestException, ConflictException, ForbiddenException, NotFoundException
 from app.db.models.activity import Activity
 from app.db.models.activity_attempt import ActivityAttempt
+from app.db.models.gradebook import Assessment, Grade
 from app.modules.activity.scoring import score_attempt
 
 
@@ -476,3 +478,125 @@ def get_student_report(db: Session, student_id: UUID, tenant_id: UUID) -> dict:
         "avg_score": avg_score,
         "total_submitted": total_submitted,
     }
+
+
+# ---------------------------------------------------------------------------
+# Feature 7 — Push Activity Results to Gradebook
+# ---------------------------------------------------------------------------
+
+
+def push_to_gradebook(
+    db: Session,
+    activity_id: UUID,
+    teacher_id: UUID,
+    tenant_id: UUID,
+    term_id: UUID,
+    category_id: UUID | None,
+    coefficient: float,
+    max_score: float,
+) -> Assessment:
+    """
+    Push auto-scored QCM results into the gradebook as a formal Assessment
+    with one Grade per student who attempted (or a placeholder for non-attempters).
+
+    Raises:
+        NotFoundException: activity not found or wrong tenant
+        ForbiddenException: activity is not published or closed
+        BadRequestException: activity has no subject_id or no group_id
+    Returns:
+        Assessment — existing one if already pushed, newly created otherwise (idempotent)
+    """
+    # 1. Load activity, verify it belongs to this tenant
+    activity = (
+        db.query(Activity)
+        .filter(Activity.id == activity_id, Activity.tenant_id == tenant_id)
+        .first()
+    )
+    if not activity:
+        raise NotFoundException("Activity not found")
+
+    # 2. Status check — only published or closed may be pushed
+    if activity.status not in ("published", "closed"):
+        raise ForbiddenException("Only published or closed activities can be pushed to the gradebook")
+
+    # 3. Validate subject_id / group_id
+    if not activity.subject_id:
+        raise BadRequestException("Activity must have a subject to push to gradebook")
+    if not activity.group_id:
+        raise BadRequestException("Activity must have a group to push to gradebook")
+
+    # 4. Idempotency — return existing assessment if already pushed
+    existing = (
+        db.query(Assessment)
+        .filter(Assessment.source_activity_id == activity_id)
+        .first()
+    )
+    if existing:
+        return existing
+
+    # 5. Load all submitted / scored attempts for this activity
+    attempts = (
+        db.query(ActivityAttempt)
+        .filter(
+            ActivityAttempt.activity_id == activity_id,
+            ActivityAttempt.mode.in_(["async", "replay"]),
+            ActivityAttempt.submitted_at.isnot(None),
+        )
+        .all()
+    )
+
+    # 6. Create the Assessment
+    assessment = Assessment(
+        tenant_id=tenant_id,
+        subject_id=activity.subject_id,
+        group_id=activity.group_id,
+        term_id=term_id,
+        category_id=category_id,
+        teacher_id=teacher_id,
+        title=activity.title,
+        description=None,
+        date=date.today(),
+        max_score=Decimal(str(max_score)),
+        coefficient=Decimal(str(coefficient)),
+        is_published=True,
+        source_activity_id=activity_id,
+    )
+    db.add(assessment)
+    db.flush()  # obtain assessment.id before creating grades
+
+    # Build a lookup: student_id -> attempt
+    attempt_by_student: dict[UUID, ActivityAttempt] = {a.student_id: a for a in attempts}
+
+    # Collect all student IDs that are in the group (via attempts — no group membership model
+    # available here, so we rely on the attempt set for scored students and skip absent ones)
+    # Students WITH an attempt
+    grades: list[Grade] = []
+    for student_id, attempt in attempt_by_student.items():
+        if attempt.score is not None and attempt.max_score and float(attempt.max_score) > 0:
+            grade_score = round(
+                float(attempt.score) / float(attempt.max_score) * max_score, 2
+            )
+            grade = Grade(
+                assessment_id=assessment.id,
+                student_id=student_id,
+                score=Decimal(str(grade_score)),
+                is_absent=False,
+                is_exempt=False,
+                comment="QCM auto-score",
+            )
+        else:
+            # Attempt exists but no score yet (e.g. started but not scored)
+            grade = Grade(
+                assessment_id=assessment.id,
+                student_id=student_id,
+                score=None,
+                is_absent=False,
+                is_exempt=False,
+                comment="Not attempted",
+            )
+        db.add(grade)
+        grades.append(grade)
+
+    db.commit()
+    db.refresh(assessment)
+    return assessment

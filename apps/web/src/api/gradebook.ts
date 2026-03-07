@@ -1,4 +1,6 @@
 import client from './client';
+import { getAcademicYears, type TermData } from './academicYears';
+export type { TermData };
 
 export interface GradeCategoryData {
   id: string;
@@ -26,6 +28,7 @@ export interface AssessmentData {
   coefficient: number;
   is_published: boolean;
   created_at: string;
+  source_activity_id?: string | null;
 }
 
 export interface GradeData {
@@ -124,3 +127,10 @@ export interface StudentSubjectGrades {
 
 export const getStudentSubjectGrades = (studentId: string, subjectId: string) =>
   client.get<StudentSubjectGrades>(`/v1/gradebook/students/${studentId}/subjects/${subjectId}/grades`);
+
+// Convenience: flatten all terms from all academic years
+export async function getAllTerms(): Promise<TermData[]> {
+  const { data } = await getAcademicYears();
+  const years = Array.isArray(data) ? data : (data as { data: import('./academicYears').AcademicYearData[] }).data ?? [];
+  return years.flatMap((y) => y.terms ?? []);
+}

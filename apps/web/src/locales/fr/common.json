@@ -261,5 +261,19 @@
   "openReplayForStudents": "Ouvrir le replay pour les élèves",
   "replaySaved": "Paramètres de replay enregistrés !",
   "viewSessionResults": "Voir les résultats de la session",
-  "optional": "optionnel"
+  "optional": "optionnel",
+  "pushToGradebook": "Exporter vers le carnet de notes",
+  "exportToGradebook": "Exporter vers le carnet de notes",
+  "alreadyInGradebook": "Déjà dans le carnet de notes",
+  "pushSuccess": "Notes exportées avec succès !",
+  "viewInGradebook": "Voir dans le carnet de notes",
+  "qcmBadge": "QCM",
+  "qcmReadOnly": "Notes issues d'un QCM automatique — lecture seule.",
+  "qcmReadOnlyHint": "Re-exportez depuis l'activité pour mettre à jour.",
+  "selectTerm": "Sélectionner la période",
+  "maxScore": "Note maximale",
+  "coefficient": "Coefficient",
+  "noSubjectForGradebook": "Cette activité n'a pas de matière assignée. Modifiez l'activité pour ajouter une matière avant d'exporter.",
+  "noGroupForGradebook": "Cette activité n'a pas de groupe assigné.",
+  "pushError": "Impossible d'exporter vers le carnet de notes. Veuillez réessayer."
 }

@@ -1,4 +1,6 @@
 import client from './client';
+import type { AxiosResponse } from 'axios';
+import type { AssessmentData } from './gradebook';
 
 export interface QuestionChoice {
   id: string;
@@ -161,4 +163,20 @@ export function getActivityReport(activityId: string) {
 
 export function getStudentReport(studentId: string) {
   return client.get<StudentReport>(`/v1/students/${studentId}/activity-scores`);
+}
+
+// ── Feature 4: Gradebook Bridge ───────────────────────────────────────────────
+
+export interface PushToGradebookPayload {
+  term_id: string;
+  category_id?: string;
+  coefficient: number;
+  max_score: number;
+}
+
+export function pushActivityToGradebook(
+  activityId: string,
+  payload: PushToGradebookPayload
+): Promise<AxiosResponse<AssessmentData>> {
+  return client.post<AssessmentData>(`/v1/activities/${activityId}/push-to-gradebook`, payload);
 }

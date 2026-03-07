@@ -34,6 +34,7 @@ class Assessment(Base, TenantMixin):
     max_score = Column(Numeric(5, 2), nullable=False, default=20)
     coefficient = Column(Numeric(5, 2), nullable=False, default=1)
     is_published = Column(Boolean, default=False)
+    source_activity_id = Column(UUID(as_uuid=True), nullable=True, index=True)
 
     category = relationship("GradeCategory", back_populates="assessments")
     grades = relationship("Grade", back_populates="assessment", cascade="all, delete-orphan")

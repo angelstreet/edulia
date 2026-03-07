@@ -18,10 +18,12 @@ from app.modules.activity.schemas import (
     AttemptSubmitRequest,
     LiveSessionCreate,
     LiveSessionResponse,
+    PushToGradebookRequest,
     ReplayEnableRequest,
     ReplaySubmitRequest,
     StudentReport,
 )
+from app.modules.gradebook.schemas import AssessmentResponse
 from app.modules.activity.service import (
     create_activity,
     delete_activity,
@@ -32,6 +34,7 @@ from app.modules.activity.service import (
     get_my_attempt,
     get_student_report,
     list_activities,
+    push_to_gradebook,
     start_attempt,
     strip_correct_answers,
     submit_attempt,
@@ -237,6 +240,36 @@ def attempts_list(
 
     attempts = get_all_attempts(db, activity_id)
     return [AttemptResult.model_validate(a) for a in attempts]
+
+
+# ---------------------------------------------------------------------------
+# Feature 7 — Push Activity Results to Gradebook
+# ---------------------------------------------------------------------------
+
+
+@router.post("/{activity_id}/push-to-gradebook", response_model=AssessmentResponse)
+def push_activity_to_gradebook(
+    activity_id: UUID,
+    request: PushToGradebookRequest,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Teacher/admin: push auto-scored QCM results into the gradebook as a formal Assessment."""
+    role = _get_user_role(current_user)
+    if role not in ("teacher", "admin"):
+        raise ForbiddenException("Only teachers and admins can push activities to the gradebook")
+
+    assessment = push_to_gradebook(
+        db,
+        activity_id=activity_id,
+        teacher_id=current_user.id,
+        tenant_id=current_user.tenant_id,
+        term_id=request.term_id,
+        category_id=request.category_id,
+        coefficient=request.coefficient,
+        max_score=request.max_score,
+    )
+    return assessment
 
 
 # ---------------------------------------------------------------------------

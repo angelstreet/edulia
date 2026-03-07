@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from '../../../components/ui/Button';
 import { Spinner } from '../../../components/ui/Spinner';
-import { getAssessmentGrades, bulkCreateGrades, type GradeData, type GradeInput } from '../../../api/gradebook';
+import { getAssessments, getAssessmentGrades, bulkCreateGrades, type AssessmentData, type GradeData, type GradeInput } from '../../../api/gradebook';
 
 interface GradeRow {
   student_id: string;
@@ -17,17 +17,22 @@ export function GradeEntryPage() {
   const { t } = useTranslation();
   const { assessmentId } = useParams<{ assessmentId: string }>();
   const navigate = useNavigate();
+  const [assessment, setAssessment] = useState<AssessmentData | null>(null);
   const [, setGrades] = useState<GradeData[]>([]);
   const [rows, setRows] = useState<GradeRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const isQcmSource = Boolean(assessment?.source_activity_id);
 
   const fetchGrades = useCallback(async () => {
     if (!assessmentId) return;
     setLoading(true);
     try {
-      const { data } = await getAssessmentGrades(assessmentId);
-      const list = Array.isArray(data) ? data : [];
+      const [gradesRes, assessmentsRes] = await Promise.all([
+        getAssessmentGrades(assessmentId),
+        getAssessments(),
+      ]);
+      const list = Array.isArray(gradesRes.data) ? gradesRes.data : [];
       setGrades(list);
       setRows(list.map((g) => ({
         student_id: g.student_id,
@@ -36,6 +41,9 @@ export function GradeEntryPage() {
         is_exempt: g.is_exempt,
         comment: g.comment || '',
       })));
+      const allAssessments = Array.isArray(assessmentsRes.data) ? assessmentsRes.data : [];
+      const found = allAssessments.find((a) => a.id === assessmentId) ?? null;
+      setAssessment(found);
     } catch {
       setGrades([]);
       setRows([]);
@@ -95,10 +103,21 @@ export function GradeEntryPage() {
           </Button>
           <h1 className="text-2xl font-bold">{t('gradeEntry', 'Grade Entry')}</h1>
         </div>
-        <Button variant="primary" loading={saving} onClick={handleSave}>
+        <Button variant="primary" loading={saving} onClick={handleSave} disabled={isQcmSource}>
           {t('saveGrades', 'Save Grades')}
         </Button>
       </div>
+
+      {isQcmSource && (
+        <div className="mb-4 flex items-start gap-2 rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-800">
+          <span className="shrink-0">ℹ</span>
+          <span>
+            {t('qcmReadOnly', 'Scores from auto-graded QCM — read only.')}
+            {' '}
+            {t('qcmReadOnlyHint', 'Re-push from the activity to update.')}
+          </span>
+        </div>
+      )}
 
       {rows.length === 0 ? (
         <p className="text-muted-foreground">{t('noGradesYet', 'No grades entered yet for this assessment.')}</p>
@@ -125,10 +144,11 @@ export function GradeEntryPage() {
                       type="number"
                       step="0.5"
                       min="0"
-                      className="h-8 w-20 rounded border border-input bg-transparent px-2 text-sm outline-none focus:border-ring"
+                      className="h-8 w-20 rounded border border-input bg-transparent px-2 text-sm outline-none focus:border-ring disabled:opacity-60"
                       value={row.score}
                       onChange={(e) => updateRow(i, 'score', e.target.value)}
-                      disabled={row.is_absent || row.is_exempt}
+                      disabled={isQcmSource || row.is_absent || row.is_exempt}
+                      readOnly={isQcmSource}
                     />
                   </td>
                   <td className="p-2 text-center">
@@ -136,6 +156,7 @@ export function GradeEntryPage() {
                       type="checkbox"
                       checked={row.is_absent}
                       onChange={(e) => updateRow(i, 'is_absent', e.target.checked)}
+                      disabled={isQcmSource}
                     />
                   </td>
                   <td className="p-2 text-center">
@@ -143,14 +164,17 @@ export function GradeEntryPage() {
                       type="checkbox"
                       checked={row.is_exempt}
                       onChange={(e) => updateRow(i, 'is_exempt', e.target.checked)}
+                      disabled={isQcmSource}
                     />
                   </td>
                   <td className="p-2">
                     <input
                       type="text"
-                      className="h-8 w-full rounded border border-input bg-transparent px-2 text-sm outline-none focus:border-ring"
+                      className="h-8 w-full rounded border border-input bg-transparent px-2 text-sm outline-none focus:border-ring disabled:opacity-60"
                       value={row.comment}
                       onChange={(e) => updateRow(i, 'comment', e.target.value)}
+                      disabled={isQcmSource}
+                      readOnly={isQcmSource}
                     />
                   </td>
                 </tr>

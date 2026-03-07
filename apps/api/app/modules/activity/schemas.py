@@ -219,3 +219,15 @@ class WSMessage(BaseModel):
     """Generic WebSocket message envelope."""
     type: str
     data: dict = {}
+
+
+# ---------------------------------------------------------------------------
+# Feature 7 — Push Activity Results to Gradebook
+# ---------------------------------------------------------------------------
+
+
+class PushToGradebookRequest(BaseModel):
+    term_id: UUID
+    category_id: UUID | None = None
+    coefficient: float = 1.0
+    max_score: float = 20.0

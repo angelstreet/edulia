@@ -114,7 +114,12 @@ export function GradebookPage() {
               onClick={() => navigate(`/gradebook/${a.id}`)}
             >
               <div className="flex flex-col gap-1">
-                <span className="font-medium">{a.title}</span>
+                <div className="flex items-center gap-2">
+                  <span className="font-medium">{a.title}</span>
+                  {a.source_activity_id && (
+                    <Badge variant="default">{t('qcmBadge', 'QCM')}</Badge>
+                  )}
+                </div>
                 <span className="text-sm text-muted-foreground">
                   {a.date} &middot; /{a.max_score} &middot; {t('coeff', 'Coeff')} {a.coefficient}
                 </span>
