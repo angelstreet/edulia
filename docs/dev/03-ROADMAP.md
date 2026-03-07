@@ -32,9 +32,13 @@ Last updated: 2026-03-13
 | forms | ✅ | Dynamic form builder, fill, results view, target roles |
 | community | ✅ | Directory + school organigramme (class tree, members) |
 | wallet | ✅ | Prepaid balance, top-up, service catalog, subscriptions, transaction history |
-| notifications | ⚠️ | Backend API complete, bell/dropdown in app shell, read_at tracking. No producers yet. |
+| notifications | ✅ | SSE push + 30s polling fallback, producers in homework/gradebook/activity, bell badge, unread count |
 | parent portal | ✅ | /children page + ParentDashboard + StudentGradesPage child selector |
 | student portal | ✅ | Dashboard + grades + homework + timetable |
+| enrollment | ✅ | Parent submits request, admin reviews, auto-creates student on approval |
+| absence_justification | ✅ | Parent submits, admin/teacher reviews, SMS on status change |
+| health_records | ✅ | One-to-one per student — allergies, meds, emergency contact, blood type |
+| tutor CRM | ✅ | Session log, packages, invoice generation + PDF download |
 
 ### Interactive Teaching (P5) — ✅ Complete (Features 1–6)
 | Feature | Status | What it does |
@@ -143,60 +147,6 @@ Last updated: 2026-03-13
 
 ---
 
-### 🔵 BACKLOG: PWA + Offline (promoted — done above)
-
-### 🟡 SOON: Billing / Stripe Real Payments
-
-Current state: wallet top-up and service catalog exist but Stripe checkout is not wired.
-
-**What to build:**
-- Stripe payment intent for wallet top-up (server-side, webhook handler for confirmation)
-- Auto-debit Celery task: daily/weekly recurring service charges from wallet
-- Low balance email alert (when wallet < threshold)
-- Monthly statement PDF
-
-**Effort:** Medium (Stripe SDK + Celery already in stack)
-
----
-
-### 🟡 SOON: Real-Time Notifications
-
-Backend API is complete (read_at tracking, notification types). No producers exist.
-
-**What to build:**
-- Notification producers in key modules: new homework → notify students, new grade → notify student+parent, live session started → notify enrolled students, replay enabled → notify students
-- SSE or WebSocket push to frontend (reuse existing Redis pub/sub infrastructure)
-- Bell icon badge with unread count
-- Notification panel auto-refresh
-
-**Effort:** Medium
-
----
-
-### 🟢 LATER: Enrollment Module
-
-Online enrollment: parent fills form, uploads documents, admin reviews and approves.
-
-**What to build:**
-- `enrollment_requests` table (family info, child info, documents, status: pending/reviewing/approved/rejected)
-- Admin review workflow with notes
-- Parent tracks status
-- On approval: create User (student) + Group membership automatically
-
-**Effort:** Medium
-
----
-
-### 🟢 LATER: PWA + Offline
-
-- Service worker, installable on iPad/phone
-- Offline: view timetable, grades, homework (last fetched)
-- Push notifications via Web Push API
-
-**Effort:** Medium
-
----
-
 ### 🔵 BACKLOG: Interactive Teaching — Phase D
 
 Game types beyond QCM:
@@ -240,3 +190,5 @@ For tutor accounts (already have role):
 | Activity scores not in gradebook | Activities + Gradebook | ✅ Fixed — push-to-gradebook bridge |
 | WS answer store is in-memory | session_ws.py | Persist to Redis for multi-pod (post-MVP) |
 | Open questions score 0 | scoring.py | Manual grading flow for open QCM (backlog) |
+| Vite dev server in production | VM port 3000 | Replace with nginx serving dist/ + proxy /api (post-MVP) |
+| Cloudflare 100s WS idle timeout | Live sessions | Frontend reconnects on close — acceptable for now |
