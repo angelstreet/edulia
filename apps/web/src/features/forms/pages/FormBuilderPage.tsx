@@ -75,7 +75,6 @@ export function FormBuilderPage() {
         title,
         description: description || undefined,
         type,
-        target_roles: [],
         deadline: deadline || undefined,
         target_roles: targetRoles,
         fields: fields.map(({ _key, _optionInput, ...f }) => f),

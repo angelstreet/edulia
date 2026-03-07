@@ -30,7 +30,7 @@ export function FileUpload({ onUpload, accept, maxSize = 50 }: FileUploadProps) 
     setProgress(0);
     setError(null);
     try {
-      const { data } = await uploadFile(file, setProgress);
+      const { data } = await uploadFile(file, 'general', setProgress);
       setUploaded(data);
       onUpload?.(data);
     } catch {
