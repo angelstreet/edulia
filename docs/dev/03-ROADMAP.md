@@ -1,6 +1,6 @@
 # 03 — Roadmap: Built, In Progress, Next
 
-Last updated: 2026-03-08
+Last updated: 2026-03-09
 
 ---
 
@@ -69,7 +69,19 @@ Last updated: 2026-03-08
 
 ---
 
-### 🔴 NOW: Billing / Stripe Real Payments
+### ✅ DONE: Billing / Stripe Real Payments (shipped 2026-03-09)
+
+- `POST /api/v1/wallet/create-payment-intent` — Stripe PaymentIntent creation with user/tenant metadata
+- `POST /api/v1/stripe/webhook` — verifies Stripe signature, credits wallet on `payment_intent.succeeded` (idempotent via `stripe_payment_intent_id`)
+- Celery worker + beat: `charge_subscriptions` (daily auto-debit by billing_period), `send_low_balance_alerts`
+- SMTP low balance email when wallet below threshold
+- Frontend: Stripe Elements (`CardElement`) in WalletPage; fallback to direct top-up in dev without Stripe keys
+- Migration `d1e2f3a4b5c6`: `stripe_payment_intent_id` on `wallet_transactions`
+- 10 HTTP integration tests + 5 Playwright E2E
+
+---
+
+### 🔴 NOW: Real-Time Notifications
 
 ### 🟡 SOON: Billing / Stripe Real Payments
 
@@ -150,7 +162,8 @@ For tutor accounts (already have role):
 | Interactive Teaching F1–F6 | ✅ Shipped 2026-03-07 |
 | Gradebook ↔ Activity Integration | ✅ Shipped 2026-03-07 |
 | Gradebook audit & gap fix | ✅ Shipped 2026-03-08 |
-| Billing / Stripe Real Payments | 🔴 Next |
+| Billing / Stripe Real Payments | ✅ Shipped 2026-03-09 |
+| Real-Time Notifications | 🔴 Next |
 
 ---
 
