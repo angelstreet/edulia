@@ -105,7 +105,23 @@ def bulk_grades(
     db: Session = Depends(get_db),
 ):
     grades_data = [g.model_dump() for g in request.grades]
-    return bulk_create_grades(db, assessment_id, grades_data)
+    grades = bulk_create_grades(db, assessment_id, grades_data)
+    # Dispatch notification per student graded
+    try:
+        from app.modules.notifications.engine import dispatch_notification
+        assessment = get_assessment(db, assessment_id)
+        for grade in grades:
+            if grade.score is not None:
+                dispatch_notification(
+                    db, current_user.tenant_id, grade.student_id,
+                    type="info",
+                    title=f"New grade: {assessment.title}",
+                    body=f"Score: {grade.score}/{assessment.max_score}",
+                    link=f"/grades",
+                )
+    except Exception:
+        pass
+    return grades
 
 
 # --- Student Averages ---

@@ -8,7 +8,7 @@ import { useNotifications } from '../../hooks/useNotifications';
 export function NotificationPanel() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { notifications, unreadCount, markRead, markAllRead } = useNotifications();
+  const { notifications, unreadCount, markRead, markAllRead, refresh } = useNotifications();
   const [open, setOpen] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
 
@@ -28,11 +28,17 @@ export function NotificationPanel() {
     setOpen(false);
   };
 
+  const handleBellClick = () => {
+    const next = !open;
+    setOpen(next);
+    if (next) refresh();
+  };
+
   return (
     <div className="relative" ref={panelRef}>
       <button
         className="relative p-1 border-none bg-transparent cursor-pointer"
-        onClick={() => setOpen(!open)}
+        onClick={handleBellClick}
       >
         <Bell className="h-5 w-5" />
         {unreadCount > 0 && (

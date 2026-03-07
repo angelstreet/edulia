@@ -305,12 +305,34 @@ def create_session_endpoint(
     role = _get_user_role(current_user)
     if role not in ("teacher", "admin"):
         raise ForbiddenException("Only teachers and admins can create live sessions")
-    return session_service.create_session(
+    result = session_service.create_session(
         db,
         tenant_id=current_user.tenant_id,
         teacher_id=current_user.id,
         activity_id=request.activity_id,
     )
+    # Notify enrolled students
+    try:
+        from app.modules.notifications.engine import dispatch_notification
+        from app.db.models.group import GroupMembership
+        activity = get_activity(db, request.activity_id)
+        if activity.group_id:
+            members = db.query(GroupMembership).filter(
+                GroupMembership.group_id == activity.group_id,
+                GroupMembership.left_at.is_(None),
+                GroupMembership.role_in_group == "member",
+            ).all()
+            for m in members:
+                dispatch_notification(
+                    db, current_user.tenant_id, m.user_id,
+                    type="action",
+                    title=f"Live session started: {activity.title}",
+                    body=f"Join code: {result.join_code}",
+                    link=f"/activities",
+                )
+    except Exception:
+        pass
+    return result
 
 
 @sessions_router.get("/{join_code}", response_model=LiveSessionResponse)
@@ -356,7 +378,30 @@ def enable_replay_endpoint(
     role = _get_user_role(current_user)
     if role not in ("teacher", "admin"):
         raise ForbiddenException("Only teachers and admins can enable replay")
-    return session_service.enable_replay(db, join_code, request.replay_deadline)
+    result = session_service.enable_replay(db, join_code, request.replay_deadline)
+    # Notify enrolled students
+    try:
+        from app.modules.notifications.engine import dispatch_notification
+        from app.db.models.group import GroupMembership
+        live_session = session_service.get_session_by_code(db, join_code)
+        activity = get_activity(db, live_session.activity_id)
+        if activity.group_id:
+            members = db.query(GroupMembership).filter(
+                GroupMembership.group_id == activity.group_id,
+                GroupMembership.left_at.is_(None),
+                GroupMembership.role_in_group == "member",
+            ).all()
+            for m in members:
+                dispatch_notification(
+                    db, current_user.tenant_id, m.user_id,
+                    type="info",
+                    title=f"Replay available: {activity.title}",
+                    body="You can now replay this session",
+                    link=f"/activities",
+                )
+    except Exception:
+        pass
+    return result
 
 
 @sessions_router.post("/{join_code}/replay/attempt", response_model=AttemptResult)

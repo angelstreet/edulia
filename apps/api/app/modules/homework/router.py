@@ -42,6 +42,26 @@ def create(
     db: Session = Depends(get_db),
 ):
     hw = create_homework(db, current_user.tenant_id, current_user.id, **request.model_dump())
+    # Dispatch notification to group students
+    try:
+        from app.modules.notifications.engine import dispatch_notification
+        from app.db.models.group import GroupMembership
+        if hw.group_id:
+            members = db.query(GroupMembership).filter(
+                GroupMembership.group_id == hw.group_id,
+                GroupMembership.left_at.is_(None),
+                GroupMembership.role_in_group == "member",
+            ).all()
+            for m in members:
+                dispatch_notification(
+                    db, current_user.tenant_id, m.user_id,
+                    type="action",
+                    title=f"New homework: {hw.title}",
+                    body=f"Due {hw.due_date}" if hw.due_date else None,
+                    link=f"/homework",
+                )
+    except Exception:
+        pass  # Never let notification errors block the main flow
     return hw
 
 
