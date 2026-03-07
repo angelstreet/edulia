@@ -16,6 +16,7 @@ import {
   CreditCard,
   FolderOpen,
   FileText,
+  Baby,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -57,7 +58,7 @@ const NAV_BY_ROLE: Record<string, NavItem[]> = {
   ],
   parent: [
     { to: '/dashboard', label: 'dashboard', icon: LayoutGrid },
-    { to: '/grades', label: 'grades', icon: BarChart3 },
+    { to: '/children', label: 'children', icon: Baby },
     { to: '/messages', label: 'messages', icon: Mail },
     { to: '/documents', label: 'documents', icon: FolderOpen },
     { to: '/forms', label: 'forms', icon: FileText },

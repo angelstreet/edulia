@@ -11,6 +11,7 @@ import {
   BarChart3,
   CreditCard,
   ClipboardList,
+  Baby,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -41,7 +42,7 @@ const TABS_BY_ROLE: Record<string, Tab[]> = {
   ],
   parent: [
     { to: '/dashboard', label: 'dashboard', icon: LayoutGrid },
-    { to: '/grades', label: 'grades', icon: BarChart3 },
+    { to: '/children', label: 'children', icon: Baby },
     { to: '/messages', label: 'messages', icon: Mail },
     { to: '/wallet', label: 'wallet', icon: CreditCard },
   ],

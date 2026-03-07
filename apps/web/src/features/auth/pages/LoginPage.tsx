@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import { useLandingTheme } from '../../../hooks/useLandingTheme';
 import { useAuthStore } from '../../../stores/authStore';
@@ -40,6 +40,8 @@ const DEMO_ACCOUNTS = [
 export function LoginPage() {
   
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = (location.state as { from?: Location })?.from?.pathname || '/';
   const theme = useLandingTheme();
   const login = useAuthStore((s) => s.login);
 
@@ -55,7 +57,7 @@ export function LoginPage() {
     setLoading(true);
     try {
       await login(demoEmail || email, demoEmail ? 'demo2026' : password);
-      navigate('/');
+      navigate(from, { replace: true });
     } catch (err: any) {
       setError(err?.response?.data?.detail || 'Login failed');
     } finally {

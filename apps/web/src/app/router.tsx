@@ -27,15 +27,10 @@ import { FormFillPage } from '../features/forms/pages/FormFillPage';
 import { FormResultsPage } from '../features/forms/pages/FormResultsPage';
 import { WalletPage } from '../features/wallet/pages/WalletPage';
 import { ServicesPage } from '../features/wallet/pages/ServicesPage';
+import { NotFoundPage } from '../features/errors/pages/NotFoundPage';
 import { AuthGuard } from './guards/AuthGuard';
 import { RoleGuard } from './guards/RoleGuard';
 import { AppShell } from '../components/layout/AppShell';
-import { useAuthStore } from '../stores/authStore';
-
-function FallbackRedirect() {
-  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
-  return <Navigate to={isAuthenticated ? '/dashboard' : '/landing'} replace />;
-}
 
 export const router = createBrowserRouter([
   // Public routes
@@ -121,5 +116,5 @@ export const router = createBrowserRouter([
   },
 
   // Catch-all
-  { path: '*', element: <FallbackRedirect /> },
+  { path: '*', element: <NotFoundPage /> },
 ]);
