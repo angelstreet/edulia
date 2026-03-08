@@ -50,8 +50,8 @@ class ActivityResponse(BaseModel):
     type: str
     status: str
     questions: list[Question]
-    group_id: str | None
-    subject_id: str | None
+    group_id: UUID | None
+    subject_id: UUID | None
     scheduled_at: datetime | None
     replay_deadline: datetime | None
     created_at: datetime
@@ -90,8 +90,8 @@ class ActivityResponseStripped(BaseModel):
     type: str
     status: str
     questions: list[QuestionStripped]
-    group_id: str | None
-    subject_id: str | None
+    group_id: UUID | None
+    subject_id: UUID | None
     scheduled_at: datetime | None
     replay_deadline: datetime | None
     created_at: datetime
@@ -149,8 +149,8 @@ class ActivityReport(BaseModel):
     title: str
     type: str
     status: str
-    group_id: str | None
-    subject_id: str | None
+    group_id: UUID | None
+    subject_id: UUID | None
     created_at: datetime
     total_attempts: int
     avg_score: float | None      # None if no submissions yet
