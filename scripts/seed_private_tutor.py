@@ -35,37 +35,42 @@ PASSWORD = hash_password("demo2026")
 
 def delete_existing(db):
     from sqlalchemy import text
+    from app.db.database import engine
+
     tenant = db.query(Tenant).filter(Tenant.slug == SLUG).first()
     if not tenant:
         return
     tid = str(tenant.id)
+    db.close()  # release ORM session before raw ops
+
     steps = [
-        ("grades", f"DELETE FROM grades WHERE assessment_id IN (SELECT id FROM assessments WHERE tenant_id = :tid)"),
-        ("assessments", f"DELETE FROM assessments WHERE tenant_id = :tid"),
-        ("messages", f"DELETE FROM messages WHERE thread_id IN (SELECT id FROM threads WHERE tenant_id = :tid)"),
-        ("thread_participants", f"DELETE FROM thread_participants WHERE thread_id IN (SELECT id FROM threads WHERE tenant_id = :tid)"),
-        ("threads", f"DELETE FROM threads WHERE tenant_id = :tid"),
-        ("sessions", f"DELETE FROM sessions WHERE tenant_id = :tid"),
-        ("group_memberships", f"DELETE FROM group_memberships WHERE group_id IN (SELECT id FROM groups WHERE tenant_id = :tid)"),
-        ("groups", f"DELETE FROM groups WHERE tenant_id = :tid"),
-        ("school_invoices", f"DELETE FROM school_invoices WHERE tenant_id = :tid"),
-        ("relationships", f"DELETE FROM relationships WHERE tenant_id = :tid"),
-        ("user_roles", f"DELETE FROM user_roles WHERE user_id IN (SELECT id FROM users WHERE tenant_id = :tid)"),
-        ("users", f"DELETE FROM users WHERE tenant_id = :tid"),
-        ("subjects", f"DELETE FROM subjects WHERE tenant_id = :tid"),
-        ("terms", f"DELETE FROM terms WHERE academic_year_id IN (SELECT id FROM academic_years WHERE tenant_id = :tid)"),
-        ("academic_years", f"DELETE FROM academic_years WHERE tenant_id = :tid"),
-        ("campuses", f"DELETE FROM campuses WHERE tenant_id = :tid"),
-        ("roles", f"DELETE FROM roles WHERE tenant_id = :tid"),
-        ("tenants", f"DELETE FROM tenants WHERE id = :tid"),
+        f"DELETE FROM grades WHERE assessment_id IN (SELECT id FROM assessments WHERE tenant_id = '{tid}')",
+        f"DELETE FROM assessments WHERE tenant_id = '{tid}'",
+        f"DELETE FROM messages WHERE thread_id IN (SELECT id FROM threads WHERE tenant_id = '{tid}')",
+        f"DELETE FROM thread_participants WHERE thread_id IN (SELECT id FROM threads WHERE tenant_id = '{tid}')",
+        f"DELETE FROM threads WHERE tenant_id = '{tid}'",
+        f"DELETE FROM sessions WHERE tenant_id = '{tid}'",
+        f"DELETE FROM group_memberships WHERE group_id IN (SELECT id FROM groups WHERE tenant_id = '{tid}')",
+        f"DELETE FROM groups WHERE tenant_id = '{tid}'",
+        f"DELETE FROM school_invoices WHERE tenant_id = '{tid}'",
+        f"DELETE FROM relationships WHERE tenant_id = '{tid}'",
+        f"DELETE FROM user_roles WHERE user_id IN (SELECT id FROM users WHERE tenant_id = '{tid}')",
+        f"DELETE FROM users WHERE tenant_id = '{tid}'",
+        f"DELETE FROM subjects WHERE tenant_id = '{tid}'",
+        f"DELETE FROM terms WHERE academic_year_id IN (SELECT id FROM academic_years WHERE tenant_id = '{tid}')",
+        f"DELETE FROM academic_years WHERE tenant_id = '{tid}'",
+        f"DELETE FROM campuses WHERE tenant_id = '{tid}'",
+        f"DELETE FROM roles WHERE tenant_id = '{tid}'",
+        f"DELETE FROM tenants WHERE id = '{tid}'",
     ]
-    for label, sql in steps:
+    # Each step runs in its own connection+transaction so failures are fully isolated
+    for sql in steps:
         try:
-            with db.begin_nested():  # savepoint — failed step won't abort full transaction
-                db.execute(text(sql), {"tid": tid})
+            with engine.connect() as conn:
+                conn.execute(text(sql))
+                conn.commit()
         except Exception:
             pass
-    db.commit()
     print(f"Deleted existing tenant '{SLUG}'")
 
 
@@ -354,6 +359,7 @@ def main():
     db = SessionLocal()
     try:
         delete_existing(db)
+        db = SessionLocal()  # fresh session after delete closed the old one
         seed(db)
         db.commit()
         print("\nPrivate tutor profile created successfully!")
