@@ -563,17 +563,18 @@ def seed(db: Session):
     print("  School life: 2 events (1 positive, 1 incident)")
 
     # ── Curriculum: learning objectives + content ─────────────────────────────────
+    # Commit first so raw SQL inserts can see the tenant FK
+    db.commit()
+
     # Find PS competencies from the globally seeded curriculum
-    raw = db.get_bind()
-    with raw.connect() as c:
-        comps = c.execute(text("""
-            SELECT cc.id, cc.description, cd.code as domain_code
-            FROM curriculum_competencies cc
-            JOIN curriculum_domains cd ON cd.id = cc.domain_id
-            JOIN curriculum_frameworks cf ON cf.id = cd.framework_id
-            WHERE cf.cycle = '1'
-            ORDER BY cd.sort_order, cc.sort_order
-        """)).fetchall()
+    comps = db.execute(text("""
+        SELECT cc.id, cc.description, cd.code as domain_code
+        FROM curriculum_competencies cc
+        JOIN curriculum_domains cd ON cd.id = cc.domain_id
+        JOIN curriculum_frameworks cf ON cf.id = cd.framework_id
+        WHERE cf.cycle = '1'
+        ORDER BY cd.sort_order, cc.sort_order
+    """)).fetchall()
 
     if not comps:
         print("  WARNING: No curriculum data found — run seed_curriculum.py first!")
@@ -719,41 +720,39 @@ def seed(db: Session):
 
             # Insert learning_objective
             obj_id = uuid.uuid4()
-            with raw.connect() as c:
-                c.execute(text("""
-                    INSERT INTO learning_objectives
-                        (id, tenant_id, competency_id, term_id, week_from, week_to,
-                         group_id, notes, status, created_at, updated_at)
+            db.execute(text("""
+                INSERT INTO learning_objectives
+                    (id, tenant_id, competency_id, term_id, week_from, week_to,
+                     group_id, notes, status, created_at, updated_at)
+                VALUES
+                    (:id, :tid, :cid, :term_id, :wf, :wt,
+                     :gid, :notes, :status, :now, :now)
+                ON CONFLICT DO NOTHING
+            """), {
+                "id": str(obj_id), "tid": str(tid), "cid": str(comp_id),
+                "term_id": str(term_id), "wf": wfrom, "wt": wto,
+                "gid": str(ps_class.id), "notes": notes, "status": status,
+                "now": datetime.utcnow().isoformat(),
+            })
+
+            for ctype, cref, label in content_links:
+                db.execute(text("""
+                    INSERT INTO objective_content
+                        (id, objective_id, content_type, content_ref, label, created_at)
                     VALUES
-                        (:id, :tid, :cid, :term_id, :wf, :wt,
-                         :gid, :notes, :status, :now, :now)
+                        (:id, :oid, :ct, :cr, :label, :now)
                     ON CONFLICT DO NOTHING
                 """), {
-                    "id": str(obj_id), "tid": str(tid), "cid": str(comp_id),
-                    "term_id": str(term_id), "wf": wfrom, "wt": wto,
-                    "gid": str(ps_class.id), "notes": notes, "status": status,
+                    "id": str(uuid.uuid4()), "oid": str(obj_id),
+                    "ct": ctype, "cr": cref, "label": label,
                     "now": datetime.utcnow().isoformat(),
                 })
-
-                for ctype, cref, label in content_links:
-                    c.execute(text("""
-                        INSERT INTO objective_content
-                            (id, objective_id, content_type, content_ref, label, created_at)
-                        VALUES
-                            (:id, :oid, :ct, :cr, :label, :now)
-                        ON CONFLICT DO NOTHING
-                    """), {
-                        "id": str(uuid.uuid4()), "oid": str(obj_id),
-                        "ct": ctype, "cr": cref, "label": label,
-                        "now": datetime.utcnow().isoformat(),
-                    })
-                c.commit()
 
         total_links = sum(len(c[7]) for c in objectives_def)
         print(f"  Curriculum: {len(objectives_def)} learning objectives, {total_links} content links")
 
     # ── Done ─────────────────────────────────────────────────────────────────────
-    db.commit()
+    db.commit()  # commit learning objectives + content links
     print("\n" + "="*60)
     print("ÉCOLE DIRECT — SEED COMPLETE")
     print("="*60)
