@@ -2,7 +2,7 @@ from datetime import datetime
 from decimal import Decimal
 from uuid import UUID
 
-from pydantic import BaseModel
+from pydantic import BaseModel, model_validator
 
 
 class QuestionChoice(BaseModel):
@@ -18,6 +18,16 @@ class Question(BaseModel):
     choices: list[QuestionChoice] = []
     time_limit_s: int | None = None
     points: int = 1
+
+    @model_validator(mode="after")
+    def validate_choices(self) -> "Question":
+        if self.type in ("single", "multi") and len(self.choices) < 2:
+            raise ValueError("Questions must have at least 2 choices")
+        if self.type == "single":
+            correct = sum(1 for c in self.choices if c.is_correct)
+            if correct != 1:
+                raise ValueError("Single-choice questions must have exactly 1 correct answer")
+        return self
 
 
 class ActivityCreate(BaseModel):
