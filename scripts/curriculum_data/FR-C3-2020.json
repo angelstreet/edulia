@@ -1,0 +1,739 @@
+{
+  "code": "FR-MENJ-C3-2020",
+  "name": "Programme du cycle 3 — Cycle de consolidation",
+  "country": "FR",
+  "cycle": "3",
+  "year": 2020,
+  "source": "MENJ — BO spécial n°31 du 30 juillet 2020",
+  "levels": ["CM1", "CM2", "6E"],
+  "domains": [
+    {
+      "code": "FRANCAIS",
+      "name": "Français",
+      "sort_order": 1,
+      "competencies": [
+        {
+          "code": "C3-FR-01",
+          "description": "Écouter pour comprendre un message oral, un propos, un discours, un texte lu : identifier et mémoriser les informations importantes, leur enchaînement, les formules et les expressions récurrentes.",
+          "sub_domain": "Langage oral",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 1
+        },
+        {
+          "code": "C3-FR-02",
+          "description": "Parler en prenant en compte son auditoire : formuler clairement un propos, adapter son niveau de langue à la situation de communication, articuler et moduler sa voix.",
+          "sub_domain": "Langage oral",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 2
+        },
+        {
+          "code": "C3-FR-03",
+          "description": "Participer à des échanges dans des situations diversifiées (récit, description, questionnement, débat) : prendre la parole à bon escient, reformuler, questionner, apporter des contre-arguments, justifier son point de vue.",
+          "sub_domain": "Langage oral",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 3
+        },
+        {
+          "code": "C3-FR-04",
+          "description": "Présenter un exposé oral préparé sur un sujet étudié : prendre appui sur des notes ou un support visuel, adapter son débit et son intonation pour capter l'attention de l'auditoire.",
+          "sub_domain": "Langage oral",
+          "levels": ["CM2", "6E"],
+          "sort_order": 4
+        },
+        {
+          "code": "C3-FR-05",
+          "description": "Participer à un débat ou à une discussion argumentée : écouter les autres, respecter les règles du débat, distinguer son point de vue de celui d'autrui, nuancer ses propos.",
+          "sub_domain": "Langage oral",
+          "levels": ["CM2", "6E"],
+          "sort_order": 5
+        },
+        {
+          "code": "C3-FR-06",
+          "description": "Lire et comprendre des textes variés, adaptés à la maturité des élèves : identifier le sens global, les enjeux et la visée d'un texte littéraire ou documentaire.",
+          "sub_domain": "Lecture et compréhension de l'écrit",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 6
+        },
+        {
+          "code": "C3-FR-07",
+          "description": "Lire à voix haute avec fluidité et expressivité : respecter la ponctuation, le rythme et les intonations qui conviennent au texte lu.",
+          "sub_domain": "Lecture et compréhension de l'écrit",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 7
+        },
+        {
+          "code": "C3-FR-08",
+          "description": "Lire des textes non littéraires (articles, documentaires, textes informatifs, sites web) : identifier et hiérarchiser les informations, repérer les indices textuels et paratextuels.",
+          "sub_domain": "Lecture et compréhension de l'écrit",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 8
+        },
+        {
+          "code": "C3-FR-09",
+          "description": "Fréquenter et utiliser des bibliothèques et des ressources numériques : choisir un ouvrage adapté, effectuer une recherche documentaire simple, évaluer la fiabilité d'une source.",
+          "sub_domain": "Lecture et compréhension de l'écrit",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 9
+        },
+        {
+          "code": "C3-FR-10",
+          "description": "Écrire avec une intention et pour un destinataire : planifier, rédiger et réviser différents types de textes (récit, description, dialogue, texte informatif, texte argumentatif).",
+          "sub_domain": "Écriture",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 10
+        },
+        {
+          "code": "C3-FR-11",
+          "description": "Rédiger un texte d'environ une page, cohérent et organisé : utiliser des substituts nominaux et pronominaux, des connecteurs logiques et temporels adaptés.",
+          "sub_domain": "Écriture",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 11
+        },
+        {
+          "code": "C3-FR-12",
+          "description": "Réviser et améliorer l'écrit qu'on a produit : se relire, corriger les erreurs d'orthographe, reformuler les phrases maladroites, enrichir le lexique employé avec des outils de référence.",
+          "sub_domain": "Écriture",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 12
+        },
+        {
+          "code": "C3-FR-13",
+          "description": "Maîtriser les bases de l'orthographe lexicale et grammaticale : accords dans le groupe nominal (genre et nombre), accord du verbe avec son sujet, accord de l'attribut, orthographe des homophones.",
+          "sub_domain": "Étude de la langue — Grammaire et orthographe",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 13
+        },
+        {
+          "code": "C3-FR-14",
+          "description": "Analyser les constituants de la phrase : identifier le groupe sujet, le groupe verbal et les compléments circonstanciels ; distinguer phrase simple et phrase complexe ; identifier les propositions.",
+          "sub_domain": "Étude de la langue — Grammaire et orthographe",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 14
+        },
+        {
+          "code": "C3-FR-15",
+          "description": "Conjuguer les verbes aux temps et modes étudiés (indicatif présent, imparfait, passé simple, futur simple, passé composé, conditionnel présent, impératif présent) et les utiliser à bon escient dans l'expression écrite et orale.",
+          "sub_domain": "Étude de la langue — Grammaire et orthographe",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 15
+        },
+        {
+          "code": "C3-FR-16",
+          "description": "Enrichir et structurer le lexique : comprendre et utiliser des mots nouveaux en contexte, mobiliser les notions de synonymie, d'antonymie, de polysémie, de sens propre et figuré.",
+          "sub_domain": "Étude de la langue — Lexique",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 16
+        },
+        {
+          "code": "C3-FR-17",
+          "description": "Identifier la formation des mots (préfixes, suffixes, familles de mots, emprunts) pour comprendre des mots nouveaux et enrichir son vocabulaire de réception et de production.",
+          "sub_domain": "Étude de la langue — Lexique",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 17
+        },
+        {
+          "code": "C3-FR-18",
+          "description": "Lire des œuvres littéraires du patrimoine et de la littérature de jeunesse : mettre en réseau des textes, identifier des genres, des auteurs et des époques ; partager ses impressions de lecture.",
+          "sub_domain": "Culture littéraire et artistique",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 18
+        }
+      ]
+    },
+    {
+      "code": "MATHS",
+      "name": "Mathématiques",
+      "sort_order": 2,
+      "competencies": [
+        {
+          "code": "C3-MATHS-01",
+          "description": "Comprendre et utiliser des nombres entiers jusqu'à 1 milliard : nommer, lire, écrire, comparer, ranger et encadrer ; connaître et utiliser la valeur positionnelle des chiffres.",
+          "sub_domain": "Nombres et calculs",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 1
+        },
+        {
+          "code": "C3-MATHS-02",
+          "description": "Comprendre et utiliser les fractions simples et les nombres décimaux : lire, écrire, comparer, ordonner des fractions et des décimaux ; passer d'une écriture fractionnaire à une écriture décimale.",
+          "sub_domain": "Nombres et calculs",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 2
+        },
+        {
+          "code": "C3-MATHS-03",
+          "description": "Utiliser et représenter les grands nombres entiers, les fractions simples et les nombres décimaux : les placer sur une droite graduée, les encadrer, les intercaler.",
+          "sub_domain": "Nombres et calculs",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 3
+        },
+        {
+          "code": "C3-MATHS-04",
+          "description": "Calculer avec des entiers et des décimaux : maîtriser les techniques des opérations posées (addition, soustraction, multiplication, division euclidienne et décimale).",
+          "sub_domain": "Nombres et calculs",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 4
+        },
+        {
+          "code": "C3-MATHS-05",
+          "description": "Développer le calcul mental et les automatismes de calcul : mémoriser les tables de multiplication jusqu'à 12, estimer un résultat, vérifier la vraisemblance d'un calcul.",
+          "sub_domain": "Nombres et calculs",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 5
+        },
+        {
+          "code": "C3-MATHS-06",
+          "description": "Calculer avec des fractions simples : additionner et soustraire des fractions de même dénominateur, puis de dénominateurs différents ; multiplier une fraction par un entier.",
+          "sub_domain": "Nombres et calculs",
+          "levels": ["CM2", "6E"],
+          "sort_order": 6
+        },
+        {
+          "code": "C3-MATHS-07",
+          "description": "Résoudre des problèmes mettant en jeu les quatre opérations, les fractions, les proportionnalités et les pourcentages simples : identifier les données pertinentes, choisir et justifier la procédure adaptée.",
+          "sub_domain": "Nombres et calculs",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 7
+        },
+        {
+          "code": "C3-MATHS-08",
+          "description": "Comparer, estimer et mesurer des grandeurs géométriques : calculer le périmètre de polygones et de cercles ; calculer l'aire de figures usuelles (rectangle, carré, triangle, disque).",
+          "sub_domain": "Grandeurs et mesures",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 8
+        },
+        {
+          "code": "C3-MATHS-09",
+          "description": "Calculer le volume d'un pavé droit : connaître et appliquer la formule ; effectuer des conversions d'unités de volume (cm³, dm³, m³) et faire le lien avec les unités de capacité (L, cL, mL).",
+          "sub_domain": "Grandeurs et mesures",
+          "levels": ["CM2", "6E"],
+          "sort_order": 9
+        },
+        {
+          "code": "C3-MATHS-10",
+          "description": "Effectuer des conversions d'unités de mesure : longueurs, masses, contenances, durées et aires ; utiliser les multiples et sous-multiples du système métrique.",
+          "sub_domain": "Grandeurs et mesures",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 10
+        },
+        {
+          "code": "C3-MATHS-11",
+          "description": "Résoudre des problèmes impliquant des grandeurs et des mesures : durées, distances, vitesses moyennes, prix unitaires ; lire, interpréter et produire des tableaux et des graphiques.",
+          "sub_domain": "Grandeurs et mesures",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 11
+        },
+        {
+          "code": "C3-MATHS-12",
+          "description": "Reconnaître, nommer, décrire et reproduire des figures géométriques planes : triangles (dont équilatéral, isocèle, rectangle), quadrilatères (dont losange, parallélogramme, trapèze), cercle et disque.",
+          "sub_domain": "Espace et géométrie",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 12
+        },
+        {
+          "code": "C3-MATHS-13",
+          "description": "Reconnaître et décrire des solides : cube, pavé droit, prisme droit, cylindre, pyramide, cône, sphère ; associer un solide à son patron ; utiliser la représentation en perspective cavalière.",
+          "sub_domain": "Espace et géométrie",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 13
+        },
+        {
+          "code": "C3-MATHS-14",
+          "description": "Utiliser la symétrie axiale pour construire des figures et vérifier des propriétés : trouver un axe de symétrie, construire le symétrique d'un point, d'une droite ou d'une figure.",
+          "sub_domain": "Espace et géométrie",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 14
+        },
+        {
+          "code": "C3-MATHS-15",
+          "description": "Effectuer des agrandissements et des réductions de figures : comprendre et appliquer la notion de coefficient multiplicateur ; vérifier la conservation des angles et la proportionnalité des longueurs.",
+          "sub_domain": "Espace et géométrie",
+          "levels": ["CM2", "6E"],
+          "sort_order": 15
+        },
+        {
+          "code": "C3-MATHS-16",
+          "description": "Se repérer dans le plan et dans l'espace : utiliser un système de coordonnées (abscisse, ordonnée) pour placer et lire des points ; produire et lire des représentations planes.",
+          "sub_domain": "Espace et géométrie",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 16
+        },
+        {
+          "code": "C3-MATHS-17",
+          "description": "Construire des figures géométriques avec les instruments habituels (règle, équerre, compas, rapporteur) et avec un logiciel de géométrie dynamique.",
+          "sub_domain": "Espace et géométrie",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 17
+        },
+        {
+          "code": "C3-MATHS-18",
+          "description": "Lire, interpréter et représenter des données dans des tableaux, des diagrammes et des graphiques : introduire les notions de statistiques simples (effectif, fréquence, moyenne).",
+          "sub_domain": "Résolution de problèmes",
+          "levels": ["CM2", "6E"],
+          "sort_order": 18
+        }
+      ]
+    },
+    {
+      "code": "HIST_GEO",
+      "name": "Histoire-Géographie",
+      "sort_order": 3,
+      "competencies": [
+        {
+          "code": "C3-HG-01",
+          "description": "Se repérer dans le temps et construire des repères historiques : mémoriser et s'approprier les grandes périodes de l'histoire (Préhistoire, Antiquité, Moyen Âge, Temps modernes, Époque contemporaine) et leurs principales caractéristiques.",
+          "sub_domain": "Histoire",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 1
+        },
+        {
+          "code": "C3-HG-02",
+          "description": "Connaître les grandes périodes de l'Antiquité et leurs héritages : la Gaule, la romanisation, la naissance du christianisme et de l'islam ; identifier les traces de l'Antiquité dans notre société.",
+          "sub_domain": "Histoire",
+          "levels": ["CM2", "6E"],
+          "sort_order": 2
+        },
+        {
+          "code": "C3-HG-03",
+          "description": "Connaître les grandes étapes du Moyen Âge : les royaumes francs, la féodalité, l'Église médiévale, l'essor urbain et commercial aux XIIe-XIIIe siècles, la Guerre de Cent Ans et Jeanne d'Arc.",
+          "sub_domain": "Histoire",
+          "levels": ["CM1", "CM2"],
+          "sort_order": 3
+        },
+        {
+          "code": "C3-HG-04",
+          "description": "Comprendre les Temps modernes : la Renaissance, les grandes découvertes, la Réforme et les guerres de Religion, l'absolutisme de Louis XIV, la traite des Noirs et la colonisation.",
+          "sub_domain": "Histoire",
+          "levels": ["CM2"],
+          "sort_order": 4
+        },
+        {
+          "code": "C3-HG-05",
+          "description": "Analyser et comprendre un document historique : identifier sa nature, son auteur, sa date et son contexte de production ; prélever des informations et les mettre en relation avec ses connaissances.",
+          "sub_domain": "Histoire",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 5
+        },
+        {
+          "code": "C3-HG-06",
+          "description": "Pratiquer différentes formes de récit historique : raconter un événement, caractériser une période, présenter le parcours d'un personnage en s'appuyant sur des repères chronologiques.",
+          "sub_domain": "Histoire",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 6
+        },
+        {
+          "code": "C3-HG-07",
+          "description": "Se repérer dans l'espace : nommer et localiser les grandes ensembles géographiques (continents, océans, chaînes de montagnes, grands fleuves) ; situer la France en Europe et dans le monde.",
+          "sub_domain": "Géographie",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 7
+        },
+        {
+          "code": "C3-HG-08",
+          "description": "Comprendre l'organisation du territoire français : régions, départements, métropoles et territoires d'outre-mer ; identifier les espaces urbains et ruraux et leurs inégalités de peuplement.",
+          "sub_domain": "Géographie",
+          "levels": ["CM1", "CM2"],
+          "sort_order": 8
+        },
+        {
+          "code": "C3-HG-09",
+          "description": "Identifier et analyser des paysages : distinguer milieux naturels et espaces aménagés ; décrire et expliquer l'organisation d'un paysage urbain, rural, littoral ou de montagne.",
+          "sub_domain": "Géographie",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 9
+        },
+        {
+          "code": "C3-HG-10",
+          "description": "Comprendre les enjeux du développement durable et de la mondialisation : identifier les interdépendances à l'échelle mondiale, les grands défis environnementaux et leurs conséquences pour les territoires.",
+          "sub_domain": "Géographie",
+          "levels": ["CM2", "6E"],
+          "sort_order": 10
+        },
+        {
+          "code": "C3-HG-11",
+          "description": "Lire et réaliser des cartes et des croquis géographiques : utiliser la légende, les figurés conventionnels et l'échelle ; produire un croquis simple pour représenter un espace.",
+          "sub_domain": "Géographie",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 11
+        },
+        {
+          "code": "C3-HG-12",
+          "description": "Raisonner et justifier une démarche : formuler une hypothèse, s'appuyer sur des documents pour argumenter, distinguer fait historique ou géographique et interprétation.",
+          "sub_domain": "Méthodes et outils",
+          "levels": ["CM2", "6E"],
+          "sort_order": 12
+        },
+        {
+          "code": "C3-HG-13",
+          "description": "Coopérer et mutualiser : réaliser un travail de groupe (dossier documentaire, présentation orale, exposition) ; partager les informations recueillies et se répartir les tâches.",
+          "sub_domain": "Méthodes et outils",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 13
+        },
+        {
+          "code": "C3-HG-14",
+          "description": "Utiliser des outils numériques pour s'informer et travailler : rechercher des informations fiables sur internet, utiliser des outils cartographiques numériques, organiser et présenter des données.",
+          "sub_domain": "Méthodes et outils",
+          "levels": ["CM2", "6E"],
+          "sort_order": 14
+        }
+      ]
+    },
+    {
+      "code": "SCIENCES",
+      "name": "Sciences et technologie",
+      "sort_order": 4,
+      "competencies": [
+        {
+          "code": "C3-SCI-01",
+          "description": "Pratiquer des démarches scientifiques : observer, questionner, formuler des hypothèses, concevoir et mettre en œuvre une expérience, interpréter les résultats et les communiquer.",
+          "sub_domain": "Démarche scientifique",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 1
+        },
+        {
+          "code": "C3-SCI-02",
+          "description": "Comprendre les états de la matière et leurs changements : fusion, solidification, vaporisation, liquéfaction, dissolution ; relier ces transformations à des variations de température.",
+          "sub_domain": "Matière, énergie, objets techniques",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 2
+        },
+        {
+          "code": "C3-SCI-03",
+          "description": "Connaître les mélanges et leurs propriétés : distinguer mélanges homogènes et hétérogènes ; réaliser des mélanges simples (dissolution, suspension) ; comprendre la notion de conservation de la masse.",
+          "sub_domain": "Matière, énergie, objets techniques",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 3
+        },
+        {
+          "code": "C3-SCI-04",
+          "description": "Comprendre et expérimenter des notions relatives à l'électricité : réaliser et schématiser des circuits électriques simples en série et en dérivation ; identifier les conducteurs et les isolants.",
+          "sub_domain": "Matière, énergie, objets techniques",
+          "levels": ["CM1", "CM2"],
+          "sort_order": 4
+        },
+        {
+          "code": "C3-SCI-05",
+          "description": "Connaître la diversité du vivant et les bases de sa classification : identifier les grandes catégories d'êtres vivants (vertébrés, invertébrés, végétaux, champignons) et les critères de classification.",
+          "sub_domain": "Le vivant et ses fonctions",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 5
+        },
+        {
+          "code": "C3-SCI-06",
+          "description": "Comprendre le fonctionnement du corps humain : systèmes digestif, respiratoire, circulatoire et nerveux ; relier structure et fonction, identifier les principaux organes et leurs rôles.",
+          "sub_domain": "Le vivant et ses fonctions",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 6
+        },
+        {
+          "code": "C3-SCI-07",
+          "description": "Comprendre les besoins nutritionnels et l'alimentation équilibrée : identifier les nutriments et leurs rôles, comprendre les grandes étapes de la digestion, relier alimentation et santé.",
+          "sub_domain": "Le vivant et ses fonctions",
+          "levels": ["CM1", "CM2"],
+          "sort_order": 7
+        },
+        {
+          "code": "C3-SCI-08",
+          "description": "Comprendre la reproduction des êtres vivants : distinguer reproduction sexuée et asexuée ; étudier le développement embryonnaire et les cycles de vie chez les animaux et les végétaux.",
+          "sub_domain": "Le vivant et ses fonctions",
+          "levels": ["CM2", "6E"],
+          "sort_order": 8
+        },
+        {
+          "code": "C3-SCI-09",
+          "description": "Connaître les mouvements de la Terre et leurs conséquences : rotation sur elle-même et révolution autour du Soleil ; comprendre l'alternance jour/nuit, les saisons ; identifier les principaux corps du système solaire.",
+          "sub_domain": "La Terre dans l'Univers",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 9
+        },
+        {
+          "code": "C3-SCI-10",
+          "description": "Comprendre les phénomènes météorologiques et les grandes zones climatiques : observer et mesurer les paramètres météo (température, précipitations, vent), distinguer temps quotidien et climat.",
+          "sub_domain": "La Terre dans l'Univers",
+          "levels": ["CM1", "CM2"],
+          "sort_order": 10
+        },
+        {
+          "code": "C3-SCI-11",
+          "description": "Concevoir, créer et réaliser des objets techniques simples : identifier les contraintes de conception, choisir des matériaux et des outils adaptés, tester et améliorer un prototype.",
+          "sub_domain": "Technologies",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 11
+        },
+        {
+          "code": "C3-SCI-12",
+          "description": "Utiliser des outils et des ressources numériques : traiter et présenter des données avec un tableur, comprendre les bases de la programmation, produire un document numérique avec des outils adaptés.",
+          "sub_domain": "Technologies",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 12
+        }
+      ]
+    },
+    {
+      "code": "LANGUES_VIVANTES",
+      "name": "Langues vivantes étrangères",
+      "sort_order": 5,
+      "competencies": [
+        {
+          "code": "C3-LV-01",
+          "description": "Comprendre des messages oraux simples et variés : écouter et comprendre des instructions, des dialogues, des extraits sonores ou vidéo adaptés aux niveaux A1 (CM1) puis A2 (CM2-6e) du CECRL.",
+          "sub_domain": "Compréhension de l'oral",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 1
+        },
+        {
+          "code": "C3-LV-02",
+          "description": "Comprendre des textes courts et simples : lire et comprendre des affiches, menus, messages, textes narratifs courts adaptés au niveau A1/A2 en s'appuyant sur des indices visuels et contextuels.",
+          "sub_domain": "Compréhension de l'écrit",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 2
+        },
+        {
+          "code": "C3-LV-03",
+          "description": "S'exprimer oralement en continu : produire des énoncés simples relatifs à soi, à son environnement et à des sujets familiers ; présenter un sujet court préparé à l'avance.",
+          "sub_domain": "Expression orale en continu",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 3
+        },
+        {
+          "code": "C3-LV-04",
+          "description": "Interagir à l'oral en langue étrangère : participer à un échange simple en posant des questions et en y répondant, en utilisant des formules de politesse et des stratégies de communication (reformulation, geste, etc.).",
+          "sub_domain": "Interaction orale",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 4
+        },
+        {
+          "code": "C3-LV-05",
+          "description": "Écrire des textes courts et simples : produire des messages, des descriptions ou de courts textes narratifs en mobilisant le lexique et les structures grammaticales de base du niveau A1/A2.",
+          "sub_domain": "Expression écrite",
+          "levels": ["CM2", "6E"],
+          "sort_order": 5
+        },
+        {
+          "code": "C3-LV-06",
+          "description": "Connaître et utiliser un lexique thématique étendu : famille, école, alimentation, loisirs, ville, corps humain, nature ; mémoriser et réutiliser le vocabulaire dans des contextes variés.",
+          "sub_domain": "Compétences linguistiques",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 6
+        },
+        {
+          "code": "C3-LV-07",
+          "description": "Utiliser les structures et outils grammaticaux de base : présent, passé et futur simples ; articles définis et indéfinis, pronoms personnels, adjectifs qualificatifs ; phrases interrogatives et négatives.",
+          "sub_domain": "Compétences linguistiques",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 7
+        },
+        {
+          "code": "C3-LV-08",
+          "description": "Respecter la phonologie de la langue étudiée : distinguer et reproduire les phonèmes spécifiques, respecter l'accentuation et l'intonation propres à la langue.",
+          "sub_domain": "Compétences phonologiques",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 8
+        },
+        {
+          "code": "C3-LV-09",
+          "description": "Découvrir et comprendre les aspects culturels et civilisationnels des pays et régions dont on étudie la langue : traditions, fêtes, repères géographiques, grandes figures culturelles et historiques.",
+          "sub_domain": "Culture et civilisation",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 9
+        },
+        {
+          "code": "C3-LV-10",
+          "description": "Développer des stratégies de compréhension et d'apprentissage : inférer le sens de mots inconnus d'après le contexte, utiliser le dictionnaire bilingue et des ressources numériques, évaluer ses progrès.",
+          "sub_domain": "Autonomie et stratégies",
+          "levels": ["CM2", "6E"],
+          "sort_order": 10
+        }
+      ]
+    },
+    {
+      "code": "EPS",
+      "name": "Éducation physique et sportive",
+      "sort_order": 6,
+      "competencies": [
+        {
+          "code": "C3-EPS-01",
+          "description": "Produire une performance maximale mesurable dans des activités athlétiques (course de vitesse, course d'endurance, saut en longueur, lancers) : gérer son effort, analyser sa performance et chercher à la dépasser.",
+          "sub_domain": "Activités athlétiques",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 1
+        },
+        {
+          "code": "C3-EPS-02",
+          "description": "Nager de façon aisée dans différentes nages codifiées : maîtriser le crawl et le dos crawlé sur au moins 50 mètres ; réaliser un départ plongé et un virage.",
+          "sub_domain": "Natation",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 2
+        },
+        {
+          "code": "C3-EPS-03",
+          "description": "S'adapter à des espaces variés et incertains dans des activités de pleine nature ou aménagées (orientation, VTT, escalade) : gérer le risque, coopérer, agir en respectant l'environnement.",
+          "sub_domain": "Activités en milieu naturel ou aménagé",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 3
+        },
+        {
+          "code": "C3-EPS-04",
+          "description": "Coopérer pour réussir dans des jeux collectifs et des sports collectifs (handball, basketball, football, rugby) : maîtriser les habiletés de base, respecter les règles, assumer différents rôles (attaquant, défenseur, arbitre).",
+          "sub_domain": "Jeux collectifs",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 4
+        },
+        {
+          "code": "C3-EPS-05",
+          "description": "S'opposer individuellement dans des activités duelles (badminton, tennis de table, lutte, judo) : élaborer des stratégies simples, adapter ses actions à celles de l'adversaire, respecter les règles et les partenaires.",
+          "sub_domain": "Sports d'opposition",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 5
+        },
+        {
+          "code": "C3-EPS-06",
+          "description": "Réaliser des activités gymniques et acrobatiques : enchaîner des éléments gymniques au sol ou aux agrès, concevoir et présenter une prestation collective en respectant des critères de réalisation.",
+          "sub_domain": "Activités gymniques et acrobatiques",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 6
+        },
+        {
+          "code": "C3-EPS-07",
+          "description": "S'exprimer et communiquer par le corps en danse : composer et interpréter une phrase dansée, intégrer des contraintes de forme, de temps et d'espace, partager et commenter une création devant un public.",
+          "sub_domain": "Danse",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 7
+        },
+        {
+          "code": "C3-EPS-08",
+          "description": "Se construire comme personne physiquement active : connaître les effets de la pratique physique sur la santé, adopter des comportements sécuritaires, assumer des rôles sociaux (observateur, arbitre, organisateur).",
+          "sub_domain": "Santé, sécurité et vie collective",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 8
+        }
+      ]
+    },
+    {
+      "code": "ARTS",
+      "name": "Éducation artistique",
+      "sort_order": 7,
+      "competencies": [
+        {
+          "code": "C3-ARTS-01",
+          "description": "Expérimenter, produire et créer en arts plastiques : choisir et combiner des matériaux, des outils, des techniques et des procédés pour réaliser une intention artistique personnelle ou collective.",
+          "sub_domain": "Arts plastiques — Production",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 1
+        },
+        {
+          "code": "C3-ARTS-02",
+          "description": "Mettre en œuvre un projet artistique en arts plastiques : définir une intention, expérimenter des solutions, faire des choix et les assumer, présenter et expliciter sa réalisation.",
+          "sub_domain": "Arts plastiques — Production",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 2
+        },
+        {
+          "code": "C3-ARTS-03",
+          "description": "Observer et analyser des œuvres d'arts plastiques : décrire, interpréter et situer dans leur contexte des œuvres issues de périodes, de techniques et de cultures variées.",
+          "sub_domain": "Arts plastiques — Culture artistique",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 3
+        },
+        {
+          "code": "C3-ARTS-04",
+          "description": "Fréquenter des espaces de diffusion artistique et culturelle : musées, galeries, expositions, lieux de spectacle ; acquérir des repères culturels dans différents domaines artistiques (peinture, sculpture, photographie, architecture, design).",
+          "sub_domain": "Arts plastiques — Culture artistique",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 4
+        },
+        {
+          "code": "C3-ARTS-05",
+          "description": "Chanter et interpréter des œuvres vocales variées : chanter en groupe avec justesse, gérer son souffle, respecter le tempo, les nuances et les indications d'interprétation ; mémoriser des répertoires diversifiés.",
+          "sub_domain": "Éducation musicale — Pratique vocale et instrumentale",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 5
+        },
+        {
+          "code": "C3-ARTS-06",
+          "description": "Écouter, décrire et comparer des extraits musicaux : identifier les paramètres du son (timbre, hauteur, intensité, durée), les plans sonores, les instruments, la voix et les grandes formes musicales.",
+          "sub_domain": "Éducation musicale — Écoute",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 6
+        },
+        {
+          "code": "C3-ARTS-07",
+          "description": "Explorer, imaginer et créer des séquences musicales : composer un enchaînement rythmique ou mélodique, improviser à partir de contraintes données, utiliser des instruments et des outils numériques de création sonore.",
+          "sub_domain": "Éducation musicale — Pratique vocale et instrumentale",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 7
+        },
+        {
+          "code": "C3-ARTS-08",
+          "description": "Développer une culture musicale : identifier des grandes œuvres et des genres musicaux (classique, jazz, musiques du monde, contemporain), des compositeurs et des interprètes ; situer des œuvres dans leur contexte historique et culturel.",
+          "sub_domain": "Éducation musicale — Culture musicale",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 8
+        }
+      ]
+    },
+    {
+      "code": "EMC",
+      "name": "Enseignement moral et civique",
+      "sort_order": 8,
+      "competencies": [
+        {
+          "code": "C3-EMC-01",
+          "description": "Identifier et exprimer ses émotions et ses sentiments de manière adaptée : reconnaître et dénommer ses propres émotions, comprendre celles des autres, développer l'empathie et la bienveillance.",
+          "sub_domain": "La sensibilité : soi et les autres",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 1
+        },
+        {
+          "code": "C3-EMC-02",
+          "description": "Respecter les autres dans leur diversité : refuser les préjugés et les discriminations, reconnaître la dignité de toute personne, identifier et combattre les formes de harcèlement.",
+          "sub_domain": "La sensibilité : soi et les autres",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 2
+        },
+        {
+          "code": "C3-EMC-03",
+          "description": "Comprendre le rôle et la valeur des règles de vie collective : distinguer règle et loi, comprendre les fondements de l'autorité et de la justice, participer à l'élaboration et au respect des règles de vie scolaire.",
+          "sub_domain": "La règle et le droit",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 3
+        },
+        {
+          "code": "C3-EMC-04",
+          "description": "Connaître les institutions républicaines et les principes démocratiques : comprendre le fonctionnement de la démocratie représentative, identifier les pouvoirs exécutif, législatif et judiciaire.",
+          "sub_domain": "La règle et le droit",
+          "levels": ["CM2", "6E"],
+          "sort_order": 4
+        },
+        {
+          "code": "C3-EMC-05",
+          "description": "Connaître et s'approprier les principes et les valeurs de la République française : liberté, égalité, fraternité, laïcité ; comprendre la notion de citoyenneté et ses droits et devoirs.",
+          "sub_domain": "La règle et le droit",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 5
+        },
+        {
+          "code": "C3-EMC-06",
+          "description": "Développer les aptitudes au jugement et à la pensée critique : distinguer information et opinion, vérifier la fiabilité d'une source, débattre en argumentant de façon raisonnée.",
+          "sub_domain": "Le jugement : penser par soi-même et avec les autres",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 6
+        },
+        {
+          "code": "C3-EMC-07",
+          "description": "Comprendre les droits et les devoirs de chacun : connaître les droits de l'enfant (Convention internationale des droits de l'enfant), les droits et devoirs du citoyen, les grandes libertés fondamentales.",
+          "sub_domain": "Le jugement : penser par soi-même et avec les autres",
+          "levels": ["CM2", "6E"],
+          "sort_order": 7
+        },
+        {
+          "code": "C3-EMC-08",
+          "description": "S'engager et coopérer dans la vie collective : participer aux instances de l'école (conseil de classe, conseil des délégués), s'impliquer dans des projets collectifs, agir pour le bien commun et pour l'environnement.",
+          "sub_domain": "L'engagement : agir individuellement et collectivement",
+          "levels": ["CM1", "CM2", "6E"],
+          "sort_order": 8
+        }
+      ]
+    }
+  ]
+}
