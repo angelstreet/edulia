@@ -44,7 +44,7 @@ export interface InvoiceCreate {
   student_name: string;
   student_class?: string;
   parent_name?: string;
-  parent_address?: { line1?: string; line2?: string; postal_code?: string; city?: string };
+  parent_address?: { line1?: string; line2?: string; postal_code?: string; city?: string; phone?: string };
   academic_year: string;
   issue_date?: string;
   line_items: LineItem[];
