@@ -47,7 +47,7 @@ def list_all(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    roles = {ur.role.name for ur in current_user.user_roles if ur.role}
+    roles = {ur.role.code for ur in current_user.user_roles if ur.role}
     # Parents only see invoices for their children
     if "parent" in roles and not (_can_manage(current_user) or "admin" in roles):
         from app.db.models.user import Relationship
