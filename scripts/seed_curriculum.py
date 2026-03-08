@@ -313,6 +313,118 @@ def seed_framework(db: Session, meta: dict, extracted: dict, dry_run: bool = Fal
 
 
 # ---------------------------------------------------------------------------
+# Demo learning objectives (school plan for Mon Ecole — PS demo child)
+# ---------------------------------------------------------------------------
+
+MON_ECOLE_TENANT_ID = "63df01cd-041a-4b20-b263-0f739672410c"
+
+DEMO_OBJECTIVES = [
+    # code → (term_name_contains, week_from, week_to, notes, content_type, content_ref, content_label)
+    ("C1-MATHS-4_1_2-13", "Trimestre 1", 3, 5,
+     "Comptines et jeux de dénombrement avec des objets concrets",
+     "external_url", "https://www.lumni.fr/video/compter-jusqu-a-10",
+     "Lumni — Compter jusqu'à 10"),
+    ("C1-MATHS-4_1_2-02", "Trimestre 1", 4, 6,
+     "Collections d'objets — constituer une collection de 1 à 5 puis jusqu'à 10",
+     "external_url", "https://mathador.fr",
+     "Mathador Junior — Jeu de calcul mental"),
+    ("C1-LANGAGE-1_3-01", "Trimestre 1", 1, 12,
+     "Communication orale — travail en continu sur toute l'année",
+     None, None, None),
+    ("C1-LANGAGE-1_3-07", "Trimestre 2", 1, 4,
+     "Apprentissage de comptines et poésies courtes",
+     "external_url", "https://www.lumni.fr/dossier/comptines-et-chansons",
+     "Lumni — Comptines et chansons"),
+    ("C1-MONDE-5_2_2-03", "Trimestre 2", 5, 8,
+     "Le corps humain — identification des parties du corps",
+     "external_url", "https://www.lumni.fr/video/les-parties-du-corps",
+     "Lumni — Les parties du corps"),
+    ("C1-ARTISTIQUE-3_2-02", "Trimestre 1", 2, 6,
+     "Dessin libre et représentation — séances hebdomadaires",
+     None, None, None),
+]
+
+
+def seed_demo_objectives(db: Session):
+    """Seed sample learning objectives for Mon Ecole (PS demo)."""
+    tenant_id = MON_ECOLE_TENANT_ID
+
+    # Check tenant exists
+    tenant = db.execute(
+        text("SELECT id FROM tenants WHERE id = :tid"),
+        {"tid": tenant_id}
+    ).fetchone()
+    if not tenant:
+        print("  [skip] Mon Ecole tenant not found — run seed_mon_ecole.py first")
+        return
+
+    # Get first term of Mon Ecole
+    terms = db.execute(text("""
+        SELECT t.id, t.name FROM terms t
+        JOIN academic_years ay ON ay.id = t.academic_year_id
+        WHERE ay.tenant_id = :tid
+        ORDER BY t.start_date
+    """), {"tid": tenant_id}).fetchall()
+
+    term_map = {t[1]: str(t[0]) for t in terms} if terms else {}
+
+    # Delete existing demo objectives for this tenant
+    db.execute(text("DELETE FROM learning_objectives WHERE tenant_id = :tid"), {"tid": tenant_id})
+    db.commit()
+
+    count = 0
+    for (comp_code, term_name, week_from, week_to, notes,
+         content_type, content_ref, content_label) in DEMO_OBJECTIVES:
+
+        comp = db.execute(
+            text("SELECT id FROM curriculum_competencies WHERE code = :code"),
+            {"code": comp_code}
+        ).fetchone()
+        if not comp:
+            print(f"  [skip] competency {comp_code} not found")
+            continue
+
+        # Find matching term
+        term_id = None
+        for tname, tid in term_map.items():
+            if term_name.lower() in tname.lower():
+                term_id = tid
+                break
+
+        obj_id = str(uuid.uuid4())
+        db.execute(text("""
+            INSERT INTO learning_objectives
+                (id, tenant_id, competency_id, term_id, week_from, week_to, notes, status)
+            VALUES (:id, :tid, :cid, :term, :wf, :wt, :notes, 'planned')
+        """), {
+            "id": obj_id,
+            "tid": tenant_id,
+            "cid": str(comp[0]),
+            "term": term_id,
+            "wf": week_from,
+            "wt": week_to,
+            "notes": notes,
+        })
+
+        if content_type and content_ref:
+            db.execute(text("""
+                INSERT INTO objective_content (id, tenant_id, objective_id, content_type, content_ref, label)
+                VALUES (:id, :tid, :oid, :ct, :cr, :lbl)
+            """), {
+                "id": str(uuid.uuid4()),
+                "tid": tenant_id,
+                "oid": obj_id,
+                "ct": content_type,
+                "cr": content_ref,
+                "lbl": content_label,
+            })
+        count += 1
+
+    db.commit()
+    print(f"  ✓ Seeded {count} demo learning objectives for Mon Ecole")
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -370,12 +482,16 @@ def main():
 
         seed_framework(db, meta, extracted, dry_run=args.dry_run)
 
+    if not args.dry_run:
+        print("\n[3/3] Seeding demo learning objectives...")
+        seed_demo_objectives(db)
+
     if db:
         db.close()
     if not args.dry_run:
         print("\n✓ Curriculum seed complete.")
-        # Print summary
-        result = db.execute(text("""
+        db2 = SessionLocal()
+        result = db2.execute(text("""
             SELECT f.code, COUNT(DISTINCT d.id) as domains, COUNT(c.id) as competencies
             FROM curriculum_frameworks f
             LEFT JOIN curriculum_domains d ON d.framework_id = f.id
@@ -385,9 +501,7 @@ def main():
         print("\nDatabase summary:")
         for row in result:
             print(f"  {row[0]}: {row[1]} domains, {row[2]} competencies")
-
-    if db:
-        db.close()
+        db2.close()
 
 
 if __name__ == "__main__":

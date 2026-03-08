@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Spinner } from '../../../components/ui/Spinner';
 import { getDashboardStats } from '../../../api/dashboard';
-import { GraduationCap, AlertCircle, BookOpen, ClipboardCheck, Calendar, ChevronRight } from 'lucide-react';
+import { GraduationCap, AlertCircle, BookOpen, ClipboardCheck, Calendar, ChevronRight, Map } from 'lucide-react';
 
 interface Child {
   id: string;
@@ -131,6 +131,16 @@ export function ChildrenPage() {
                   <span className="flex items-center gap-2.5">
                     <ClipboardCheck className="w-4 h-4 text-muted-foreground group-hover:text-primary" />
                     {t('schoolLife', 'School Life')}
+                  </span>
+                  <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                </Link>
+                <Link
+                  to={`/children/${child.id}/programme`}
+                  className="flex items-center justify-between py-2.5 text-sm hover:text-primary transition-colors group"
+                >
+                  <span className="flex items-center gap-2.5">
+                    <Map className="w-4 h-4 text-muted-foreground group-hover:text-primary" />
+                    {t('programme', 'Programme scolaire')}
                   </span>
                   <ChevronRight className="w-4 h-4 text-muted-foreground" />
                 </Link>

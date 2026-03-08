@@ -36,6 +36,7 @@ from app.modules.absence.router import router as absence_router
 from app.modules.health.router import router as health_router
 from app.modules.tutoring.router import router as tutoring_router
 from app.modules.billing.router import router as billing_router
+from app.modules.curriculum.router import router as curriculum_router
 
 app = FastAPI(title="Edulia API", version="0.1.0")
 
@@ -87,6 +88,7 @@ app.include_router(absence_router)
 app.include_router(health_router)
 app.include_router(tutoring_router)
 app.include_router(billing_router)
+app.include_router(curriculum_router)
 
 
 @app.get("/api/health")

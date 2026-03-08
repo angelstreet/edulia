@@ -33,6 +33,7 @@ import { ServicesPage } from '../features/wallet/pages/ServicesPage';
 import { CalendarPage } from '../features/calendar/pages/CalendarPage';
 import { SchoolLifePage } from '../features/school-life/pages/SchoolLifePage';
 import { ChildrenPage } from '../features/children/pages/ChildrenPage';
+import { ProgrammePage } from '../features/children/pages/ProgrammePage';
 import { ActivitiesPage } from '../features/activities/pages/ActivitiesPage';
 import { ActivityBuilderPage } from '../features/activities/pages/ActivityBuilderPage';
 import { AttemptPage } from '../features/activities/pages/AttemptPage';
@@ -139,6 +140,7 @@ export const router = createBrowserRouter([
       { path: 'wallet', element: <WalletPage /> },
       { path: 'services', element: <ServicesPage /> },
       { path: 'children', element: <ChildrenPage /> },
+      { path: 'children/:studentId/programme', element: <ProgrammePage /> },
       { path: 'billing', element: <RoleGuard roles={['admin', 'teacher', 'tutor', 'parent']}><BillingPage /></RoleGuard> },
       { path: 'calendar', element: <CalendarPage /> },
       { path: 'school-life', element: <SchoolLifePage /> },
