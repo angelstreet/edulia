@@ -2,14 +2,17 @@
 """
 Seed French national curriculum (programmes scolaires) into the database.
 
-Downloads official PDFs from eduscol.education.fr and extracts competencies.
+C1 is extracted from the official eduscol PDF.
+C2, C3, C4, Lycée are loaded from pre-built JSON files in scripts/curriculum_data/.
+
 Data is GLOBAL (no tenant_id) — shared across all schools and EduliaHub.
 
 Usage:
     python3 scripts/seed_curriculum.py              # seed Cycle 1 only (fast, validated)
-    python3 scripts/seed_curriculum.py --all        # seed all cycles
+    python3 scripts/seed_curriculum.py --all        # seed all cycles (C1-C4 + Lycée)
     python3 scripts/seed_curriculum.py --reset      # drop and reseed
     python3 scripts/seed_curriculum.py --dry-run    # print extracted data, no DB write
+    python3 scripts/seed_curriculum.py --cycle C4   # seed a specific cycle
 """
 
 import os
@@ -21,6 +24,9 @@ import argparse
 import tempfile
 import urllib.request
 from pathlib import Path
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+CURRICULUM_DATA_DIR = SCRIPT_DIR / "curriculum_data"
 
 DRY_RUN_ONLY = not os.path.exists("/opt/edulia/backend/apps/api")
 
@@ -40,9 +46,10 @@ else:
     def text(s): return s  # noqa stub
 
 # ---------------------------------------------------------------------------
-# PDF sources
+# Sources
 # ---------------------------------------------------------------------------
 
+# C1: extracted from official eduscol PDF
 PDF_SOURCES = {
     "C1": {
         "url": "https://eduscol.education.fr/document/7883/download",
@@ -53,15 +60,14 @@ PDF_SOURCES = {
         "source": "BOENJS n°25 du 24 juin 2021",
         "levels": ["PS", "MS", "GS"],
     },
-    "C3": {
-        "url": "https://eduscol.education.fr/document/50990/download",
-        "code": "FR-MENJ-C3-2023",
-        "name": "Programme du cycle de consolidation — Cycle 3",
-        "cycle": "3",
-        "year": 2023,
-        "source": "BOEN n°31 du 30 juillet 2020, modifié BOEN n°25 du 22 juin 2023",
-        "levels": ["CM1", "CM2", "6e"],
-    },
+}
+
+# C2–Lycée: loaded from pre-built JSON files in scripts/curriculum_data/
+JSON_SOURCES = {
+    "C2":    "FR-C2-2020.json",
+    "C3":    "FR-C3-2020.json",
+    "C4":    "FR-C4-2023.json",
+    "LYCEE": "FR-LYCEE-2023.json",
 }
 
 # ---------------------------------------------------------------------------
@@ -425,6 +431,36 @@ def seed_demo_objectives(db: Session):
 
 
 # ---------------------------------------------------------------------------
+# JSON-based seeding (C2, C3, C4, Lycée)
+# ---------------------------------------------------------------------------
+
+def seed_from_json_file(db: Session, json_path: Path, dry_run: bool = False):
+    """Load a curriculum JSON file and seed it into the DB."""
+    if not json_path.exists():
+        print(f"  [skip] {json_path.name} not found in curriculum_data/")
+        return False
+
+    with open(json_path, encoding="utf-8") as f:
+        data = json.load(f)
+
+    meta = {k: v for k, v in data.items() if k != "domains"}
+    extracted = {"domains": data["domains"]}
+
+    if dry_run:
+        total = sum(len(d["competencies"]) for d in extracted["domains"])
+        print(f"\n[DRY RUN] {meta['code']} — {meta['name']}")
+        print(f"  Domains: {len(extracted['domains'])}, Competencies: {total}")
+        for domain in extracted["domains"][:3]:
+            print(f"  Domain: {domain['code']} — {domain['name']} ({len(domain['competencies'])} comps)")
+        if len(extracted["domains"]) > 3:
+            print(f"  ... {len(extracted['domains'])-3} more domains")
+        return True
+
+    seed_framework(db, meta, extracted)
+    return True
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -442,16 +478,24 @@ def download_pdf(url: str, label: str) -> str:
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--all", action="store_true", help="Seed all cycles (default: Cycle 1 only)")
+    parser.add_argument("--all", action="store_true", help="Seed all cycles C1–Lycée")
+    parser.add_argument("--cycle", help="Seed a specific cycle: C1, C2, C3, C4, LYCEE")
     parser.add_argument("--reset", action="store_true", help="Delete existing data before seeding")
     parser.add_argument("--dry-run", action="store_true", help="Print extracted data without writing to DB")
     args = parser.parse_args()
 
-    cycles_to_seed = list(PDF_SOURCES.keys()) if args.all else ["C1"]
-
     if DRY_RUN_ONLY and not args.dry_run:
         print("[!] Not running on VM — forcing --dry-run mode")
         args.dry_run = True
+
+    # Determine which cycles to seed
+    all_keys = list(PDF_SOURCES.keys()) + list(JSON_SOURCES.keys())  # C1, C2, C3, C4, LYCEE
+    if args.cycle:
+        cycles_to_seed = [args.cycle.upper()]
+    elif args.all:
+        cycles_to_seed = all_keys
+    else:
+        cycles_to_seed = ["C1"]
 
     db = None if args.dry_run else SessionLocal()
 
@@ -459,35 +503,52 @@ def main():
         print("\n[1/3] Ensuring tables exist...")
         ensure_tables(db)
 
+    # ── PDF-based cycles (C1) ────────────────────────────────────────────────
     for cycle_key in cycles_to_seed:
+        if cycle_key not in PDF_SOURCES:
+            continue
+
         meta = PDF_SOURCES[cycle_key]
         print(f"\n[Cycle {meta['cycle']}] {meta['name']}")
 
         if args.reset and not args.dry_run:
             delete_framework(db, meta["code"])
 
-        # Download PDF
         pdf_path = download_pdf(meta["url"], meta["code"])
-
-        # Extract
         print("  Extracting competencies...")
-        if cycle_key == "C1":
-            extracted = extract_cycle1(pdf_path)
-        else:
-            print(f"  [!] Extractor for Cycle {meta['cycle']} not yet implemented — skipping")
-            continue
+        extracted = extract_cycle1(pdf_path)
 
         total = sum(len(d["competencies"]) for d in extracted["domains"])
         print(f"  Found: {len(extracted['domains'])} domains, {total} competencies")
 
         seed_framework(db, meta, extracted, dry_run=args.dry_run)
 
+    # ── JSON-based cycles (C2, C3, C4, Lycée) ───────────────────────────────
+    for cycle_key in cycles_to_seed:
+        if cycle_key not in JSON_SOURCES:
+            continue
+
+        json_file = CURRICULUM_DATA_DIR / JSON_SOURCES[cycle_key]
+        print(f"\n[{cycle_key}] Loading from {JSON_SOURCES[cycle_key]}...")
+
+        if args.reset and not args.dry_run:
+            # Peek at the code in the JSON to delete it
+            if json_file.exists():
+                with open(json_file) as f:
+                    code = json.load(f).get("code")
+                if code:
+                    delete_framework(db, code)
+
+        seed_from_json_file(db, json_file, dry_run=args.dry_run)
+
+    # ── Demo objectives ──────────────────────────────────────────────────────
     if not args.dry_run:
         print("\n[3/3] Seeding demo learning objectives...")
         seed_demo_objectives(db)
 
     if db:
         db.close()
+
     if not args.dry_run:
         print("\n✓ Curriculum seed complete.")
         db2 = SessionLocal()

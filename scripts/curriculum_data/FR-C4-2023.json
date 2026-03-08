@@ -1,0 +1,606 @@
+{
+  "code": "FR-MENJ-C4-2020",
+  "name": "Programme du cycle 4 — Cycle des approfondissements (Collège)",
+  "country": "FR",
+  "cycle": "4",
+  "year": 2020,
+  "source": "MENJ — BO n°31 du 30 juillet 2020 (modifié depuis le BO spécial n°11 du 26 novembre 2015)",
+  "levels": ["5E", "4E", "3E"],
+  "domains": [
+    {
+      "code": "FRANCAIS",
+      "name": "Français",
+      "sort_order": 1,
+      "competencies": [
+        {
+          "code": "C4-FR-01",
+          "description": "Comprendre et interpréter des discours oraux élaborés (récit, exposé magistral, émission documentaire, journal d'information, etc.).",
+          "sub_domain": "Langage oral — Comprendre et s'exprimer à l'oral",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 1
+        },
+        {
+          "code": "C4-FR-02",
+          "description": "Élaborer et prononcer une intervention orale continue de cinq à dix minutes (présentation d'une œuvre littéraire ou artistique, exposé des résultats d'une recherche, défense argumentée d'un point de vue).",
+          "sub_domain": "Langage oral — Comprendre et s'exprimer à l'oral",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 2
+        },
+        {
+          "code": "C4-FR-03",
+          "description": "Participer à un débat de manière constructive et en respectant la parole de l'autre.",
+          "sub_domain": "Langage oral — Comprendre et s'exprimer à l'oral",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 3
+        },
+        {
+          "code": "C4-FR-04",
+          "description": "Lire un texte à haute voix de manière claire et intelligible ; dire de mémoire un texte littéraire ; s'engager dans un jeu théâtral.",
+          "sub_domain": "Langage oral — Comprendre et s'exprimer à l'oral",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 4
+        },
+        {
+          "code": "C4-FR-05",
+          "description": "Lire et comprendre en autonomie des textes variés, des images et des documents composites, sur différents supports (papier, numérique).",
+          "sub_domain": "Lecture et compréhension de l'écrit et de l'image",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 5
+        },
+        {
+          "code": "C4-FR-06",
+          "description": "Lire, comprendre et interpréter des textes littéraires en fondant l'interprétation sur quelques outils d'analyse simples.",
+          "sub_domain": "Lecture et compréhension de l'écrit et de l'image",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 6
+        },
+        {
+          "code": "C4-FR-07",
+          "description": "Situer les textes littéraires dans leur contexte historique et culturel.",
+          "sub_domain": "Lecture et compréhension de l'écrit et de l'image",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 7
+        },
+        {
+          "code": "C4-FR-08",
+          "description": "Lire une œuvre complète et rendre compte oralement de sa lecture.",
+          "sub_domain": "Lecture et compréhension de l'écrit et de l'image",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 8
+        },
+        {
+          "code": "C4-FR-09",
+          "description": "Lire et comprendre, pour chaque niveau du cycle, au moins trois œuvres complètes du patrimoine étudiées en classe, trois œuvres complètes en lecture cursive, et trois groupements de textes (lecture analytique ou cursive).",
+          "sub_domain": "Lecture et compréhension de l'écrit et de l'image",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 9
+        },
+        {
+          "code": "C4-FR-10",
+          "description": "Communiquer par écrit et sur des supports variés (papier, numérique) un sentiment, un point de vue, un jugement argumenté en tenant compte du destinataire et en respectant les principales normes de la langue écrite.",
+          "sub_domain": "Écriture",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 10
+        },
+        {
+          "code": "C4-FR-11",
+          "description": "Formuler par écrit sa réception d'une œuvre littéraire ou artistique.",
+          "sub_domain": "Écriture",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 11
+        },
+        {
+          "code": "C4-FR-12",
+          "description": "Rédiger, en réponse à une consigne d'écriture, un écrit d'invention s'inscrivant dans un genre littéraire du programme, en s'assurant de sa cohérence et en respectant les principales normes de la langue écrite.",
+          "sub_domain": "Écriture",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 12
+        },
+        {
+          "code": "C4-FR-13",
+          "description": "Utiliser l'écrit pour réfléchir, se donner des outils de travail.",
+          "sub_domain": "Écriture",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 13
+        },
+        {
+          "code": "C4-FR-14",
+          "description": "Mobiliser les connaissances orthographiques, syntaxiques et lexicales en expression écrite et orale ainsi qu'en révision de texte, dans des contextes variés.",
+          "sub_domain": "Étude de la langue — Grammaire, orthographe, lexique",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 14
+        },
+        {
+          "code": "C4-FR-15",
+          "description": "Être capable d'analyser les principaux constituants d'une phrase simple et complexe.",
+          "sub_domain": "Étude de la langue — Grammaire, orthographe, lexique",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 15
+        },
+        {
+          "code": "C4-FR-16",
+          "description": "Être capable d'orthographier les mots d'usage courant, de conjuguer correctement les verbes, de pratiquer les accords dans le groupe nominal.",
+          "sub_domain": "Étude de la langue — Grammaire, orthographe, lexique",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 16
+        },
+        {
+          "code": "C4-FR-17",
+          "description": "Mobiliser des références culturelles pour interpréter les textes et les créations artistiques et littéraires et pour enrichir son expression personnelle.",
+          "sub_domain": "Culture littéraire et artistique",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 17
+        },
+        {
+          "code": "C4-FR-18",
+          "description": "Établir des liens entre des créations littéraires et artistiques issues de cultures et d'époques diverses.",
+          "sub_domain": "Culture littéraire et artistique",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 18
+        }
+      ]
+    },
+    {
+      "code": "LANGUES_VIVANTES",
+      "name": "Langues vivantes étrangères (Anglais / LV1 / LV2)",
+      "sort_order": 2,
+      "competencies": [
+        {
+          "code": "C4-LV-01",
+          "description": "Compréhension de l'oral — Niveau A1 : Peut comprendre des mots familiers et des expressions courantes sur lui-même, sa famille et son environnement.",
+          "sub_domain": "Compréhension de l'oral",
+          "levels": ["5E"],
+          "sort_order": 1
+        },
+        {
+          "code": "C4-LV-02",
+          "description": "Compréhension de l'oral — Niveau A2 : Peut comprendre une intervention brève si elle est claire et simple.",
+          "sub_domain": "Compréhension de l'oral",
+          "levels": ["5E", "4E"],
+          "sort_order": 2
+        },
+        {
+          "code": "C4-LV-03",
+          "description": "Compréhension de l'oral — Niveau B1 : Peut comprendre une information factuelle sur des sujets simples en distinguant l'idée générale et les points de détail, à condition que l'articulation soit claire et l'accent courant.",
+          "sub_domain": "Compréhension de l'oral",
+          "levels": ["3E"],
+          "sort_order": 3
+        },
+        {
+          "code": "C4-LV-04",
+          "description": "Compréhension de l'écrit — Niveau A1 : Peut comprendre des textes très courts et très simples, phrase par phrase, en relevant des noms, des mots familiers et des expressions très élémentaires.",
+          "sub_domain": "Compréhension de l'écrit",
+          "levels": ["5E"],
+          "sort_order": 4
+        },
+        {
+          "code": "C4-LV-05",
+          "description": "Compréhension de l'écrit — Niveau A2 : Peut comprendre de courts textes simples sur des sujets concrets courants avec une fréquence élevée de langue quotidienne.",
+          "sub_domain": "Compréhension de l'écrit",
+          "levels": ["5E", "4E"],
+          "sort_order": 5
+        },
+        {
+          "code": "C4-LV-06",
+          "description": "Compréhension de l'écrit — Niveau B1 : Peut lire des textes factuels directs sur des sujets relatifs à son domaine et à ses intérêts avec un niveau satisfaisant de compréhension.",
+          "sub_domain": "Compréhension de l'écrit",
+          "levels": ["3E"],
+          "sort_order": 6
+        },
+        {
+          "code": "C4-LV-07",
+          "description": "Interaction orale — Niveau A1 : Peut interagir brièvement dans des situations déjà connues en utilisant des mots et expressions simples et avec un débit lent.",
+          "sub_domain": "Interaction orale",
+          "levels": ["5E"],
+          "sort_order": 7
+        },
+        {
+          "code": "C4-LV-08",
+          "description": "Interaction orale — Niveau A2 : Peut interagir avec une aisance raisonnable dans des situations bien structurées et de courtes conversations à condition que le locuteur apporte de l'aide le cas échéant.",
+          "sub_domain": "Interaction orale",
+          "levels": ["5E", "4E"],
+          "sort_order": 8
+        },
+        {
+          "code": "C4-LV-09",
+          "description": "Interaction orale — Niveau B1 : Peut exprimer un avis, manifester un sentiment et donner quelques éléments simples de contexte sur un sujet abstrait ou culturel.",
+          "sub_domain": "Interaction orale",
+          "levels": ["3E"],
+          "sort_order": 9
+        },
+        {
+          "code": "C4-LV-10",
+          "description": "Expression orale en continu — Niveau A2 : Peut décrire ou présenter simplement des gens, des conditions de vie, des activités quotidiennes, ce qu'on aime ou pas, par de courtes séries d'expressions ou de phrases.",
+          "sub_domain": "Expression orale en continu",
+          "levels": ["5E", "4E"],
+          "sort_order": 10
+        },
+        {
+          "code": "C4-LV-11",
+          "description": "Expression orale en continu — Niveau B1 : Peut assez aisément mener à bien une description directe et non compliquée de sujets variés dans son domaine en la présentant comme une succession linéaire de points.",
+          "sub_domain": "Expression orale en continu",
+          "levels": ["3E"],
+          "sort_order": 11
+        },
+        {
+          "code": "C4-LV-12",
+          "description": "Expression écrite — Niveau A2 : Peut écrire une série d'expressions et de phrases simples reliées par des connecteurs simples tels que « et », « mais » et « parce que ».",
+          "sub_domain": "Expression écrite",
+          "levels": ["5E", "4E"],
+          "sort_order": 12
+        },
+        {
+          "code": "C4-LV-13",
+          "description": "Expression écrite — Niveau B1 : Peut écrire un énoncé simple et bref sur des sujets familiers ou déjà connus.",
+          "sub_domain": "Expression écrite",
+          "levels": ["3E"],
+          "sort_order": 13
+        }
+      ]
+    },
+    {
+      "code": "HISTOIRE_GEO",
+      "name": "Histoire-Géographie",
+      "sort_order": 3,
+      "competencies": [
+        {
+          "code": "C4-HG-01",
+          "description": "Se repérer dans le temps : situer un fait dans une époque ou une période donnée ; ordonner des faits les uns par rapport aux autres ; identifier des continuités et des ruptures chronologiques.",
+          "sub_domain": "Repères temporels et spatiaux",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 1
+        },
+        {
+          "code": "C4-HG-02",
+          "description": "Se repérer dans l'espace : nommer et localiser les grands repères géographiques ; nommer, localiser et caractériser un lieu dans un espace géographique ; utiliser des représentations analogiques et numériques des espaces à différentes échelles.",
+          "sub_domain": "Repères temporels et spatiaux",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 2
+        },
+        {
+          "code": "C4-HG-03",
+          "description": "Raisonner, justifier une démarche et les choix effectués : poser des questions à propos de situations historiques ou géographiques ; construire des hypothèses d'interprétation ; vérifier des données et des sources.",
+          "sub_domain": "Raisonnement et démarche",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 3
+        },
+        {
+          "code": "C4-HG-04",
+          "description": "S'informer dans le monde du numérique : connaître différents systèmes d'information, les utiliser ; trouver, sélectionner et exploiter des informations ; vérifier l'origine et la source des informations et leur pertinence ; exercer son esprit critique sur les données numériques.",
+          "sub_domain": "Méthodes et outils",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 4
+        },
+        {
+          "code": "C4-HG-05",
+          "description": "Analyser et comprendre un document : comprendre le sens général d'un document ; identifier le document et son point de vue particulier ; extraire des informations pertinentes ; confronter un document à ce qu'on peut connaître par ailleurs du sujet étudié.",
+          "sub_domain": "Méthodes et outils",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 5
+        },
+        {
+          "code": "C4-HG-06",
+          "description": "Pratiquer différents langages en histoire et en géographie : écrire pour construire sa pensée et son savoir, pour argumenter ; s'exprimer à l'oral ; réaliser des productions graphiques et cartographiques ; s'initier aux techniques d'argumentation.",
+          "sub_domain": "Langages disciplinaires",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 6
+        },
+        {
+          "code": "C4-HG-07",
+          "description": "Coopérer et mutualiser : organiser son travail dans le cadre d'un groupe pour élaborer une tâche commune ; discuter, expliquer, confronter ses représentations, argumenter pour défendre ses choix ; apprendre à utiliser les outils numériques pour des réalisations collectives.",
+          "sub_domain": "Coopération",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 7
+        },
+        {
+          "code": "C4-HG-08",
+          "description": "Comprendre les grandes périodes de l'histoire médiévale : chrétientés et islam (VIe-XIIIe siècles), la société féodale, les transformations de l'Europe aux XVe-XVIIe siècles.",
+          "sub_domain": "Histoire — Contenu thématique",
+          "levels": ["5E"],
+          "sort_order": 8
+        },
+        {
+          "code": "C4-HG-09",
+          "description": "Comprendre les grandes mutations du XVIIIe-XIXe siècle : les Lumières et révolutions, l'Europe de la révolution industrielle, les conquêtes coloniales, la société et la politique dans la France du XIXe siècle.",
+          "sub_domain": "Histoire — Contenu thématique",
+          "levels": ["4E"],
+          "sort_order": 9
+        },
+        {
+          "code": "C4-HG-10",
+          "description": "Comprendre l'histoire du monde contemporain : les guerres totales (1914-1945), le monde depuis 1945, la Cinquième République et les évolutions de la société française.",
+          "sub_domain": "Histoire — Contenu thématique",
+          "levels": ["3E"],
+          "sort_order": 10
+        },
+        {
+          "code": "C4-HG-11",
+          "description": "Comprendre et analyser les dynamiques démographiques et les inégalités de développement dans le monde : croissance démographique et ses effets, répartition de la richesse et de la pauvreté.",
+          "sub_domain": "Géographie — Contenu thématique",
+          "levels": ["5E"],
+          "sort_order": 11
+        },
+        {
+          "code": "C4-HG-12",
+          "description": "Analyser les enjeux de l'urbanisation et des territoires : les espaces productifs et leurs évolutions, les sociétés et les risques, la France et l'Union européenne.",
+          "sub_domain": "Géographie — Contenu thématique",
+          "levels": ["4E"],
+          "sort_order": 12
+        },
+        {
+          "code": "C4-HG-13",
+          "description": "Comprendre les dynamiques de la mondialisation et les recompositions géopolitiques : puissances mondiales, inégalités et enjeux du développement durable.",
+          "sub_domain": "Géographie — Contenu thématique",
+          "levels": ["3E"],
+          "sort_order": 13
+        }
+      ]
+    },
+    {
+      "code": "MATHS",
+      "name": "Mathématiques",
+      "sort_order": 4,
+      "competencies": [
+        {
+          "code": "C4-MA-01",
+          "description": "Utiliser les nombres pour comparer, calculer et résoudre des problèmes : nombres décimaux positifs et négatifs, fractions, nombres rationnels, racine carrée, préfixes de nano à giga.",
+          "sub_domain": "Nombres et calculs",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 1
+        },
+        {
+          "code": "C4-MA-02",
+          "description": "Comprendre et utiliser les notions de divisibilité et de nombres premiers.",
+          "sub_domain": "Nombres et calculs",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 2
+        },
+        {
+          "code": "C4-MA-03",
+          "description": "Utiliser le calcul littéral : développer, factoriser, résoudre des équations et inéquations du premier et second degré.",
+          "sub_domain": "Nombres et calculs",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 3
+        },
+        {
+          "code": "C4-MA-04",
+          "description": "Interpréter, représenter et traiter des données : effectifs, fréquences, indicateurs de position (moyenne, médiane) et de dispersion (étendue).",
+          "sub_domain": "Statistiques et probabilités",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 4
+        },
+        {
+          "code": "C4-MA-05",
+          "description": "Comprendre et utiliser des notions élémentaires de probabilités.",
+          "sub_domain": "Statistiques et probabilités",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 5
+        },
+        {
+          "code": "C4-MA-06",
+          "description": "Résoudre des problèmes de proportionnalité.",
+          "sub_domain": "Statistiques et probabilités",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 6
+        },
+        {
+          "code": "C4-MA-07",
+          "description": "Comprendre et utiliser la notion de fonction : représentation graphique, tableau de valeurs, expression algébrique, calcul d'image et d'antécédent.",
+          "sub_domain": "Grandeurs et mesures — Fonctions",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 7
+        },
+        {
+          "code": "C4-MA-08",
+          "description": "Calculer avec des grandeurs mesurables ; exprimer les résultats dans les unités adaptées : aire du parallélogramme, volume d'un prisme, d'une pyramide, d'un cylindre, d'un cône, d'une boule.",
+          "sub_domain": "Grandeurs et mesures — Fonctions",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 8
+        },
+        {
+          "code": "C4-MA-09",
+          "description": "Comprendre l'effet de quelques transformations sur les figures géométriques : translations, rotations, symétries, homothéties.",
+          "sub_domain": "Grandeurs et mesures — Fonctions",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 9
+        },
+        {
+          "code": "C4-MA-10",
+          "description": "Représenter l'espace : se repérer sur une droite graduée, dans le plan muni d'un repère orthogonal, dans un parallélépipède rectangle, sur une sphère (latitude et longitude).",
+          "sub_domain": "Espace et géométrie",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 10
+        },
+        {
+          "code": "C4-MA-11",
+          "description": "Utiliser les notions de géométrie plane pour démontrer : propriétés des triangles (Pythagore, Thalès, trigonométrie), des quadrilatères, des cercles.",
+          "sub_domain": "Espace et géométrie",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 11
+        },
+        {
+          "code": "C4-MA-12",
+          "description": "Reconnaître des solides (pavé droit, cube, prisme, cylindre, pyramide, cône, boule) et construire leurs représentations (perspective cavalière, vues de face, de dessus, sections planes, patrons).",
+          "sub_domain": "Espace et géométrie",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 12
+        },
+        {
+          "code": "C4-MA-13",
+          "description": "Écrire, mettre au point et exécuter un programme simple : notions d'algorithme et de programme, variables informatiques, séquences d'instructions, boucles, instructions conditionnelles.",
+          "sub_domain": "Algorithmique et programmation",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 13
+        }
+      ]
+    },
+    {
+      "code": "PHYSIQUE_CHIMIE",
+      "name": "Physique-Chimie",
+      "sort_order": 5,
+      "competencies": [
+        {
+          "code": "C4-PC-01",
+          "description": "Décrire la constitution et les états de la matière : caractériser les différents états (solide, liquide, gaz) ; proposer et mettre en œuvre un protocole expérimental.",
+          "sub_domain": "Constitution et transformations de la matière",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 1
+        },
+        {
+          "code": "C4-PC-02",
+          "description": "Décrire et expliquer des transformations chimiques.",
+          "sub_domain": "Constitution et transformations de la matière",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 2
+        },
+        {
+          "code": "C4-PC-03",
+          "description": "Décrire l'organisation de la matière dans l'Univers.",
+          "sub_domain": "Constitution et transformations de la matière",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 3
+        },
+        {
+          "code": "C4-PC-04",
+          "description": "Caractériser un mouvement : caractériser le mouvement d'un objet (direction, sens, valeur de la vitesse) ; distinguer mouvements rectilignes et circulaires, uniformes et variés.",
+          "sub_domain": "Mouvement et interactions",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 4
+        },
+        {
+          "code": "C4-PC-05",
+          "description": "Modéliser une action exercée sur un objet par une force caractérisée par un point d'application, une direction, un sens et une valeur.",
+          "sub_domain": "Mouvement et interactions",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 5
+        },
+        {
+          "code": "C4-PC-06",
+          "description": "Identifier les sources, les transferts, les conversions et les formes d'énergie ; utiliser la conservation de l'énergie.",
+          "sub_domain": "Énergie",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 6
+        },
+        {
+          "code": "C4-PC-07",
+          "description": "Réaliser des circuits électriques simples et exploiter les lois de l'électricité.",
+          "sub_domain": "Énergie",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 7
+        },
+        {
+          "code": "C4-PC-08",
+          "description": "Caractériser différents types de signaux (lumineux, sonores, radio…) et utiliser leurs propriétés : propagation rectiligne de la lumière, modèle du rayon lumineux, sources primaires et diffusantes.",
+          "sub_domain": "Ondes et signaux",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 8
+        }
+      ]
+    },
+    {
+      "code": "SVT",
+      "name": "Sciences de la vie et de la Terre (SVT)",
+      "sort_order": 6,
+      "competencies": [
+        {
+          "code": "C4-SVT-01",
+          "description": "Explorer et expliquer certains phénomènes géologiques liés au fonctionnement de la Terre.",
+          "sub_domain": "La planète Terre, l'environnement et l'action humaine",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 1
+        },
+        {
+          "code": "C4-SVT-02",
+          "description": "Explorer et expliquer certains éléments de météorologie et de climatologie.",
+          "sub_domain": "La planète Terre, l'environnement et l'action humaine",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 2
+        },
+        {
+          "code": "C4-SVT-03",
+          "description": "Identifier les principaux impacts de l'action humaine, bénéfices et risques, à la surface de la planète Terre.",
+          "sub_domain": "La planète Terre, l'environnement et l'action humaine",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 3
+        },
+        {
+          "code": "C4-SVT-04",
+          "description": "Envisager ou justifier des comportements responsables face à l'environnement et à la préservation des ressources limitées de la planète.",
+          "sub_domain": "La planète Terre, l'environnement et l'action humaine",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 4
+        },
+        {
+          "code": "C4-SVT-05",
+          "description": "Expliquer l'organisation et le fonctionnement du monde vivant, sa dynamique à différentes échelles d'espace et de temps.",
+          "sub_domain": "Le vivant et son évolution",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 5
+        },
+        {
+          "code": "C4-SVT-06",
+          "description": "Établir des relations de causalité pour expliquer la nutrition des organismes, la dynamique des populations, la classification du vivant, la biodiversité (diversité des espèces), la diversité génétique des individus, l'évolution des êtres vivants.",
+          "sub_domain": "Le vivant et son évolution",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 6
+        },
+        {
+          "code": "C4-SVT-07",
+          "description": "Expliquer quelques processus biologiques impliqués dans le fonctionnement de l'organisme humain jusqu'au niveau moléculaire : activités musculaire, nerveuse, cardio-vasculaire et respiratoire, alimentation et digestion, relations avec le monde microbien, reproduction et sexualité.",
+          "sub_domain": "Le corps humain et la santé",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 7
+        },
+        {
+          "code": "C4-SVT-08",
+          "description": "Relier la connaissance des processus biologiques aux enjeux liés aux comportements responsables individuels et collectifs en matière de santé.",
+          "sub_domain": "Le corps humain et la santé",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 8
+        }
+      ]
+    },
+    {
+      "code": "EPS",
+      "name": "Éducation physique et sportive (EPS)",
+      "sort_order": 7,
+      "competencies": [
+        {
+          "code": "C4-EPS-01",
+          "description": "Gérer son effort, faire des choix pour réaliser la meilleure performance dans au moins deux familles athlétiques et/ou au moins deux styles de nages ; planifier et réaliser une épreuve combinée ; s'échauffer avant un effort.",
+          "sub_domain": "Produire une performance optimale — Activités athlétiques et aquatiques",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 1
+        },
+        {
+          "code": "C4-EPS-02",
+          "description": "Réussir un déplacement planifié dans un milieu naturel aménagé ou artificiellement recréé ; gérer ses ressources pour réaliser en totalité un parcours sécurisé ; assurer la sécurité de son camarade.",
+          "sub_domain": "S'adapter à l'environnement — Activités de plein air",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 2
+        },
+        {
+          "code": "C4-EPS-03",
+          "description": "Mobiliser les capacités expressives du corps pour imaginer, composer et interpréter une séquence artistique ou acrobatique ; participer activement à l'élaboration et à la formalisation d'un projet artistique.",
+          "sub_domain": "S'exprimer devant les autres — Activités gymniques et artistiques",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 3
+        },
+        {
+          "code": "C4-EPS-04",
+          "description": "Réaliser des actions décisives en situation favorable afin de faire basculer le rapport de force ; adapter son engagement moteur en fonction de son état physique et du rapport de force ; être solidaire de ses partenaires et respectueux de son adversaire et de l'arbitre.",
+          "sub_domain": "Conduire et maîtriser un affrontement individuel ou collectif",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 4
+        },
+        {
+          "code": "C4-EPS-05",
+          "description": "Assumer différents rôles sociaux (juge, chronométreur, organisateur, collecteur des résultats) ; observer et co-arbitrer ; accepter le résultat de la rencontre et savoir l'analyser avec objectivité.",
+          "sub_domain": "Vie sociale et responsabilité en EPS",
+          "levels": ["5E", "4E", "3E"],
+          "sort_order": 5
+        }
+      ]
+    }
+  ]
+}

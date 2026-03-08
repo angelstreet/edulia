@@ -1,0 +1,585 @@
+{
+  "code": "FR-MENJ-C2-2020",
+  "name": "Programme du cycle 2 — Cycle des apprentissages fondamentaux",
+  "country": "FR",
+  "cycle": "2",
+  "year": 2020,
+  "source": "MENJ — BO spécial n°31 du 30 juillet 2020",
+  "levels": ["CP", "CE1", "CE2"],
+  "domains": [
+    {
+      "code": "FRANCAIS",
+      "name": "Français",
+      "sort_order": 1,
+      "competencies": [
+        {
+          "code": "C2-FR-01",
+          "description": "Écouter pour comprendre des messages oraux ou des textes lus par un adulte : identifier et mémoriser des informations importantes, les relier entre elles pour construire le sens d'un message ou d'un texte.",
+          "sub_domain": "Langage oral",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 1
+        },
+        {
+          "code": "C2-FR-02",
+          "description": "Dire pour être entendu et compris : s'exprimer avec une articulation et une voix audibles, dans un niveau de langue adapté à la situation de communication.",
+          "sub_domain": "Langage oral",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 2
+        },
+        {
+          "code": "C2-FR-03",
+          "description": "Participer à des échanges dans des situations diversifiées (récit, description, questionnement, argumentation) en respectant les règles de la communication.",
+          "sub_domain": "Langage oral",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 3
+        },
+        {
+          "code": "C2-FR-04",
+          "description": "Adopter une distance critique par rapport au langage produit : écouter et prendre en compte les autres, formuler et apprécier un message oral.",
+          "sub_domain": "Langage oral",
+          "levels": ["CE1", "CE2"],
+          "sort_order": 4
+        },
+        {
+          "code": "C2-FR-05",
+          "description": "Identifier des mots rapidement : décoder aisément les mots inconnus réguliers, reconnaître les mots fréquents et les mots irréguliers mémorisés.",
+          "sub_domain": "Lecture et compréhension de l'écrit",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 5
+        },
+        {
+          "code": "C2-FR-06",
+          "description": "Lire et comprendre des textes adaptés à la maturité et à la culture scolaire des élèves : identifier le sens d'un texte en en reformulant l'essentiel.",
+          "sub_domain": "Lecture et compréhension de l'écrit",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 6
+        },
+        {
+          "code": "C2-FR-07",
+          "description": "Lire à voix haute avec fluidité, après préparation, un texte d'une demi-page ; lire en le comprenant un texte court (quelques lignes).",
+          "sub_domain": "Lecture et compréhension de l'écrit",
+          "levels": ["CE1", "CE2"],
+          "sort_order": 7
+        },
+        {
+          "code": "C2-FR-08",
+          "description": "Pratiquer différentes formes de lecture : lire pour le plaisir, lire pour chercher une information, lire pour apprendre, lire pour découvrir ou valider des hypothèses.",
+          "sub_domain": "Lecture et compréhension de l'écrit",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 8
+        },
+        {
+          "code": "C2-FR-09",
+          "description": "Copier ou transcrire, dans une écriture lisible, un texte d'une dizaine de lignes en respectant la mise en page, la ponctuation et l'orthographe.",
+          "sub_domain": "Écriture",
+          "levels": ["CE1", "CE2"],
+          "sort_order": 9
+        },
+        {
+          "code": "C2-FR-10",
+          "description": "Produire des écrits de manière autonome : écrire un texte d'environ une demi-page, cohérent, organisé et ponctué, en lien avec ce qui a été lu et entendu.",
+          "sub_domain": "Écriture",
+          "levels": ["CE1", "CE2"],
+          "sort_order": 10
+        },
+        {
+          "code": "C2-FR-11",
+          "description": "Réviser et améliorer l'écrit qu'on a produit, avec l'aide du maître et d'outils de référence (cahier de règles, répertoires, dictionnaires).",
+          "sub_domain": "Écriture",
+          "levels": ["CE1", "CE2"],
+          "sort_order": 11
+        },
+        {
+          "code": "C2-FR-12",
+          "description": "Maîtriser les relations entre l'oral et l'écrit : connaître les correspondances graphèmes-phonèmes, distinguer les phonèmes proches et les graphèmes qui les transcrivent.",
+          "sub_domain": "Étude de la langue — Grammaire et orthographe",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 12
+        },
+        {
+          "code": "C2-FR-13",
+          "description": "Écrire sans erreur sous la dictée un texte d'une dizaine de lignes en mobilisant les connaissances grammaticales et lexicales acquises : accord du verbe avec son sujet, accord en genre et en nombre dans le groupe nominal.",
+          "sub_domain": "Étude de la langue — Grammaire et orthographe",
+          "levels": ["CE2"],
+          "sort_order": 13
+        },
+        {
+          "code": "C2-FR-14",
+          "description": "Identifier les constituants d'une phrase simple en relation avec son sens : identifier le sujet et le prédicat (et le complément de phrase), distinguer les classes de mots (nom, article, adjectif, pronom, verbe, préposition, adverbe).",
+          "sub_domain": "Étude de la langue — Grammaire et orthographe",
+          "levels": ["CE1", "CE2"],
+          "sort_order": 14
+        },
+        {
+          "code": "C2-FR-15",
+          "description": "Enrichir et structurer le lexique : utiliser des mots de sens proche ou éloigné, comprendre les notions de synonymie, d'antonymie, de polysémie ; identifier les familles de mots et utiliser le dictionnaire.",
+          "sub_domain": "Étude de la langue — Lexique",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 15
+        }
+      ]
+    },
+    {
+      "code": "MATHS",
+      "name": "Mathématiques",
+      "sort_order": 2,
+      "competencies": [
+        {
+          "code": "C2-MATHS-01",
+          "description": "Comprendre et utiliser des nombres entiers pour dénombrer, ordonner, repérer, comparer : nommer, lire, écrire, représenter des nombres entiers (jusqu'à 1 000 en CE2).",
+          "sub_domain": "Nombres et calculs",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 1
+        },
+        {
+          "code": "C2-MATHS-02",
+          "description": "Résoudre des problèmes en utilisant des nombres entiers et la valeur positionnelle des chiffres : comprendre et utiliser la numération décimale de position.",
+          "sub_domain": "Nombres et calculs",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 2
+        },
+        {
+          "code": "C2-MATHS-03",
+          "description": "Calculer avec des nombres entiers : addition et soustraction posées, mémoriser les tables d'addition et de multiplication (2, 3, 4, 5, 10), effectuer des calculs mentaux.",
+          "sub_domain": "Nombres et calculs",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 3
+        },
+        {
+          "code": "C2-MATHS-04",
+          "description": "Utiliser les opérations (addition, soustraction, multiplication) pour résoudre des problèmes : identifier le type de calcul à effectuer, choisir une modalité de calcul adaptée (mental, posé, instrumenté).",
+          "sub_domain": "Nombres et calculs",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 4
+        },
+        {
+          "code": "C2-MATHS-05",
+          "description": "Comprendre et utiliser des nombres décimaux simples (dixièmes et centièmes) pour rendre compte de mesures de longueurs et de masses (en CE2).",
+          "sub_domain": "Nombres et calculs",
+          "levels": ["CE2"],
+          "sort_order": 5
+        },
+        {
+          "code": "C2-MATHS-06",
+          "description": "Résoudre des problèmes de partage et de groupement pour aborder la notion de division (CE2) : partager équitablement, distribuer, regrouper par quantités égales.",
+          "sub_domain": "Nombres et calculs",
+          "levels": ["CE2"],
+          "sort_order": 6
+        },
+        {
+          "code": "C2-MATHS-07",
+          "description": "Mesurer des longueurs avec un instrument de mesure conventionnel (règle graduée) ; comparer, estimer, mesurer des longueurs en utilisant des unités usuelles (mm, cm, dm, m, km).",
+          "sub_domain": "Grandeurs et mesures",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 7
+        },
+        {
+          "code": "C2-MATHS-08",
+          "description": "Comparer, estimer, mesurer des masses (g, kg) et des contenance (L, cL) ; résoudre des problèmes impliquant des grandeurs physiques (longueurs, masses, durées).",
+          "sub_domain": "Grandeurs et mesures",
+          "levels": ["CE1", "CE2"],
+          "sort_order": 8
+        },
+        {
+          "code": "C2-MATHS-09",
+          "description": "Résoudre des problèmes impliquant des durées : lire l'heure sur une montre à aiguilles ou numérique, utiliser des unités de temps (heure, minute, seconde, jour, semaine, mois, année).",
+          "sub_domain": "Grandeurs et mesures",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 9
+        },
+        {
+          "code": "C2-MATHS-10",
+          "description": "Calculer le périmètre d'un polygone ; comparer des surfaces selon leur aire par superposition, dénombrement de carrés unités (CE2).",
+          "sub_domain": "Grandeurs et mesures",
+          "levels": ["CE2"],
+          "sort_order": 10
+        },
+        {
+          "code": "C2-MATHS-11",
+          "description": "Se repérer et se déplacer dans l'espace en utilisant des repères, des plans et des instruments de géométrie : utiliser un vocabulaire précis pour décrire des positions et des déplacements.",
+          "sub_domain": "Espace et géométrie",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 11
+        },
+        {
+          "code": "C2-MATHS-12",
+          "description": "Reconnaître, nommer, décrire, reproduire et construire des figures géométriques : triangle, carré, rectangle, cercle ; identifier des solides simples (cube, pavé droit, pyramide, sphère, cylindre).",
+          "sub_domain": "Espace et géométrie",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 12
+        },
+        {
+          "code": "C2-MATHS-13",
+          "description": "Utiliser les notions de droites parallèles et perpendiculaires pour décrire et construire des figures géométriques ; effectuer des tracés à l'aide d'instruments (règle, équerre, compas).",
+          "sub_domain": "Espace et géométrie",
+          "levels": ["CE2"],
+          "sort_order": 13
+        },
+        {
+          "code": "C2-MATHS-14",
+          "description": "Reconnaître et décrire des figures symétriques par rapport à un axe de symétrie ; compléter une figure par symétrie axiale.",
+          "sub_domain": "Espace et géométrie",
+          "levels": ["CE1", "CE2"],
+          "sort_order": 14
+        },
+        {
+          "code": "C2-MATHS-15",
+          "description": "Organiser et faire fonctionner des données : lire et interpréter des représentations simples (tableaux, graphiques) pour résoudre des problèmes.",
+          "sub_domain": "Espace et géométrie",
+          "levels": ["CE1", "CE2"],
+          "sort_order": 15
+        }
+      ]
+    },
+    {
+      "code": "EPS",
+      "name": "Éducation physique et sportive",
+      "sort_order": 3,
+      "competencies": [
+        {
+          "code": "C2-EPS-01",
+          "description": "Courir vite, courir longtemps, courir en franchissant des obstacles : développer sa vitesse de déplacement, son endurance et sa capacité à gérer son effort dans des situations de course.",
+          "sub_domain": "Activités athlétiques",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 1
+        },
+        {
+          "code": "C2-EPS-02",
+          "description": "Sauter loin et sauter haut : prendre de l'élan, appeler sur un ou deux pieds, se recevoir en équilibre pour réaliser les meilleures performances.",
+          "sub_domain": "Activités athlétiques",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 2
+        },
+        {
+          "code": "C2-EPS-03",
+          "description": "Réaliser des activités gymniques fondamentales (roulade avant et arrière, équilibre, saut) et les enchaîner pour produire une prestation à visée expressive.",
+          "sub_domain": "Activités gymniques et artistiques",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 3
+        },
+        {
+          "code": "C2-EPS-04",
+          "description": "Exprimer corporellement une intention ou un sentiment, seul ou en groupe, à travers une prestation dansée ou mimée, en mobilisant les paramètres du mouvement (espace, temps, énergie).",
+          "sub_domain": "Activités gymniques et artistiques",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 4
+        },
+        {
+          "code": "C2-EPS-05",
+          "description": "Adapter ses déplacements à différents types d'environnements : aquatique, de pleine nature, aménagé ; se repérer et se déplacer dans un espace incertain.",
+          "sub_domain": "Activités en milieu naturel ou aménagé",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 5
+        },
+        {
+          "code": "C2-EPS-06",
+          "description": "Coopérer et s'opposer dans des jeux collectifs avec ou sans ballon : respecter les règles du jeu, assumer différents rôles (attaquant, défenseur, arbitre), adapter ses décisions aux situations.",
+          "sub_domain": "Activités collectives",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 6
+        },
+        {
+          "code": "C2-EPS-07",
+          "description": "S'opposer individuellement dans des activités de duel (lutte, jeux de raquettes) : chercher à déséquilibrer l'adversaire ou à remporter la balle dans le respect des règles.",
+          "sub_domain": "Activités d'opposition",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 7
+        },
+        {
+          "code": "C2-EPS-08",
+          "description": "Connaitre et appliquer des règles élémentaires d'hygiène de vie (sommeil, alimentation, hydratation, activité physique) ; repérer les effets de l'activité physique sur son corps.",
+          "sub_domain": "Santé et bien-être",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 8
+        }
+      ]
+    },
+    {
+      "code": "ARTS-PLASTIQUES",
+      "name": "Arts plastiques",
+      "sort_order": 4,
+      "competencies": [
+        {
+          "code": "C2-AP-01",
+          "description": "Expérimenter, produire, créer : choisir, mobiliser et adapter des langages et des moyens plastiques variés en fonction de ses intentions dans une pratique de création.",
+          "sub_domain": "Expérimenter, produire, créer",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 1
+        },
+        {
+          "code": "C2-AP-02",
+          "description": "Mettre en œuvre un projet artistique : anticiper, planifier et conduire jusqu'à son terme une réalisation plastique individuelle ou collective.",
+          "sub_domain": "Mettre en œuvre un projet artistique",
+          "levels": ["CE1", "CE2"],
+          "sort_order": 2
+        },
+        {
+          "code": "C2-AP-03",
+          "description": "S'exprimer, analyser sa pratique et celle de ses pairs : décrire et expliquer ses choix plastiques, écouter et accepter les avis des autres.",
+          "sub_domain": "S'exprimer, analyser sa pratique",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 3
+        },
+        {
+          "code": "C2-AP-04",
+          "description": "Se repérer dans les domaines liés aux arts plastiques, être sensible aux questions de l'art : identifier des œuvres d'art, des artistes, des lieux de diffusion culturelle.",
+          "sub_domain": "Se repérer dans les domaines liés aux arts plastiques",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 4
+        },
+        {
+          "code": "C2-AP-05",
+          "description": "Utiliser les couleurs primaires et secondaires, les valeurs (clair/sombre), les textures et les lignes pour organiser une composition plastique plane ou en volume.",
+          "sub_domain": "Expérimenter, produire, créer",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 5
+        },
+        {
+          "code": "C2-AP-06",
+          "description": "Produire des représentations du monde visible, imaginaire ou inventé à partir d'observations, de souvenirs ou d'imagination, en intégrant la notion de point de vue et de composition.",
+          "sub_domain": "Expérimenter, produire, créer",
+          "levels": ["CE1", "CE2"],
+          "sort_order": 6
+        }
+      ]
+    },
+    {
+      "code": "MUSIQUE",
+      "name": "Éducation musicale",
+      "sort_order": 5,
+      "competencies": [
+        {
+          "code": "C2-MUS-01",
+          "description": "Chanter et interpréter : chanter une mélodie simple avec une justesse suffisante, mémoriser des chants appartenant à des répertoires variés et respecter les indications d'interprétation.",
+          "sub_domain": "Chanter",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 1
+        },
+        {
+          "code": "C2-MUS-02",
+          "description": "Jouer de la musique : reproduire et inventer de courtes séquences rythmiques ou mélodiques à l'aide d'instruments simples ou d'objets sonores.",
+          "sub_domain": "Pratiquer des instruments",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 2
+        },
+        {
+          "code": "C2-MUS-03",
+          "description": "Écouter, comparer et commenter : écouter et décrire des extraits musicaux en utilisant un vocabulaire simple (tempo, nuances, timbre, hauteur).",
+          "sub_domain": "Écouter",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 3
+        },
+        {
+          "code": "C2-MUS-04",
+          "description": "Identifier des éléments de la musique (pulsation, rythme, mélodie, timbre) et les utiliser dans des activités de production.",
+          "sub_domain": "Écouter",
+          "levels": ["CE1", "CE2"],
+          "sort_order": 4
+        },
+        {
+          "code": "C2-MUS-05",
+          "description": "Explorer, imaginer et créer : inventer des réalisations musicales simples, en jouant sur les paramètres du son (hauteur, durée, timbre, intensité, espace).",
+          "sub_domain": "Explorer et imaginer",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 5
+        },
+        {
+          "code": "C2-MUS-06",
+          "description": "Écouter et situer des extraits du patrimoine musical dans leur contexte culturel : identifier quelques grandes œuvres, genres musicaux et artistes représentatifs.",
+          "sub_domain": "Partager, échanger",
+          "levels": ["CE1", "CE2"],
+          "sort_order": 6
+        }
+      ]
+    },
+    {
+      "code": "EMC",
+      "name": "Enseignement moral et civique",
+      "sort_order": 6,
+      "competencies": [
+        {
+          "code": "C2-EMC-01",
+          "description": "Respecter autrui et accepter les différences : identifier et refuser les formes de discrimination, de moquerie ou de harcèlement dans la vie de classe et de l'école.",
+          "sub_domain": "La sensibilité : soi et les autres",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 1
+        },
+        {
+          "code": "C2-EMC-02",
+          "description": "Exprimer et partager ses émotions et ses sentiments en les régulant ; comprendre ceux des autres en développant son empathie.",
+          "sub_domain": "La sensibilité : soi et les autres",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 2
+        },
+        {
+          "code": "C2-EMC-03",
+          "description": "Participer à la vie de la classe et de l'école : respecter les règles, exercer des responsabilités, participer aux élections des délégués (CE2).",
+          "sub_domain": "Le droit et la règle : des principes pour vivre ensemble",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 3
+        },
+        {
+          "code": "C2-EMC-04",
+          "description": "Comprendre les raisons de l'obéissance aux règles et à la loi dans une société démocratique : distinguer règle, loi et liberté.",
+          "sub_domain": "Le droit et la règle : des principes pour vivre ensemble",
+          "levels": ["CE1", "CE2"],
+          "sort_order": 4
+        },
+        {
+          "code": "C2-EMC-05",
+          "description": "Connaître et comprendre les principes et les valeurs de la République française et de la démocratie : liberté, égalité, fraternité, laïcité ; identifier les symboles de la République.",
+          "sub_domain": "Le jugement : penser par soi-même et avec les autres",
+          "levels": ["CE1", "CE2"],
+          "sort_order": 5
+        },
+        {
+          "code": "C2-EMC-06",
+          "description": "S'impliquer dans la vie scolaire : coopérer, prendre en charge des tâches collectives, assumer différents rôles dans un groupe, pratiquer le débat philosophique à l'école.",
+          "sub_domain": "L'engagement : agir individuellement et collectivement",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 6
+        }
+      ]
+    },
+    {
+      "code": "SCIENCES",
+      "name": "Sciences et technologie",
+      "sort_order": 7,
+      "competencies": [
+        {
+          "code": "C2-SCI-01",
+          "description": "Pratiquer des démarches scientifiques : observer, questionner, formuler des hypothèses, expérimenter, mettre en relation des résultats et les communiquer.",
+          "sub_domain": "Démarche scientifique",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 1
+        },
+        {
+          "code": "C2-SCI-02",
+          "description": "Explorer le monde du vivant : identifier les caractéristiques du vivant (nutrition, respiration, reproduction, croissance), classer les êtres vivants selon des critères observables.",
+          "sub_domain": "Le vivant, sa diversité et les fonctions qui le caractérisent",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 2
+        },
+        {
+          "code": "C2-SCI-03",
+          "description": "Connaître les besoins des êtres vivants : comprendre les relations entre les êtres vivants (chaînes et réseaux alimentaires), identifier les stades du développement d'un être vivant.",
+          "sub_domain": "Le vivant, sa diversité et les fonctions qui le caractérisent",
+          "levels": ["CE1", "CE2"],
+          "sort_order": 3
+        },
+        {
+          "code": "C2-SCI-04",
+          "description": "Explorer le monde de la matière : distinguer solides, liquides et gaz ; identifier des propriétés des matériaux (dureté, conductibilité électrique, solubilité) ; observer et décrire des mélanges.",
+          "sub_domain": "Matière, mouvement, énergie, information",
+          "levels": ["CE1", "CE2"],
+          "sort_order": 4
+        },
+        {
+          "code": "C2-SCI-05",
+          "description": "Connaître le cycle de l'eau dans la nature : états de l'eau, évaporation, condensation, précipitations ; relier ces phénomènes aux saisons et au cycle de l'eau.",
+          "sub_domain": "Matière, mouvement, énergie, information",
+          "levels": ["CE1", "CE2"],
+          "sort_order": 5
+        },
+        {
+          "code": "C2-SCI-06",
+          "description": "Pratiquer des démarches technologiques : concevoir et fabriquer un objet simple ; identifier et décrire les matériaux et les composants d'un objet technique, sa fonction et son usage.",
+          "sub_domain": "Objets techniques",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 6
+        },
+        {
+          "code": "C2-SCI-07",
+          "description": "Observer et décrire les phénomènes astronomiques : alternance jour/nuit, cycle des saisons, position et déplacement du Soleil, phases de la Lune.",
+          "sub_domain": "La planète Terre. Les êtres vivants dans leur environnement",
+          "levels": ["CE1", "CE2"],
+          "sort_order": 7
+        },
+        {
+          "code": "C2-SCI-08",
+          "description": "Identifier les caractéristiques de l'environnement proche et les relations entre les êtres vivants : reconnaître des paysages, des milieux naturels et les activités humaines qui les transforment.",
+          "sub_domain": "La planète Terre. Les êtres vivants dans leur environnement",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 8
+        }
+      ]
+    },
+    {
+      "code": "HIST-GEO",
+      "name": "Histoire-géographie",
+      "sort_order": 8,
+      "competencies": [
+        {
+          "code": "C2-HG-01",
+          "description": "Identifier et situer dans le temps des faits, des événements et des personnages historiques : comprendre la notion de chronologie, utiliser la frise chronologique.",
+          "sub_domain": "Histoire",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 1
+        },
+        {
+          "code": "C2-HG-02",
+          "description": "Connaître quelques événements et personnages de l'histoire de la Gaule et de la France (Vercingétorix, Clovis, Charlemagne, Saint Louis) ; comprendre ce que l'Antiquité a légué à la France.",
+          "sub_domain": "Histoire",
+          "levels": ["CE2"],
+          "sort_order": 2
+        },
+        {
+          "code": "C2-HG-03",
+          "description": "Lire et utiliser différents langages : cartes, croquis, graphiques, chronologies, images pour extraire et représenter de l'information.",
+          "sub_domain": "Histoire",
+          "levels": ["CE1", "CE2"],
+          "sort_order": 3
+        },
+        {
+          "code": "C2-HG-04",
+          "description": "Se repérer dans le temps de la journée, de la semaine, de l'année ; ordonner des événements dans le temps ; utiliser des représentations du temps (calendrier, horloge, frise).",
+          "sub_domain": "Histoire",
+          "levels": ["CP", "CE1"],
+          "sort_order": 4
+        },
+        {
+          "code": "C2-HG-05",
+          "description": "Nommer et localiser les grands repères géographiques : continents, océans, pays et capitales de l'Union européenne, régions et départements de France.",
+          "sub_domain": "Géographie",
+          "levels": ["CE1", "CE2"],
+          "sort_order": 5
+        },
+        {
+          "code": "C2-HG-06",
+          "description": "Décrire et localiser les paysages et les espaces familiers : comprendre la notion de territoire, distinguer espace rural et espace urbain, identifier les espaces où l'on vit.",
+          "sub_domain": "Géographie",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 6
+        },
+        {
+          "code": "C2-HG-07",
+          "description": "Lire et utiliser des cartes à différentes échelles : identifier les symboles et la légende d'une carte, orienter une carte, se situer sur une carte.",
+          "sub_domain": "Géographie",
+          "levels": ["CE1", "CE2"],
+          "sort_order": 7
+        },
+        {
+          "code": "C2-HG-08",
+          "description": "Comprendre les modes d'habiter : comment les hommes habitent différents milieux (littoral, montagne, ville, campagne) et comment ils les aménagent.",
+          "sub_domain": "Géographie",
+          "levels": ["CE2"],
+          "sort_order": 8
+        },
+        {
+          "code": "C2-HG-09",
+          "description": "Identifier les traces du passé dans l'environnement proche : patrimoine local, monuments, noms de rues ; comprendre que le passé éclaire le présent.",
+          "sub_domain": "Histoire",
+          "levels": ["CP", "CE1", "CE2"],
+          "sort_order": 9
+        },
+        {
+          "code": "C2-HG-10",
+          "description": "Raisonner, justifier une démarche et les choix effectués : prélever de l'information dans un document, la mettre en relation avec ses connaissances, distinguer fait et opinion.",
+          "sub_domain": "Méthodes",
+          "levels": ["CE1", "CE2"],
+          "sort_order": 10
+        }
+      ]
+    }
+  ]
+}

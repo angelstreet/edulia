@@ -1,0 +1,536 @@
+{
+  "code": "FR-MENJ-LYCEE-TC-2019",
+  "name": "Programmes du lycée général et technologique — Tronc commun",
+  "country": "FR",
+  "cycle": "LYCEE",
+  "year": 2019,
+  "source": "MENJ — BO spécial n°1 du 22 janvier 2019 (en vigueur à la rentrée 2019, modifié au JORF du 8 octobre 2020)",
+  "levels": ["2NDE", "1ERE", "TLE"],
+  "domains": [
+    {
+      "code": "FRANCAIS",
+      "name": "Français",
+      "sort_order": 1,
+      "competencies": [
+        {
+          "code": "LY-FR-01",
+          "description": "Améliorer les capacités d'expression et de compréhension des élèves par un enseignement continué de la langue, et par la pratique fréquente et régulière d'exercices variés de lecture, d'écriture et d'expression orale.",
+          "sub_domain": "Finalités générales",
+          "levels": ["2NDE", "1ERE"],
+          "sort_order": 1
+        },
+        {
+          "code": "LY-FR-02",
+          "description": "Construire une culture littéraire structurée : faire lire les élèves et leur permettre de comprendre et d'apprécier les œuvres ; acquérir des connaissances solides en analyse littéraire et en histoire littéraire.",
+          "sub_domain": "Finalités générales",
+          "levels": ["2NDE", "1ERE"],
+          "sort_order": 2
+        },
+        {
+          "code": "LY-FR-03",
+          "description": "Former le sens esthétique des élèves et cultiver leur goût : approfondir et exercer le jugement et l'esprit critique ; rendre les élèves capables de développer une réflexion personnelle et une argumentation convaincante, à l'écrit comme à l'oral.",
+          "sub_domain": "Finalités générales",
+          "levels": ["2NDE", "1ERE"],
+          "sort_order": 3
+        },
+        {
+          "code": "LY-FR-04",
+          "description": "Étude de la langue — Grammaire : consolider et approfondir les connaissances grammaticales : accords dans le groupe nominal et entre le sujet et le verbe, valeurs temporelles et modales du verbe, relations au sein de la phrase complexe, syntaxe des subordonnées relatives.",
+          "sub_domain": "Étude de la langue",
+          "levels": ["2NDE", "1ERE"],
+          "sort_order": 4
+        },
+        {
+          "code": "LY-FR-05",
+          "description": "Étude de la langue — Grammaire (première) : subordonnées conjonctives utilisées en fonction de compléments circonstanciels (cause, conséquence, but, condition, concession) ; syntaxe de l'interrogation et de la négation ; expression de la modalisation.",
+          "sub_domain": "Étude de la langue",
+          "levels": ["1ERE"],
+          "sort_order": 5
+        },
+        {
+          "code": "LY-FR-06",
+          "description": "Étude de la langue — Lexique : renforcement des ressources lexicales par l'étude des modes de néologie (dérivation, composition, emprunt), des relations lexicales (synonymie, antonymie, hypéronymie) ; enrichissement au gré des lectures.",
+          "sub_domain": "Étude de la langue",
+          "levels": ["2NDE", "1ERE"],
+          "sort_order": 6
+        },
+        {
+          "code": "LY-FR-07",
+          "description": "Maîtriser les relations logiques fondamentales à l'expression écrite et orale : expression de la condition, de la cause, de la conséquence et du but, de la comparaison, de l'opposition et de la concession.",
+          "sub_domain": "Étude de la langue",
+          "levels": ["2NDE", "1ERE"],
+          "sort_order": 7
+        },
+        {
+          "code": "LY-FR-08",
+          "description": "Objet d'étude — La poésie du Moyen Âge au XVIIIe siècle (seconde) : contextualisner la lecture de la poésie, donner des repères sur son histoire, ses continuités et ses ruptures ; comprendre les mouvements esthétiques, artistiques et culturels.",
+          "sub_domain": "Littérature — Objets d'étude",
+          "levels": ["2NDE"],
+          "sort_order": 8
+        },
+        {
+          "code": "LY-FR-09",
+          "description": "Objet d'étude — La littérature d'idées et la presse du XIXe au XXIe siècle (seconde) : approfondir la culture des médias et de la presse ; analyser et interpréter des textes argumentatifs ; dégager la visée d'une argumentation et en déterminer les présupposés.",
+          "sub_domain": "Littérature — Objets d'étude",
+          "levels": ["2NDE"],
+          "sort_order": 9
+        },
+        {
+          "code": "LY-FR-10",
+          "description": "Objet d'étude — Le roman et le récit du XVIIIe siècle au XXIe siècle (seconde) : étude d'œuvres intégrales de forme et de siècle différents ; approche de l'évolution des formes narratives dans une perspective historique et culturelle.",
+          "sub_domain": "Littérature — Objets d'étude",
+          "levels": ["2NDE"],
+          "sort_order": 10
+        },
+        {
+          "code": "LY-FR-11",
+          "description": "Objet d'étude — Le théâtre du XVIIe siècle au XXIe siècle (seconde et première) : approfondissement de la culture théâtrale ; analyse et interprétation des œuvres dans le contexte de leur création et de leur réception, ainsi que dans l'histoire du genre ; questions de représentation et de mise en scène.",
+          "sub_domain": "Littérature — Objets d'étude",
+          "levels": ["2NDE", "1ERE"],
+          "sort_order": 11
+        },
+        {
+          "code": "LY-FR-12",
+          "description": "Étude d'au moins quatre œuvres intégrales et deux parcours par an en seconde ; mise en relation des œuvres avec les autres arts ; lecture cursive d'au moins trois œuvres distinctes de celles étudiées en cours.",
+          "sub_domain": "Pratiques de lecture",
+          "levels": ["2NDE"],
+          "sort_order": 12
+        },
+        {
+          "code": "LY-FR-13",
+          "description": "Produire des écrits variés : commentaire de texte, dissertation, contraction de texte suivie d'un essai, écrits d'appropriation (pastiches, réécritures, écrits de réaction, notes d'intention de mise en scène, etc.).",
+          "sub_domain": "Expression écrite et orale",
+          "levels": ["2NDE", "1ERE"],
+          "sort_order": 13
+        },
+        {
+          "code": "LY-FR-14",
+          "description": "Développer les compétences de l'expression orale : lire à haute voix, dire un texte de mémoire, exposer sur un auteur ou un mouvement littéraire, participer à un débat, exprimer un jugement personnel et argumenté.",
+          "sub_domain": "Expression écrite et orale",
+          "levels": ["2NDE", "1ERE"],
+          "sort_order": 14
+        },
+        {
+          "code": "LY-FR-15",
+          "description": "Exercices préparant aux épreuves anticipées du baccalauréat : entraînement progressif au commentaire de texte, à la dissertation sur une œuvre, à la contraction de texte, à l'essai et à l'oral.",
+          "sub_domain": "Préparation au baccalauréat",
+          "levels": ["2NDE", "1ERE"],
+          "sort_order": 15
+        }
+      ]
+    },
+    {
+      "code": "HISTOIRE_GEO",
+      "name": "Histoire-Géographie",
+      "sort_order": 2,
+      "competencies": [
+        {
+          "code": "LY-HG-01",
+          "description": "Identifier et nommer les périodes historiques, les continuités et ruptures chronologiques ; identifier et expliciter les dates et acteurs clés des grands événements.",
+          "sub_domain": "Capacités — Repères chronologiques et spatiaux",
+          "levels": ["2NDE", "1ERE", "TLE"],
+          "sort_order": 1
+        },
+        {
+          "code": "LY-HG-02",
+          "description": "Nommer et localiser les grands repères géographiques ainsi que les principaux processus et phénomènes étudiés ; utiliser l'échelle appropriée pour étudier un phénomène ; mettre en œuvre le changement d'échelles (multiscalaire) en géographie.",
+          "sub_domain": "Capacités — Repères chronologiques et spatiaux",
+          "levels": ["2NDE", "1ERE", "TLE"],
+          "sort_order": 2
+        },
+        {
+          "code": "LY-HG-03",
+          "description": "Contextualiser : mettre un événement ou une figure en perspective ; identifier les contraintes et les ressources d'un événement ou d'une situation géographique ; mettre en relation des faits ou événements de natures, de périodes, de localisations différentes.",
+          "sub_domain": "Capacités — Démarche historique et géographique",
+          "levels": ["2NDE", "1ERE", "TLE"],
+          "sort_order": 3
+        },
+        {
+          "code": "LY-HG-04",
+          "description": "Employer les notions et le lexique acquis en histoire et en géographie à bon escient ; transposer un texte en croquis ; réaliser des productions graphiques et cartographiques ; savoir lire, comprendre et apprécier une carte, un croquis, un document iconographique, une série statistique.",
+          "sub_domain": "Capacités — Outils disciplinaires",
+          "levels": ["2NDE", "1ERE", "TLE"],
+          "sort_order": 4
+        },
+        {
+          "code": "LY-HG-05",
+          "description": "Conduire une démarche historique ou géographique et la justifier : s'approprier un questionnement historique et géographique ; construire et vérifier des hypothèses ; justifier des choix, une interprétation, une production.",
+          "sub_domain": "Capacités — Démarche historique et géographique",
+          "levels": ["2NDE", "1ERE", "TLE"],
+          "sort_order": 5
+        },
+        {
+          "code": "LY-HG-06",
+          "description": "Construire une argumentation historique ou géographique : procéder à l'analyse critique d'un document ; utiliser une approche historique ou géographique pour mener une analyse ou construire une argumentation.",
+          "sub_domain": "Capacités — Argumentation",
+          "levels": ["2NDE", "1ERE", "TLE"],
+          "sort_order": 6
+        },
+        {
+          "code": "LY-HG-07",
+          "description": "Utiliser le numérique pour réaliser des cartes, des graphiques, des présentations ; identifier et évaluer les ressources pertinentes en histoire-géographie.",
+          "sub_domain": "Capacités — Numérique",
+          "levels": ["2NDE", "1ERE", "TLE"],
+          "sort_order": 7
+        },
+        {
+          "code": "LY-HG-08",
+          "description": "Histoire seconde — « Grandes étapes de la formation du monde moderne » : comprendre la Méditerranée antique (empreintes grecques et romaines, échanges et conflits médiévaux) ; l'ouverture atlantique et les mutations intellectuelles des XVe-XVIe siècles (humanisme, réforme) ; l'État moderne et les Lumières.",
+          "sub_domain": "Histoire — Contenu seconde",
+          "levels": ["2NDE"],
+          "sort_order": 8
+        },
+        {
+          "code": "LY-HG-09",
+          "description": "Histoire première — « Nations, empires, nationalités (de 1789 aux lendemains de la Première Guerre mondiale) » : comprendre la Révolution française et l'Empire ; l'affirmation des nations en Europe ; la transformation politique et sociale de la France entre la Révolution et la Grande Guerre.",
+          "sub_domain": "Histoire — Contenu première",
+          "levels": ["1ERE"],
+          "sort_order": 9
+        },
+        {
+          "code": "LY-HG-10",
+          "description": "Histoire terminale — À partir de la crise des années 1930 : interroger le jeu des puissances et l'évolution des sociétés jusqu'à nos jours ; totalitarismes, Seconde Guerre mondiale, guerre froide, décolonisation, monde multipolaire.",
+          "sub_domain": "Histoire — Contenu terminale",
+          "levels": ["TLE"],
+          "sort_order": 10
+        },
+        {
+          "code": "LY-HG-11",
+          "description": "Géographie seconde — « Environnement, développement, mobilité : les défis d'un monde en transition » : analyser les dynamiques de population et de développement ; les ressources et contraintes environnementales ; les mobilités dans le monde contemporain.",
+          "sub_domain": "Géographie — Contenu seconde",
+          "levels": ["2NDE"],
+          "sort_order": 11
+        },
+        {
+          "code": "LY-HG-12",
+          "description": "Géographie première — « Les dynamiques d'un monde en recomposition » : analyser les recompositions territoriales liées à la mondialisation ; les inégalités de développement ; les enjeux environnementaux et de développement durable.",
+          "sub_domain": "Géographie — Contenu première",
+          "levels": ["1ERE"],
+          "sort_order": 12
+        },
+        {
+          "code": "LY-HG-13",
+          "description": "Géographie terminale — « La mondialisation : une mise en relation inégale des territoires » : analyser les dynamiques de la mondialisation, les puissances mondiales, et les enjeux géopolitiques contemporains.",
+          "sub_domain": "Géographie — Contenu terminale",
+          "levels": ["TLE"],
+          "sort_order": 13
+        }
+      ]
+    },
+    {
+      "code": "MATHS",
+      "name": "Mathématiques (tronc commun)",
+      "sort_order": 3,
+      "competencies": [
+        {
+          "code": "LY-MA-01",
+          "description": "Chercher et expérimenter — notamment à l'aide d'outils logiciels (Python, tableur, calculatrice) : s'engager dans une recherche mathématique, prendre des initiatives, essayer des pistes et tirer profit de l'erreur.",
+          "sub_domain": "Compétences mathématiques transversales",
+          "levels": ["2NDE", "1ERE", "TLE"],
+          "sort_order": 1
+        },
+        {
+          "code": "LY-MA-02",
+          "description": "Modéliser, faire une simulation, valider ou invalider un modèle : modéliser des situations issues des mathématiques, des autres disciplines ou de la vie courante par des variables, expressions algébriques, équations ou inéquations.",
+          "sub_domain": "Compétences mathématiques transversales",
+          "levels": ["2NDE", "1ERE", "TLE"],
+          "sort_order": 2
+        },
+        {
+          "code": "LY-MA-03",
+          "description": "Représenter, choisir un cadre (numérique, algébrique, géométrique), changer de registre : exploiter les représentations graphiques, les tableaux de valeurs, les expressions algébriques selon la situation.",
+          "sub_domain": "Compétences mathématiques transversales",
+          "levels": ["2NDE", "1ERE", "TLE"],
+          "sort_order": 3
+        },
+        {
+          "code": "LY-MA-04",
+          "description": "Raisonner, démontrer, trouver des résultats partiels et les mettre en perspective : produire des raisonnements par disjonction des cas et par l'absurde ; formuler des implications et des équivalences logiques.",
+          "sub_domain": "Compétences mathématiques transversales",
+          "levels": ["2NDE", "1ERE", "TLE"],
+          "sort_order": 4
+        },
+        {
+          "code": "LY-MA-05",
+          "description": "Calculer, appliquer des techniques et mettre en œuvre des algorithmes : effectuer des calculs numériques ou littéraux mettant en jeu des puissances, des racines carrées, des écritures fractionnaires ; maîtriser les automatismes de calcul.",
+          "sub_domain": "Compétences mathématiques transversales",
+          "levels": ["2NDE", "1ERE", "TLE"],
+          "sort_order": 5
+        },
+        {
+          "code": "LY-MA-06",
+          "description": "Communiquer un résultat par oral ou par écrit, expliquer une démarche : présenter et justifier ses choix, rédiger des solutions de manière rigoureuse.",
+          "sub_domain": "Compétences mathématiques transversales",
+          "levels": ["2NDE", "1ERE", "TLE"],
+          "sort_order": 6
+        },
+        {
+          "code": "LY-MA-07",
+          "description": "Nombres et calculs — Ensemble ℝ des nombres réels : représenter un intervalle de la droite numérique ; donner un encadrement d'amplitude donnée d'un nombre réel par des décimaux ; comprendre la notion de nombre irrationnel (√2, π).",
+          "sub_domain": "Nombres et calculs",
+          "levels": ["2NDE"],
+          "sort_order": 7
+        },
+        {
+          "code": "LY-MA-08",
+          "description": "Nombres et calculs — Divisibilité et calcul littéral : modéliser et résoudre des problèmes mobilisant les notions de multiple, diviseur, nombre premier ; utiliser les règles de calcul sur les puissances entières relatives et les racines carrées ; résoudre une inéquation du premier degré.",
+          "sub_domain": "Nombres et calculs",
+          "levels": ["2NDE"],
+          "sort_order": 8
+        },
+        {
+          "code": "LY-MA-09",
+          "description": "Géométrie — Vecteurs du plan : représenter et manipuler des vecteurs (direction, sens, norme, coordonnées) ; calculer la somme de deux vecteurs et le produit d'un vecteur par un réel ; caractériser alignement et parallélisme par la colinéarité de vecteurs.",
+          "sub_domain": "Géométrie",
+          "levels": ["2NDE"],
+          "sort_order": 9
+        },
+        {
+          "code": "LY-MA-10",
+          "description": "Géométrie — Droites du plan : déterminer une équation de droite à partir de deux points, un point et un vecteur directeur, ou un point et la pente ; déterminer si deux droites sont parallèles ou sécantes ; résoudre un système de deux équations linéaires à deux inconnues.",
+          "sub_domain": "Géométrie",
+          "levels": ["2NDE"],
+          "sort_order": 10
+        },
+        {
+          "code": "LY-MA-11",
+          "description": "Géométrie — Résoudre des problèmes de géométrie plane : calculer des longueurs, des angles, des aires et des volumes ; traiter des problèmes d'optimisation ; utiliser le projeté orthogonal d'un point sur une droite.",
+          "sub_domain": "Géométrie",
+          "levels": ["2NDE"],
+          "sort_order": 11
+        },
+        {
+          "code": "LY-MA-12",
+          "description": "Fonctions — Se constituer un répertoire de fonctions de référence : fonctions carré, inverse, racine carrée, cube ; définitions et courbes représentatives ; pour deux nombres a et b donnés, comparer f(a) et f(b) numériquement ou graphiquement.",
+          "sub_domain": "Fonctions",
+          "levels": ["2NDE"],
+          "sort_order": 12
+        },
+        {
+          "code": "LY-MA-13",
+          "description": "Fonctions — Étudier les variations et les extremums : croissance, décroissance, monotonie d'une fonction définie sur un intervalle ; tableau de variations ; maximum, minimum d'une fonction sur un intervalle ; relier représentation graphique et tableau de variations.",
+          "sub_domain": "Fonctions",
+          "levels": ["2NDE"],
+          "sort_order": 13
+        },
+        {
+          "code": "LY-MA-14",
+          "description": "Fonctions — Modéliser et résoudre des équations et inéquations : résoudre une équation ou une inéquation du type f(x) = k, f(x) < k par des méthodes graphiques, algébriques ou logicielles ; résoudre une équation ou inéquation produit ou quotient à l'aide d'un tableau de signes.",
+          "sub_domain": "Fonctions",
+          "levels": ["2NDE"],
+          "sort_order": 14
+        },
+        {
+          "code": "LY-MA-15",
+          "description": "Statistiques et probabilités — Information chiffrée : proportion, pourcentage d'une sous-population ; évolutions successives et évolution réciproque ; indicateurs de tendance centrale (moyenne pondérée) et de dispersion (écart interquartile, écart type).",
+          "sub_domain": "Statistiques et probabilités",
+          "levels": ["2NDE"],
+          "sort_order": 15
+        },
+        {
+          "code": "LY-MA-16",
+          "description": "Statistiques et probabilités — Modéliser le hasard : définir une loi de probabilité dans le cas fini ; calculer P(A∪B) + P(A∩B) = P(A) + P(B) ; utiliser des arbres et tableaux pour dénombrer ; distinguer nettement le modèle probabiliste abstrait et la situation réelle.",
+          "sub_domain": "Statistiques et probabilités",
+          "levels": ["2NDE"],
+          "sort_order": 16
+        },
+        {
+          "code": "LY-MA-17",
+          "description": "Statistiques et probabilités — Échantillonnage : comprendre la loi des grands nombres (version vulgarisée) ; estimer une probabilité ou une proportion dans une population par une fréquence observée sur un échantillon ; simuler N échantillons de taille n sur Python ou tableur.",
+          "sub_domain": "Statistiques et probabilités",
+          "levels": ["2NDE"],
+          "sort_order": 17
+        },
+        {
+          "code": "LY-MA-18",
+          "description": "Algorithmique et programmation en Python : déclarer des variables (entier, flottant, booléen, chaîne) ; écrire des instructions conditionnelles, des boucles bornées (for) et non bornées (while) ; écrire et appeler des fonctions simples ; passer du langage naturel à Python et inversement.",
+          "sub_domain": "Algorithmique et programmation",
+          "levels": ["2NDE", "1ERE", "TLE"],
+          "sort_order": 18
+        },
+        {
+          "code": "LY-MA-19",
+          "description": "Logique et vocabulaire ensembliste : connaître les notions d'élément d'un ensemble, de sous-ensemble, d'appartenance et d'inclusion, de réunion, d'intersection et de complémentaire ; utiliser les connecteurs logiques « et » et « ou » ; formuler la négation de propositions simples ; mobiliser un contre-exemple.",
+          "sub_domain": "Logique et vocabulaire ensembliste",
+          "levels": ["2NDE"],
+          "sort_order": 19
+        }
+      ]
+    },
+    {
+      "code": "ENSEIGNEMENT_SCIENTIFIQUE",
+      "name": "Enseignement scientifique (tronc commun)",
+      "sort_order": 4,
+      "competencies": [
+        {
+          "code": "LY-ES-01",
+          "description": "Comprendre que la science est une construction humaine en perpétuelle évolution, fondée sur l'observation, l'expérimentation et le raisonnement ; distinguer un fait scientifique d'une opinion.",
+          "sub_domain": "Démarche scientifique",
+          "levels": ["2NDE", "1ERE", "TLE"],
+          "sort_order": 1
+        },
+        {
+          "code": "LY-ES-02",
+          "description": "Analyser des résultats expérimentaux, les interpréter en utilisant des modèles physiques, chimiques ou biologiques ; évaluer des ordres de grandeur et la cohérence des résultats.",
+          "sub_domain": "Démarche scientifique",
+          "levels": ["2NDE", "1ERE", "TLE"],
+          "sort_order": 2
+        },
+        {
+          "code": "LY-ES-03",
+          "description": "Comprendre les enjeux du changement climatique : analyser des données scientifiques sur le réchauffement climatique ; distinguer causes naturelles et anthropiques ; évaluer les impacts et les solutions envisageables.",
+          "sub_domain": "Enjeux planétaires contemporains",
+          "levels": ["2NDE", "1ERE", "TLE"],
+          "sort_order": 3
+        },
+        {
+          "code": "LY-ES-04",
+          "description": "Comprendre les enjeux de la biodiversité : analyser les relations entre biodiversité et fonctionnement des écosystèmes ; identifier les menaces et les mesures de protection.",
+          "sub_domain": "Enjeux planétaires contemporains",
+          "levels": ["2NDE", "1ERE", "TLE"],
+          "sort_order": 4
+        },
+        {
+          "code": "LY-ES-05",
+          "description": "Utiliser des outils numériques pour simuler, modéliser et présenter des phénomènes scientifiques ; employer un tableur ou Python pour traiter des données expérimentales.",
+          "sub_domain": "Outils numériques",
+          "levels": ["2NDE", "1ERE", "TLE"],
+          "sort_order": 5
+        }
+      ]
+    },
+    {
+      "code": "EMC",
+      "name": "Enseignement moral et civique (EMC)",
+      "sort_order": 5,
+      "competencies": [
+        {
+          "code": "LY-EMC-01",
+          "description": "Connaître et comprendre les principes et valeurs de la République française et des démocraties libérales : laïcité, égalité, liberté, fraternité, dignité de la personne humaine.",
+          "sub_domain": "Valeurs républicaines et civiques",
+          "levels": ["2NDE", "1ERE", "TLE"],
+          "sort_order": 1
+        },
+        {
+          "code": "LY-EMC-02",
+          "description": "Comprendre le fonctionnement des institutions démocratiques : séparation des pouvoirs, rôle des élections, droits et devoirs du citoyen, fonctionnement de la Ve République.",
+          "sub_domain": "Institutions et démocratie",
+          "levels": ["2NDE", "1ERE", "TLE"],
+          "sort_order": 2
+        },
+        {
+          "code": "LY-EMC-03",
+          "description": "Développer un jugement moral et éthique : identifier les différentes formes de discrimination et les combattre ; réfléchir aux enjeux éthiques des nouvelles technologies (intelligence artificielle, données personnelles, fake news).",
+          "sub_domain": "Éthique et responsabilité",
+          "levels": ["2NDE", "1ERE", "TLE"],
+          "sort_order": 3
+        },
+        {
+          "code": "LY-EMC-04",
+          "description": "Être capable de participer à un débat argumenté, de respecter la pluralité des opinions dans le cadre des valeurs démocratiques, et d'exercer son esprit critique face aux informations médiatiques.",
+          "sub_domain": "Citoyenneté et engagement",
+          "levels": ["2NDE", "1ERE", "TLE"],
+          "sort_order": 4
+        },
+        {
+          "code": "LY-EMC-05",
+          "description": "Comprendre les enjeux des droits fondamentaux et du droit international : Déclaration des droits de l'Homme, conventions européennes et internationales, rôle des organisations internationales.",
+          "sub_domain": "Droits fondamentaux",
+          "levels": ["2NDE", "1ERE", "TLE"],
+          "sort_order": 5
+        }
+      ]
+    },
+    {
+      "code": "EPS",
+      "name": "Éducation physique et sportive (EPS)",
+      "sort_order": 6,
+      "competencies": [
+        {
+          "code": "LY-EPS-01",
+          "description": "Développer et mobiliser ses ressources pour réaliser la meilleure performance possible : gérer son effort, analyser ses résultats, élaborer et mettre en œuvre un projet d'entraînement individualisé.",
+          "sub_domain": "Performance et activités athlétiques",
+          "levels": ["2NDE", "1ERE", "TLE"],
+          "sort_order": 1
+        },
+        {
+          "code": "LY-EPS-02",
+          "description": "Réaliser une activité artistique ou acrobatique devant un public : concevoir, composer et interpréter une chorégraphie ou un enchaînement gymnique ; argumenter ses choix artistiques.",
+          "sub_domain": "Activités artistiques et gymniques",
+          "levels": ["2NDE", "1ERE", "TLE"],
+          "sort_order": 2
+        },
+        {
+          "code": "LY-EPS-03",
+          "description": "Conduire et maîtriser un affrontement individuel ou collectif : élaborer et appliquer des stratégies collectives, adapter son jeu au rapport de force, arbitrer et respecter les règles.",
+          "sub_domain": "Sports collectifs et de raquette",
+          "levels": ["2NDE", "1ERE", "TLE"],
+          "sort_order": 3
+        },
+        {
+          "code": "LY-EPS-04",
+          "description": "Gérer sa santé et assurer sa sécurité dans la pratique physique : connaître et appliquer les principes d'échauffement, de récupération et de prévention des blessures ; comprendre les effets de l'entraînement sur l'organisme.",
+          "sub_domain": "Santé et sécurité",
+          "levels": ["2NDE", "1ERE", "TLE"],
+          "sort_order": 4
+        },
+        {
+          "code": "LY-EPS-05",
+          "description": "S'adapter à l'environnement naturel ou artificiel : choisir et conduire un déplacement adapté, gérer ses ressources et assurer la sécurité en milieu naturel ou recréé.",
+          "sub_domain": "Activités de plein air",
+          "levels": ["2NDE", "1ERE", "TLE"],
+          "sort_order": 5
+        }
+      ]
+    },
+    {
+      "code": "LANGUES_VIVANTES",
+      "name": "Langues vivantes étrangères — LV1 et LV2 (tronc commun)",
+      "sort_order": 7,
+      "competencies": [
+        {
+          "code": "LY-LV-01",
+          "description": "Compréhension de l'oral — LV1 niveau B2 : comprendre des discours longs et complexes et saisir les implications implicites ; suivre une argumentation complexe ; comprendre des émissions de télévision et des films sans trop d'effort.",
+          "sub_domain": "Compréhension de l'oral",
+          "levels": ["TLE"],
+          "sort_order": 1
+        },
+        {
+          "code": "LY-LV-02",
+          "description": "Compréhension de l'écrit — LV1 niveau B2 : lire des articles et des rapports sur des problèmes contemporains ; comprendre la prose littéraire contemporaine ; identifier des arguments et des points de vue dans des textes complexes.",
+          "sub_domain": "Compréhension de l'écrit",
+          "levels": ["TLE"],
+          "sort_order": 2
+        },
+        {
+          "code": "LY-LV-03",
+          "description": "Expression orale en continu — LV1 niveau B2 : s'exprimer de façon claire et détaillée sur une grande gamme de sujets ; développer un point de vue sur un sujet d'actualité en donnant des avantages et des inconvénients.",
+          "sub_domain": "Expression orale",
+          "levels": ["TLE"],
+          "sort_order": 3
+        },
+        {
+          "code": "LY-LV-04",
+          "description": "Interaction orale — LV1 niveau B2 : communiquer avec un degré de spontanéité tel qu'une interaction avec un locuteur natif ne comporte pas de tension ; prendre une part active à une discussion dans des situations familières et en défendant ses opinions.",
+          "sub_domain": "Interaction orale",
+          "levels": ["TLE"],
+          "sort_order": 4
+        },
+        {
+          "code": "LY-LV-05",
+          "description": "Expression écrite — LV1 niveau B2 : écrire des textes clairs et détaillés sur une grande gamme de sujets ; rédiger un essai ou un rapport en transmettant de l'information ou en exposant des raisons pour ou contre une opinion.",
+          "sub_domain": "Expression écrite",
+          "levels": ["TLE"],
+          "sort_order": 5
+        },
+        {
+          "code": "LY-LV-06",
+          "description": "Compétence culturelle et interculturelle : analyser des textes, images, documents audiovisuels de différentes aires linguistiques et culturelles ; comprendre des faits culturels, historiques et sociaux liés aux pays où la langue est parlée.",
+          "sub_domain": "Culture et civilisation",
+          "levels": ["2NDE", "1ERE", "TLE"],
+          "sort_order": 6
+        }
+      ]
+    }
+  ]
+}
