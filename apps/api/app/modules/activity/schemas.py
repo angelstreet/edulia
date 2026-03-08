@@ -12,6 +12,7 @@ class QuestionChoice(BaseModel):
 
 
 class Question(BaseModel):
+    """Question as stored/returned (no business-logic validation — data may predate rules)."""
     id: str  # UUID string
     text: str
     type: str = "single"  # single | multi | open
@@ -19,8 +20,12 @@ class Question(BaseModel):
     time_limit_s: int | None = None
     points: int = 1
 
+
+class QuestionInput(Question):
+    """Question for create/update requests — enforces choice business rules."""
+
     @model_validator(mode="after")
-    def validate_choices(self) -> "Question":
+    def validate_choices(self) -> "QuestionInput":
         if self.type in ("single", "multi") and len(self.choices) < 2:
             raise ValueError("Questions must have at least 2 choices")
         if self.type == "single":
@@ -36,7 +41,7 @@ class ActivityCreate(BaseModel):
     type: str = "qcm"
     group_id: str | None = None  # UUID as string
     subject_id: str | None = None
-    questions: list[Question] = []
+    questions: list[QuestionInput] = []
     scheduled_at: datetime | None = None
 
 
@@ -46,7 +51,7 @@ class ActivityUpdate(BaseModel):
     status: str | None = None  # draft | published | closed
     group_id: str | None = None
     subject_id: str | None = None
-    questions: list[Question] | None = None
+    questions: list[QuestionInput] | None = None
     scheduled_at: datetime | None = None
     replay_deadline: datetime | None = None
 
