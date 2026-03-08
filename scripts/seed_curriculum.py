@@ -328,7 +328,7 @@ DEMO_OBJECTIVES = [
     # code → (term_name_contains, week_from, week_to, notes, content_type, content_ref, content_label)
     ("C1-MATHS-4_1_2-13", "Trimestre 1", 3, 5,
      "Comptines et jeux de dénombrement avec des objets concrets",
-     "external_url", "https://www.lumni.fr/video/compter-jusqu-a-10",
+     "external_url", "https://www.lumni.fr/recherche?query=compter+maternelle",
      "Lumni — Compter jusqu'à 10"),
     ("C1-MATHS-4_1_2-02", "Trimestre 1", 4, 6,
      "Collections d'objets — constituer une collection de 1 à 5 puis jusqu'à 10",

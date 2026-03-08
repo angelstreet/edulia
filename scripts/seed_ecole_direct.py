@@ -600,8 +600,8 @@ def seed(db: Session):
                 "Activités de regroupement matin — chaque enfant s'exprime sur son week-end",
                 "completed",
                 [
-                    ("external_url", "https://www.lumni.fr/video/compter-jusqu-a-10",
-                     "Lumni — Compter jusqu'à 10 (vidéo)"),
+                    ("external_url", "https://www.lumni.fr/recherche?query=communiquer+oral+maternelle",
+                     "Lumni — Langage oral maternelle"),
                     ("external_url", "https://jeux.lumni.fr",
                      "Jeux Lumni — Maternelle"),
                 ],
@@ -613,8 +613,8 @@ def seed(db: Session):
                 [
                     ("external_url", "https://www.lumni.fr/recherche?query=comptines+maternelle",
                      "Lumni — Comptines et chansons"),
-                    ("audio", "https://www.litteratureaudio.com/livre-audio-gratuit-mp3/jean-de-la-fontaine-110-fables.html",
-                     "Littératureaudio — La Fontaine (110 fables, gratuit)"),
+                    ("audio", "https://www.litteratureaudio.com/livre-audio-gratuit-mp3/piste/jean-de-la-fontaine-la-cigale-et-la-fourmi-version-2",
+                     "Littératureaudio — La Cigale et la Fourmi (audio direct)"),
                 ],
             ),
             (
@@ -633,10 +633,10 @@ def seed(db: Session):
                 [
                     ("external_url", "https://fr.wikisource.org/wiki/Fables_de_La_Fontaine",
                      "Wikisource — Fables de La Fontaine (textes complets, domaine public)"),
-                    ("youtube_embed", "https://www.youtube.com/results?search_query=la+cigale+et+la+fourmi+enfants+animation",
-                     "YouTube — Les P'tits z'Amis : fables animées pour enfants"),
-                    ("audio", "https://www.litteratureaudio.com/livre-audio-gratuit-mp3/jean-de-la-fontaine-110-fables.html",
-                     "Littératureaudio — La Fontaine (audio gratuit)"),
+                    ("youtube_embed", "https://www.youtube.com/watch?v=oHYGwTCm8r0",
+                     "YouTube — La Cigale et la Fourmi (Les P'tits z'Amis, animé)"),
+                    ("audio", "https://www.litteratureaudio.com/livre-audio-gratuit-mp3/piste/jean-de-la-fontaine-la-cigale-et-la-fourmi-version-2",
+                     "Littératureaudio — La Cigale et la Fourmi (audio direct, gratuit)"),
                     ("game", "https://www.lafontaine.net/autour-de-lf/",
                      "lafontaine.net — Jeux : La Fable mystère, jeu des morales"),
                 ],
@@ -646,7 +646,7 @@ def seed(db: Session):
                 "Comptines numériques — 1 à 5 en T1, 1 à 10 en T2",
                 "completed",
                 [
-                    ("external_url", "https://www.lumni.fr/video/compter-jusqu-a-10",
+                    ("external_url", "https://www.lumni.fr/recherche?query=compter+maternelle",
                      "Lumni — Compter jusqu'à 10"),
                     ("game", "https://www.mathador.fr/solo.html",
                      "Mathador Solo — jeu de calcul mental (gratuit)"),
@@ -692,7 +692,7 @@ def seed(db: Session):
                 "Dessin, peinture, collage — un support différent chaque semaine (T1 terminé)",
                 "completed",
                 [
-                    ("external_url", "https://www.lumni.fr/dossier/arts-visuels",
+                    ("external_url", "https://www.lumni.fr/recherche?query=arts+visuels+maternelle",
                      "Lumni — Arts visuels maternelle"),
                 ],
             ),
@@ -701,7 +701,7 @@ def seed(db: Session):
                 "Observation du monde vivant — les animaux de la ferme, puis de la forêt",
                 "completed",
                 [
-                    ("external_url", "https://www.lumni.fr/video/les-parties-du-corps",
+                    ("external_url", "https://www.lumni.fr/recherche?query=corps+humain+maternelle",
                      "Lumni — Le corps humain"),
                     ("external_url", "https://www.reseau-canope.fr",
                      "Réseau Canopé — Les Fondamentaux (vidéos officielles Ministère)"),
@@ -719,7 +719,7 @@ def seed(db: Session):
                 "T3 — Réalisation d'un carnet de dessins du printemps",
                 "planned",
                 [
-                    ("external_url", "https://www.lumni.fr/dossier/arts-visuels",
+                    ("external_url", "https://www.lumni.fr/recherche?query=arts+visuels+maternelle",
                      "Lumni — Arts visuels maternelle"),
                 ],
             ),
