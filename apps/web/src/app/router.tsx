@@ -139,7 +139,7 @@ export const router = createBrowserRouter([
       { path: 'wallet', element: <WalletPage /> },
       { path: 'services', element: <ServicesPage /> },
       { path: 'children', element: <ChildrenPage /> },
-      { path: 'billing', element: <BillingPage /> },
+      { path: 'billing', element: <RoleGuard roles={['admin', 'teacher', 'tutor', 'parent']}><BillingPage /></RoleGuard> },
       { path: 'calendar', element: <CalendarPage /> },
       { path: 'school-life', element: <SchoolLifePage /> },
       { path: 'students', element: <Navigate to="/community" replace /> },
