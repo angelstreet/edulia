@@ -76,7 +76,9 @@ export function AttendancePage() {
     try {
       // Get group members (students)
       const groupRes = await getGroup(selectedGroupId);
-      const members: GroupMember[] = groupRes.data.members || [];
+      const members: GroupMember[] = (groupRes.data.members || []).filter(
+        (m) => m.role === 'member' || m.role === 'student',
+      );
 
       // Get existing attendance records
       const attRes = await getAttendance({ session_id: selectedSessionId, date: selectedDate });
