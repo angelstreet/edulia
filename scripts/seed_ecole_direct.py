@@ -76,7 +76,7 @@ def delete_existing(db: Session):
             return
         tid = str(tenant.id)
         tables = [
-            ("objective_content",  "objective_id IN (SELECT id FROM learning_objectives WHERE tenant_id=:t)"),
+            ("objective_content",  "tenant_id=:t"),
             ("learning_objectives","tenant_id=:t"),
             ("wallet_transactions","wallet_id IN (SELECT id FROM wallets WHERE tenant_id=:t)"),
             ("wallets",            "tenant_id=:t"),
@@ -92,7 +92,7 @@ def delete_existing(db: Session):
             ("thread_participants","thread_id IN (SELECT id FROM threads WHERE tenant_id=:t)"),
             ("threads",            "tenant_id=:t"),
             ("notifications",      "tenant_id=:t"),
-            ("school_life_events", "tenant_id=:t"),
+            ("incidents",          "tenant_id=:t"),
             ("calendar_events",    "tenant_id=:t"),
             ("form_responses",     "form_id IN (SELECT id FROM forms WHERE tenant_id=:t)"),
             ("form_fields",        "form_id IN (SELECT id FROM forms WHERE tenant_id=:t)"),
@@ -107,6 +107,7 @@ def delete_existing(db: Session):
             ("terms",              "academic_year_id IN (SELECT id FROM academic_years WHERE tenant_id=:t)"),
             ("academic_years",     "tenant_id=:t"),
             ("campuses",           "tenant_id=:t"),
+            ("roles",              "tenant_id=:t"),
             ("tenants",            "id=:t"),
         ]
         for table, where in tables:
