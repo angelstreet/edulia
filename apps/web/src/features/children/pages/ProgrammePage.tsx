@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Spinner } from '../../../components/ui/Spinner';
 import { getStudentProgramme, type StudentProgramme, type CurriculumDomain } from '../../../api/curriculum';
-import { ChevronDown, ChevronRight, BookOpen, ExternalLink, Calendar, School, Globe } from 'lucide-react';
+import { ChevronDown, ChevronRight, BookOpen, ExternalLink, Calendar, School, Globe, CheckCircle2, Clock, ListChecks } from 'lucide-react';
 import { cn } from '@/lib/utils';
+
+type Filter = 'all' | 'planned' | 'in_progress' | 'completed';
 
 const DOMAIN_COLORS: Record<string, string> = {
   LANGAGE:    'bg-purple-100 text-purple-800 border-purple-200',
@@ -95,15 +97,29 @@ function flattenComp(c: StudentProgramme['domains'][0]['competencies'][0]) {
   return c;
 }
 
-function DomainBlock({ domain }: { domain: CurriculumDomain }) {
+function DomainBlock({ domain, filter }: { domain: CurriculumDomain; filter: Filter }) {
   const [open, setOpen] = useState(false);
-  const planned = domain.competencies.filter((c) => c.school_plan).length;
   const colorClass = DOMAIN_COLORS[domain.code] ?? 'bg-slate-100 text-slate-800 border-slate-200';
   const dotClass = DOMAIN_DOT[domain.code] ?? 'bg-slate-400';
 
+  // Apply filter
+  const visibleComps = domain.competencies.filter((c) => {
+    if (filter === 'all') return true;
+    if (filter === 'planned') return c.school_plan?.status === 'planned';
+    if (filter === 'in_progress') return c.school_plan?.status === 'in_progress';
+    if (filter === 'completed') return c.school_plan?.status === 'completed';
+    return true;
+  });
+
+  if (visibleComps.length === 0) return null;
+
+  const planned = domain.competencies.filter((c) => c.school_plan?.status === 'planned').length;
+  const inProgress = domain.competencies.filter((c) => c.school_plan?.status === 'in_progress').length;
+  const completed = domain.competencies.filter((c) => c.school_plan?.status === 'completed').length;
+
   // Group by sub_domain
-  const grouped: Record<string, typeof domain.competencies> = {};
-  for (const c of domain.competencies) {
+  const grouped: Record<string, typeof visibleComps> = {};
+  for (const c of visibleComps) {
     const key = c.sub_domain ?? 'Général';
     if (!grouped[key]) grouped[key] = [];
     grouped[key].push(c);
@@ -118,9 +134,11 @@ function DomainBlock({ domain }: { domain: CurriculumDomain }) {
         <div className={cn('w-2.5 h-2.5 rounded-full shrink-0', dotClass)} />
         <div className="flex-1">
           <h3 className="font-semibold text-sm">{domain.name}</h3>
-          <p className="text-xs opacity-70 mt-0.5">
-            {domain.competencies.length} attendus
-            {planned > 0 && ` · ${planned} planifiés par l'école`}
+          <p className="text-xs opacity-70 mt-0.5 flex items-center gap-2">
+            <span>{domain.competencies.length} attendus</span>
+            {completed > 0 && <span className="text-green-700">· {completed} réalisés</span>}
+            {inProgress > 0 && <span className="text-amber-700">· {inProgress} en cours</span>}
+            {planned > 0 && <span>· {planned} planifiés</span>}
           </p>
         </div>
         {open ? <ChevronDown className="w-4 h-4 opacity-60" /> : <ChevronRight className="w-4 h-4 opacity-60" />}
@@ -147,6 +165,7 @@ export function ProgrammePage() {
   const [data, setData] = useState<StudentProgramme | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [filter, setFilter] = useState<Filter>('all');
 
   useEffect(() => {
     if (!studentId) return;
@@ -164,8 +183,12 @@ export function ProgrammePage() {
     </div>
   );
 
-  const totalPlanned = data.domains.reduce((s, d) => s + d.competencies.filter((c) => c.school_plan).length, 0);
-  const totalComps = data.domains.reduce((s, d) => s + d.competencies.length, 0);
+  const allComps = data.domains.flatMap((d) => d.competencies);
+  const totalComps = allComps.length;
+  const totalPlanned = allComps.filter((c) => c.school_plan?.status === 'planned').length;
+  const totalInProgress = allComps.filter((c) => c.school_plan?.status === 'in_progress').length;
+  const totalCompleted = allComps.filter((c) => c.school_plan?.status === 'completed').length;
+  const totalScheduled = totalPlanned + totalInProgress + totalCompleted;
 
   return (
     <div className="space-y-6 max-w-3xl mx-auto">
@@ -210,45 +233,67 @@ export function ProgrammePage() {
         {/* Progress bar */}
         {totalComps > 0 && (
           <div className="px-6 py-4">
-            <div className="flex items-center justify-between text-sm mb-2">
-              <span className="text-slate-600">Objectifs planifiés par l'école</span>
-              <span className="font-semibold text-slate-800">{totalPlanned} / {totalComps}</span>
-            </div>
-            <div className="h-2 rounded-full bg-slate-100 overflow-hidden">
-              <div
-                className="h-full rounded-full bg-blue-500 transition-all"
-                style={{ width: `${Math.round((totalPlanned / totalComps) * 100)}%` }}
-              />
+            <div className="h-2.5 rounded-full bg-slate-100 overflow-hidden flex">
+              <div className="h-full bg-green-500 transition-all" style={{ width: `${Math.round((totalCompleted / totalComps) * 100)}%` }} />
+              <div className="h-full bg-amber-400 transition-all" style={{ width: `${Math.round((totalInProgress / totalComps) * 100)}%` }} />
+              <div className="h-full bg-blue-400 transition-all" style={{ width: `${Math.round((totalPlanned / totalComps) * 100)}%` }} />
             </div>
             <p className="text-xs text-slate-400 mt-1.5">
-              {totalPlanned === 0
+              {totalScheduled === 0
                 ? "L'école n'a pas encore planifié ce programme — contactez l'enseignant."
-                : `${Math.round((totalPlanned / totalComps) * 100)}% des attendus du programme ont été planifiés`}
+                : `${Math.round((totalScheduled / totalComps) * 100)}% des attendus ont été programmés par l'école`}
             </p>
           </div>
         )}
       </div>
 
-      {/* Legend */}
-      <div className="flex flex-wrap gap-3 text-xs text-slate-500">
-        <span className="flex items-center gap-1.5">
-          <span className="inline-block w-2.5 h-2.5 rounded-full bg-blue-500" />
-          Planifié par l'école (cliquer pour détails)
-        </span>
-        <span className="flex items-center gap-1.5">
-          <span className="inline-block w-2.5 h-2.5 rounded-full bg-green-500" />
-          Ressources associées
-        </span>
-        <span className="flex items-center gap-1.5">
-          <span className="inline-block w-2.5 h-2.5 rounded-full bg-slate-300" />
-          Attendu national (non planifié)
-        </span>
+      {/* KPI cards */}
+      <div className="grid grid-cols-4 gap-3">
+        <div className="border rounded-xl p-4 bg-white text-center">
+          <ListChecks className="w-5 h-5 mx-auto text-slate-400 mb-1" />
+          <div className="text-2xl font-bold text-slate-800">{totalComps}</div>
+          <div className="text-xs text-slate-500 mt-0.5">Total programme</div>
+        </div>
+        <div className="border rounded-xl p-4 bg-white text-center">
+          <School className="w-5 h-5 mx-auto text-blue-400 mb-1" />
+          <div className="text-2xl font-bold text-blue-700">{totalPlanned}</div>
+          <div className="text-xs text-slate-500 mt-0.5">Planifiés</div>
+        </div>
+        <div className="border rounded-xl p-4 bg-white text-center">
+          <Clock className="w-5 h-5 mx-auto text-amber-400 mb-1" />
+          <div className="text-2xl font-bold text-amber-600">{totalInProgress}</div>
+          <div className="text-xs text-slate-500 mt-0.5">En cours</div>
+        </div>
+        <div className="border rounded-xl p-4 bg-white text-center">
+          <CheckCircle2 className="w-5 h-5 mx-auto text-green-500 mb-1" />
+          <div className="text-2xl font-bold text-green-700">{totalCompleted}</div>
+          <div className="text-xs text-slate-500 mt-0.5">Réalisés</div>
+        </div>
+      </div>
+
+      {/* Filter */}
+      <div className="flex gap-2 flex-wrap">
+        {([
+          { key: 'all', label: 'Tous' },
+          { key: 'planned', label: 'Planifiés' },
+          { key: 'in_progress', label: 'En cours' },
+          { key: 'completed', label: 'Réalisés' },
+        ] as { key: Filter; label: string }[]).map(({ key, label }) => (
+          <button key={key} onClick={() => setFilter(key)}
+            className={cn('px-4 py-1.5 rounded-full text-sm font-medium border transition',
+              filter === key
+                ? 'bg-slate-800 text-white border-slate-800'
+                : 'bg-white text-slate-600 border-slate-200 hover:border-slate-400'
+            )}>
+            {label}
+          </button>
+        ))}
       </div>
 
       {/* Domains */}
       <div className="space-y-4">
         {data.domains.map((domain) => (
-          <DomainBlock key={domain.id} domain={domain} />
+          <DomainBlock key={domain.id} domain={domain} filter={filter} />
         ))}
       </div>
 
