@@ -96,7 +96,7 @@ function flattenComp(c: StudentProgramme['domains'][0]['competencies'][0]) {
 }
 
 function DomainBlock({ domain }: { domain: CurriculumDomain }) {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const planned = domain.competencies.filter((c) => c.school_plan).length;
   const colorClass = DOMAIN_COLORS[domain.code] ?? 'bg-slate-100 text-slate-800 border-slate-200';
   const dotClass = DOMAIN_DOT[domain.code] ?? 'bg-slate-400';
