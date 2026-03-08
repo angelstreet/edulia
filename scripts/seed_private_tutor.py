@@ -83,6 +83,8 @@ def seed(db):
             # Minimal module set for a private tutor
             "enabled_modules": ["gradebook", "homework", "messaging", "billing", "calendar"],
             "grading_scale": 20,
+            "default_bank_account": "FR76 3000 6000 0112 3456 7890 189",
+            "default_contact_info": "Antoine Rousseau — Cours particuliers\nTél: 06 12 34 56 78 — rousseau.cours@email.fr\nVirement bancaire: FR76 3000 6000 0112 3456 7890 189",
             "labels": {
                 "teacher": "Professeur",
                 "learner": "Élève",

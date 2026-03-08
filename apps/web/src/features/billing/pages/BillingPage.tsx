@@ -13,6 +13,7 @@ import {
 } from '../../../api/billing';
 import { getWallet, type WalletData } from '../../../api/wallet';
 import { getDirectory, type DirectoryUser } from '../../../api/community';
+import { getSettings } from '../../../api/tenant';
 
 const STATUS_COLORS: Record<string, 'default' | 'success' | 'warning' | 'danger'> = {
   draft: 'default', sent: 'warning', paid: 'success', cancelled: 'danger',
@@ -87,6 +88,10 @@ export function BillingPage() {
   useEffect(() => {
     if (!showCreate || !canManage) return;
     getDirectory({ role: 'student' }).then(r => setStudents(r.data || [])).catch(() => {});
+    getSettings().then(r => {
+      if (r.data.default_bank_account) setBankAccount(r.data.default_bank_account);
+      if (r.data.default_contact_info) setContactInfo(r.data.default_contact_info);
+    }).catch(() => {});
   }, [showCreate, canManage]);
 
   function updateItem(index: number, field: keyof LineItem, raw: string) {
