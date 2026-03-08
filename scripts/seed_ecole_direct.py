@@ -683,14 +683,14 @@ def seed(db: Session):
             ),
             (
                 "Se déplacer", "PHYSIQUE", 0, 1, 10,
-                "Motricité globale — parcours en salle de motricité 2x/semaine",
-                "in_progress",
+                "Motricité globale — parcours en salle de motricité 2x/semaine (T1 terminé)",
+                "completed",
                 [],
             ),
             (
                 "Choisir différents outils", "ARTISTIQUE", 0, 3, 9,
-                "Dessin, peinture, collage — un support différent chaque semaine",
-                "in_progress",
+                "Dessin, peinture, collage — un support différent chaque semaine (T1 terminé)",
+                "completed",
                 [
                     ("external_url", "https://www.lumni.fr/dossier/arts-visuels",
                      "Lumni — Arts visuels maternelle"),
@@ -709,9 +709,34 @@ def seed(db: Session):
             ),
             (
                 "Identifier les principales caractéristiques", "MONDE", 1, 10, 14,
-                "Les saisons — automne et hiver observés dans la cour",
+                "Les saisons — printemps et été : observer les changements dans la cour",
                 "planned",
                 [],
+            ),
+            # T3 — planifiés (avril–juin)
+            (
+                "Pratiquer divers usages du dessin", "ARTISTIQUE", 2, 1, 6,
+                "T3 — Réalisation d'un carnet de dessins du printemps",
+                "planned",
+                [
+                    ("external_url", "https://www.lumni.fr/dossier/arts-visuels",
+                     "Lumni — Arts visuels maternelle"),
+                ],
+            ),
+            (
+                "Agir dans l'espace", "PHYSIQUE", 2, 1, 8,
+                "T3 — Jeux collectifs en extérieur et parcours sportif de fin d'année",
+                "planned",
+                [],
+            ),
+            (
+                "Explorer des formes", "MATHS", 2, 3, 8,
+                "T3 — Constructions et assemblages : cubes, briques, puzzles géométriques",
+                "planned",
+                [
+                    ("game", "https://jeux.lumni.fr",
+                     "Jeux Lumni — Géométrie maternelle"),
+                ],
             ),
         ]
 
