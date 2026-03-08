@@ -35,13 +35,14 @@ def _minimal_activity(title: str | None = None, group_id: str | None = None, sub
         "type": "qcm",
         "questions": [
             {
+                "id": str(uuid.uuid4()),
                 "text": "What is 1 + 1?",
                 "type": "single",
                 "choices": [
-                    {"text": "1", "is_correct": False},
-                    {"text": "2", "is_correct": True},
-                    {"text": "3", "is_correct": False},
-                    {"text": "4", "is_correct": False},
+                    {"id": str(uuid.uuid4()), "text": "1", "is_correct": False},
+                    {"id": str(uuid.uuid4()), "text": "2", "is_correct": True},
+                    {"id": str(uuid.uuid4()), "text": "3", "is_correct": False},
+                    {"id": str(uuid.uuid4()), "text": "4", "is_correct": False},
                 ],
                 "time_limit_s": 30,
                 "points": 1,
