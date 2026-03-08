@@ -66,8 +66,8 @@ export const createInvoice = (data: InvoiceCreate) =>
 export const updateInvoice = (id: string, data: { status?: string; notes?: string }) =>
   client.patch<InvoiceData>(`/v1/billing/invoices/${id}`, data);
 
-export const downloadInvoicePdf = (id: string): string =>
-  `/api/v1/billing/invoices/${id}/pdf`;
+export const fetchInvoicePdf = (id: string) =>
+  client.get<Blob>(`/v1/billing/invoices/${id}/pdf`, { responseType: 'blob' });
 
 export const payFromWallet = (id: string, amount_cents: number) =>
   client.post<InvoiceData>(`/v1/billing/invoices/${id}/pay-from-wallet`, { amount_cents });

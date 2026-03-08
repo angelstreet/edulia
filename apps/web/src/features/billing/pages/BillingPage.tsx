@@ -8,7 +8,7 @@ import { Input } from '../../../components/ui/Input';
 import { EmptyState } from '../../../components/ui/EmptyState';
 import { useCurrentUser } from '../../../hooks/useCurrentUser';
 import {
-  getInvoices, createInvoice, updateInvoice, downloadInvoicePdf, payFromWallet,
+  getInvoices, createInvoice, updateInvoice, fetchInvoicePdf, payFromWallet,
   type InvoiceData, type LineItem, type PaymentScheduleEntry,
 } from '../../../api/billing';
 import { getWallet, type WalletData } from '../../../api/wallet';
@@ -68,6 +68,26 @@ export function BillingPage() {
   const [bankAccount, setBankAccount] = useState('');
   const [contactInfo, setContactInfo] = useState('');
   const [submitting, setSubmitting] = useState(false);
+
+  // PDF preview
+  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
+  const [pdfLoading, setPdfLoading] = useState<string | null>(null); // invoice id being loaded
+
+  async function openPdf(invoiceId: string) {
+    setPdfLoading(invoiceId);
+    try {
+      const res = await fetchInvoicePdf(invoiceId);
+      const url = URL.createObjectURL(res.data);
+      setPdfUrl(url);
+    } catch { /**/ } finally {
+      setPdfLoading(null);
+    }
+  }
+
+  function closePdf() {
+    if (pdfUrl) URL.revokeObjectURL(pdfUrl);
+    setPdfUrl(null);
+  }
 
   const fetchAll = useCallback(async () => {
     setLoading(true);
@@ -240,10 +260,11 @@ export function BillingPage() {
                 )}
 
                 <div className="flex gap-2 mt-3 flex-wrap">
-                  <a href={downloadInvoicePdf(inv.id)} target="_blank" rel="noreferrer"
-                    className="text-xs px-2 py-1 border rounded hover:bg-muted">
-                    PDF
-                  </a>
+                  <Button variant="ghost" size="sm"
+                    disabled={pdfLoading === inv.id}
+                    onClick={() => openPdf(inv.id)}>
+                    {pdfLoading === inv.id ? '…' : 'PDF'}
+                  </Button>
                   {canPay && (
                     <Button variant="primary" size="sm" onClick={() => openPay(inv)}>
                       {t('payFromWallet', 'Pay from wallet')}
@@ -416,6 +437,22 @@ export function BillingPage() {
           </div>
         </form>
       </Modal>
+
+      {/* PDF preview modal */}
+      {pdfUrl && (
+        <div className="fixed inset-0 z-50 flex flex-col bg-black/80" onClick={closePdf}>
+          <div className="flex items-center justify-between px-4 py-2 bg-background border-b" onClick={e => e.stopPropagation()}>
+            <span className="text-sm font-medium">Facture PDF</span>
+            <div className="flex gap-2">
+              <a href={pdfUrl} download className="text-xs px-3 py-1 border rounded hover:bg-muted">
+                {t('download', 'Download')}
+              </a>
+              <Button variant="ghost" size="sm" onClick={closePdf}>✕</Button>
+            </div>
+          </div>
+          <iframe src={pdfUrl} className="flex-1 w-full" title="Invoice PDF" onClick={e => e.stopPropagation()} />
+        </div>
+      )}
     </div>
   );
 }
