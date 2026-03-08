@@ -89,9 +89,8 @@ export function BillingPage() {
     if (!showCreate || !canManage) return;
     getDirectory({ role: 'student' }).then(r => setStudents(r.data || [])).catch(() => {});
     getSettings().then(r => {
-      const s = r.data.settings || {};
-      if (s.default_bank_account) setBankAccount(s.default_bank_account);
-      if (s.default_contact_info) setContactInfo(s.default_contact_info);
+      if (r.data.default_bank_account) setBankAccount(r.data.default_bank_account);
+      if (r.data.default_contact_info) setContactInfo(r.data.default_contact_info);
     }).catch(() => {});
   }, [showCreate, canManage]);
 

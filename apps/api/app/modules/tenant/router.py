@@ -37,20 +37,18 @@ def update_tenant_info(
     return update_tenant(db, current_user.tenant_id, **request.model_dump(exclude_unset=True))
 
 
-@router.get("/settings", response_model=TenantSettingsResponse)
+@router.get("/settings")
 def get_settings(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    settings = get_tenant_settings(db, current_user.tenant_id)
-    return TenantSettingsResponse(settings=settings)
+    return get_tenant_settings(db, current_user.tenant_id)
 
 
-@router.patch("/settings", response_model=TenantSettingsResponse)
+@router.patch("/settings")
 def update_settings(
     request: TenantSettingsUpdate,
     current_user: User = Depends(require_permission("admin.tenant.edit")),
     db: Session = Depends(get_db),
 ):
-    settings = update_tenant_settings(db, current_user.tenant_id, request.settings)
-    return TenantSettingsResponse(settings=settings)
+    return update_tenant_settings(db, current_user.tenant_id, request.settings)
