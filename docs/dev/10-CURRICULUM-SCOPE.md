@@ -126,40 +126,77 @@ class ObjectiveContent(Base, TenantMixin):
 
 ---
 
-## Content types and free resources
+## Content types and free resources (verified 2026-03-08)
 
-### Use case 1: Learn to count / read at home (PS age 3)
+**Key principle:** We never host or create content. We are a **content directory** — we link existing free resources to official competencies. Parent clicks "resources" → opens in new tab. We store the link, label, and type.
 
-| Resource | Type | What | Integration |
-|---|---|---|---|
-| **Lumni** (lumni.fr) | video | Gov-backed France TV edu, all levels, Maternelle section | external_url |
-| **jeux.lumni.fr** | game | Browser games by level and subject | external_url |
-| **Mathador Junior** (mathador.fr) | game | Mental math games, Maternelle–CM2 | external_url (iframe-embeddable) |
-| **Khan Academy** (fr.khanacademy.org) | video + exercise | Math, reading, all ages, free | external_url |
-| **France TV Slash** | video | Short educational videos for children | external_url |
-| **1, 2, 3 Codez!** (1234codez.fr) | game | Logic/coding games, Maternelle–Lycée | external_url |
-
-### Use case 2: Poésie Jean de La Fontaine (learn at home)
-
-| Resource | Type | What | Free? |
-|---|---|---|---|
-| **Wikisource.org** | text | Full public domain texts, all fables | ✅ Free |
-| **YouTube** (search "La Cigale et la Fourmi enfants") | video + audio | Many illustrated readings for children | ✅ Free |
-| **Lumni** | video | Official edu videos on La Fontaine | ✅ Free |
-| **litteratureaudio.com** | audio | Free audiobook readings of La Fontaine | ✅ Free |
-| **Bescherelle** / **Ortholud** | game/quiz | French language games, grammar | ✅ Free |
-
-**Key principle:** We never host or create content. We are a **content directory** — we link existing free resources to official competencies. A parent clicks "resources" on a competency, sees the curated links, and opens them in a new tab.
-
-### Content type in our DB
+### Content type enum in our DB
 
 ```
-content_type = "external_url"   → most links (Lumni, YouTube, Wikisource)
-content_type = "audio"          → direct MP3 link (litteratureaudio.com)
-content_type = "text"           → Wikisource poem page
-content_type = "game"           → Mathador, jeux.lumni.fr
-content_type = "activity"       → internal Edulia interactive activity
+content_type = "external_url"   → link to any website (Lumni, Wikisource, Mathador...)
+content_type = "youtube_embed"  → YouTube video with embeddable iframe (standard YT embed)
+content_type = "audio"          → direct audio stream URL (litteratureaudio.com, audiocite.net)
+content_type = "text"           → poem/text page (Wikisource, la-fontaine-ch-thierry.net)
+content_type = "game"           → browser game (jeux.lumni.fr, lafontaine.net, ortholud.com)
+content_type = "activity"       → internal Edulia interactive activity (UUID ref)
 ```
+
+### Use case 1 — Learn to count / read at home (PS, age 3–6)
+
+| Resource | Domain | Type | Ages | Free | Notes |
+|---|---|---|---|---|---|
+| **Lumni** | lumni.fr | video | 3–18 | ✅ | France TV + Radio France official edu platform; 10,000+ videos; gov-backed |
+| **jeux.lumni.fr** | jeux.lumni.fr | game | 3–18 | ✅ | Browser games by level and subject |
+| **Mathador** | mathador.fr | game | 7–14 | ✅ (free solo) | Mental math game by Réseau Canopé (official Ministry publisher); CE1–3ème |
+| **Maître Lucas** | maitrelucas.fr | video | 5–11 | ✅ | #1 French primary school channel, animated, no ads, CP–CM2 |
+| **Khan Academy** | fr.khanacademy.org | video + exercise | 11–18 | ✅ | Maths/sciences focus; YouTube-embeddable videos |
+| **Réseau Canopé — Les Fondamentaux** | reseau-canope.fr | video | 6–15 | ✅ | ~500 animated short films on Maths, French, Sciences (Ministry-made) |
+| **Bescherelle / ortholud.com** | ortholud.com | game | 6–15 | ✅ | Grammar/spelling games, no registration |
+
+### Use case 2 — La Cigale et la Fourmi / poésie La Fontaine
+
+La Fontaine (1621–1695) = **public domain everywhere**. Full coverage, all free.
+
+#### Full text
+| Resource | Domain | Type | Notes |
+|---|---|---|---|
+| **Wikisource — Fables complètes** | fr.wikisource.org | text | All fables, multiple editions, public domain |
+| **la-fontaine-ch-thierry.net** | la-fontaine-ch-thierry.net | text | Illustrated + annotated fables |
+| **lesfables.fr** | lesfables.fr | text + quiz | Full text + 10-question quiz per fable |
+
+#### Audio readings (free, no registration)
+| Resource | Domain | Type | Notes |
+|---|---|---|---|
+| **Littératureaudio.com** | litteratureaudio.com | audio (MP3 stream) | 110 fables, 3h25 total, free, no login |
+| **Audiocite.net** | audiocite.net | audio (MP3 stream) | 1h10 selection, free, no login |
+| **Internet Archive (LibriVox)** | archive.org | audio | Multiple public domain recordings |
+
+#### Video for children (YouTube-embeddable)
+| Resource | Domain | Type | Notes |
+|---|---|---|---|
+| **Les P'tits z'Amis** | YouTube channel | youtube_embed | 3M+ subscribers, animated fables incl. La Fontaine |
+| **Lumni × Philharmonie des enfants** | lumni.fr | external_url | La Fontaine 400th anniversary: 6 songs by artists (Catherine Ringer, Olivia Ruiz, Kery James…) |
+
+#### Games / quizzes on La Fontaine
+| Resource | Domain | Type | Notes |
+|---|---|---|---|
+| **lafontaine.net** | lafontaine.net | game | 3 interactive games: "La Fable mystère", "Le jeu des morales", "Les Fables fantaisistes" |
+| **lesfables.fr** | lesfables.fr | game | Quiz per fable |
+| **webjunior.net** | webjunior.net | game | Child-facing quiz, designed for école primaire |
+
+### Embed capability
+
+| Resource | External link | YouTube iframe | Direct iframe |
+|---|---|---|---|
+| Lumni | ✅ | — | Conditional (ENT-gated — use external_url) |
+| YouTube channels | ✅ | ✅ | — |
+| Khan Academy exercises | ✅ | ✅ (videos only) | ❌ (auth walls) |
+| Mathador | ✅ | — | Not confirmed |
+| Wikisource / text sites | ✅ | — | Works but not designed for it |
+| Audio sites | ✅ | — | Not confirmed |
+| La Fontaine game sites | ✅ | — | Not confirmed |
+
+**Default strategy:** always `external_url` (opens new tab). Upgrade to `youtube_embed` only for YouTube videos — the only reliably embeddable source.
 
 ---
 
