@@ -738,12 +738,12 @@ def seed(db: Session):
             for ctype, cref, label in content_links:
                 db.execute(text("""
                     INSERT INTO objective_content
-                        (id, objective_id, content_type, content_ref, label, created_at)
+                        (id, tenant_id, objective_id, content_type, content_ref, label, created_at)
                     VALUES
-                        (:id, :oid, :ct, :cr, :label, :now)
+                        (:id, :tid, :oid, :ct, :cr, :label, :now)
                     ON CONFLICT DO NOTHING
                 """), {
-                    "id": str(uuid.uuid4()), "oid": str(obj_id),
+                    "id": str(uuid.uuid4()), "tid": str(tid), "oid": str(obj_id),
                     "ct": ctype, "cr": cref, "label": label,
                     "now": datetime.utcnow().isoformat(),
                 })
