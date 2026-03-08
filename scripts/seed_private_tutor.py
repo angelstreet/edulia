@@ -43,34 +43,103 @@ def delete_existing(db):
     tid = str(tenant.id)
     db.close()  # release ORM session before raw ops
 
+    # All tables that reference tenant_id, ordered children-before-parents.
+    # Tables without tenant_id use subquery on a parent that has it.
+    # Unknown/optional tables are safe to include — missing table just errors silently.
     steps = [
+        # ── Indirect refs (no tenant_id, FK to tenant-bound parent) ──────────
         f"DELETE FROM grades WHERE assessment_id IN (SELECT id FROM assessments WHERE tenant_id = '{tid}')",
-        f"DELETE FROM assessments WHERE tenant_id = '{tid}'",
+        f"DELETE FROM activity_attempts WHERE tenant_id = '{tid}'",
+        f"DELETE FROM submissions WHERE homework_id IN (SELECT id FROM homework WHERE tenant_id = '{tid}')",
+        f"DELETE FROM form_responses WHERE form_id IN (SELECT id FROM forms WHERE tenant_id = '{tid}')",
+        f"DELETE FROM wallet_transactions WHERE wallet_id IN (SELECT id FROM wallets WHERE tenant_id = '{tid}')",
+        f"DELETE FROM session_exceptions WHERE session_id IN (SELECT id FROM sessions WHERE tenant_id = '{tid}')",
+        f"DELETE FROM group_memberships WHERE group_id IN (SELECT id FROM groups WHERE tenant_id = '{tid}')",
         f"DELETE FROM messages WHERE thread_id IN (SELECT id FROM threads WHERE tenant_id = '{tid}')",
         f"DELETE FROM thread_participants WHERE thread_id IN (SELECT id FROM threads WHERE tenant_id = '{tid}')",
+        f"DELETE FROM user_roles WHERE user_id IN (SELECT id FROM users WHERE tenant_id = '{tid}')",
+        # ── Direct tenant_id tables ──────────────────────────────────────────
+        f"DELETE FROM grades WHERE assessment_id IN (SELECT id FROM assessments WHERE tenant_id = '{tid}')",
+        f"DELETE FROM assessments WHERE tenant_id = '{tid}'",
+        f"DELETE FROM grade_categories WHERE tenant_id = '{tid}'",
+        f"DELETE FROM attendance_records WHERE tenant_id = '{tid}'",
+        f"DELETE FROM absence_justifications WHERE tenant_id = '{tid}'",
+        f"DELETE FROM incidents WHERE tenant_id = '{tid}'",
+        f"DELETE FROM health_records WHERE tenant_id = '{tid}'",
+        f"DELETE FROM homework WHERE tenant_id = '{tid}'",
+        f"DELETE FROM activities WHERE tenant_id = '{tid}'",
+        f"DELETE FROM live_sessions WHERE tenant_id = '{tid}'",
+        f"DELETE FROM calendar_events WHERE tenant_id = '{tid}'",
+        f"DELETE FROM notifications WHERE tenant_id = '{tid}'",
+        f"DELETE FROM forms WHERE tenant_id = '{tid}'",
+        f"DELETE FROM files WHERE tenant_id = '{tid}'",
+        f"DELETE FROM enrollment_requests WHERE tenant_id = '{tid}'",
+        f"DELETE FROM tutoring_invoices WHERE tenant_id = '{tid}'",
+        f"DELETE FROM tutoring_sessions WHERE tenant_id = '{tid}'",
+        f"DELETE FROM tutoring_packages WHERE tenant_id = '{tid}'",
+        f"DELETE FROM service_subscriptions WHERE tenant_id = '{tid}'",
+        f"DELETE FROM service_catalog WHERE tenant_id = '{tid}'",
+        f"DELETE FROM wallets WHERE tenant_id = '{tid}'",
+        f"DELETE FROM school_invoices WHERE tenant_id = '{tid}'",
         f"DELETE FROM threads WHERE tenant_id = '{tid}'",
         f"DELETE FROM sessions WHERE tenant_id = '{tid}'",
-        f"DELETE FROM group_memberships WHERE group_id IN (SELECT id FROM groups WHERE tenant_id = '{tid}')",
         f"DELETE FROM groups WHERE tenant_id = '{tid}'",
-        f"DELETE FROM school_invoices WHERE tenant_id = '{tid}'",
         f"DELETE FROM relationships WHERE tenant_id = '{tid}'",
-        f"DELETE FROM user_roles WHERE user_id IN (SELECT id FROM users WHERE tenant_id = '{tid}')",
         f"DELETE FROM users WHERE tenant_id = '{tid}'",
         f"DELETE FROM subjects WHERE tenant_id = '{tid}'",
         f"DELETE FROM terms WHERE academic_year_id IN (SELECT id FROM academic_years WHERE tenant_id = '{tid}')",
         f"DELETE FROM academic_years WHERE tenant_id = '{tid}'",
+        f"DELETE FROM rooms WHERE tenant_id = '{tid}'",
         f"DELETE FROM campuses WHERE tenant_id = '{tid}'",
         f"DELETE FROM roles WHERE tenant_id = '{tid}'",
         f"DELETE FROM tenants WHERE id = '{tid}'",
     ]
-    # Each step runs in its own connection+transaction so failures are fully isolated
+    # Each step runs in its own connection+transaction — failures are isolated
     for sql in steps:
         try:
             with engine.connect() as conn:
                 conn.execute(text(sql))
                 conn.commit()
-        except Exception:
-            pass
+        except Exception as e:
+            table = sql.split("FROM")[1].split()[0] if "FROM" in sql else sql
+            print(f"  [skip] {table}: {type(e).__name__}")
+
+    # Verify tenant is gone
+    with engine.connect() as conn:
+        remaining = conn.execute(text(f"SELECT id FROM tenants WHERE id = '{tid}'")).first()
+        if remaining:
+            print("  [ERROR] tenant still exists — tables still holding rows:")
+            # Check every table that could have tenant_id rows
+            for t, col, ref in [
+                ("school_invoices",       "tenant_id", None),
+                ("groups",                "tenant_id", None),
+                ("sessions",              "tenant_id", None),
+                ("assessments",           "tenant_id", None),
+                ("threads",               "tenant_id", None),
+                ("relationships",         "tenant_id", None),
+                ("users",                 "tenant_id", None),
+                ("subjects",              "tenant_id", None),
+                ("academic_years",        "tenant_id", None),
+                ("campuses",              "tenant_id", None),
+                ("roles",                 "tenant_id", None),
+                ("attendance_records",    "tenant_id", None),
+                ("grade_categories",      "tenant_id", None),
+                ("homework",              "tenant_id", None),
+                ("notifications",         "tenant_id", None),
+                ("calendar_events",       "tenant_id", None),
+                ("tutoring_invoices",     "tenant_id", None),
+                ("wallets",               "tenant_id", None),
+            ]:
+                try:
+                    n = conn.execute(text(
+                        f"SELECT COUNT(*) FROM {t} WHERE {col} = '{tid}'"
+                    )).scalar()
+                    if n:
+                        print(f"    BLOCKING: {t} still has {n} row(s)")
+                except Exception:
+                    pass
+            raise RuntimeError(f"Could not delete tenant '{SLUG}' — see BLOCKING tables above")
+
     print(f"Deleted existing tenant '{SLUG}'")
 
 
