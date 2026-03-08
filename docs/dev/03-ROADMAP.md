@@ -39,6 +39,9 @@ Last updated: 2026-03-13
 | absence_justification | ✅ | Parent submits, admin/teacher reviews, SMS on status change |
 | health_records | ✅ | One-to-one per student — allergies, meds, emergency contact, blood type |
 | tutor CRM | ✅ | Session log, packages, invoice generation + PDF download |
+| billing (school invoices) | ✅ | Invoices with ReportLab PDF, sender/recipient addresses, SIRET, in-app viewer, wallet pay |
+| billing (pre-fill) | ✅ | New invoice form auto-fills IBAN/contact from tenant settings |
+| user management roles | ✅ | Admin + tutor can add users; teacher cannot (school admin handles that) |
 
 ### Interactive Teaching (P5) — ✅ Complete (Features 1–6)
 | Feature | Status | What it does |
@@ -147,6 +150,28 @@ Last updated: 2026-03-13
 
 ---
 
+### ✅ DONE: Billing UX + Private Tutor Polish (shipped 2026-03-08)
+
+**Billing module fixes and enhancements:**
+- `GET /v1/billing/invoices` was crashing (500) due to `ur.role.name` — `Role` model has `.code`, not `.name`. Fixed.
+- `GET /v1/tenant/settings` was returning `{settings: {...}}` wrapper but frontend typed it as flat `TenantSettings`. Now returns flat dict directly.
+- PDF served via `GET /v1/billing/invoices/{id}/pdf` requires JWT — replaced bare `<a href>` link with axios blob fetch + in-app iframe overlay + download button.
+- PDF ReportLab layout: added sender block (name, SIRET, address, phone) top-left; recipient box (name, address, phone) top-right; fixed table/header bar overlap by using `wrapOn()` actual height instead of row-count estimate.
+- New invoice form: IBAN and contact info now auto-fill from tenant settings; parent phone field added.
+
+**Attendance filter:**
+- Group members include all roles (tutor, member); `AttendancePage` now filters to `role=member|student` before rendering student rows.
+
+**Seed script (`seed_private_tutor.py --reset`):**
+- `delete_existing()` rewrote to cover ALL TenantMixin tables in FK-safe order; uses per-statement `engine.connect()` with error logging; post-delete verification raises `RuntimeError` if tenant still exists.
+
+**Role / user management:**
+- Tutor role: can access Users page (`admin/users`) to add tutees and parents.
+- Teacher role: removed from Users page — in normal schools, admin/director manages users.
+- `RoleGuard` on `admin/users` route: `['admin', 'tutor']` only.
+
+---
+
 ### 🔵 BACKLOG: Interactive Teaching — Phase D
 
 Game types beyond QCM:
@@ -179,6 +204,7 @@ For tutor accounts (already have role):
 | Enrollment Module | ✅ Shipped 2026-03-11 |
 | PWA + Mobile/Tablet Layout | ✅ Shipped 2026-03-12 |
 | School Gaps + Tutor CRM | ✅ Shipped 2026-03-13 |
+| Billing UX + Private Tutor Polish | ✅ Shipped 2026-03-08 |
 
 ---
 

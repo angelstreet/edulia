@@ -1,15 +1,13 @@
 # Edulia — Handover Document
 
-**Date:** 2026-03-01
+**Last updated:** 2026-03-08
 **Repo:** https://github.com/angelstreet/edulia
 **Live URL:** https://edulia.angelstreet.io
-**Admin login:** admin@edulia.angelstreet.io / ChangeMe123!
+**Detailed roadmap:** `docs/dev/03-ROADMAP.md`
 
 ---
 
-## What has been accomplished
-
-### Infrastructure (all done)
+## Infrastructure
 
 3 dedicated VMs on Proxmox (65.108.14.251) + shared proxy:
 
@@ -18,189 +16,192 @@
 | 120 | 192.168.0.120 | App server | Python 3.11, Node 20, PM2, ClamAV, DocuSeal |
 | 121 | 192.168.0.121 | Database | PostgreSQL 16 (tuned, firewalled) |
 | 122 | 192.168.0.122 | Storage | MinIO (3 buckets), Redis (3 DBs), Prometheus, Grafana |
-| 107 | 192.168.0.107 | Proxy (shared) | Nginx reverse proxy for edulia.angelstreet.io |
+| 107 | 192.168.0.107 | Proxy (shared) | Nginx reverse proxy |
 
-- DNS: Cloudflare A record (orange cloud proxy) → 65.108.14.251
+- DNS: Cloudflare A record → 65.108.14.251
 - SSL: Cloudflare edge + self-signed cert on nginx
-- Monitoring: node_exporter on all 3 VMs, Prometheus + Grafana on VM 122
 
-### Scope 0 — Project Scaffold (done)
+### PM2 processes on VM 120
 
-| Component | What was built |
-|-----------|---------------|
-| Backend (apps/api) | FastAPI app, /api/health, config.py (pydantic-settings), SQLAlchemy engine, TenantMixin base model, Alembic setup, tenant middleware, exception handlers |
-| Frontend (apps/web) | Vite + React + TypeScript, i18n (fr/en), router, AppShell layout (Sidebar, Topbar), LoginPage + DashboardPage placeholders |
-| Shared (packages/shared) | 17 TypeScript type files (user, group, session, grade, attendance, homework, quiz, message, notification, file, billing, tutoring, school-life, enrollment, calendar, common), constants (roles, permissions, modules) |
-| Socket.IO (apps/socketio) | Server on port 3001, JWT auth middleware, Redis pub/sub, notification handlers |
+| Name | What | Port | Status |
+|---|---|---|---|
+| `edulia-api-dev` | uvicorn --reload | 8000 | ✅ online |
+| `edulia-web-dev` | vite dev | 3000 | ✅ online |
+| `edulia-hub` | vite dev (Hub app) | 3021 | ✅ online |
+| `edulia-socketio` | Socket.IO server | 3001 | ✅ online |
+| `edulia-worker` | Celery worker | — | ⚠️ errored |
+| `edulia-beat` | Celery beat | — | ⚠️ errored |
 
-### Scope 1 — Core Auth + RBAC (done)
-
-**Backend:**
-- SQLAlchemy models: Tenant, Campus, AcademicYear, Term, User, Role, UserRole (scope-aware), Relationship
-- Auth: JWT (HS256, 30min access + 7d refresh), bcrypt passwords, login/refresh/forgot-password/reset-password/invite-accept endpoints
-- RBAC: scope-aware permission checking (tenant/campus/group/course), get_current_user + require_permission dependencies
-- Users: Full CRUD (paginated, filtered by role, searchable), soft delete, admin-only create/delete
-- Relationships: Parent-child links, guardian endpoints
-- Utilities: pagination helper, create_tenant.py CLI, Brevo email sender
-- Tests: 20 tests (5 auth + 8 users + 4 RBAC + 3 relationships)
-
-**Frontend:**
-- API client: axios with JWT interceptor (auto-refresh on 401)
-- Stores: authStore (zustand + persist), uiStore
-- Auth pages: Login, ForgotPassword, ResetPassword, AcceptInvite
-- App shell: Sidebar (role-based nav for admin/teacher/student/parent/tutor), Topbar, Breadcrumb, MobileNav
-- Guards: AuthGuard, RoleGuard, ModuleGuard (stub)
-- Admin: UsersPage (table + search + filter + pagination), UserForm modal, ImportCSV placeholder
-- UI components: Button, Input, Select, Modal, Table, Card, Badge, Avatar, Spinner, Toast, Pagination, EmptyState
-
-### Scope 2 — Core Structure + Dashboard (done)
-
-**Backend:**
-- Tenant settings API: GET/PATCH tenant info and settings
-- Academic Year + Term API: CRUD with nested terms
-- Subject API: CRUD (code, name, color, coefficient)
-- Group + Membership API: CRUD groups (class/section/cohort), add/remove members
-- Messaging API: Thread + Message + ThreadParticipant, create/list/reply/mark-read, tenant isolation
-- Notification API: CRUD + engine.py (create_notification + Redis publish)
-- File API: Upload (multipart → MinIO), download (presigned URL), delete, 50MB limit, extension blocking
-- ClamAV scanner integration (exists but not wired into upload flow)
-- Alembic migration for all new models (subjects, groups, group_memberships, threads, thread_participants, messages, notifications, files)
-- Tests: 32 tests (4 tenant + 3 academic_years + 4 subjects + 5 groups + 7 messaging + 4 notifications + 5 files)
-
-**Frontend:**
-- API clients: groups, sessions, messages, notifications, files, tenant, subjects
-- Hooks: useModule, useMessages, usePagination, useTenantBranding
-- Admin pages: ClassesPage (tree view), SubjectsPage (color chips), AcademicYearPage, TenantSettingsPage
-- Dashboard: Role-based rendering (Admin/Teacher/Student/Parent dashboards) with 5 widgets (TodaySchedule, RecentGrades, HomeworkDue, UnreadMessages, AlertsWidget) — all placeholder data
-- Messaging: MessagesPage (split view), ThreadList, ThreadView, ComposeMessage, MessageBubble
-- NotificationPanel: bell icon + unread count + dropdown (polling every 30s, no Socket.IO yet)
-- FileUpload + FilePreview: drag-drop, progress bar, image/PDF/generic previews
-- Router: 5 new routes with guards (/admin/classes, /admin/subjects, /admin/academic-year, /admin/settings, /messages)
-- Sidebar updated per role
-
-### Deployment (done)
-
-- Code pulled to /opt/edulia/backend
-- pip dependencies installed (+ gunicorn, celery added)
-- Alembic migrations: 4 migrations applied (all tables created)
-- Frontend built (Vite, 192 modules)
-- PM2: 3/5 processes online (api, frontend, socketio). Worker + beat stopped (no Celery worker module yet)
-- Tenant seeded: "Mon École" (slug: mon-ecole), admin user created
-- Config fix: added `extra = "ignore"` to pydantic Settings, changed VITE_API_URL to relative `/api`
-- Branding fix: renamed EduCore → Edulia throughout
+Celery worker/beat are errored — background tasks (Stripe auto-debit, low-balance alerts) don't run in current dev mode. Not blocking for dev.
 
 ---
 
-## Current state
+## Two Distinct Products
 
-### What works
-- Login with email/password (JWT tokens)
-- All API endpoints authenticated and functional (tested via curl)
-- Frontend serves through Cloudflare → nginx → PM2
-- Role-based navigation and dashboards
-- Admin can manage users, classes, subjects, academic years, tenant settings
-- Messaging UI (create thread, reply, mark read)
-- Notification panel with polling
-- File upload component (drag-drop)
-- i18n: French (default) + English
+Edulia serves two different business models under one codebase. Tenant type drives which features are relevant:
 
-### What doesn't work yet
-- Worker + Beat (no Celery worker module — no background tasks yet)
-- Socket.IO real-time notifications (polling only)
-- ClamAV not wired into file upload pipeline
-- No actual data beyond the admin user (no students, teachers, classes, etc.)
-- Dashboard widgets show placeholder/mock data
+### 1. School (`school` type) — "Ecole Molière" demo
+
+Full academic management: timetable, attendance, gradebook, homework, report cards, school life, health records, forms, community, calendar, wallet, enrollment, messaging.
+
+**Demo login:** `admin@demo.edulia.io` / `demo2026`
+
+### 2. Private Tutoring Center (`tutoring_center` type) — "Cours Particuliers Rousseau"
+
+Focused on: tutoring CRM (students, sessions, packages), billing (invoices with PDF, IBAN, sender/recipient addresses), wallet.
+
+**Demo login:** `antoine.rousseau@coursprivesrousseau.fr` / `password123`
 
 ---
 
-## What's left to build
+## What's Built (full module list)
 
-### Near-term (scope 3+)
+### Core (all tenant types)
+| Module | Backend | Frontend | Status |
+|---|---|---|---|
+| auth | JWT, refresh, reset, invite | Login, forgot/reset, accept invite | ✅ |
+| users | CRUD, roles, parent-child links | Users page, invite flow | ✅ |
+| groups | CRUD, memberships | Classes page | ✅ |
+| structure | Academic years, terms | Academic year page | ✅ |
+| subjects | CRUD (code, name, color, coeff) | Subjects page | ✅ |
+| messaging | Threads, replies, read receipts | Messages page, thread view | ✅ |
+| files | MinIO upload, presigned download | Documents page (tabbed) | ✅ |
+| settings | Tenant config + branding fields | Settings page | ✅ |
+| notifications | SSE + 30s polling fallback | Bell icon, unread count | ✅ |
+| dashboard | Role-based widgets | 6 role dashboards | ✅ |
 
-| Phase | Feature | Ref |
-|-------|---------|-----|
-| 7 | Timetable (sessions, recurring schedules, room assignment) | PHASES §7 |
-| 8 | Attendance (roll call, daily/session, absence justification) | PHASES §8 |
-| 9 | Gradebook (assessments, grade entry, competency tracking) | PHASES §9 |
-| 10 | Homework (assignments, submissions, grading) | PHASES §10 |
-| 11 | Report cards (PDF generation via WeasyPrint, templates) | PHASES §11 |
+### School modules
+| Module | Status | Notes |
+|---|---|---|
+| timetable | ✅ | Session CRUD, weekly grid, week nav |
+| attendance | ✅ | Roll call, date/group/session selectors; filters non-student members |
+| gradebook | ✅ | Manual grades + QCM bridge, term/subject filters, student names resolved |
+| homework | ✅ | Assign with file/text, student submits, teacher grades |
+| report_cards | ✅ | PDF export via ReportLab, per-subject averages per term |
+| school_life | ✅ | Incidents (type, severity, status), resolve flow |
+| calendar | ✅ | School events, role-filtered, admin CRUD |
+| forms | ✅ | Dynamic builder, fill, results, target roles |
+| community | ✅ | Directory + org chart (class tree, teachers per class) |
+| health_records | ✅ | Allergies, meds, emergency contact, blood type |
+| absence_justification | ✅ | Parent submits, admin/teacher reviews, Twilio SMS on status change |
+| enrollment | ✅ | Parent submits, admin reviews, auto-creates student on approval |
+| wallet | ✅ | Prepaid balance, Stripe top-up, service catalog, subscriptions |
+| parent_portal | ✅ | /children + child selector in grades/dashboard |
 
-### Medium-term
+### Interactive Teaching (all tenant types)
+| Feature | Status |
+|---|---|
+| Async Activity Builder (QCM) | ✅ |
+| Async Attempt + Auto-score | ✅ |
+| Auto-reporting Dashboard | ✅ |
+| Live Session (WebSocket + Redis) | ✅ |
+| Live QCM Real-Time | ✅ |
+| Replay Mode | ✅ |
+| Gradebook ↔ Activity bridge | ✅ |
 
-| Phase | Feature | Ref |
-|-------|---------|-----|
-| 12 | Quizzes (question bank, online quizzes, auto-grading) | PHASES §12 |
-| 13 | School life (incidents, sanctions, rewards, student council) | PHASES §13 |
-| 14 | Tutoring scope (tutors, bookings, payments) | PHASES §14 |
-| 15 | Billing (invoices, payments, Stripe integration) | PHASES §15 |
+### Tutoring Center modules
+| Module | Status | Notes |
+|---|---|---|
+| tutoring CRM | ✅ | Sessions, packages, invoice generation |
+| billing (invoices) | ✅ | PDF with ReportLab; sender (name/SIRET/address/phone), recipient (name/address/phone); in-app viewer + download |
+| billing (form pre-fill) | ✅ | IBAN, contact info from tenant settings auto-populate new invoice form |
 
-### Infrastructure / hardening
-
-| Item | Description |
-|------|-------------|
-| OAuth / SSO | Add Google, Microsoft 365, SAML/OIDC (consider Keycloak for self-hosted) |
-| Celery worker module | Create worker.py for background tasks (email sending, PDF generation, notifications) |
-| Wire ClamAV | Call scanner.scan_file() in file upload service before storing |
-| Socket.IO integration | Connect frontend useNotifications to Socket.IO for real-time push |
-| DB-level constraints | Add unique composite constraint on (tenant_id, email) for users |
-| Tenant scoping audit | Ensure all GET endpoints filter by current user's tenant_id |
-| CORS hardening | Lock down CORS_ORIGINS to actual domain only |
-| Rate limiting | Add rate limiting to auth endpoints |
-| Automated tests | Add Playwright/Cypress E2E tests |
-| CI/CD | GitHub Actions pipeline: lint → test → build → deploy |
-| Backup | PostgreSQL pg_dump cron, MinIO bucket replication |
-| send_template_email | Add template-based email function to email sender |
+### EduliaHub (separate app, port 3021)
+| Module | Status |
+|---|---|
+| Course catalog | ✅ 31 courses, 15 platforms, filter/search |
+| Ratings & reviews | ✅ |
+| Certificates | ✅ |
+| Portfolio | ✅ Public shareable page |
 
 ---
 
-## Architecture overview
+## Role / Permission Model
 
-```
-Internet → Cloudflare CDN → 65.108.14.251:443
-  → Nginx (VM 107) → edulia.angelstreet.io
-    → /           → 192.168.0.120:3000 (React SPA via PM2 serve)
-    → /api/       → 192.168.0.120:8000 (FastAPI via Gunicorn)
-    → /socket.io/ → 192.168.0.120:3001 (Socket.IO)
+| Role | User management | Notes |
+|---|---|---|
+| admin | ✅ Full | School director / org admin |
+| tutor | ✅ Can add tutees + parents | Private tutoring context |
+| teacher | ❌ Read-only | In normal schools, admin manages users |
+| student | ❌ | |
+| parent | ❌ | |
 
-FastAPI (VM 120) → PostgreSQL (VM 121)
-                 → Redis (VM 122) — cache + Socket.IO pub/sub
-                 → MinIO (VM 122) — file storage
-                 → ClamAV (VM 120 Docker) — virus scanning
-                 → DocuSeal (VM 120 Docker) — document signing
+---
+
+## Dev Workflow
+
+```bash
+# Edit code locally, then deploy:
+cd ~/shared/projects/edulia
+./scripts/deploy-dev.sh            # git push → git pull on VM → restart
+./scripts/deploy-dev.sh --migrate  # same + alembic upgrade head
+
+# Run migrations manually on VM:
+ssh edulia-app "cd /opt/edulia/backend/apps/api && \
+  set -a && source /opt/edulia/backend/.env && set +a && \
+  source /opt/edulia/backend/.venv/bin/activate && \
+  alembic upgrade head"
+
+# Seed demo data:
+ssh edulia-app "cd /opt/edulia/backend && source .venv/bin/activate && \
+  python3 scripts/seed_mon_ecole.py"
+ssh edulia-app "cd /opt/edulia/backend && source .venv/bin/activate && \
+  python3 scripts/seed_private_tutor.py"
+ssh edulia-app "cd /opt/edulia/backend && source .venv/bin/activate && \
+  python3 scripts/seed_private_tutor.py --reset"  # wipe + reseed
 ```
 
-## Key files
+**Pre-push hook:** TypeScript check (`tsc --noEmit`) + production build (`npm run build`) — must pass before push.
+
+---
+
+## Known Issues / Tech Debt
+
+| Issue | Where | Status |
+|---|---|---|
+| Celery worker/beat errored | PM2 | ⚠️ Stripe auto-debit + low-balance alerts don't fire; non-blocking for dev |
+| Vite dev server in production | VM port 3000 | Replace with nginx serving dist/ + proxy /api before go-live |
+| WS answer store in-memory | session_ws.py | Fine for single pod; move to Redis for multi-pod scale |
+| Open questions score 0 | activity/scoring.py | Manual grading flow for open QCM is backlog |
+| Cloudflare 100s WS idle timeout | Live sessions | Frontend reconnects on close — acceptable |
+| ClamAV not wired | files upload | Scanner exists but not called in upload pipeline |
+
+---
+
+## Backlog
+
+| Item | Priority | Notes |
+|---|---|---|
+| Interactive Teaching Phase D | P2 | Drag & match, ordering, fill-in-blank, parent-visible results |
+| Tutoring booking calendar | P3 | Tutor availability, student books slot |
+| Tutoring learning plans | P3 | Structured curriculum per student |
+| Document auto-categorization | P2 | Invoices/report cards auto-filed to correct Documents tab |
+| CI/CD pipeline | P2 | GitHub Actions: lint → test → build → deploy |
+| DB-level tenant isolation audit | P1 | Verify all GET endpoints filter by tenant_id |
+| OAuth / SSO | P3 | Google, Microsoft 365, SAML |
+
+---
+
+## Key Files
 
 | File | Purpose |
-|------|---------|
-| apps/api/app/config.py | Backend settings (loads from .env) |
-| apps/api/app/main.py | FastAPI app entry point |
-| apps/api/app/core/dependencies.py | Auth + permission dependencies |
-| apps/api/app/db/models/ | All SQLAlchemy models |
-| apps/api/app/modules/ | API modules (auth, users, tenant, subjects, groups, messaging, notifications, files) |
-| apps/web/src/app/router.tsx | Frontend routing with guards |
-| apps/web/src/stores/authStore.ts | Auth state (zustand) |
-| apps/web/src/api/client.ts | Axios instance with JWT interceptor |
-| apps/web/.env.production | VITE_API_URL=/api |
-| /opt/edulia/backend/.env | Production secrets (VM 120) |
-| /opt/edulia/backend/ecosystem.config.js | PM2 process config |
-| scripts/create_tenant.py | CLI to seed tenant + admin |
+|---|---|
+| `apps/api/app/config.py` | Backend settings |
+| `apps/api/app/core/dependencies.py` | Auth + permission dependencies |
+| `apps/api/app/db/models/` | All SQLAlchemy models |
+| `apps/api/app/modules/` | All API modules |
+| `apps/web/src/app/router.tsx` | Frontend routing + guards |
+| `apps/web/src/stores/authStore.ts` | Auth state (zustand) |
+| `apps/web/src/components/layout/Sidebar.tsx` | Role-based nav |
+| `scripts/seed_mon_ecole.py` | Seed school tenant |
+| `scripts/seed_private_tutor.py` | Seed tutoring center tenant |
+| `docs/dev/03-ROADMAP.md` | Detailed feature roadmap + sprint history |
 
-## Credentials
-
-All secrets live on the VMs — never in docs or repo.
+## SSH Access
 
 ```bash
-ssh edulia-app "cat /opt/edulia/backend/.env"           # Full app config
-ssh edulia-storage "cat /opt/edulia/.env"                # MinIO + Redis + Grafana
-ssh edulia-db "sudo -u postgres psql -d edulia"          # Direct DB access
-```
-
-## SSH access
-
-```bash
-ssh edulia-app       # VM 120
-ssh edulia-db        # VM 121
-ssh edulia-storage   # VM 122
-ssh proxy            # VM 107
+ssh edulia-app       # VM 120 — app server
+ssh edulia-db        # VM 121 — database
+ssh edulia-storage   # VM 122 — MinIO + Redis
+ssh proxy            # VM 107 — nginx
 ```
