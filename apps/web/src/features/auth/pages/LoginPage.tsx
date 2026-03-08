@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 import { useLandingTheme } from '../../../hooks/useLandingTheme';
 import { useAuthStore } from '../../../stores/authStore';
-import { School, BookOpen, Building, ChevronDown, ChevronUp } from 'lucide-react';
+import { School, BookOpen, Building, User, ChevronDown, ChevronUp } from 'lucide-react';
 
 const DEMO_ACCOUNTS = [
   {
@@ -33,6 +33,15 @@ const DEMO_ACCOUNTS = [
     accounts: [
       { label: 'RH Admin', email: 'rh@demo.edulia.io', role: 'Direction RH' },
       { label: 'Employe', email: 'jean.dupont@demo.edulia.io', role: 'Collaborateur' },
+    ],
+  },
+  {
+    category: 'Cours Particuliers Rousseau',
+    icon: User,
+    accounts: [
+      { label: 'Professeur', email: 'prof.rousseau@demo.edulia.io', role: 'Maths' },
+      { label: 'Élève', email: 'leo.martin@demo.edulia.io', role: 'Léo Martin' },
+      { label: 'Parent', email: 'parent.martin@demo.edulia.io', role: "Parent de Léo" },
     ],
   },
 ];
