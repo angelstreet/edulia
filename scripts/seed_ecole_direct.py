@@ -44,17 +44,19 @@ from sqlalchemy import create_engine, text
 from sqlalchemy.orm import Session, sessionmaker
 
 from app.core.security import hash_password
-from app.db.models.user import User, UserRole, Role, Relationship
-from app.db.models.group import Group, GroupMembership
-from app.db.models.tenant import Tenant, Campus
-from app.db.models.academic import AcademicYear, Term, Subject, Room
-from app.db.models.timetable import Session as TimetableSession
-from app.db.models.attendance import AttendanceRecord
-from app.db.models.gradebook import Assessment, Grade, GradeCategory
-from app.db.models.homework import Homework, Submission
-from app.db.models.message import Thread, ThreadParticipant, Message
-from app.db.models.calendar import CalendarEvent
-from app.db.models.school_life import Incident
+from app.db.models import (
+    User, UserRole, Role, Relationship,
+    Group, GroupMembership,
+    Tenant, Campus,
+    AcademicYear, Term, Subject, Room,
+    Session as TimetableSession,
+    AttendanceRecord,
+    Assessment, Grade, GradeCategory,
+    Homework, Submission,
+    Thread, ThreadParticipant, Message,
+    CalendarEvent,
+    Incident,
+)
 
 SLUG = "ecole-direct"
 DEMO_PASSWORD = hash_password("demo2026")
