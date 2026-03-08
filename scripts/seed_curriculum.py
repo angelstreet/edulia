@@ -64,8 +64,8 @@ PDF_SOURCES = {
 
 # C2–Lycée: loaded from pre-built JSON files in scripts/curriculum_data/
 JSON_SOURCES = {
-    "C2":    "FR-C2-2020.json",
-    "C3":    "FR-C3-2020.json",
+    "C2":    "FR-C2-2025.json",   # PDF-extracted from official eduscol (108 competencies)
+    "C3":    "FR-C3-2023.json",   # PDF-extracted from official eduscol (213 competencies)
     "C4":    "FR-C4-2023.json",
     "LYCEE": "FR-LYCEE-2023.json",
 }

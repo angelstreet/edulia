@@ -1,0 +1,2428 @@
+{
+  "code": "FR-MENJ-C3-2023",
+  "name": "Programme du cycle de consolidation (cycle 3)",
+  "country": "FR",
+  "cycle": "3",
+  "year": 2023,
+  "source": "BOEN n°31 du 30 juillet 2020, modifié BOEN n°25 du 22 juin 2023",
+  "levels": [
+    "CM1",
+    "CM2",
+    "6e"
+  ],
+  "domains": [
+    {
+      "code": "FRANCAIS",
+      "name": "Français",
+      "sort_order": 1,
+      "competencies": [
+        {
+          "code": "C3-FRANCAIS-001",
+          "description": "Écouter un récit et manifester sa compréhension en répondant à des questions sans se reporter au texte.",
+          "sub_domain": "Langage oral",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 1
+        },
+        {
+          "code": "C3-FRANCAIS-002",
+          "description": "Dire de mémoire un texte à haute voix.",
+          "sub_domain": "Langage oral",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 2
+        },
+        {
+          "code": "C3-FRANCAIS-003",
+          "description": "Réaliser une courte présentation orale en prenant appui sur des notes ou sur diaporama ou autre outil (numérique par exemple).",
+          "sub_domain": "Langage oral",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 3
+        },
+        {
+          "code": "C3-FRANCAIS-004",
+          "description": "Participer de façon constructive aux échanges avec d’autres élèves dans un groupe pour confronter des réactions ou des points de vue.",
+          "sub_domain": "Langage oral",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 4
+        },
+        {
+          "code": "C3-FRANCAIS-005",
+          "description": "Porter attention aux éléments vocaux - Pratique de jeux d'écoute (pour réagir, pour et gestuels lors de l’audition d’un texte comprendre, etc.). ou d'un message (segmentation, - Écoute à partir de supports variés (textes lus, accentuation, intonation, discrimination messages audio, documents vidéo, leçons entre des sonorités proches…) et magistrales) et dans des situations diverses repérer leurs effets. (écouter un récit, un poème, développer sa",
+          "sub_domain": "Langage oral",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 5
+        },
+        {
+          "code": "C3-FRANCAIS-006",
+          "description": "Mobiliser son attention en fonction d’un sensibilité à la langue ; écouter et voir un but. documentaire, une émission, confronter des",
+          "sub_domain": "Langage oral",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 6
+        },
+        {
+          "code": "C3-FRANCAIS-007",
+          "description": "Identifier et mémoriser des points de vue, analyser une information, informations importantes, leurs etc.). enchaînements, mettre en relation ces - Restitution d'informations entendues. informations, avec les informations - Utilisation d'enregistrements numériques, de implicites. logiciels dédiés pour travailler sur le son,",
+          "sub_domain": "Langage oral",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 7
+        },
+        {
+          "code": "C3-FRANCAIS-008",
+          "description": "Repérer et prendre en compte les entendre et réentendre un propos, une caractéristiques des différents genres lecture, une émission. de discours (récit, compte rendu, - Explicitation des repères pris pour reformulation, exposé, argumentation, comprendre (intonation, identification du etc.), le lexique et les références thème ou des personnages, mots clés, culturelles liés au domaine du message reprises, liens logiques ou chronologiques, ou du texte entendu. etc.).",
+          "sub_domain": "Langage oral",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 8
+        },
+        {
+          "code": "C3-FRANCAIS-009",
+          "description": "Repérer d'éventuelles difficultés de - Activités variées permettant de manifester sa",
+          "sub_domain": "Langage oral",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 9
+        },
+        {
+          "code": "C3-FRANCAIS-010",
+          "description": "Lire, comprendre et interpréter un texte littéraire adapté à son âge et réagir à sa lecture.",
+          "sub_domain": "Langage oral",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 10
+        },
+        {
+          "code": "C3-FRANCAIS-011",
+          "description": "Lire et comprendre des textes et des documents (textes, tableaux, graphiques, schémas, diagrammes, images) pour apprendre dans les différentes disciplines.",
+          "sub_domain": "Langage oral",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 11
+        },
+        {
+          "code": "C3-FRANCAIS-012",
+          "description": "Lire et comprendre des œuvres de plus en plus longues et de plus en plus complexes :",
+          "sub_domain": "Langage oral",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 12
+        },
+        {
+          "code": "C3-FRANCAIS-013",
+          "description": "Écrire un texte d’une à deux pages adapté à son destinataire.",
+          "sub_domain": "Langage oral",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 13
+        },
+        {
+          "code": "C3-FRANCAIS-014",
+          "description": "Après révision, obtenir un texte organisé et cohérent, à la graphie lisible et respectant les régularités orthographiques étudiées au cours du cycle.",
+          "sub_domain": "Langage oral",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 14
+        },
+        {
+          "code": "C3-FRANCAIS-015",
+          "description": "En rédaction de textes dans des contextes variés, maîtriser les accords dans le groupe nominal (déterminant, nom, adjectif), entre le verbe et son sujet dans des cas simples",
+          "sub_domain": "Lecture et compréhension de l'écrit",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 15
+        },
+        {
+          "code": "C3-FRANCAIS-016",
+          "description": "Raisonner pour analyser le sens des mots en contexte et en prenant appui sur la morphologie.",
+          "sub_domain": "Lecture et compréhension de l'écrit",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 16
+        },
+        {
+          "code": "C3-FRANCAIS-017",
+          "description": "Être capable de repérer les principaux constituants d’une phrase simple et complexe.",
+          "sub_domain": "Lecture et compréhension de l'écrit",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 17
+        },
+        {
+          "code": "C3-FRANCAIS-018",
+          "description": "l’ensemble des phonèmes du français et difficultés de décodage, activités des graphèmes associés ; permettant de consolider les",
+          "sub_domain": "Lecture et compréhension de l'écrit",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 18
+        },
+        {
+          "code": "C3-FRANCAIS-019",
+          "description": "la variation et les marques morphologiques correspondances phonèmes-graphèmes. du genre et du nombre, à l'oral et à l'écrit - Activités (observations, classements)",
+          "sub_domain": "Lecture et compréhension de l'écrit",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 19
+        },
+        {
+          "code": "C3-FRANCAIS-020",
+          "description": "Activités (observations, classements)",
+          "sub_domain": "Lecture et compréhension de l'écrit",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 20
+        }
+      ]
+    },
+    {
+      "code": "LANGUES_VIVANTES",
+      "name": "Langues vivantes (étrangères ou régionales)",
+      "sort_order": 2,
+      "competencies": [
+        {
+          "code": "C3-LANGUES_VIVANTES-001",
+          "description": "L'élève est capable de comprendre des mots familiers et des expressions très courantes sur lui-même, sa famille et son environnement immédiat (notamment scolaire).",
+          "sub_domain": "Écouter et comprendre — Niveau A1",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 1
+        },
+        {
+          "code": "C3-LANGUES_VIVANTES-002",
+          "description": "L'élève est capable de comprendre une intervention brève si elle est claire et simple.",
+          "sub_domain": "Écouter et comprendre — Niveau A1",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 2
+        },
+        {
+          "code": "C3-LANGUES_VIVANTES-003",
+          "description": "L'élève est capable de comprendre des mots familiers et des phrases très simples.",
+          "sub_domain": "Écouter et comprendre — Niveau A2",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 3
+        },
+        {
+          "code": "C3-LANGUES_VIVANTES-004",
+          "description": "L'élève est capable de comprendre des textes courts et simples.",
+          "sub_domain": "Écouter et comprendre — Niveau A2",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 4
+        },
+        {
+          "code": "C3-LANGUES_VIVANTES-005",
+          "description": "L'élève est capable d'utiliser des expressions et des phrases simples pour parler de lui et de son environnement immédiat.",
+          "sub_domain": "Lire et comprendre — Niveau A1",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 5
+        },
+        {
+          "code": "C3-LANGUES_VIVANTES-006",
+          "description": "L'élève est capable de produire en termes simples des énoncés sur les gens et les choses.",
+          "sub_domain": "Lire et comprendre — Niveau A1",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 6
+        },
+        {
+          "code": "C3-LANGUES_VIVANTES-007",
+          "description": "L'élève est capable de copier un modèle écrit, d'écrire un court message et de renseigner un questionnaire simple.",
+          "sub_domain": "Lire et comprendre — Niveau A2",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 7
+        },
+        {
+          "code": "C3-LANGUES_VIVANTES-008",
+          "description": "L'élève est capable de produire des énoncés simples et brefs.",
+          "sub_domain": "Lire et comprendre — Niveau A2",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 8
+        },
+        {
+          "code": "C3-LANGUES_VIVANTES-009",
+          "description": "L'élève est capable de communiquer, de façon simple, à condition que l'interlocuteur soit disposé à répéter ou à reformuler ses phrases plus lentement et à l'aider à formuler ce qu'il essaie de dire.",
+          "sub_domain": "Lire et comprendre — Niveau A2",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 9
+        },
+        {
+          "code": "C3-LANGUES_VIVANTES-010",
+          "description": "L'élève est capable d'interagir de façon simple et de reformuler son propos pour s'adapter à l'interlocuteur.",
+          "sub_domain": "Lire et comprendre — Niveau A2",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 10
+        }
+      ]
+    },
+    {
+      "code": "ARTS_PLASTIQUES",
+      "name": "Arts plastiques",
+      "sort_order": 3,
+      "competencies": [
+        {
+          "code": "C3-ARTS_PLASTIQUES-001",
+          "description": "Choisir, organiser et mobiliser des gestes, des outils et des matériaux en fonction des effets qu’ils produisent.",
+          "sub_domain": "Expérimenter, produire, créer",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 1
+        },
+        {
+          "code": "C3-ARTS_PLASTIQUES-002",
+          "description": "Représenter le monde environnant ou donner forme à son imaginaire en explorant divers domaines (dessin, collage,",
+          "sub_domain": "Expérimenter, produire, créer",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 2
+        },
+        {
+          "code": "C3-ARTS_PLASTIQUES-003",
+          "description": "Rechercher une expression personnelle en s’éloignant des stéréotypes.",
+          "sub_domain": "Expérimenter, produire, créer",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 3
+        },
+        {
+          "code": "C3-ARTS_PLASTIQUES-004",
+          "description": "Intégrer l’usage des outils informatiques de travail de l’image et de recherche d’information, au service de la pratique plastique.",
+          "sub_domain": "Expérimenter, produire, créer",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 4
+        },
+        {
+          "code": "C3-ARTS_PLASTIQUES-005",
+          "description": "Identifier les principaux outils et compétences nécessaires à la réalisation d’un projet artistique.",
+          "sub_domain": "Mettre en œuvre un projet artistique",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 5
+        },
+        {
+          "code": "C3-ARTS_PLASTIQUES-006",
+          "description": "Se repérer dans les étapes de la réalisation d’une production plastique individuelle ou collective, anticiper les difficultés",
+          "sub_domain": "Mettre en œuvre un projet artistique",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 6
+        },
+        {
+          "code": "C3-ARTS_PLASTIQUES-007",
+          "description": "Identifier et assumer sa part de responsabilité dans un processus coopératif de création.",
+          "sub_domain": "Mettre en œuvre un projet artistique",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 7
+        },
+        {
+          "code": "C3-ARTS_PLASTIQUES-008",
+          "description": "Adapter son projet en fonction des contraintes de réalisation et de la prise en compte du spectateur.",
+          "sub_domain": "Mettre en œuvre un projet artistique",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 8
+        },
+        {
+          "code": "C3-ARTS_PLASTIQUES-009",
+          "description": "Décrire et interroger à l’aide d’un vocabulaire spécifique ses productions plastiques, celles de ses pairs et des œuvres d’art étudiées en classe.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 9
+        },
+        {
+          "code": "C3-ARTS_PLASTIQUES-010",
+          "description": "Justifier des choix pour rendre compte du cheminement qui conduit de l’intention à la réalisation.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 10
+        },
+        {
+          "code": "C3-ARTS_PLASTIQUES-011",
+          "description": "Formuler une expression juste de ses émotions, en prenant appui sur ses propres réalisations plastiques, celles des autres élèves et des œuvres d’art.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 11
+        },
+        {
+          "code": "C3-ARTS_PLASTIQUES-012",
+          "description": "Repérer, pour les dépasser, certains a priori et stéréotypes culturels et artistiques.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 12
+        },
+        {
+          "code": "C3-ARTS_PLASTIQUES-013",
+          "description": "Identifier quelques caractéristiques qui inscrivent une œuvre 1, 3, 5 d’art dans une aire géographique ou culturelle et dans un temps historique, contemporain, proche ou lointain.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 13
+        },
+        {
+          "code": "C3-ARTS_PLASTIQUES-014",
+          "description": "Décrire des œuvres d’art, en proposer une compréhension personnelle argumentée.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 14
+        },
+        {
+          "code": "C3-ARTS_PLASTIQUES-015",
+          "description": "La représentation plastique et les dispositifs de présentation : les élèves distinguent progressivement ce qui, dans leur désir de reproduire le réel, relève du hasard et ce qui manifeste leurs choix, leur volonté. Afin de compléter de premières acquisitions techniques, ils sont conduits par le professeur à explorer les possibilités créatives liées à la reproduction ou au travail en série, ainsi qu’à l’organisation d’images pour sous-tendre un récit ou un témoignage. Poursuivant le travail entrepris en cycle 2, les élèves sont engagés, chaque fois que possible, à explorer les lieux de présentation de leurs productions plastiques ou d’œuvres, dans l’espace scolaire ou dans des lieux adaptés, pour saisir l’importance des conditions de présentation dans la réception des productions et des œuvres.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 15
+        },
+        {
+          "code": "C3-ARTS_PLASTIQUES-016",
+          "description": "Les fabrications et la relation entre l’objet et l’espace : la pratique bidimensionnelle faisant appel à des techniques mixtes et les fabrications en trois dimensions sont essentielles dans ce cycle. Elles développent chez les élèves l’attention aux choix, aux relations formelles et aux effets plastiques. Les changements multiples de statut imposés aux matériaux et aux objets permettent la compréhension des dimensions artistiques, symboliques ou utilitaires qui leurs sont attachées. La pratique du modelage, de l’assemblage, de la construction et l’approche de l’installation favorisent la sensibilisation à la présence physique de l’œuvre dans l’espace et aux interactions entre celle-ci et le spectateur.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 16
+        },
+        {
+          "code": "C3-ARTS_PLASTIQUES-017",
+          "description": "La matérialité de la production plastique et la sensibilité aux constituants de l’œuvre : les élèves prennent la mesure de la réalité concrète de leurs productions et des œuvres d’art. Ils mesurent les effets sensibles produits par la matérialité des composants et comprennent qu’en art, un objet ou une image peut devenir le matériau d’une nouvelle réalisation. Ils sont également sensibilisés aux enjeux des matériaux employés, qu’il s’agisse de réemploi, de matériaux transformés par la physique ou la chimie, dégradables ou non. Le travail fréquent de matériaux variés permet aux élèves d’identifier et de savoir nommer les notions relevant de leur qualité physique, d’éprouver les effets du geste et de divers outils, de prendre plaisir au dialogue entre les instruments et la matière. La notion même de matériau s’élargit ainsi que la palette de leurs usages. La perception de la relation entre sensation colorée et qualités physiques de la matière colorée s’affine et profite de la découverte d’œuvres contemporaines ou passées significatives des conceptions et des questions relatives à la matérialité et à la couleur.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 17
+        },
+        {
+          "code": "C3-ARTS_PLASTIQUES-018",
+          "description": "L’hétérogénéité et la cohérence plastiques : - Prise en compte des qualités formelles les questions de choix et de relations formelles de matériaux, d’objets ou d’images entre constituants plastiques divers, la qualité dans leur association au profit d’un des effets plastiques induits ; le sens produit effet, d’une organisation, d’une par des techniques mixtes dans les pratiques intention (collage d’éléments bidimensionnelles et dans les fabrications en hétéroclites, association d’images trois dimensions. disparates, intrusion de perturbations,",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 18
+        },
+        {
+          "code": "C3-ARTS_PLASTIQUES-019",
+          "description": "L’invention, la fabrication, les etc.). détournements, les mises en scène des - Modification des qualités physiques objets : création d’objets, intervention sur des d’un objet, expérience de la dimension objets, leur transformation ou manipulation à poétique qui peut ainsi être provoquée. des fins narratives, symboliques ou poétiques ; - Exploration des conditions du la prise en compte des statuts de l’objet déploiement de volumes dans",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 19
+        },
+        {
+          "code": "C3-ARTS_PLASTIQUES-020",
+          "description": "L’espace en trois dimensions : découverte et - Création, fabrication, transformation expérimentation du travail en volume d’objets en lien avec des situations à",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 20
+        },
+        {
+          "code": "C3-ARTS_PLASTIQUES-021",
+          "description": "La réalité concrète d’une production ou - Expérience, observation et d’une œuvre : le rôle de la matérialité dans les interprétation du rôle de la matière effets sensibles que produit une œuvre ; faire dans une pratique plastique : lui l’expérience de la matérialité de l’œuvre, en donner forme, l’éprouver, jouer de ses tirer parti, comprendre qu’en art l’objet et caractéristiques physiques, des l’image peuvent aussi devenir matériau. textures, pour nourrir un projet",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 21
+        },
+        {
+          "code": "C3-ARTS_PLASTIQUES-022",
+          "description": "Les qualités physiques des matériaux : artistique ; identification de la part du caractéristiques des matériaux (matériaux de hasard, de celle de l’intention. récupération, matériaux non transformés, - Exploration des qualités physiques des matériaux issus de transformations physiques matériaux, des médiums et des",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 22
+        },
+        {
+          "code": "C3-ARTS_PLASTIQUES-023",
+          "description": "Les effets du geste et de l’instrument : les des aspects physiques, matériels, qualités plastiques et les effets visuels obtenus gestuels, rythmes, vitesse, étendue ou par la mise en œuvre d’outils, de médiums et profondeur dans son rapport aux de supports variés ; par l’élargissement de la limites, aux bords, à la matérialité du notion d’outil — la main, les brosses et support ou du médium, etc.). pinceaux de caractéristiques et tailles diverses, - Productions engageant des liens entre les chiffons, les éponges, les outils inventés, les qualités de la matière colorée etc. — ; par les dialogues entre les instruments (pigments, substances, liants, siccatifs, et la matière — touche, trace, texture, facture, etc.), ses usages (jus, glacis, griffure, traînée, découpe, coulure, etc. — ; par empâtement, couverture, aplat, plage, l’amplitude ou la retenue du geste, sa maîtrise giclure, etc.) ; les effets induits par les ou son imprévisibilité. supports et les mélanges avec d’autres",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 23
+        },
+        {
+          "code": "C3-ARTS_PLASTIQUES-024",
+          "description": "La matérialité et la qualité de la couleur : la médiums. découverte des relations entre sensation - Observation et analyse d’œuvres ; colorée et qualités physiques de la matière comparaison d’œuvres différentes sur colorée (pigments, substances, liants, siccatifs, une même question ou dans d’autres etc.), des effets induits par les usages (jus, arts ; découverte et observation dans glacis, empâtement, couverture, aplat, plage, l’environnement proche de réalisations giclure, etc.), les supports, les mélanges avec mettant en évidence le rôle de la d’autres médiums ; la compréhension des matérialité et de la couleur. dimensions sensorielles de la couleur, notamment les interrelations entre quantité",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 24
+        }
+      ]
+    },
+    {
+      "code": "EDUCATION_MUSICALE",
+      "name": "Éducation musicale",
+      "sort_order": 4,
+      "competencies": [
+        {
+          "code": "C3-EDUCATION_MUSICALE-001",
+          "description": "Identifier, choisir et mobiliser les techniques vocales et corporelles au service du sens et de l’expression.",
+          "sub_domain": "Éducation musicale",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 1
+        },
+        {
+          "code": "C3-EDUCATION_MUSICALE-002",
+          "description": "Mettre en lien des caractéristiques musicales d’œuvres différentes, les nommer et les présenter en lien avec d’autres savoirs construits par les enseignements (histoire, géographie, français, sciences, etc.).",
+          "sub_domain": "Éducation musicale",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 2
+        },
+        {
+          "code": "C3-EDUCATION_MUSICALE-003",
+          "description": "Explorer les sons de la voix, de l’environnement immédiat et de la nature, imaginer des utilisations musicales, créer des organisations dans le temps d’un ensemble de sons sélectionnés.",
+          "sub_domain": "Éducation musicale",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 3
+        },
+        {
+          "code": "C3-EDUCATION_MUSICALE-004",
+          "description": "Développer sa sensibilité, son esprit critique et s’enrichir de la diversité des goûts personnels et des esthétiques.",
+          "sub_domain": "Éducation musicale",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 4
+        }
+      ]
+    },
+    {
+      "code": "HISTOIRE_ARTS",
+      "name": "Histoire des arts",
+      "sort_order": 5,
+      "competencies": [
+        {
+          "code": "C3-HISTOIRE_ARTS-001",
+          "description": "Décrire une œuvre en identifiant ses principales caractéristiques techniques et formelles à l’aide d’un lexique simple et adapté.",
+          "sub_domain": "Histoire des arts",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 1
+        },
+        {
+          "code": "C3-HISTOIRE_ARTS-002",
+          "description": "Émettre une proposition argumentée, fondée sur quelques grandes caractéristiques d’une œuvre, pour situer celle-ci dans une période et une aire géographique, au risque de l’erreur.",
+          "sub_domain": "Histoire des arts",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 2
+        },
+        {
+          "code": "C3-HISTOIRE_ARTS-003",
+          "description": "Exprimer un ressenti et un avis devant une œuvre, étayés à l’aide d’une première analyse.",
+          "sub_domain": "Histoire des arts",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 3
+        },
+        {
+          "code": "C3-HISTOIRE_ARTS-004",
+          "description": "Se repérer dans un musée ou un centre d’art, adapter son comportement au lieu et identifier la fonction de ses principaux acteurs.",
+          "sub_domain": "Histoire des arts",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 4
+        },
+        {
+          "code": "C3-HISTOIRE_ARTS-005",
+          "description": "Identifier la marque des arts du passé et du présent dans son environnement.",
+          "sub_domain": "Histoire des arts",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 5
+        }
+      ]
+    },
+    {
+      "code": "EPS",
+      "name": "Éducation physique et sportive",
+      "sort_order": 6,
+      "competencies": [
+        {
+          "code": "C3-EPS-001",
+          "description": "Réaliser des efforts et enchaîner plusieurs actions motrices dans différentes familles pour aller plus vite, plus longtemps, plus haut, plus loin.",
+          "sub_domain": "Produire une performance optimale, mesurable à une échéance donnée",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 1
+        },
+        {
+          "code": "C3-EPS-002",
+          "description": "Combiner une course un saut un lancer pour faire la meilleure performance cumulée.",
+          "sub_domain": "Produire une performance optimale, mesurable à une échéance donnée",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 2
+        },
+        {
+          "code": "C3-EPS-003",
+          "description": "Mesurer et quantifier les performances, les enregistrer, les comparer, les classer, les traduire en représentations graphiques.",
+          "sub_domain": "Produire une performance optimale, mesurable à une échéance donnée",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 3
+        },
+        {
+          "code": "C3-EPS-004",
+          "description": "Assumer les rôles de chronométreur et d’observateur.",
+          "sub_domain": "Produire une performance optimale, mesurable à une échéance donnée",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 4
+        },
+        {
+          "code": "C3-EPS-005",
+          "description": "Réaliser, seul ou à plusieurs, un parcours dans plusieurs environnements inhabituels, en milieu naturel aménagé ou artificiel.",
+          "sub_domain": "Adapter ses déplacements à des environnements variés",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 5
+        },
+        {
+          "code": "C3-EPS-006",
+          "description": "Connaître et respecter les règles de sécurité qui s’appliquent à chaque environnement.",
+          "sub_domain": "Adapter ses déplacements à des environnements variés",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 6
+        },
+        {
+          "code": "C3-EPS-007",
+          "description": "Identifier la personne responsable à alerter ou la procédure en cas de problème.",
+          "sub_domain": "Adapter ses déplacements à des environnements variés",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 7
+        },
+        {
+          "code": "C3-EPS-008",
+          "description": "Valider l’attestation scolaire du savoir nager (ASSN), conformément à l’arrêté du 9 juillet",
+          "sub_domain": "Adapter ses déplacements à des environnements variés",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 8
+        },
+        {
+          "code": "C3-EPS-009",
+          "description": "Réaliser en petits groupes deux séquences : une à visée acrobatique destinée à être jugée, une autre à visée artistique destinée à être appréciée et à émouvoir.",
+          "sub_domain": "S'exprimer devant les autres par une prestation artistique et/ou acrobatique",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 9
+        },
+        {
+          "code": "C3-EPS-010",
+          "description": "Savoir filmer une prestation pour la revoir et la faire évoluer.",
+          "sub_domain": "S'exprimer devant les autres par une prestation artistique et/ou acrobatique",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 10
+        },
+        {
+          "code": "C3-EPS-011",
+          "description": "Respecter les prestations des autres et accepter de se produire devant les autres.",
+          "sub_domain": "S'exprimer devant les autres par une prestation artistique et/ou acrobatique",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 11
+        },
+        {
+          "code": "C3-EPS-012",
+          "description": "En situation aménagée ou à effectif réduit,",
+          "sub_domain": "Conduire et maîtriser un affrontement collectif ou interindividuel",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 12
+        },
+        {
+          "code": "C3-EPS-013",
+          "description": "S’organiser tactiquement pour gagner le duel ou le match en identifiant les situations favorables de marque.",
+          "sub_domain": "Conduire et maîtriser un affrontement collectif ou interindividuel",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 13
+        },
+        {
+          "code": "C3-EPS-014",
+          "description": "Maintenir un engagement moteur efficace sur tout le temps de jeu prévu.",
+          "sub_domain": "Conduire et maîtriser un affrontement collectif ou interindividuel",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 14
+        },
+        {
+          "code": "C3-EPS-015",
+          "description": "Respecter les partenaires, les adversaires et l’arbitre.",
+          "sub_domain": "Conduire et maîtriser un affrontement collectif ou interindividuel",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 15
+        },
+        {
+          "code": "C3-EPS-016",
+          "description": "Assurer différents rôles sociaux (joueur, arbitre, observateur) inhérents à l’activité et à l’organisation de la classe.",
+          "sub_domain": "Conduire et maîtriser un affrontement collectif ou interindividuel",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 16
+        },
+        {
+          "code": "C3-EPS-017",
+          "description": "Accepter le résultat de la rencontre et être capable de le commenter.",
+          "sub_domain": "Conduire et maîtriser un affrontement collectif ou interindividuel",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 17
+        }
+      ]
+    },
+    {
+      "code": "EMC",
+      "name": "Enseignement moral et civique",
+      "sort_order": 7,
+      "competencies": [
+        {
+          "code": "C3-EMC-001",
+          "description": "Respecter autrui :",
+          "sub_domain": "Respecter autrui",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 1
+        },
+        {
+          "code": "C3-EMC-002",
+          "description": "Partager et réguler des émotions, des sentiments dans des situations et à propos d’objets diversifiés, mobiliser le vocabulaire adapté à leur expression.",
+          "sub_domain": "Respecter autrui",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 2
+        },
+        {
+          "code": "C3-EMC-003",
+          "description": "Comprendre les notions de droits, de devoirs et de règles, pour les appliquer et les accepter.",
+          "sub_domain": "Acquérir et partager les valeurs de la République",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 3
+        },
+        {
+          "code": "C3-EMC-004",
+          "description": "Connaître les valeurs, les principes et les symboles de la République française, de l’Union européenne et des sociétés démocratiques.",
+          "sub_domain": "Acquérir et partager les valeurs de la République",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 4
+        },
+        {
+          "code": "C3-EMC-005",
+          "description": "Identifier et connaître les cadres d’une société démocratique.",
+          "sub_domain": "Acquérir et partager les valeurs de la République",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 5
+        },
+        {
+          "code": "C3-EMC-006",
+          "description": "Se positionner comme membre de la collectivité.",
+          "sub_domain": "Construire une culture civique",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 6
+        },
+        {
+          "code": "C3-EMC-007",
+          "description": "Prendre en charge des aspects de la vie collective et de l’environnement et développer une conscience civique, y compris dans sa dimension écologique.",
+          "sub_domain": "Construire une culture civique",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 7
+        },
+        {
+          "code": "C3-EMC-008",
+          "description": "Exercer une aptitude à la réflexion critique pour construire son jugement.",
+          "sub_domain": "Construire une culture civique",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 8
+        },
+        {
+          "code": "C3-EMC-009",
+          "description": "Écouter autrui et justifier un point de vue au cours d’une conversation, d’un débat ou d’un dialogue.",
+          "sub_domain": "Construire une culture civique",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 9
+        }
+      ]
+    },
+    {
+      "code": "HISTOIRE_GEO",
+      "name": "Histoire et géographie",
+      "sort_order": 8,
+      "competencies": [
+        {
+          "code": "C3-HISTOIRE_GEO-001",
+          "description": "Situer chronologiquement des grandes périodes historiques.",
+          "sub_domain": "Se repérer dans le temps : construire des repères historiques",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 1
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-002",
+          "description": "Ordonner des faits les uns par rapport aux autres et les situer dans une époque ou une période donnée.",
+          "sub_domain": "Se repérer dans le temps : construire des repères historiques",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 2
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-003",
+          "description": "Manipuler et réinvestir le repère historique dans différents contextes.",
+          "sub_domain": "Se repérer dans le temps : construire des repères historiques",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 3
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-004",
+          "description": "Utiliser des documents donnant à voir une représentation du temps (dont les frises chronologiques), à différentes échelles, et le lexique relatif au découpage du temps et suscitant la mise en perspective des faits.",
+          "sub_domain": "Se repérer dans le temps : construire des repères historiques",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 4
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-005",
+          "description": "Mémoriser les repères historiques liés au programme et savoir les mobiliser dans différents contextes.",
+          "sub_domain": "Se repérer dans le temps : construire des repères historiques",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 5
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-006",
+          "description": "Nommer et localiser les grands repères géographiques.",
+          "sub_domain": "Se repérer dans l'espace : construire des repères géographiques",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 6
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-007",
+          "description": "Nommer et localiser un lieu dans un espace géographique.",
+          "sub_domain": "Se repérer dans l'espace : construire des repères géographiques",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 7
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-008",
+          "description": "Nommer, localiser et caractériser des espaces.",
+          "sub_domain": "Se repérer dans l'espace : construire des repères géographiques",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 8
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-009",
+          "description": "Situer des lieux et des espaces les uns par rapport aux autres.",
+          "sub_domain": "Se repérer dans l'espace : construire des repères géographiques",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 9
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-010",
+          "description": "Appréhender la notion d’échelle géographique.",
+          "sub_domain": "Se repérer dans l'espace : construire des repères géographiques",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 10
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-011",
+          "description": "Mémoriser les repères géographiques liés au programme et savoir les mobiliser dans différents contextes.",
+          "sub_domain": "Se repérer dans l'espace : construire des repères géographiques",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 11
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-012",
+          "description": "Poser des questions, se poser des questions.",
+          "sub_domain": "Raisonner, justifier une démarche et les choix effectués",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 12
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-013",
+          "description": "Formuler des hypothèses.",
+          "sub_domain": "Raisonner, justifier une démarche et les choix effectués",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 13
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-014",
+          "description": "Connaître différents systèmes d’information, les utiliser.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 14
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-015",
+          "description": "Trouver, sélectionner et exploiter des informations dans une 1, 2 ressource numérique.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 15
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-016",
+          "description": "Identifier la ressource numérique utilisée.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 16
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-017",
+          "description": "Comprendre le sens général d’un document.",
+          "sub_domain": "Comprendre un document",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 17
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-018",
+          "description": "Identifier le document et savoir pourquoi il doit être identifié.",
+          "sub_domain": "Comprendre un document",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 18
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-019",
+          "description": "Extraire des informations pertinentes pour répondre à une 1, 2 question.",
+          "sub_domain": "Comprendre un document",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 19
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-020",
+          "description": "Savoir que le document exprime un point de vue, identifier et questionner le sens implicite d’un document.",
+          "sub_domain": "Comprendre un document",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 20
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-021",
+          "description": "Écrire pour structurer sa pensée et son savoir, pour argumenter et écrire pour communiquer et échanger.",
+          "sub_domain": "Pratiquer différents langages en histoire et en géographie",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 21
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-022",
+          "description": "Reconnaître un récit historique.",
+          "sub_domain": "Pratiquer différents langages en histoire et en géographie",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 22
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-023",
+          "description": "S’exprimer à l’oral pour penser, communiquer et échanger.",
+          "sub_domain": "Pratiquer différents langages en histoire et en géographie",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 23
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-024",
+          "description": "S’approprier et utiliser un lexique historique et géographique approprié.",
+          "sub_domain": "Pratiquer différents langages en histoire et en géographie",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 24
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-025",
+          "description": "Réaliser ou compléter des productions graphiques.",
+          "sub_domain": "Pratiquer différents langages en histoire et en géographie",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 25
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-026",
+          "description": "Utiliser des cartes analogiques et numériques à différentes échelles, des photographies de paysages ou de lieux.",
+          "sub_domain": "Pratiquer différents langages en histoire et en géographie",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 26
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-027",
+          "description": "Organiser son travail dans le cadre d’un groupe pour élaborer une tâche commune et/ou une production collective et mettre à la disposition des autres ses compétences et ses connaissances.",
+          "sub_domain": "Coopérer et mutualiser",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 27
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-028",
+          "description": "Travailler en commun pour faciliter les apprentissages individuels.",
+          "sub_domain": "Coopérer et mutualiser",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 28
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-029",
+          "description": "Apprendre à utiliser les outils numériques qui peuvent conduire à des réalisations collectives.",
+          "sub_domain": "Coopérer et mutualiser",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 29
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-030",
+          "description": "Quelles traces d’une À partir de l’exploration des espaces familiers des élèves déjà occupation ancienne du réalisée au cycle 2, on identifie des traces spécifiques de la territoire français ? préhistoire et de l’histoire dans leur environnement proche,",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 30
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-031",
+          "description": "Celtes, Gaulois, Grecs et pour situer ces traces dans le temps et construire des repères",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 31
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-032",
+          "description": "Les grands mouvements différentes relevées dans un autre lieu en France, pour montrer et déplacements de l’ancienneté du peuplement et la pluralité des héritages. populations (IVe-Xe",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 32
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-033",
+          "description": "Clovis et Charlemagne,",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 33
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-034",
+          "description": "Louis IX, le « roi Comme l’objectif du cycle 3 est de construire quelques chrétien » au XIIIe siècle. premiers grands repères de l’histoire de France, l’étude de la",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 34
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-035",
+          "description": "François Ier, un protecteur monarchie capétienne se centre sur le pouvoir royal, ses des Arts et des Lettres à permanences et sur la construction territoriale du royaume de la Renaissance. France, y compris via des jeux d’alliance, dont la mention",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 35
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-036",
+          "description": "Henri IV et l’édit de permet de présenter aux élèves quelques figures féminines",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 36
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-037",
+          "description": "Louis XIV, le roi Soleil à Catherine de Médicis. Les élèves découvrent ainsi des",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 37
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-038",
+          "description": "De l’année 1789 à La Révolution française marque une rupture fondamentale l’exécution du roi : Louis dans l’ordre monarchique établi et on présente bien Louis XVI",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 38
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-039",
+          "description": "Napoléon Bonaparte, du économiques, sociales, intellectuelles et politiques de la général à l’Empereur, de Révolution. Cette première approche de la période la Révolution à l’Empire. révolutionnaire doit permettre aux élèves de comprendre quelques éléments essentiels du changement et d’en repérer quelques étapes clés (année 1789, abolition de la royauté, proclamation de la première République et exécution du roi).",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 39
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-040",
+          "description": "1892 : la République fête L’étude du centenaire de la République célébré en 1892 est ses cent ans. mise en perspective pour montrer que les Français ont vécu",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 40
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-041",
+          "description": "L’école primaire au temps différentes expériences politiques depuis la Révolution y de Jules Ferry. compris celles ayant suscité conflits et violences (1830,",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 41
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-042",
+          "description": "Des républiques, une 1870). Les cérémonies mettent en scène les symboles démocratie : des libertés, républicains. On montre aux élèves que pendant cette période des droits et des devoirs. s’enclenche également un nouveau processus de colonisation.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 42
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-043",
+          "description": "Les énergies majeures de Parmi les sujets d’étude proposés, le professeur en choisit l’âge industriel (charbon deux. Les entrées concrètes doivent être privilégiées pour puis pétrole) et les saisir les nouveaux modes et lieux de production. machines.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 43
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-044",
+          "description": "Le travail à la mine, à dans la durée, qui touche tous les secteurs de la production et l’usine, à l’atelier, au qui entraîne des évolutions des mondes urbain et rural et de grand magasin. profonds changements sociaux et environnementaux.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 44
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-045",
+          "description": "La ville industrielle.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 45
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-046",
+          "description": "Le monde rural.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 46
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-047",
+          "description": "Deux guerres mondiales À partir des traces de la Grande Guerre et de la Seconde au vingtième siècle. Guerre mondiale dans l’environnement des élèves (lieux de",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 47
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-048",
+          "description": "La construction mémoire et du souvenir, paysages montrant les européenne. reconstructions, dates de commémoration), on présente l’ampleur des deux conflits en les situant dans leurs contextes européen et mondial.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 48
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-049",
+          "description": "Les débuts de l’humanité. L’étude de la préhistoire permet d’établir, en dialogue avec",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 49
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-050",
+          "description": "La « révolution » d’autres champs disciplinaires, des faits scientifiques, avant la néolithique. découverte des mythes polythéistes et des récits sur les",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 50
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-051",
+          "description": "Premiers États, premières origines du monde et de l’humanité proposés par les religions écritures. monothéistes.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 51
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-052",
+          "description": "Le monde des cités Ce thème propose une étude croisée de faits religieux, grecques. replacés dans leurs contextes culturels et géopolitiques. Le",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 52
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-053",
+          "description": "Rome du mythe à professeur s’attache à en montrer les dimensions l’histoire. synchroniques et/ou diachroniques. Toujours dans le souci de",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 53
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-054",
+          "description": "La naissance du distinguer histoire et fiction, le thème permet à l’élève de monothéisme juif dans un confronter à plusieurs reprises faits historiques et croyances. monde polythéiste. Les récits mythiques et bibliques sont mis en relation avec les découvertes archéologiques.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 54
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-055",
+          "description": "Conquêtes, paix romaine Lors de la première année du cycle 3 a été abordée la et romanisation. conquête de la Gaule par César. L’enchaînement des",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 55
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-056",
+          "description": "Des chrétiens dans conquêtes aboutit à la constitution d’un vaste empire marqué l’empire. par la diversité des sociétés et des cultures qui le composent.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 56
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-057",
+          "description": "Les relations de l’empire Son unité est assurée par le pouvoir impérial, la romanisation romain avec les autres et le mythe prestigieux de l’Urbs. mondes anciens :",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 57
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-058",
+          "description": "Identifier les Ce thème introducteur réinvestit la lecture des paysages du caractéristiques de quotidien de l’élève et la découverte de son environnement mon(mes) lieu(x) de vie. proche, réalisées au cycle 2, pour élargir ses horizons. C’est",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 58
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-059",
+          "description": "Localiser mon (mes) l’occasion de mobiliser un vocabulaire de base lié à la fois à la lieu(x) de vie et le(s) description des milieux (relief, hydrologie, climat, végétation) situer à différentes et à celle des formes d’occupation humaine (ville, campagne, échelles. activités…). L’acquisition de ce vocabulaire géographique se poursuivra tout au long du cycle.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 59
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-060",
+          "description": "Dans des espaces Le thème permet aux élèves de sortir de l’espace vécu et urbains. d’appréhender d’autres espaces. En privilégiant les outils du",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 60
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-061",
+          "description": "Dans un espace géographe (documents cartographiques, photographies, touristique. systèmes d’information géographique), les élèves apprennent à identifier et à caractériser des espaces et leurs fonctions. Ils comprennent que les actes du quotidien s’accomplissent dans des espaces qui sont organisés selon différentes logiques et nécessitent des déplacements. Le travail sur un espace touristique montre par ailleurs qu’on peut habiter un lieu de façon temporaire et il permet d’observer la cohabitation de divers acteurs. Ils découvrent la spécificité des espaces de production.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 61
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-062",
+          "description": "Satisfaire les besoins en Consommer renvoie à un autre acte quotidien accompli dans énergie, en eau. le lieu habité afin de satisfaire des besoins individuels et",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 62
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-063",
+          "description": "Satisfaire les besoins collectifs. L’étude permet d’envisager d’autres usages de ce alimentaires. lieu, d’en continuer l’exploration des fonctions et des réseaux et de faire intervenir d’autres acteurs. Satisfaire les besoins en énergie, en eau et en produits alimentaires soulève des problèmes géographiques liés à la question des ressources et de leur gestion : production, approvisionnement, distribution, exploitation sont envisagés à partir de cas simples qui permettent de repérer la géographie souvent complexe de la trajectoire d’un produit lorsqu’il arrive chez le consommateur.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 63
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-064",
+          "description": "Se déplacer au quotidien Les thèmes traités en CM1 ont introduit l’importance des en France. déplacements. En s’appuyant sur les exemples de mobilité",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 64
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-065",
+          "description": "Se déplacer au quotidien déjà abordés et en proposant de nouvelles situations, on dans un autre lieu du étudie les modes et réseaux de transport utilisés par les monde. habitants dans leur quotidien ou dans des déplacements plus",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 65
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-066",
+          "description": "Se déplacer de ville en lointains. L’élève découvre aussi les aménagements liés aux ville, en France, en infrastructures de communication. On étudie différents types",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 66
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-067",
+          "description": "Déplacement et mobilités. développement durable",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 67
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-068",
+          "description": "Un monde de réseaux. À partir des usages personnels de l’élève de l’Internet et des",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 68
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-069",
+          "description": "Un habitant connecté au activités proposées pour développer la compétence monde. « S’informer dans le monde du numérique », on propose à",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 69
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-070",
+          "description": "Des habitants l’élève de réfléchir sur le fonctionnement de ce réseau. On inégalement connectés découvre les infrastructures matérielles nécessaires au dans le monde. fonctionnement et au développement de l’Internet. Ses usages définissent un nouveau rapport à l’espace et au temps caractérisé par l’immédiateté et la proximité. Ils questionnent la citoyenneté. On constate les inégalités d’accès à l’Internet en France et dans le monde.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 70
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-071",
+          "description": "Favoriser la place de la Améliorer le cadre de vie et préserver l’environnement sont au",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 71
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-072",
+          "description": "Recycler. l’échelle des territoires de proximité (quartier, commune,",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 72
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-073",
+          "description": "Habiter un écoquartier. métropole, région), des cas de réalisations ou des projets qui contribuent au « mieux habiter ». La place réservée dans la ville aux espaces verts, aux circulations douces, aux berges et corridors verts, au développement de la biodiversité, le recyclage au-delà du tri des déchets, l’aménagement d’un écoquartier sont autant d’occasions de réfléchir aux choix des acteurs dans les politiques de développement durable.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 73
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-074",
+          "description": "Les métropoles et leurs La métropolisation est une caractéristique majeure de habitants. l’évolution géographique du monde contemporain et ce thème",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 74
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-075",
+          "description": "La ville de demain. doit donner les premières bases de connaissances à l’élève, qui seront remobilisées en classe de 4ème.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 75
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-076",
+          "description": "Habiter un espace à Certains espaces présentent des contraintes particulières pour forte(s) contrainte(s) l’occupation humaine. Les sociétés, suivant leurs traditions naturelle(s) ou/et de culturelles et les moyens dont elles disposent, s’y adaptent grande biodiversité. différemment. On mettra en évidence les représentations dont",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 76
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-077",
+          "description": "Habiter un espace de ces espaces sont parfois l’objet ainsi que les dynamiques qui faible densité à vocation leur sont propres, notamment en matière de biodiversité. agricole.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 77
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-078",
+          "description": "Littoral industrialo- Les littoraux concentrent une part accrue de la population portuaire, littoral mondiale et sont des espaces aménagés pour des usages et touristique. pratiques très variés. La question porte plus spécifiquement sur les espaces littoraux à vocation industrialo-portuaire et/ou touristique. Les types d’activités, les choix et les capacités d’aménagement, les conditions naturelles, leur vulnérabilité sont autant d’éléments à prendre en compte pour caractériser et différencier les façons d’habiter ces littoraux. C’est l’occasion de sensibiliser les élèves à la richesse de la faune et de la flore des littoraux et aux questions liées à leur protection.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 78
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-079",
+          "description": "La répartition de la Où sont les femmes et les hommes sur la Terre ? Comment population mondiale et expliquer l’inégal peuplement de la Terre ? Quelles sont les ses dynamiques. dynamiques de peuplement en cours ? Le thème est ainsi",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 79
+        },
+        {
+          "code": "C3-HISTOIRE_GEO-080",
+          "description": "La variété des formes l’occasion de proposer une approche de géo-histoire en d’occupation spatiale montrant les permanences des grands foyers de population et dans le monde. leurs évolutions dans la longue durée. Les formes d’occupation spatiale et les inégalités de la répartition de la population posent par ailleurs des contraintes spécifiques aux habitants. Il s’agira d’en donner quelques exemples concrets.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 80
+        }
+      ]
+    },
+    {
+      "code": "SCIENCES_TECHNO",
+      "name": "Sciences et technologie",
+      "sort_order": 9,
+      "competencies": [
+        {
+          "code": "C3-SCIENCES_TECHNO-001",
+          "description": "Décrire un échantillon de matière à l’aide du vocabulaire scientifique et des grandeurs physiques : masse, volume.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 1
+        },
+        {
+          "code": "C3-SCIENCES_TECHNO-002",
+          "description": "Caractériser la diversité de la matière et de ses transformations à l’échelle macroscopique.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 2
+        },
+        {
+          "code": "C3-SCIENCES_TECHNO-003",
+          "description": "Utiliser les propriétés physiques des matériaux pour les classer, notamment à des fins de tri.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 3
+        },
+        {
+          "code": "C3-SCIENCES_TECHNO-004",
+          "description": "Décrire un mouvement en précisant le point de vue.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 4
+        },
+        {
+          "code": "C3-SCIENCES_TECHNO-005",
+          "description": "Caractériser un mouvement par des mesures.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 5
+        },
+        {
+          "code": "C3-SCIENCES_TECHNO-006",
+          "description": "Identifier les formes d’énergie mises en jeu dans un dispositif de conversion d’énergie.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 6
+        },
+        {
+          "code": "C3-SCIENCES_TECHNO-007",
+          "description": "Rechercher et exploiter des informations relatives aux ressources en énergie et à leur utilisation en exerçant son esprit critique.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 7
+        },
+        {
+          "code": "C3-SCIENCES_TECHNO-008",
+          "description": "Interpréter la formation d’ombres, en particulier dans le contexte du système Soleil-Terre-",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 8
+        },
+        {
+          "code": "C3-SCIENCES_TECHNO-009",
+          "description": "Mettre en œuvre des circuits électriques à une boucle en respectant des consignes de sécurité.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 9
+        },
+        {
+          "code": "C3-SCIENCES_TECHNO-010",
+          "description": "Identifier des signaux de natures différentes et citer des applications dans lesquelles un signal permet de transmettre une information.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 10
+        },
+        {
+          "code": "C3-SCIENCES_TECHNO-011",
+          "description": "Caractériser la richesse, l’unité et la diversité actuelle et passée du vivant.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 11
+        },
+        {
+          "code": "C3-SCIENCES_TECHNO-012",
+          "description": "Classer les organismes et établir les liens de parenté.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 12
+        },
+        {
+          "code": "C3-SCIENCES_TECHNO-013",
+          "description": "Expliquer le rôle des aliments pour le fonctionnement de l’organisme.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 13
+        },
+        {
+          "code": "C3-SCIENCES_TECHNO-014",
+          "description": "Identifier les principes des technologies mises en œuvre pour transformer et conserver les aliments.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 14
+        },
+        {
+          "code": "C3-SCIENCES_TECHNO-015",
+          "description": "Décrire le cycle de vie d’une plante à fleurs et celui d’un animal.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 15
+        },
+        {
+          "code": "C3-SCIENCES_TECHNO-016",
+          "description": "Décrire les changements pubertaires chez les êtres humains associés à la capacité de se reproduire.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 16
+        },
+        {
+          "code": "C3-SCIENCES_TECHNO-017",
+          "description": "Identifier la dimension biologique de la sexualité humaine et la distinguer de ses autres dimensions (psycho-émotionnelle, juridique et sociale).",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 17
+        },
+        {
+          "code": "C3-SCIENCES_TECHNO-018",
+          "description": "Identifier un besoin exprimé par la société et lui associer des objets techniques permettant d’y répondre.",
+          "sub_domain": "Distinguer la notion de reproduction de",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 18
+        },
+        {
+          "code": "C3-SCIENCES_TECHNO-019",
+          "description": "Distinguer un objet technique d’un objet naturel.",
+          "sub_domain": "Distinguer la notion de reproduction de",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 19
+        },
+        {
+          "code": "C3-SCIENCES_TECHNO-020",
+          "description": "Repérer les évolutions des objets techniques en fonction de leur contexte d’utilisation.",
+          "sub_domain": "Distinguer la notion de reproduction de",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 20
+        },
+        {
+          "code": "C3-SCIENCES_TECHNO-021",
+          "description": "Citer quelques exemples d’objets techniques conçus pour répondre à un besoin spécifique et ayant été détournés de leur usage initial.",
+          "sub_domain": "Distinguer la notion de reproduction de",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 21
+        },
+        {
+          "code": "C3-SCIENCES_TECHNO-022",
+          "description": "Distinguer besoins, fonctions techniques et solutions technologiques.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 22
+        },
+        {
+          "code": "C3-SCIENCES_TECHNO-023",
+          "description": "Décrire un objet technique par un schéma (représentation du fonctionnement de l’objet) et un croquis (ce que l’on observe).",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 23
+        },
+        {
+          "code": "C3-SCIENCES_TECHNO-024",
+          "description": "Décrire et pratiquer la démarche technologique dans le cadre d’un projet.",
+          "sub_domain": "Démarche de conception et de réalisation d’un objet technique",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 24
+        },
+        {
+          "code": "C3-SCIENCES_TECHNO-025",
+          "description": "Participer à un travail collectif.",
+          "sub_domain": "Démarche de conception et de réalisation d’un objet technique",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 25
+        },
+        {
+          "code": "C3-SCIENCES_TECHNO-026",
+          "description": "Identifier les liens entre des choix de conception et leurs effets sur les étapes du cycle de vie d’un objet technique.",
+          "sub_domain": "Démarche de conception et de réalisation d’un objet technique",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 26
+        },
+        {
+          "code": "C3-SCIENCES_TECHNO-027",
+          "description": "Repérer la chaîne d’information et la chaîne d’action d’un objet programmable.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 27
+        },
+        {
+          "code": "C3-SCIENCES_TECHNO-028",
+          "description": "Programmer un objet technique pour obtenir un comportement attendu.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 28
+        },
+        {
+          "code": "C3-SCIENCES_TECHNO-029",
+          "description": "Identifier l’activité de la planète Terre et ses conséquences.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 29
+        },
+        {
+          "code": "C3-SCIENCES_TECHNO-030",
+          "description": "Décrire les conditions de la vie terrestre.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 30
+        },
+        {
+          "code": "C3-SCIENCES_TECHNO-031",
+          "description": "Différencier la météorologie du climat.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 31
+        },
+        {
+          "code": "C3-SCIENCES_TECHNO-032",
+          "description": "Construire une argumentation scientifique pour expliquer le réchauffement climatique actuel.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 32
+        },
+        {
+          "code": "C3-SCIENCES_TECHNO-033",
+          "description": "Décrire un écosystème et caractériser les interactions qui s’y déroulent.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 33
+        },
+        {
+          "code": "C3-SCIENCES_TECHNO-034",
+          "description": "Mettre en évidence la place et l’interdépendance de différents êtres vivants dans un réseau trophique.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 34
+        },
+        {
+          "code": "C3-SCIENCES_TECHNO-035",
+          "description": "Caractériser les conséquences d’une action humaine sur un écosystème.",
+          "sub_domain": null,
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 35
+        }
+      ]
+    },
+    {
+      "code": "MATHS",
+      "name": "Mathématiques",
+      "sort_order": 10,
+      "competencies": [
+        {
+          "code": "C3-MATHS-001",
+          "description": "Utiliser et représenter les grands nombres entiers, des fractions simples, les nombres décimaux.",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 1
+        },
+        {
+          "code": "C3-MATHS-002",
+          "description": "Calculer avec des nombres entiers et des nombres décimaux.",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 2
+        },
+        {
+          "code": "C3-MATHS-003",
+          "description": "Résoudredesproblèmesenutilisantdesfractionssimples,lesnombresdécimauxetlecalcul.",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 3
+        },
+        {
+          "code": "C3-MATHS-004",
+          "description": "Comparer, estimer, mesurer des grandeurs géométriques avec des nombres entiers et des nombres décimaux : longueur (périmètre), aire, volume, angle.",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 4
+        },
+        {
+          "code": "C3-MATHS-005",
+          "description": "Utiliser le lexique, les unités, les instruments de mesures spécifiques de ces grandeurs.",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 5
+        },
+        {
+          "code": "C3-MATHS-006",
+          "description": "Résoudre des problèmes impliquant des grandeurs (géométriques, physiques, économiques) en utilisant des nombres entiers et des nombres décimaux.",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 6
+        },
+        {
+          "code": "C3-MATHS-007",
+          "description": "(Se) repérer et (se) déplacer dans l’espace en utilisant ou en élaborant des représentations.",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 7
+        },
+        {
+          "code": "C3-MATHS-008",
+          "description": "Reconnaître, nommer, décrire, reproduire, représenter, construire des figures et solides usuels.",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 8
+        },
+        {
+          "code": "C3-MATHS-009",
+          "description": "Reconnaître et utiliser quelques relations géométriques (notions d’alignement, d’appartenance, de perpendicularité, de parallélisme, d’égalité de longueurs, d’égalité d’angle, de distance entre deux points, de symétrie, d’agrandissement et de réduction).",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CM1",
+            "CM2",
+            "6e"
+          ],
+          "sort_order": 9
+        }
+      ]
+    }
+  ]
+}

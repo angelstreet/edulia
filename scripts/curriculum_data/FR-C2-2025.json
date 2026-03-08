@@ -1,0 +1,1252 @@
+{
+  "code": "FR-MENJ-C2-2020",
+  "name": "Programme du cycle des apprentissages fondamentaux (cycle 2)",
+  "country": "FR",
+  "cycle": "2",
+  "year": 2020,
+  "source": "BOEN n°31 du 30 juillet 2020",
+  "levels": [
+    "CP",
+    "CE1",
+    "CE2"
+  ],
+  "domains": [
+    {
+      "code": "FRANCAIS",
+      "name": "Français",
+      "sort_order": 1,
+      "competencies": [
+        {
+          "code": "C2-FRANCAIS-001",
+          "description": "Conserver une attention soutenue lors de situations d’écoute ou d’échanges et manifester, si besoin et à bon escient, son incompréhension.",
+          "sub_domain": "Langage oral",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 1
+        },
+        {
+          "code": "C2-FRANCAIS-002",
+          "description": "Dans les différentes situations de communication, produire des énoncés clairs en tenant compte de l'objet du propos et des interlocuteurs.",
+          "sub_domain": "Langage oral",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 2
+        },
+        {
+          "code": "C2-FRANCAIS-003",
+          "description": "Pratiquer les formes de discours attendues – notamment raconter, décrire, expliquer – dans des situations où les attentes sont explicites ; en particulier raconter seul un récit étudié en classe.",
+          "sub_domain": "Langage oral",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 3
+        },
+        {
+          "code": "C2-FRANCAIS-004",
+          "description": "Participer avec pertinence à un échange (questionner, répondre à une interpellation, exprimer un accord ou un désaccord, apporter un complément, etc.).",
+          "sub_domain": "Langage oral",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 4
+        },
+        {
+          "code": "C2-FRANCAIS-005",
+          "description": "Identifier des mots rapidement : décoder aisément des mots inconnus réguliers, reconnaître des mots fréquents et des mots irréguliers mémorisés.",
+          "sub_domain": "Lecture et compréhension de l'écrit",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 5
+        },
+        {
+          "code": "C2-FRANCAIS-006",
+          "description": "Lire et comprendre des textes variés, adaptés à la maturité et à la culture scolaire des élèves.",
+          "sub_domain": "Lecture et compréhension de l'écrit",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 6
+        },
+        {
+          "code": "C2-FRANCAIS-007",
+          "description": "Lire à voix haute avec fluidité, après préparation, un texte d'une demi-page (1 400 à",
+          "sub_domain": "Lecture et compréhension de l'écrit",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 7
+        },
+        {
+          "code": "C2-FRANCAIS-008",
+          "description": "Lire au moins cinq à dix œuvres en classe par an.",
+          "sub_domain": "Lecture et compréhension de l'écrit",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 8
+        },
+        {
+          "code": "C2-FRANCAIS-009",
+          "description": "Copier ou transcrire, dans une écriture lisible, un texte d’une dizaine de lignes en respectant la mise en page, la ponctuation, l’orthographe et en soignant la présentation.",
+          "sub_domain": "Lecture et compréhension de l'écrit",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 9
+        },
+        {
+          "code": "C2-FRANCAIS-010",
+          "description": "Rédiger un texte d’environ une demi-page, cohérent, organisé, ponctué, pertinent par rapport à la visée et au destinataire.",
+          "sub_domain": "Lecture et compréhension de l'écrit",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 10
+        },
+        {
+          "code": "C2-FRANCAIS-011",
+          "description": "Améliorer un texte, notamment son orthographe, en tenant compte d’indications.",
+          "sub_domain": "Lecture et compréhension de l'écrit",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 11
+        },
+        {
+          "code": "C2-FRANCAIS-012",
+          "description": "maîtriser des gestes de l’écriture - activités permettant le perfectionnement des cursive exécutés avec une vitesse acquis de la maternelle (sûreté et vitesse). et une sûreté croissantes ; Activités d’entraînement pour automatiser le tracé",
+          "sub_domain": "Lecture et compréhension de l'écrit",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 12
+        },
+        {
+          "code": "C2-FRANCAIS-013",
+          "description": "transcrire un texte avec les normé des lettres par un enseignement explicite correspondances entre diverses de l’enseignant ; écritures des lettres - activités de copie : copie active, copie retournée,",
+          "sub_domain": "Lecture et compréhension de l'écrit",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 13
+        },
+        {
+          "code": "C2-FRANCAIS-014",
+          "description": "utiliser des stratégies de copie pour - en lien avec l’orthographe et le vocabulaire : dépasser la copie lettre à lettre : activités de mémorisation de mots par la copie : prise d’indices, mémorisation de copie différée et verbalisation des stratégies par mots ou groupes de mots ; les élèves ;",
+          "sub_domain": "Lecture et compréhension de l'écrit",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 14
+        },
+        {
+          "code": "C2-FRANCAIS-015",
+          "description": "respecter la mise en page des - tâches de copie et de mise en page des textes textes proposés (demandes ou dans des situations variées : demandes ou informations adressées aux informations adressées aux parents ; synthèses parents ; synthèses d'activités ; d’activités ; outils de références ; résumés de outils de référence ; résumés de leçons ; poèmes ; chansons à mémoriser, etc. leçons ; poèmes et chansons à mémoriser ; anthologie personnelle de textes, etc.) ;",
+          "sub_domain": "Lecture et compréhension de l'écrit",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 15
+        },
+        {
+          "code": "C2-FRANCAIS-016",
+          "description": "relire pour vérifier la conformité orthographique ;",
+          "sub_domain": "Lecture et compréhension de l'écrit",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 16
+        },
+        {
+          "code": "C2-FRANCAIS-017",
+          "description": "manier le traitement de texte pour la mise en page de courts textes.",
+          "sub_domain": "Lecture et compréhension de l'écrit",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 17
+        },
+        {
+          "code": "C2-FRANCAIS-018",
+          "description": "identifier les caractéristiques - Des écrits courts. Un écrit court est un texte propres à différents genres ou individuel d’élève, d’une à cinq ligne(s), rédigé formes de textes ; dans le cadre d’une situation motivante. C'est un",
+          "sub_domain": "Lecture et compréhension de l'écrit",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 18
+        },
+        {
+          "code": "C2-FRANCAIS-019",
+          "description": "mettre en œuvre une démarche écrit porteur de sens, qui se suffit à lui-même. Un d’écriture de textes : trouver et écrit court peut être une partie d’un écrit plus long : organiser des idées, élaborer des o situations quotidiennes intégrées aux séances phrases qui s’enchaînent avec d’apprentissage et concernant toutes les cohérence, écrire ces phrases disciplines : rédiger une phrase en réponse à",
+          "sub_domain": "Lecture et compréhension de l'écrit",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 19
+        },
+        {
+          "code": "C2-FRANCAIS-020",
+          "description": "acquérir quelques connaissances conclusion d’expérience ou d’un débat, formuler sur la langue : mémoire un avis ou un point de vue après une lecture. orthographique des mots, règles o activités fréquentes d’écriture pour favoriser des d'accord, ponctuation, automatismes : la phrase du jour, etc. ;",
+          "sub_domain": "Lecture et compréhension de l'écrit",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 20
+        },
+        {
+          "code": "C2-FRANCAIS-021",
+          "description": "Orthographier les mots les plus fréquents (notamment en situation scolaire) et les mots invariables mémorisés.",
+          "sub_domain": "Lecture et compréhension de l'écrit",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 21
+        },
+        {
+          "code": "C2-FRANCAIS-022",
+          "description": "Raisonner pour réaliser les accords dans le groupe nominal d’une part (déterminant, nom, adjectif), entre le verbe et son sujet d’autre part (cas simples : sujet placé avant le verbe et proche de lui ; sujet composé d’un groupe nominal comportant au plus un adjectif).",
+          "sub_domain": "Lecture et compréhension de l'écrit",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 22
+        },
+        {
+          "code": "C2-FRANCAIS-023",
+          "description": "Utiliser ses connaissances sur la langue pour mieux s’exprimer à l’oral, pour mieux comprendre des mots et des textes, pour améliorer des textes écrits.",
+          "sub_domain": "Lecture et compréhension de l'écrit",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 23
+        }
+      ]
+    },
+    {
+      "code": "LANGUES_VIVANTES",
+      "name": "Langues vivantes (étrangères ou régionales)",
+      "sort_order": 2,
+      "competencies": [
+        {
+          "code": "C2-LANGUES_VIVANTES-001",
+          "description": "Comprendre des mots familiers et des expressions très courantes au sujet de soi, de sa famille et de l'environnement concret et immédiat, si les gens parlent lentement et distinctement.",
+          "sub_domain": "Comprendre l'oral",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 1
+        },
+        {
+          "code": "C2-LANGUES_VIVANTES-002",
+          "description": "Utiliser des expressions et des phrases simples pour se décrire, décrire le lieu d'habitation et les gens de l’entourage.",
+          "sub_domain": "S'exprimer oralement en continu",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 2
+        },
+        {
+          "code": "C2-LANGUES_VIVANTES-003",
+          "description": "Poser des questions simples sur des sujets familiers ou sur ce dont on a immédiatement besoin, ainsi que répondre à de telles questions.",
+          "sub_domain": "Prendre part à une conversation",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 3
+        }
+      ]
+    },
+    {
+      "code": "ARTS",
+      "name": "Enseignements artistiques",
+      "sort_order": 3,
+      "competencies": [
+        {
+          "code": "C2-ARTS-001",
+          "description": "Réaliser et donner à voir, individuellement ou collectivement, des productions plastiques de natures diverses.",
+          "sub_domain": "Arts plastiques",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 1
+        },
+        {
+          "code": "C2-ARTS-002",
+          "description": "Proposer des réponses inventives dans un projet individuel ou collectif.",
+          "sub_domain": "Arts plastiques",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 2
+        },
+        {
+          "code": "C2-ARTS-003",
+          "description": "Coopérer dans un projet artistique.",
+          "sub_domain": "Arts plastiques",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 3
+        },
+        {
+          "code": "C2-ARTS-004",
+          "description": "S’exprimer sur sa production, celle de ses pairs, sur l’art.",
+          "sub_domain": "Arts plastiques",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 4
+        },
+        {
+          "code": "C2-ARTS-005",
+          "description": "Comparer quelques œuvres d’art.",
+          "sub_domain": "Arts plastiques",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 5
+        },
+        {
+          "code": "C2-ARTS-006",
+          "description": "Expérimenter sa voix parlée et chantée, explorer ses paramètres, la mobiliser au bénéfice d’une reproduction expressive.",
+          "sub_domain": "Éducation musicale",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 6
+        },
+        {
+          "code": "C2-ARTS-007",
+          "description": "Connaître et mettre en œuvre les conditions d’une écoute attentive et précise.",
+          "sub_domain": "Éducation musicale",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 7
+        },
+        {
+          "code": "C2-ARTS-008",
+          "description": "Imaginer des organisations simples ; créer des sons et maîtriser leur succession.",
+          "sub_domain": "Éducation musicale",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 8
+        },
+        {
+          "code": "C2-ARTS-009",
+          "description": "Exprimer sa sensibilité et exercer son esprit critique tout en respectant les goûts et points de vue de chacun.",
+          "sub_domain": "Éducation musicale",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 9
+        }
+      ]
+    },
+    {
+      "code": "EPS",
+      "name": "Éducation physique et sportive",
+      "sort_order": 4,
+      "competencies": [
+        {
+          "code": "C2-EPS-001",
+          "description": "Courir, sauter, lancer à des intensités et des durées variables dans des contextes adaptés.",
+          "sub_domain": "Produire une performance optimale, mesurable à une échéance donnée",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 1
+        },
+        {
+          "code": "C2-EPS-002",
+          "description": "Savoir différencier : courir vite et courir longtemps / lancer loin et lancer précis / sauter haut et sauter loin.",
+          "sub_domain": "Produire une performance optimale, mesurable à une échéance donnée",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 2
+        },
+        {
+          "code": "C2-EPS-003",
+          "description": "Accepter de viser une performance mesurée et de se confronter aux autres.",
+          "sub_domain": "Produire une performance optimale, mesurable à une échéance donnée",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 3
+        },
+        {
+          "code": "C2-EPS-004",
+          "description": "Remplir quelques rôles spécifiques.",
+          "sub_domain": "Produire une performance optimale, mesurable à une échéance donnée",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 4
+        },
+        {
+          "code": "C2-EPS-005",
+          "description": "Se déplacer dans l’eau sur une quinzaine de mètres sans appui et après un temps d’immersion.",
+          "sub_domain": "Adapter ses déplacements à des environnements variés",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 5
+        },
+        {
+          "code": "C2-EPS-006",
+          "description": "Réaliser un parcours en adaptant ses déplacements à un environnement inhabituel.",
+          "sub_domain": "Adapter ses déplacements à des environnements variés",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 6
+        },
+        {
+          "code": "C2-EPS-007",
+          "description": "Respecter les règles de sécurité qui s’appliquent.",
+          "sub_domain": "Adapter ses déplacements à des environnements variés",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 7
+        },
+        {
+          "code": "C2-EPS-008",
+          "description": "Mobiliser le pouvoir expressif du corps, en reproduisant une séquence simple d’actions apprise ou en présentant une action inventée.",
+          "sub_domain": "S'exprimer devant les autres par une prestation artistique et/ou acrobatique",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 8
+        },
+        {
+          "code": "C2-EPS-009",
+          "description": "S’adapter au rythme, mémoriser des pas, des figures, des éléments et des enchaînements pour réaliser des actions individuelles et collectives.",
+          "sub_domain": "S'exprimer devant les autres par une prestation artistique et/ou acrobatique",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 9
+        },
+        {
+          "code": "C2-EPS-010",
+          "description": "S’engager dans un affrontement individuel ou collectif en respectant les règles du jeu.",
+          "sub_domain": "Conduire et maîtriser un affrontement collectif ou interindividuel",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 10
+        },
+        {
+          "code": "C2-EPS-011",
+          "description": "Contrôler son engagement moteur et affectif pour réussir des actions simples.",
+          "sub_domain": "Conduire et maîtriser un affrontement collectif ou interindividuel",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 11
+        },
+        {
+          "code": "C2-EPS-012",
+          "description": "Connaître le but du jeu.",
+          "sub_domain": "Conduire et maîtriser un affrontement collectif ou interindividuel",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 12
+        },
+        {
+          "code": "C2-EPS-013",
+          "description": "Reconnaître ses partenaires et ses adversaires.",
+          "sub_domain": "Conduire et maîtriser un affrontement collectif ou interindividuel",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 13
+        }
+      ]
+    },
+    {
+      "code": "EMC",
+      "name": "Enseignement moral et civique",
+      "sort_order": 5,
+      "competencies": [
+        {
+          "code": "C2-EMC-001",
+          "description": "Respecter autrui :",
+          "sub_domain": "Respecter autrui",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 1
+        },
+        {
+          "code": "C2-EMC-002",
+          "description": "Identifier et partager des émotions, des sentiments dans des situations et à propos d’objets diversifiés.",
+          "sub_domain": "Respecter autrui",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 2
+        },
+        {
+          "code": "C2-EMC-003",
+          "description": "Respecter les règles de la vie collective.",
+          "sub_domain": "Acquérir et partager les valeurs de la République",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 3
+        },
+        {
+          "code": "C2-EMC-004",
+          "description": "Connaître les valeurs, les principes et les symboles de la République française : le drapeau, l’hymne national, les monuments, la fête nationale.",
+          "sub_domain": "Acquérir et partager les valeurs de la République",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 4
+        },
+        {
+          "code": "C2-EMC-005",
+          "description": "Accéder à une première connaissance des cadres d’une société démocratique.",
+          "sub_domain": "Acquérir et partager les valeurs de la République",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 5
+        },
+        {
+          "code": "C2-EMC-006",
+          "description": "Participer et prendre sa place dans un groupe.",
+          "sub_domain": "Coopérer et rendre service",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 6
+        },
+        {
+          "code": "C2-EMC-007",
+          "description": "Distinguer son intérêt personnel de l’intérêt général.",
+          "sub_domain": "Coopérer et rendre service",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 7
+        },
+        {
+          "code": "C2-EMC-008",
+          "description": "Écouter autrui et produire un point de vue argumenté.",
+          "sub_domain": "Coopérer et rendre service",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 8
+        }
+      ]
+    },
+    {
+      "code": "QUESTIONNER_MONDE",
+      "name": "Questionner le monde",
+      "sort_order": 6,
+      "competencies": [
+        {
+          "code": "C2-QUESTIONNER_MONDE-001",
+          "description": "Identifier les trois états de la matière et observer des changements d’états.",
+          "sub_domain": "Qu'est-ce que la matière ?",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 1
+        },
+        {
+          "code": "C2-QUESTIONNER_MONDE-002",
+          "description": "Identifier un changement d’état de l’eau dans un phénomène de la vie quotidienne.",
+          "sub_domain": "Qu'est-ce que la matière ?",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 2
+        },
+        {
+          "code": "C2-QUESTIONNER_MONDE-003",
+          "description": "Connaître des caractéristiques du monde vivant, ses interactions, sa diversité.",
+          "sub_domain": "Comment reconnaître le monde vivant ?",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 3
+        },
+        {
+          "code": "C2-QUESTIONNER_MONDE-004",
+          "description": "Reconnaître des comportements favorables à sa santé.",
+          "sub_domain": "Comment reconnaître le monde vivant ?",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 4
+        },
+        {
+          "code": "C2-QUESTIONNER_MONDE-005",
+          "description": "Comprendre la fonction et le fonctionnement d’objets fabriqués.",
+          "sub_domain": "Comment fonctionnent les objets de la vie quotidienne ?",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 5
+        },
+        {
+          "code": "C2-QUESTIONNER_MONDE-006",
+          "description": "Réaliser quelques objets et circuits électriques simples, en respectant des règles élémentaires de sécurité.",
+          "sub_domain": "Comment fonctionnent les objets de la vie quotidienne ?",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 6
+        },
+        {
+          "code": "C2-QUESTIONNER_MONDE-007",
+          "description": "Commencer à s’approprier un environnement numérique.",
+          "sub_domain": "Comment fonctionnent les objets de la vie quotidienne ?",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 7
+        },
+        {
+          "code": "C2-QUESTIONNER_MONDE-008",
+          "description": "Se repérer dans l’espace et le représenter.",
+          "sub_domain": "Se repérer dans l'espace et le représenter",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 8
+        },
+        {
+          "code": "C2-QUESTIONNER_MONDE-009",
+          "description": "Situer un lieu sur une carte, sur un globe ou sur un écran informatique.",
+          "sub_domain": "Se repérer dans l'espace et le représenter",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 9
+        },
+        {
+          "code": "C2-QUESTIONNER_MONDE-010",
+          "description": "Se repérer dans le temps et mesurer des durées.",
+          "sub_domain": "Se repérer dans le temps et mesurer des durées",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 10
+        },
+        {
+          "code": "C2-QUESTIONNER_MONDE-011",
+          "description": "Repérer et situer quelques événements dans un temps long.",
+          "sub_domain": "Se repérer dans le temps et mesurer des durées",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 11
+        },
+        {
+          "code": "C2-QUESTIONNER_MONDE-012",
+          "description": "Comparer quelques modes de vie des hommes et des femmes, et quelques représentations du monde.",
+          "sub_domain": "Comparer quelques modes de vie des hommes et femmes",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 12
+        },
+        {
+          "code": "C2-QUESTIONNER_MONDE-013",
+          "description": "Identifier quelques interactions élémentaires entre mode de vie et environnement.",
+          "sub_domain": "Comparer quelques modes de vie des hommes et femmes",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 13
+        },
+        {
+          "code": "C2-QUESTIONNER_MONDE-014",
+          "description": "Comprendre qu’un espace est organisé.",
+          "sub_domain": "Comparer quelques modes de vie des hommes et femmes",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 14
+        },
+        {
+          "code": "C2-QUESTIONNER_MONDE-015",
+          "description": "Identifier des paysages.",
+          "sub_domain": "Comparer quelques modes de vie des hommes et femmes",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 15
+        }
+      ]
+    },
+    {
+      "code": "MATHS",
+      "name": "Mathématiques",
+      "sort_order": 7,
+      "competencies": [
+        {
+          "code": "C2-MATHS-001",
+          "description": "Comprendre et utiliser des nombres entiers pour dénombrer, ordonner, repérer, comparer.",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 1
+        },
+        {
+          "code": "C2-MATHS-002",
+          "description": "Nommer, lire, écrire, représenter des nombres entiers.",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 2
+        },
+        {
+          "code": "C2-MATHS-003",
+          "description": "Résoudre des problèmes en utilisant des nombres entiers et le calcul.",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 3
+        },
+        {
+          "code": "C2-MATHS-004",
+          "description": "Calculer avec des nombres entiers.",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 4
+        },
+        {
+          "code": "C2-MATHS-005",
+          "description": "Dénombrer, constituer et comparer des collections en les organisant, notamment par des groupements par dizaines, centaines et milliers : o désignation du nombre d’éléments de diverses façons : écritures additives ou multiplicatives, écritures en unités de numération, écriture usuelle ; o utilisation de ces diverses désignations pour comparer des collections.",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 5
+        },
+        {
+          "code": "C2-MATHS-006",
+          "description": "Repérer un rang ou une position dans une file ou sur une piste.",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 6
+        },
+        {
+          "code": "C2-MATHS-007",
+          "description": "Faire le lien entre le rang dans une liste et le nombre d’éléments qui le précèdent : o relation entre ordinaux et cardinaux.",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 7
+        },
+        {
+          "code": "C2-MATHS-008",
+          "description": "Comparer, ranger, encadrer, intercaler des nombres entiers, en utilisant les symboles =,",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 8
+        },
+        {
+          "code": "C2-MATHS-009",
+          "description": "Comparer, estimer, mesurer des longueurs, des masses, des contenances, des durées.",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 9
+        },
+        {
+          "code": "C2-MATHS-010",
+          "description": "Utiliser le lexique, les unités, les instruments de mesures spécifiques de ces grandeurs.",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 10
+        },
+        {
+          "code": "C2-MATHS-011",
+          "description": "Résoudre des problèmes impliquant des longueurs, des masses, des contenances, des durées, des prix.",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 11
+        },
+        {
+          "code": "C2-MATHS-012",
+          "description": "Comparer des objets selon plusieurs grandeurs et identifier quand il s’agit d’une longueur, d’une masse, d’une contenance ou d’une durée : o lexique spécifique associé aux longueurs, aux masses, aux contenances, aux durées : lourd, léger, grand, petit, haut, bas, court, long.",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 12
+        },
+        {
+          "code": "C2-MATHS-013",
+          "description": "Comparer des longueurs, des masses et des contenances, directement, en introduisant la comparaison à un objet intermédiaire ou par mesurage : o principe de comparaison des longueurs, des masses, des contenances.",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 13
+        },
+        {
+          "code": "C2-MATHS-014",
+          "description": "Estimer à vue des rapports très simples de longueur.",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 14
+        },
+        {
+          "code": "C2-MATHS-015",
+          "description": "Estimer les ordres de grandeurs de quelques longueurs, masses et contenances en relation avec les unités métriques.",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 15
+        },
+        {
+          "code": "C2-MATHS-016",
+          "description": "Vérifier avec un instrument dans les cas simples : o ordres de grandeur des unités usuelles en les associant à quelques objets familiers ; o rapports très simples de longueurs (double et moitié).",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 16
+        },
+        {
+          "code": "C2-MATHS-017",
+          "description": "Dans des cas simples, mesurer des longueurs, des masses et des contenances en reportant une unité (bande de papier ou ficelle, poids, récipient) : o notion d’unité : grandeur arbitraire prise comme référence pour mesurer les grandeurs de la même espèce.",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 17
+        },
+        {
+          "code": "C2-MATHS-018",
+          "description": "Dans des cas simples, mesurer des longueurs, des masses et des contenances en utilisant un instrument adapté (règle graduée, bande de 1 dm de long graduée ou non, mètre gradué ou non, balance à plateaux, balance à lecture directe, verre mesureur) : o unités de mesures usuelles :",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 18
+        },
+        {
+          "code": "C2-MATHS-019",
+          "description": "Encadrer une mesure de grandeur par deux nombres entiers d’unités (par exemple : le couloir mesure entre 6 m et 7 m de long).",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 19
+        },
+        {
+          "code": "C2-MATHS-020",
+          "description": "Lire l’heure sur une horloge ou une montre à aiguilles.",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 20
+        },
+        {
+          "code": "C2-MATHS-021",
+          "description": "Comparer, estimer, mesurer des durées : o unités de mesure usuelles de durées : j, semaine, h, min, s, mois, année, siècle, millénaire ; o relations entre ces unités.",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 21
+        },
+        {
+          "code": "C2-MATHS-022",
+          "description": "(Se) repérer et (se) déplacer en utilisant des repères et des représentations.",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 22
+        },
+        {
+          "code": "C2-MATHS-023",
+          "description": "Reconnaître, nommer, décrire, reproduire quelques solides.",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 23
+        },
+        {
+          "code": "C2-MATHS-024",
+          "description": "Reconnaître, nommer, décrire, reproduire, construire quelques figures géométriques.",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 24
+        },
+        {
+          "code": "C2-MATHS-025",
+          "description": "Reconnaître et utiliser les notions d’alignement, d’angle droit, d’égalité de longueurs, de milieu, de symétrie.",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 25
+        },
+        {
+          "code": "C2-MATHS-026",
+          "description": "Se repérer dans son environnement proche.",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 26
+        },
+        {
+          "code": "C2-MATHS-027",
+          "description": "Situer des objets ou des personnes les uns par rapport aux autres ou par rapport à d’autres repères : o vocabulaire permettant de définir des positions (gauche, droite, au-dessus, en dessous, sur, sous, devant, derrière, près, loin, premier plan, second plan, nord, sud, est, ouest, etc.) ; o vocabulaire permettant de définir des déplacements (avancer, reculer, tourner à droite/à gauche, monter, descendre, etc.).",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 27
+        },
+        {
+          "code": "C2-MATHS-028",
+          "description": "Produire des représentations des espaces familiers (l’école, les espaces proches de l’école, le village, le quartier) et moins familiers (vécus lors de sorties) : o quelques modes de représentation de l’espace (maquettes, plans, photos).",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 28
+        },
+        {
+          "code": "C2-MATHS-029",
+          "description": "S'orienter et se déplacer en utilisant des repères.",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 29
+        },
+        {
+          "code": "C2-MATHS-030",
+          "description": "Réaliser des déplacements dans l’espace et les coder pour qu’un autre élève puisse les reproduire.",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 30
+        },
+        {
+          "code": "C2-MATHS-031",
+          "description": "Produire des représentations d’un espace restreint et s’en servir pour communiquer des positions.",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 31
+        },
+        {
+          "code": "C2-MATHS-032",
+          "description": "Programmer les déplacements d’un robot ou ceux d’un personnage sur un écran : o repères spatiaux ; o relations entre l’espace dans lequel on se déplace et ses représentations.",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 32
+        },
+        {
+          "code": "C2-MATHS-033",
+          "description": "Reconnaître et trier les solides usuels parmi des solides variés.",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 33
+        },
+        {
+          "code": "C2-MATHS-034",
+          "description": "Reconnaître des solides simples dans son environnement proche.",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 34
+        },
+        {
+          "code": "C2-MATHS-035",
+          "description": "Décrire et comparer des solides en utilisant le vocabulaire approprié.",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 35
+        },
+        {
+          "code": "C2-MATHS-036",
+          "description": "Réaliser et reproduire des assemblages de cubes et pavés droits et associer de tels assemblages à divers types de représentations (photos, vues, etc.) ;",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 36
+        },
+        {
+          "code": "C2-MATHS-037",
+          "description": "Fabriquer un cube à partir d’un patron fourni : o vocabulaire approprié pour :",
+          "sub_domain": "Nombres et calcul",
+          "levels": [
+            "CP",
+            "CE1",
+            "CE2"
+          ],
+          "sort_order": 37
+        }
+      ]
+    }
+  ]
+}
