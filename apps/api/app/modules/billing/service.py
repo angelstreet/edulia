@@ -157,17 +157,17 @@ def generate_pdf(invoice: SchoolInvoice, tenant: Tenant) -> bytes:
     c.rect(2 * cm, bar_y, w - 4 * cm, 0.65 * cm, fill=1, stroke=0)
     c.setFillColorRGB(1, 1, 1)
     c.setFont("Helvetica-Bold", 10)
-    c.drawString(2.3 * cm, bar_y + 0.18 * cm, f"FACTURE N° {invoice.invoice_number}")
+    c.drawString(2.3 * cm, bar_y + 0.18 * cm, f"FACTURE N {invoice.invoice_number}")
     c.setFont("Helvetica", 10)
     date_str = invoice.issue_date.strftime("%d/%m/%Y")
-    right_text = f"Année scolaire {invoice.academic_year}  le {date_str}"
+    right_text = f"Annee scolaire {invoice.academic_year}  le {date_str}"
     c.drawRightString(w - 2.3 * cm, bar_y + 0.18 * cm, right_text)
     c.setFillColorRGB(0, 0, 0)
 
     # ── Line items table ─────────────────────────────────────
-    table_y = bar_y - 0.1 * cm
+    table_y = bar_y - 0.8 * cm  # Fixed: was 0.1cm causing overlap with header bar
     col_widths = [9.5 * cm, 2 * cm, 2.5 * cm, 2 * cm, 2.2 * cm]
-    headers = ["", "Qté", "Prix Unit.", "Montant", "Total"]
+    headers = ["", "Qte", "Prix Unit.", "Montant", "Total"]
 
     # student row
     subtotal_str = f"sous-total : {_fmt(invoice.subtotal_cents)} Euros"
@@ -237,7 +237,7 @@ def generate_pdf(invoice: SchoolInvoice, tenant: Tenant) -> bytes:
     # Left: payment info text
     left_text_lines = []
     if invoice.bank_account:
-        left_text_lines.append(f"Cette facture sera prélevée selon l'échéancier ci-contre")
+        left_text_lines.append(f"Cette facture sera prelevee selon l'echeancier ci-contre")
         left_text_lines.append(f"sur le compte : {invoice.bank_account}")
         left_text_lines.append("")
     if invoice.contact_info:
@@ -260,7 +260,7 @@ def generate_pdf(invoice: SchoolInvoice, tenant: Tenant) -> bytes:
 
     if schedule:
         c.setFont("Helvetica-Bold", 8)
-        c.drawString(right_x, footer_top - 0.3 * cm, "Echéancier")
+        c.drawString(right_x, footer_top - 0.3 * cm, "Echeancier")
         c.drawRightString(right_x + 3 * cm, footer_top - 0.3 * cm, "€")
         c.setFont("Helvetica", 7.5)
         sy = footer_top - 0.7 * cm
@@ -275,11 +275,11 @@ def generate_pdf(invoice: SchoolInvoice, tenant: Tenant) -> bytes:
     totals_x = right_x + 3.3 * cm
     totals_data = [
         ["Total", "€", _fmt(invoice.subtotal_cents)],
-        ["Solde antérieur", "€", _fmt(invoice.previous_balance_cents)],
-        ["Total à PAYER", "€", _fmt(invoice.total_due_cents)],
+        ["Solde anterieur", "€", _fmt(invoice.previous_balance_cents)],
+        ["Total a PAYER", "€", _fmt(invoice.total_due_cents)],
     ]
     if invoice.payment_reference:
-        totals_data.append([f"Réf : {invoice.payment_reference}", "", ""])
+        totals_data.append([f"Ref : {invoice.payment_reference}", "", ""])
 
     tot_col_w = [3.2 * cm, 0.5 * cm, 2 * cm]
     tot_tbl = Table(totals_data, colWidths=tot_col_w)
@@ -300,7 +300,7 @@ def generate_pdf(invoice: SchoolInvoice, tenant: Tenant) -> bytes:
     # ── Bottom line: payment method ──────────────────────────
     if invoice.payment_method:
         c.setFont("Helvetica", 7.5)
-        c.drawString(2 * cm, 1.8 * cm, f"Règlement : {invoice.payment_method}")
+        c.drawString(2 * cm, 1.8 * cm, f"Reglement : {invoice.payment_method}")
 
     c.setFont("Helvetica", 7.5)
     c.drawRightString(w - 2 * cm, 1.8 * cm, "1/1")
@@ -313,7 +313,7 @@ def _fallback_pdf(invoice: SchoolInvoice) -> bytes:
     """Plain-text PDF fallback when reportlab not available."""
     lines = [
         f"FACTURE N° {invoice.invoice_number}",
-        f"Année scolaire : {invoice.academic_year}",
+        f"Annee scolaire : {invoice.academic_year}",
         f"Date : {invoice.issue_date}",
         f"Elève : {invoice.student_name}",
         "",
@@ -323,8 +323,8 @@ def _fallback_pdf(invoice: SchoolInvoice) -> bytes:
     lines += [
         "",
         f"Sous-total : {_fmt(invoice.subtotal_cents)} €",
-        f"Solde antérieur : {_fmt(invoice.previous_balance_cents)} €",
-        f"Total à payer : {_fmt(invoice.total_due_cents)} €",
+        f"Solde anterieur : {_fmt(invoice.previous_balance_cents)} €",
+        f"Total a payer : {_fmt(invoice.total_due_cents)} €",
     ]
     content = "\n".join(lines).encode("utf-8")
     # Minimal valid PDF
