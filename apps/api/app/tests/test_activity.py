@@ -298,22 +298,24 @@ def test_create_activity_with_questions(api, teacher):
         "type": "qcm",
         "questions": [
             {
+                "id": str(uuid.uuid4()),
                 "text": "Capital of France?",
                 "type": "single",
                 "choices": [
-                    {"text": "Berlin", "is_correct": False},
-                    {"text": "Paris", "is_correct": True},
-                    {"text": "Rome", "is_correct": False},
+                    {"id": str(uuid.uuid4()), "text": "Berlin", "is_correct": False},
+                    {"id": str(uuid.uuid4()), "text": "Paris", "is_correct": True},
+                    {"id": str(uuid.uuid4()), "text": "Rome", "is_correct": False},
                 ],
                 "time_limit_s": 20,
                 "points": 2,
             },
             {
+                "id": str(uuid.uuid4()),
                 "text": "What is 2 + 2?",
                 "type": "single",
                 "choices": [
-                    {"text": "3", "is_correct": False},
-                    {"text": "4", "is_correct": True},
+                    {"id": str(uuid.uuid4()), "text": "3", "is_correct": False},
+                    {"id": str(uuid.uuid4()), "text": "4", "is_correct": True},
                 ],
                 "time_limit_s": 15,
                 "points": 1,
@@ -343,11 +345,12 @@ def test_update_activity_questions(api, teacher):
 
     new_questions = [
         {
+            "id": str(uuid.uuid4()),
             "text": "Updated question?",
             "type": "single",
             "choices": [
-                {"text": "Yes", "is_correct": True},
-                {"text": "No", "is_correct": False},
+                {"id": str(uuid.uuid4()), "text": "Yes", "is_correct": True},
+                {"id": str(uuid.uuid4()), "text": "No", "is_correct": False},
             ],
             "time_limit_s": 10,
             "points": 1,
@@ -453,9 +456,10 @@ def test_questions_require_at_least_2_choices(api, teacher):
         "type": "qcm",
         "questions": [
             {
+                "id": str(uuid.uuid4()),
                 "text": "Invalid question",
                 "type": "single",
-                "choices": [{"text": "Only option", "is_correct": True}],
+                "choices": [{"id": str(uuid.uuid4()), "text": "Only option", "is_correct": True}],
                 "time_limit_s": 10,
                 "points": 1,
             }
@@ -474,12 +478,13 @@ def test_single_question_requires_exactly_1_correct(api, teacher):
         "type": "qcm",
         "questions": [
             {
+                "id": str(uuid.uuid4()),
                 "text": "Which is correct?",
                 "type": "single",
                 "choices": [
-                    {"text": "A", "is_correct": True},
-                    {"text": "B", "is_correct": True},
-                    {"text": "C", "is_correct": False},
+                    {"id": str(uuid.uuid4()), "text": "A", "is_correct": True},
+                    {"id": str(uuid.uuid4()), "text": "B", "is_correct": True},
+                    {"id": str(uuid.uuid4()), "text": "C", "is_correct": False},
                 ],
                 "time_limit_s": 10,
                 "points": 1,
