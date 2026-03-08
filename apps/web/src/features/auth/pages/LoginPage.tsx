@@ -47,7 +47,7 @@ const DEMO_ACCOUNTS = [
 ];
 
 export function LoginPage() {
-  
+
   const navigate = useNavigate();
   const location = useLocation();
   const from = (location.state as { from?: Location })?.from?.pathname || '/';
@@ -59,6 +59,7 @@ export function LoginPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [showDemo, setShowDemo] = useState(true);
+  const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({});
 
   const handleLogin = async (e?: React.FormEvent, demoEmail?: string) => {
     e?.preventDefault();
@@ -112,28 +113,41 @@ export function LoginPage() {
           </button>
 
           {showDemo && (
-            <div className="mt-4 space-y-4">
+            <div className="mt-4 space-y-2">
               <p className={`text-xs text-center ${theme.textMuted}`}>
                 Donnees reinitialises toutes les 10 min. Mot de passe: demo2026
               </p>
-              {DEMO_ACCOUNTS.map(group => (
-                <div key={group.category}>
-                  <div className={`flex items-center gap-2 mb-2 ${theme.text}`}>
-                    <group.icon className="w-4 h-4" />
-                    <span className="text-sm font-semibold">{group.category}</span>
+              {DEMO_ACCOUNTS.map(group => {
+                const isOpen = openCategories[group.category] ?? false;
+                return (
+                  <div key={group.category} className={`rounded-lg border ${theme.cardBorder} overflow-hidden`}>
+                    <button
+                      onClick={() => setOpenCategories(prev => ({ ...prev, [group.category]: !isOpen }))}
+                      className={`w-full flex items-center justify-between px-3 py-2.5 text-sm font-semibold ${theme.text} hover:bg-gray-50 transition`}
+                    >
+                      <span className="flex items-center gap-2">
+                        <group.icon className="w-4 h-4 shrink-0" />
+                        {group.category}
+                      </span>
+                      {isOpen
+                        ? <ChevronUp className="w-4 h-4 text-gray-400" />
+                        : <ChevronDown className="w-4 h-4 text-gray-400" />}
+                    </button>
+                    {isOpen && (
+                      <div className="px-3 pb-3 pt-1 grid grid-cols-2 gap-1.5 border-t border-gray-100">
+                        {group.accounts.map(acc => (
+                          <button key={acc.email} onClick={() => handleLogin(undefined, acc.email)}
+                            className="text-left px-3 py-2 rounded-lg text-xs border border-gray-200 hover:bg-blue-50 hover:border-blue-200 transition">
+                            <span className="font-medium text-gray-900">{acc.label}</span>
+                            <br />
+                            <span className="text-gray-500">{acc.role}</span>
+                          </button>
+                        ))}
+                      </div>
+                    )}
                   </div>
-                  <div className="grid grid-cols-2 gap-1.5">
-                    {group.accounts.map(acc => (
-                      <button key={acc.email} onClick={() => handleLogin(undefined, acc.email)}
-                        className={`text-left px-3 py-2 rounded-lg text-xs border ${theme.cardBorder} hover:bg-blue-50 hover:border-blue-200 transition`}>
-                        <span className="font-medium text-gray-900">{acc.label}</span>
-                        <br />
-                        <span className="text-gray-500">{acc.role}</span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
