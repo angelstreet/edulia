@@ -54,6 +54,7 @@ export function BillingPage() {
   const [studentId, setStudentId] = useState('');
   const [studentClass, setStudentClass] = useState('');
   const [parentName, setParentName] = useState('');
+  const [parentPhone, setParentPhone] = useState('');
   const [parentLine1, setParentLine1] = useState('');
   const [parentLine2, setParentLine2] = useState('');
   const [parentPostal, setParentPostal] = useState('');
@@ -144,7 +145,7 @@ export function BillingPage() {
         student_name: selected.display_name,
         student_class: studentClass || undefined,
         parent_name: parentName || undefined,
-        parent_address: { line1: parentLine1, line2: parentLine2, postal_code: parentPostal, city: parentCity },
+        parent_address: { line1: parentLine1, line2: parentLine2, postal_code: parentPostal, city: parentCity, phone: parentPhone },
         academic_year: academicYear, issue_date: issueDate,
         line_items: lineItems, previous_balance_cents: prevBalanceCents,
         payment_schedule: schedule.filter(s => s.date),
@@ -158,7 +159,7 @@ export function BillingPage() {
 
   function resetForm() {
     setStudentId(''); setStudentClass(''); setParentName('');
-    setParentLine1(''); setParentLine2(''); setParentPostal(''); setParentCity('');
+    setParentLine1(''); setParentLine2(''); setParentPostal(''); setParentCity(''); setParentPhone('');
     setAcademicYear(currentAcademicYear()); setIssueDate(new Date().toISOString().slice(0, 10));
     setLineItems([EMPTY_ITEM()]); setPrevBalance('0'); setSchedule([]);
     setPaymentMethod(''); setPaymentRef(''); setBankAccount(''); setContactInfo('');
@@ -346,9 +347,13 @@ export function BillingPage() {
           <fieldset className="border rounded-md p-3">
             <legend className="text-xs font-semibold px-1">{t('parentAddress', 'Parent / Address')}</legend>
             <div className="grid grid-cols-2 gap-3 mt-1">
-              <div className="col-span-2">
+              <div>
                 <label className="text-xs font-medium block mb-1">{t('parentName', 'Parent name')}</label>
                 <Input value={parentName} onChange={e => setParentName(e.target.value)} placeholder="Mme DUPONT Isabelle" />
+              </div>
+              <div>
+                <label className="text-xs font-medium block mb-1">{t('phone', 'Phone')}</label>
+                <Input value={parentPhone} onChange={e => setParentPhone(e.target.value)} placeholder="06 12 34 56 78" />
               </div>
               <div className="col-span-2">
                 <label className="text-xs font-medium block mb-1">{t('addressLine1', 'Address')}</label>

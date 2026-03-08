@@ -158,6 +158,8 @@ def seed(db):
             # Minimal module set for a private tutor
             "enabled_modules": ["gradebook", "homework", "messaging", "billing", "calendar"],
             "grading_scale": 20,
+            "school_address": "12 allée des Tilleuls\n69006 Lyon",
+            "school_phone": "06 12 34 56 78",
             "default_bank_account": "FR76 3000 6000 0112 3456 7890 189",
             "default_contact_info": "Antoine Rousseau — Cours particuliers\nTél: 06 12 34 56 78 — rousseau.cours@email.fr\nVirement bancaire: FR76 3000 6000 0112 3456 7890 189",
             "labels": {
@@ -365,7 +367,7 @@ def seed(db):
         student_name="Léo Martin",
         student_class="5ème — Cours particuliers Mathématiques",
         parent_name="Isabelle Martin",
-        parent_address={"line1": "14 rue des Acacias", "city": "Lyon", "postal_code": "69003"},
+        parent_address={"line1": "14 rue des Acacias", "city": "Lyon", "postal_code": "69003", "phone": "06 98 76 54 32"},
         academic_year="2025-2026",
         issue_date=date(2025, 9, 1),
         status="paid",
@@ -392,7 +394,7 @@ def seed(db):
         student_name="Léo Martin",
         student_class="5ème — Cours particuliers Mathématiques",
         parent_name="Isabelle Martin",
-        parent_address={"line1": "14 rue des Acacias", "city": "Lyon", "postal_code": "69003"},
+        parent_address={"line1": "14 rue des Acacias", "city": "Lyon", "postal_code": "69003", "phone": "06 98 76 54 32"},
         academic_year="2025-2026",
         issue_date=date(2025, 10, 1),
         status="sent",

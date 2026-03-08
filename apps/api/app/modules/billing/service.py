@@ -114,28 +114,29 @@ def generate_pdf(invoice: SchoolInvoice, tenant: Tenant) -> bytes:
     school_siret = settings.get("siret", "")
     school_ics = settings.get("ics", "")
 
-    # ── School block (top-left) ──────────────────────────────
+    # ── Sender block (top-left) ──────────────────────────────
     c.setFont("Helvetica-Bold", 11)
     c.drawString(2 * cm, h - 3.2 * cm, school_name)
     c.setFont("Helvetica", 9)
     y_school = h - 3.8 * cm
-    for line in school_address.split("\n"):
-        c.drawString(2 * cm, y_school, line)
-        y_school -= 0.45 * cm
+    if school_address:
+        for line in school_address.split("\n"):
+            if line.strip():
+                c.drawString(2 * cm, y_school, line.strip())
+                y_school -= 0.45 * cm
     if school_phone:
         c.drawString(2 * cm, y_school, school_phone)
         y_school -= 0.45 * cm
-
     c.setFont("Helvetica", 8)
     if school_siret:
-        c.drawString(2 * cm, y_school - 0.2 * cm, f"SIRET : {school_siret}")
-        y_school -= 0.55 * cm
+        c.drawString(2 * cm, y_school, f"SIRET : {school_siret}")
+        y_school -= 0.45 * cm
     if school_ics:
         c.drawString(2 * cm, y_school, f"N° ICS : {school_ics}")
 
-    # ── Parent block (top-right, in border box) ──────────────
-    box_x, box_y = 12 * cm, h - 5.5 * cm
-    box_w, box_h = 7 * cm, 3 * cm
+    # ── Recipient block (top-right, in border box) ───────────
+    box_x, box_y = 12 * cm, h - 6 * cm
+    box_w, box_h = 7 * cm, 3.5 * cm
     c.roundRect(box_x, box_y, box_w, box_h, 5, stroke=1, fill=0)
     c.setFont("Helvetica", 9)
     addr = invoice.parent_address or {}
@@ -144,6 +145,7 @@ def generate_pdf(invoice: SchoolInvoice, tenant: Tenant) -> bytes:
         addr.get("line1", ""),
         addr.get("line2", ""),
         f"{addr.get('postal_code', '')} {addr.get('city', '')}".strip(),
+        addr.get("phone", ""),
     ]
     ty = box_y + box_h - 0.5 * cm
     for line in lines:
