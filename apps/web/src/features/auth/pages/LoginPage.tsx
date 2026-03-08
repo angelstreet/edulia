@@ -7,6 +7,16 @@ import { School, BookOpen, Building, User, ChevronDown, ChevronUp } from 'lucide
 
 const DEMO_ACCOUNTS = [
   {
+    category: 'École Direct',
+    icon: School,
+    accounts: [
+      { label: 'Directrice', email: 'director@ecoledirect.demo.edulia.io', role: 'Admin' },
+      { label: 'Enseignante', email: 'claire.fontaine@ecoledirect.demo.edulia.io', role: 'Claire Fontaine PS' },
+      { label: 'Parent', email: 'david.dupont@ecoledirect.demo.edulia.io', role: 'David Dupont' },
+      { label: 'Élève', email: 'emma.dupont@ecoledirect.demo.edulia.io', role: 'Emma PS' },
+    ],
+  },
+  {
     category: 'College Moliere',
     icon: School,
     accounts: [
