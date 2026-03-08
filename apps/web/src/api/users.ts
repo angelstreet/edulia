@@ -55,3 +55,23 @@ export function updateUser(id: string, data: Partial<CreateUserPayload>) {
 export function deleteUser(id: string) {
   return client.delete(`/v1/users/${id}`);
 }
+
+export interface RelationshipData {
+  id: string;
+  from_user_id: string;
+  to_user_id: string;
+  type: string;
+  is_primary: boolean;
+}
+
+export function getRelationships(userId: string) {
+  return client.get<RelationshipData[]>(`/v1/users/${userId}/relationships`);
+}
+
+export function createRelationship(userId: string, toUserId: string, type = 'guardian') {
+  return client.post<RelationshipData>(`/v1/users/${userId}/relationships`, {
+    to_user_id: toUserId,
+    type,
+    is_primary: true,
+  });
+}

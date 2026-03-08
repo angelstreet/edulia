@@ -61,7 +61,8 @@ def delete_existing(db):
     ]
     for label, sql in steps:
         try:
-            db.execute(text(sql), {"tid": tid})
+            with db.begin_nested():  # savepoint — failed step won't abort full transaction
+                db.execute(text(sql), {"tid": tid})
         except Exception:
             pass
     db.commit()

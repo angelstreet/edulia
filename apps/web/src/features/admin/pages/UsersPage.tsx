@@ -8,7 +8,7 @@ import { EmptyState } from '../../../components/ui/EmptyState';
 import { Spinner } from '../../../components/ui/Spinner';
 import { Modal } from '../../../components/ui/Modal';
 import { UserForm } from '../components/UserForm';
-import { getUsers, type UserData } from '../../../api/users';
+import { getUsers, createRelationship, type UserData } from '../../../api/users';
 
 const ROLE_COLORS: Record<string, 'info' | 'success' | 'warning' | 'danger' | 'default'> = {
   admin: 'danger',
@@ -35,6 +35,10 @@ export function UsersPage() {
   const [roleFilter, setRoleFilter] = useState('');
   const [showForm, setShowForm] = useState(false);
   const [editUser, setEditUser] = useState<UserData | null>(null);
+  const [linkParent, setLinkParent] = useState<UserData | null>(null);
+  const [linkChildId, setLinkChildId] = useState('');
+  const [students, setStudents] = useState<UserData[]>([]);
+  const [linking, setLinking] = useState(false);
 
   const fetchUsers = useCallback(async () => {
     setLoading(true);
@@ -56,9 +60,26 @@ export function UsersPage() {
     }
   }, [page, search, roleFilter]);
 
+  useEffect(() => { fetchUsers(); }, [fetchUsers]);
+
   useEffect(() => {
-    fetchUsers();
-  }, [fetchUsers]);
+    if (!linkParent) return;
+    getUsers({ role: 'student', per_page: 100 })
+      .then(r => setStudents(r.data.items))
+      .catch(() => setStudents([]));
+  }, [linkParent]);
+
+  async function handleLink(e: React.FormEvent) {
+    e.preventDefault();
+    if (!linkParent || !linkChildId) return;
+    setLinking(true);
+    try {
+      await createRelationship(linkParent.id, linkChildId);
+      setLinkParent(null);
+      setLinkChildId('');
+    } catch { /**/ }
+    setLinking(false);
+  }
 
   const columns = [
     {
@@ -87,9 +108,16 @@ export function UsersPage() {
       key: 'actions',
       header: '',
       render: (row: UserData) => (
-        <Button variant="ghost" size="sm" onClick={() => { setEditUser(row); setShowForm(true); }}>
-          {t('edit', 'Edit')}
-        </Button>
+        <div className="flex gap-1">
+          <Button variant="ghost" size="sm" onClick={() => { setEditUser(row); setShowForm(true); }}>
+            {t('edit', 'Edit')}
+          </Button>
+          {row.role === 'parent' && (
+            <Button variant="ghost" size="sm" onClick={() => { setLinkParent(row); setLinkChildId(''); }}>
+              {t('linkChild', 'Link child')}
+            </Button>
+          )}
+        </div>
       ),
     },
   ];
@@ -151,6 +179,35 @@ export function UsersPage() {
           onSuccess={() => { setShowForm(false); fetchUsers(); }}
           onCancel={() => setShowForm(false)}
         />
+      </Modal>
+
+      <Modal
+        open={!!linkParent}
+        onClose={() => setLinkParent(null)}
+        title={`${t('linkChild', 'Link child')} — ${linkParent?.display_name}`}
+      >
+        <form onSubmit={handleLink} className="flex flex-col gap-4">
+          <p className="text-sm text-muted-foreground">
+            {t('linkChildDesc', 'Select the student this parent is guardian of.')}
+          </p>
+          <select
+            value={linkChildId}
+            onChange={e => setLinkChildId(e.target.value)}
+            required
+            className="h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none"
+          >
+            <option value="">— {t('selectStudent', 'Select student')} —</option>
+            {students.map(s => (
+              <option key={s.id} value={s.id}>{s.display_name || `${s.first_name} ${s.last_name}`}</option>
+            ))}
+          </select>
+          <div className="flex gap-3 justify-end">
+            <Button type="button" variant="ghost" onClick={() => setLinkParent(null)}>{t('cancel')}</Button>
+            <Button type="submit" variant="primary" disabled={linking || !linkChildId}>
+              {linking ? t('saving', 'Saving…') : t('linkChild', 'Link child')}
+            </Button>
+          </div>
+        </form>
       </Modal>
     </div>
   );
