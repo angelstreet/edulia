@@ -47,7 +47,7 @@ export interface StudentProgramme {
 }
 
 export const getStudentProgramme = (studentId: string) =>
-  client.get<StudentProgramme>(`/api/v1/curriculum/student/${studentId}`);
+  client.get<StudentProgramme>(`/v1/curriculum/student/${studentId}`);
 
 export const getCompetenciesForLevel = (level: string) =>
-  client.get<StudentProgramme>(`/api/v1/curriculum/for-level/${level}`);
+  client.get<StudentProgramme>(`/v1/curriculum/for-level/${level}`);
