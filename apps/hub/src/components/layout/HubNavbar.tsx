@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useLandingTheme } from '../../hooks/useLandingTheme';
 import { ThemeSwitcher } from '../common/ThemeSwitcher';
 import { LanguageSwitcher } from '../common/LanguageSwitcher';
@@ -6,6 +7,7 @@ import { useAuth, clearAuth } from '../../stores/authStore';
 
 export function HubNavbar() {
   const t = useLandingTheme();
+  const { t: tr } = useTranslation();
   const { user, isAuthenticated } = useAuth();
 
   return (
@@ -15,11 +17,11 @@ export function HubNavbar() {
           <img src="/edulia-logo.png" alt="EduliaHub" className="h-9" />
         </Link>
         <div className="hidden md:flex items-center gap-6">
-          <Link to="/courses" className={`text-sm ${t.textMuted} hover:text-current transition`}>Courses</Link>
-          <Link to="/platforms" className={`text-sm ${t.textMuted} hover:text-current transition`}>Platforms</Link>
-          <Link to="/curriculum" className={`text-sm ${t.textMuted} hover:text-current transition`}>Curriculum</Link>
+          <Link to="/courses" className={`text-sm ${t.textMuted} hover:text-current transition`}>{tr('landing.navCourses')}</Link>
+          <Link to="/platforms" className={`text-sm ${t.textMuted} hover:text-current transition`}>{tr('landing.navPlatforms')}</Link>
+          <Link to="/curriculum" className={`text-sm ${t.textMuted} hover:text-current transition`}>{tr('landing.navCurriculum')}</Link>
           <a href="https://edulia.angelstreet.io" className={`text-sm ${t.textMuted} hover:text-current transition`}>
-            For Institutions &#8599;
+            {tr('landing.navForInstitutions')} &#8599;
           </a>
         </div>
         <div className="flex items-center gap-4">
@@ -27,13 +29,13 @@ export function HubNavbar() {
           <ThemeSwitcher inline />
           {isAuthenticated ? (
             <>
-              <Link to="/dashboard" className={`text-sm font-medium ${t.text}`}>Dashboard</Link>
-              <button onClick={clearAuth} className={`text-sm ${t.textMuted} hover:text-current`}>Log out</button>
+              <Link to="/dashboard" className={`text-sm font-medium ${t.text}`}>{tr('landing.navDashboard')}</Link>
+              <button onClick={clearAuth} className={`text-sm ${t.textMuted} hover:text-current`}>{tr('landing.navLogOut')}</button>
             </>
           ) : (
             <>
-              <Link to="/login" className={`text-sm font-medium ${t.text} transition`}>Log in</Link>
-              <Link to="/signup" className={`text-sm font-medium ${t.primary} ${t.primaryHover} ${t.primaryText} px-4 py-2 rounded-lg transition`}>Sign up free</Link>
+              <Link to="/login" className={`text-sm font-medium ${t.text} transition`}>{tr('landing.navLogIn')}</Link>
+              <Link to="/signup" className={`text-sm font-medium ${t.primary} ${t.primaryHover} ${t.primaryText} px-4 py-2 rounded-lg transition`}>{tr('landing.navSignUp')}</Link>
             </>
           )}
         </div>

@@ -210,14 +210,22 @@ export function AttendancePage() {
         <>
           {/* Roll call table */}
           <div className="border rounded-lg overflow-hidden">
-            <table className="w-full text-sm">
+            <table className="w-full text-sm table-fixed">
+              <colgroup>
+                <col className="w-10" />
+                <col />
+                <col className="w-16" />
+                <col className="w-16" />
+                <col className="w-16" />
+                <col className="w-32" />
+              </colgroup>
               <thead>
                 <tr className="bg-muted/50 border-b">
-                  <th className="text-left px-4 py-2 w-8">#</th>
+                  <th className="text-left px-4 py-2">#</th>
                   <th className="text-left px-4 py-2">{t('student', 'Student')}</th>
-                  <th className="text-center px-2 py-2 w-16">{t('presentShort', 'P')}</th>
-                  <th className="text-center px-2 py-2 w-16">{t('absentShort', 'A')}</th>
-                  <th className="text-center px-2 py-2 w-16">{t('lateShort', 'R')}</th>
+                  <th className="text-center px-2 py-2">{t('presentShort', 'P')}</th>
+                  <th className="text-center px-2 py-2">{t('absentShort', 'A')}</th>
+                  <th className="text-center px-2 py-2">{t('lateShort', 'R')}</th>
                   <th className="text-left px-4 py-2">{t('note', 'Note')}</th>
                 </tr>
               </thead>
@@ -251,8 +259,7 @@ export function AttendancePage() {
                       />
                     </td>
                     <td className="px-4 py-2 text-muted-foreground text-xs">
-                      {s.status === 'late' && s.late_minutes && `${s.late_minutes}min`}
-                      {s.status === 'absent' && !s.existing_id && t('noJustification', 'no justif.')}
+                      {s.status === 'late' && s.late_minutes ? `${s.late_minutes}min` : s.status === 'absent' && !s.existing_id ? t('noJustification', 'no justif.') : '\u00a0'}
                     </td>
                   </tr>
                 ))}
@@ -268,7 +275,7 @@ export function AttendancePage() {
               <Badge variant="warning">{lateCount} {t('late', 'late')}</Badge>
             </div>
             <Button variant="primary" loading={saving} onClick={handleSave}>
-              {saved ? t('saved', 'Saved') : t('saveAndClose', 'Save & close')}
+              {saved ? t('saved', 'Saved') : t('save')}
             </Button>
           </div>
         </>
