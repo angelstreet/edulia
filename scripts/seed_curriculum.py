@@ -339,7 +339,7 @@ DEMO_OBJECTIVES = [
      None, None, None),
     ("C1-LANGAGE-1_3-07", "Trimestre 2", 1, 4,
      "Apprentissage de comptines et poésies courtes",
-     "external_url", "https://www.lumni.fr/dossier/comptines-et-chansons",
+     "external_url", "https://www.lumni.fr/recherche?query=comptines+maternelle",
      "Lumni — Comptines et chansons"),
     ("C1-MONDE-5_2_2-03", "Trimestre 2", 5, 8,
      "Le corps humain — identification des parties du corps",

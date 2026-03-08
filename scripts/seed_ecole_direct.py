@@ -611,7 +611,7 @@ def seed(db: Session):
                 "Comptines et poésies courtes — 2 à 3 comptines par trimestre",
                 "completed",
                 [
-                    ("external_url", "https://www.lumni.fr/dossier/comptines-et-chansons",
+                    ("external_url", "https://www.lumni.fr/recherche?query=comptines+maternelle",
                      "Lumni — Comptines et chansons"),
                     ("audio", "https://www.litteratureaudio.com/livre-audio-gratuit-mp3/jean-de-la-fontaine-110-fables.html",
                      "Littératureaudio — La Fontaine (110 fables, gratuit)"),
