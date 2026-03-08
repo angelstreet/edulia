@@ -1,21 +1,24 @@
 # 10 — Curriculum Feature Scope
 
-**Status:** Pre-build validation ✅
-**Author:** Brainstorm 2026-03-08
-**Goal:** Connect French gov curriculum → school program → learning content (EduliaHub + external)
+**Status:** Phase 1-3 SHIPPED ✅ · Phase 4-5 BACKLOG
+**Last updated:** 2026-03-08
+**Goal:** Connect French gov curriculum → school program → learning content → parent home use
 
 ---
 
 ## Problem we're solving
 
-A parent wants to know:
-> *"My daughter is in PS (age 3). What is she expected to learn per the French government, what has her school planned, and what can I use at home to help?"*
+**Parent at home (use case 1 — priority):**
+> *"My daughter is in PS (age 3). I want to let her learn to count and read in a funny way with games, videos, and audio — all aligned with what school expects."*
 
-A school director wants to say in their sales pitch:
-> *"Our program is fully aligned with the national curriculum. Every class is mapped to the official requirements."*
+**Parent at home (use case 2 — La Fontaine, etc.):**
+> *"She has to learn a poem for school (La Cigale et la Fourmi). I want the text, an audio reading, a video, or a game — from existing free resources, no content we create ourselves."*
 
-A teacher wants to see:
-> *"When I create homework or an activity, what official competency does it address?"*
+**School director selling pitch:**
+> *"Our program is fully aligned with the national curriculum. Every class is mapped to the official requirements, visible by parents in real time."*
+
+**Teacher creating homework/activity:**
+> *"Tag this activity to official competency C1-MATHS-16 so it appears in the parent's programme view."*
 
 ---
 
@@ -27,7 +30,7 @@ GLOBAL (no tenant_id — shared DB, EduliaHub layer)
 ├── curriculum_frameworks      "Programme Cycle 1 — France 2021"
 ├── curriculum_domains         "Mobiliser le langage dans toutes ses dimensions"
 ├── curriculum_competencies    "Dire la suite des nombres jusqu'à trente"
-├── course_competencies        links Course (catalog) → competency
+└── course_competencies        links EduliaHub Course → competency
 │
 TENANT-SCOPED (per school — Edulia layer)
 │
@@ -38,73 +41,67 @@ TENANT-SCOPED (per school — Edulia layer)
 **Key rule:**
 - Gov curriculum data = **global**, lives once, available to all schools and EduliaHub
 - School program = **tenant-scoped**, each school maps to their own sequence/timing
-- Content links = **tenant-scoped** for school-created content; **global** for EduliaHub courses
+- External resources (Lumni, YouTube, Mathador) = linked as `external_url` — we don't host anything
 
 ---
 
-## Data sourced — verification done ✅
+## Coverage: Can we go up to Baccalauréat (age 18)?
 
-### Source: eduscol.education.fr (PDFs, no API)
+**YES** — France has official published programmes for all levels. No API exists; PDFs only.
 
-| Cycle | PDF | Pages | Status |
+| Cycle | Code | Ages | Levels | PDF Source | Competencies | Status |
+|---|---|---|---|---|---|---|
+| Maternelle | C1 | 3–6 | PS, MS, GS | eduscol.education.fr/document/7883/download | **77** | ✅ **Seeded** |
+| Élémentaire | C2 | 6–9 | CP, CE1, CE2 | education.gouv.fr/ensel135_annexe3.pdf (Français) + annexe4.pdf (Maths) | ~120 est. | 🔴 PDF found, not parsed |
+| Élémentaire–Collège | C3 | 9–12 | CM1, CM2, 6e | eduscol.education.fr/document/50990/download (108 pages) | ~200 est. | 🔴 PDF found, not parsed |
+| Collège | C4 | 12–15 | 5e, 4e, 3e | eduscol.education.fr (by subject per level) | ~300 est. | 🔴 Not identified yet |
+| Lycée | Lycée | 15–18 | 2nde, 1re, Tle | education.gouv.fr (by filière: générale, pro, techno) | ~400 est. | 🔴 Not identified yet |
+
+**Key complexity:** C4 and Lycée are subject-by-subject (Maths, Français, Histoire-Géo, Sciences, etc.) — ~15 subjects × 3 years = many PDFs. C1–C3 are unified cross-subject by cycle.
+
+**Realistic path:**
+- C1–C3: parseable with our existing pdfplumber extractor (~1 week work)
+- C4 + Lycée: require per-subject PDF hunt + LLM-assisted extraction (~2-3 weeks additional)
+- **MVP target: C1 + C2 + C3 = covers ages 3–12** — primary school complete, covers the widest school market
+
+---
+
+## Data sourced
+
+### Seeded today ✅
+
+| Framework | Domains | Competencies | Status |
 |---|---|---|---|
-| Cycle 1 (PS/MS/GS) | `eduscol.education.fr/document/7883/download` | 32 | ✅ Accessible, parseable |
-| Cycle 3 (CM1/CM2/6e) | `eduscol.education.fr/document/50990/download` | 108 | ✅ Accessible |
-| Cycle 2 Français (2025) | `education.gouv.fr/sites/default/files/ensel135_annexe3.pdf` | — | Need to verify |
-| Cycle 2 Maths (2025) | `education.gouv.fr/sites/default/files/ensel135_annexe4.pdf` | — | Need to verify |
+| FR-MENJ-C1-2021 (Maternelle) | 5 | 77 | ✅ In DB |
 
-### Extraction result (Cycle 1 validated):
+### Demo data for Mon Ecole (tenant)
 
-| Framework | Domains | Competencies |
-|---|---|---|
-| FR-MENJ-C1-2021 (Maternelle) | 5 | 77 |
-
-Extraction tool: `pdfplumber` (installed). 77 bullets auto-extracted from "Ce qui est attendu en fin d'école maternelle" sections.
-
-### No official API exists
-No JSON/XML/API from education.gouv.fr or data.gouv.fr. PDFs are the only source. No existing open-source dataset. We build this ourselves.
+| What | Detail |
+|---|---|
+| Student | Léa Rousseau, Petite Section (age 3) |
+| Parent | Sophie Rousseau — `parent.rousseau@demo.edulia.io / demo2026` |
+| School plan | 6 learning objectives mapped by school |
+| Content links | 4 external resources (Lumni, Mathador) |
+| View | `/children` → Léa → "Programme scolaire" |
 
 ---
 
-## DB Schema (new tables)
+## DB Schema
 
 ### Global tables (no TenantMixin)
 
 ```python
 class CurriculumFramework(Base):
     __tablename__ = "curriculum_frameworks"
-    id          = UUID, pk
-    code        = String  # "FR-MENJ-C1-2021"
-    name        = String  # "Programme de l'école maternelle — Cycle 1"
-    country     = String  # "FR"
-    cycle       = String  # "1" | "2" | "3" | "4"
-    year        = Integer # 2021
-    source      = String  # "BOENJS n°25 du 24 juin 2021"
-    levels      = ARRAY   # ["PS", "MS", "GS"]
+    id, code, name, country, cycle, year, source, levels
 
 class CurriculumDomain(Base):
     __tablename__ = "curriculum_domains"
-    id           = UUID, pk
-    framework_id = FK → curriculum_frameworks
-    code         = String  # "MATHS"
-    name         = String  # "Acquérir les premiers outils mathématiques"
-    sort_order   = Integer
+    id, framework_id, code, name, sort_order
 
 class CurriculumCompetency(Base):
     __tablename__ = "curriculum_competencies"
-    id           = UUID, pk
-    domain_id    = FK → curriculum_domains
-    code         = String  # "C1-MATHS-4_1_2-16"
-    description  = Text    # "Dire la suite des nombres jusqu'à trente"
-    sub_domain   = String  # "Nombres et quantités"
-    levels       = ARRAY   # ["GS"] or ["CP","CE1"] etc.
-    sort_order   = Integer
-
-class CourseCompetency(Base):
-    __tablename__ = "course_competencies"
-    course_id      = FK → courses
-    competency_id  = FK → curriculum_competencies
-    # PK = (course_id, competency_id)
+    id, domain_id, code, description, sub_domain, levels, sort_order
 ```
 
 ### Tenant-scoped tables
@@ -112,176 +109,125 @@ class CourseCompetency(Base):
 ```python
 class LearningObjective(Base, TenantMixin):
     __tablename__ = "learning_objectives"
-    id            = UUID, pk
-    competency_id = FK → curriculum_competencies
-    term_id       = FK → terms (nullable)
-    week_from     = Integer (nullable)
-    week_to       = Integer (nullable)
-    group_id      = FK → groups (nullable — specific to a class)
-    notes         = Text    # teacher's own note
-    status        = String  # "planned" | "in_progress" | "completed"
+    id, competency_id, term_id, week_from, week_to, group_id, notes, status
 
 class ObjectiveContent(Base, TenantMixin):
     __tablename__ = "objective_content"
-    id           = UUID, pk
-    objective_id = FK → learning_objectives
-    content_type = String  # "activity" | "hub_course" | "external_url" | "homework"
-    content_ref  = String  # UUID (activity/course) or URL string
-    label        = String  # display text for the link
-    notes        = Text
+    id, objective_id, content_type, content_ref, label, notes
+
+# content_type values:
+#   "external_url"  → link to Lumni, YouTube, Mathador, etc.
+#   "youtube_embed" → embeddable YouTube player (if needed)
+#   "activity"      → internal Edulia activity UUID
+#   "hub_course"    → EduliaHub course UUID
+#   "audio"         → direct audio file URL (public domain readings)
+#   "text"          → link to text resource (Wikisource poem, etc.)
+```
+
+---
+
+## Content types and free resources
+
+### Use case 1: Learn to count / read at home (PS age 3)
+
+| Resource | Type | What | Integration |
+|---|---|---|---|
+| **Lumni** (lumni.fr) | video | Gov-backed France TV edu, all levels, Maternelle section | external_url |
+| **jeux.lumni.fr** | game | Browser games by level and subject | external_url |
+| **Mathador Junior** (mathador.fr) | game | Mental math games, Maternelle–CM2 | external_url (iframe-embeddable) |
+| **Khan Academy** (fr.khanacademy.org) | video + exercise | Math, reading, all ages, free | external_url |
+| **France TV Slash** | video | Short educational videos for children | external_url |
+| **1, 2, 3 Codez!** (1234codez.fr) | game | Logic/coding games, Maternelle–Lycée | external_url |
+
+### Use case 2: Poésie Jean de La Fontaine (learn at home)
+
+| Resource | Type | What | Free? |
+|---|---|---|---|
+| **Wikisource.org** | text | Full public domain texts, all fables | ✅ Free |
+| **YouTube** (search "La Cigale et la Fourmi enfants") | video + audio | Many illustrated readings for children | ✅ Free |
+| **Lumni** | video | Official edu videos on La Fontaine | ✅ Free |
+| **litteratureaudio.com** | audio | Free audiobook readings of La Fontaine | ✅ Free |
+| **Bescherelle** / **Ortholud** | game/quiz | French language games, grammar | ✅ Free |
+
+**Key principle:** We never host or create content. We are a **content directory** — we link existing free resources to official competencies. A parent clicks "resources" on a competency, sees the curated links, and opens them in a new tab.
+
+### Content type in our DB
+
+```
+content_type = "external_url"   → most links (Lumni, YouTube, Wikisource)
+content_type = "audio"          → direct MP3 link (litteratureaudio.com)
+content_type = "text"           → Wikisource poem page
+content_type = "game"           → Mathador, jeux.lumni.fr
+content_type = "activity"       → internal Edulia interactive activity
 ```
 
 ---
 
 ## API Endpoints
 
-### Global (no auth required)
+### Implemented ✅
+
+| Method | Path | Auth | Returns |
+|---|---|---|---|
+| GET | `/api/v1/curriculum/frameworks` | None | List all frameworks |
+| GET | `/api/v1/curriculum/for-level/{level}` | None | Competencies for PS/MS/GS/CP/etc. |
+| GET | `/api/v1/curriculum/student/{student_id}` | Auth | Student's competencies + school plan + content |
+
+### Backlog
 
 | Method | Path | Returns |
 |---|---|---|
-| GET | `/api/v1/curriculum/frameworks` | List frameworks (FR cycle 1-4) |
-| GET | `/api/v1/curriculum/frameworks/{code}` | Framework detail + domain list |
 | GET | `/api/v1/curriculum/domains/{id}/competencies` | Competencies for a domain |
-| GET | `/api/v1/curriculum/competencies/{id}` | Single competency + courses linked |
-| GET | `/api/v1/curriculum/for-level/{level}` | All competencies for a level (e.g., PS) |
-
-### School-scoped (require auth + tenant)
-
-| Method | Path | Returns |
-|---|---|---|
-| GET | `/api/v1/learning-objectives` | School's program (filters: term_id, group_id) |
-| POST | `/api/v1/learning-objectives` | Map a competency to school schedule |
-| PATCH | `/api/v1/learning-objectives/{id}` | Update status / timing / notes |
-| DELETE | `/api/v1/learning-objectives/{id}` | Remove mapping |
-| POST | `/api/v1/learning-objectives/{id}/content` | Link content to objective |
-| GET | `/api/v1/curriculum/student/{student_id}` | Student's competencies + school plan + content |
+| POST | `/api/v1/learning-objectives` | Map competency to school schedule |
+| PATCH | `/api/v1/learning-objectives/{id}` | Update status / timing |
+| POST | `/api/v1/learning-objectives/{id}/content` | Link external resource to objective |
 
 ---
 
 ## Frontend Views
 
-### 1. Parent view — "Programme de [enfant]" (killer sales demo feature)
+### Shipped ✅
 
-Route: `/children` → click on child → "Programme" tab
+**Parent view — `/children/:id/programme`**
 
 ```
-Léa — Petite Section de Maternelle
+Léa — Petite Section
+Programme officiel : Programme de l'école maternelle — Cycle 1 (BOENJS 2021)
+Objectifs planifiés par l'école: 6 / 77
 
-📚 Mathématiques — Nombres et quantités
-   ├── 🏛️  [Programme officiel] Dire la suite des nombres jusqu'à trente
-   │        Source: MENJ 2021 · Attendu en fin de GS
-   ├── 🏫  [Notre programme] Abordé en T2 Semaine 3-4
-   │        Note de l'enseignante: "Nous utilisons les comptines et jeux de dénombrement"
-   └── 📎  [Ressources]
-            ▶ Jeu de comptage (Activité Edulia)
-            🔗 Lumni — Les chiffres en maternelle
-            🔗 Mathador Junior
+[Mobiliser le langage dans toutes ses dimensions] — 21 attendus · 2 planifiés
+  LANGAGE ORAL ET DÉCOUVERTE DE L'ÉCRIT
+  > Communiquer avec les adultes...  [Planifié] [1 ressource]
+  > S'exprimer dans un langage oral...
+  ...
 
-✅ Déjà couverts ce trimestre: 4/8 objectifs
-🔵 En cours: 2/8
-⬜ À venir: 2/8
+[Agir, s'exprimer à travers l'activité physique]
+[Agir, s'exprimer à travers les activités artistiques]
+[Acquérir les premiers outils mathématiques]
+[Explorer le monde]
 ```
 
-### 2. Teacher/admin — "Planifier le programme"
+### Backlog
 
-Route: `/admin/curriculum` (admin/teacher only)
-
-- Checklist of all gov competencies for their school's levels
-- Click any competency → set term + weeks + notes
-- Drag to reorder across the year
-- See coverage: "12/77 competencies planned for Cycle 1"
-
-### 3. EduliaHub — public curriculum browser
-
-Route: `hub.edulia.angelstreet.io/curriculum`
-
-- Browse by cycle / level / subject
-- Each competency shows: description + linked courses
-- No login needed — discovery tool that drives school demos
-
-### 4. Activity/homework creation — tagging
-
-When a teacher creates an activity or homework, add:
-- Optional "Competency" field: search competencies, pick one
-- Shows: "This activity addresses: Dire la suite des nombres (C1-MATHS)"
-
----
-
-## Content linking strategy
-
-### EduliaHub courses → competencies (manual/seed)
-
-Tag existing courses with competency codes at seed time. Example:
-```
-Course: "Mathador Junior" → tags: ["C1-MATHS-4_1_2-16", "C1-MATHS-4_1_2-12"]
-Course: "Lumni: le corps humain" → tags: ["C1-MONDE-5_2_2-03"]
-```
-
-### External content (iframe strategy)
-
-Key free French sources to link:
-| Source | Content | Integration |
-|---|---|---|
-| Lumni (lumni.fr) | Video + interactive, gov-backed, free | link out (lumni.fr blocks iframe) |
-| Mathador | Math games | embeddable iframe |
-| Khan Academy Kids | Early numeracy, literacy | link out |
-| Canopé | Teacher resources | link out |
-| La Classe Maternelle | Maternelle activities | link out |
-
-**Iframe activity type:** Add `type: "external_url"` to Activity model. Teacher creates activity, pastes URL, student opens it inside Edulia (iframe or new tab based on site policy).
+- **Teacher/admin planning UI** — checklist to map competencies to terms/weeks
+- **Resource management** — add/remove external links per objective
+- **EduliaHub public browser** — `/curriculum` page, no login, drives school demos
 
 ---
 
 ## Build phases
 
-### Phase 1 — Data layer (2-3 days)
-1. Add 5 new tables (migration)
-2. Write PDF parser + seed script for Cycle 1 (77 competencies validated ✅)
-3. Extend to Cycle 2/3 using LLM-assisted parsing
-4. Seed `course_competencies` linking existing EduliaHub courses to ~20 competencies
-5. API endpoints: `GET /curriculum/frameworks`, `GET /curriculum/for-level/:level`
-
-### Phase 2 — School program mapping (2 days)
-6. `LearningObjective` CRUD API + migration
-7. Admin UI: checklist to plan competencies across the year
-8. Objective status tracking
-
-### Phase 3 — Parent view (2 days) ← THE DEMO MOMENT
-9. "Programme de [child]" tab in `/children`
-10. Shows: gov competency → school plan → linked resources
-11. Term/subject navigation
-12. Coverage progress bar
-
-### Phase 4 — Content tagging (1 day)
-13. Activity/homework creation: optional competency tag field
-14. Show badge on completed activities: "Covers: [competency name]"
-
-### Phase 5 — EduliaHub browser (1 day)
-15. `/curriculum` page on hub.edulia — public, no auth
-16. Browse by level, shows courses per competency
-
-**Total: ~8-10 days from scratch. Phase 1-3 alone (~5 days) gives the sales demo.**
-
----
-
-## Seed script plan
-
-`scripts/seed_curriculum.py`:
-
-```bash
-python3 scripts/seed_curriculum.py           # seeds Cycle 1 (validated)
-python3 scripts/seed_curriculum.py --cycle 2  # seeds Cycle 2 (needs parsing)
-python3 scripts/seed_curriculum.py --reset    # drops and reseeds
-```
-
-Data files (generated, committed to repo):
-```
-scripts/curriculum_data/
-  FR-C1-2021.json   # 5 domains, 77 competencies — generated from PDF ✅
-  FR-C2-2025.json   # Cycle 2 (CP/CE1/CE2) — to build
-  FR-C3-2023.json   # Cycle 3 (CM1/CM2/6e) — to build
-  FR-C4.json        # Cycle 4 (5e/4e/3e) — to build
-```
+| Phase | What | Status |
+|---|---|---|
+| 1 | DB tables + seed Cycle 1 (77 competencies) | ✅ **Shipped** |
+| 2 | School program mapping (learning_objectives CRUD) | ✅ **Shipped** (seeded via script) |
+| 3 | Parent view `/children/:id/programme` | ✅ **Shipped** |
+| 4a | Seed Cycle 2 (CP–CE2, ages 6-9) | 🔴 Backlog |
+| 4b | Seed Cycle 3 (CM1–6e, ages 9-12) | 🔴 Backlog |
+| 4c | Seed Cycle 4 + Lycée (ages 12-18) | 🔴 Backlog (complex) |
+| 5 | Teacher UI to plan + add content links | 🔴 Backlog |
+| 6 | EduliaHub public curriculum browser | 🔴 Backlog |
+| 7 | Activity/homework competency tagging | 🔴 Backlog |
 
 ---
 
@@ -289,19 +235,8 @@ scripts/curriculum_data/
 
 | Risk | Mitigation |
 |---|---|
-| PDF structure changes per cycle (Cycle 3 is 108 pages, different format) | Parse Cycle 1 first; use LLM extraction for Cycles 2/3/4 |
-| Some competencies get cut off mid-sentence (PDF line wrapping artifact) | Manual review + clean-up pass on extracted JSON before committing |
-| School refuses to spend time mapping competencies | Provide a pre-filled default mapping (generic template), school just validates |
-| Lumni/external sites block iframe | Use `window.open` fallback; add `target="_blank"` as backup |
-
----
-
-## Next step to validate before building
-
-1. ✅ PDF accessible and parseable (Cycle 1 proven)
-2. ✅ 77 competencies extractable with clean structure
-3. ⬜ Run full seed script → insert into dev DB → verify rows
-4. ⬜ Build one minimal API endpoint `GET /api/v1/curriculum/for-level/GS` → verify JSON shape
-5. ⬜ Build static parent view mockup → show to user for validation before full build
-
-Only proceed to full build after step 4-5 pass.
+| Cycle 3 PDF (108 pages) has different structure | Use LLM extraction pass after pdfplumber text dump |
+| C4 / Lycée = many subject-specific PDFs | Prioritize Maths + Français first (highest demand) |
+| Schools won't map competencies manually | Provide default template mapping; school just validates |
+| Lumni blocks iframe embedding | Use `target="_blank"` external link only |
+| Poem text copyright | Use Wikisource (public domain — La Fontaine died 1695) |

@@ -1,6 +1,6 @@
 # 03 — Roadmap: Built, In Progress, Next
 
-Last updated: 2026-03-13
+Last updated: 2026-03-08
 
 ---
 
@@ -34,6 +34,7 @@ Last updated: 2026-03-13
 | wallet | ✅ | Prepaid balance, top-up, service catalog, subscriptions, transaction history |
 | notifications | ✅ | SSE push + 30s polling fallback, producers in homework/gradebook/activity, bell badge, unread count |
 | parent portal | ✅ | /children page + ParentDashboard + StudentGradesPage child selector |
+| curriculum (Phase 1–3) | ✅ | Gov programme view per child — Cycle 1 (77 competencies), school plan overlay, content links |
 | student portal | ✅ | Dashboard + grades + homework + timetable |
 | enrollment | ✅ | Parent submits request, admin reviews, auto-creates student on approval |
 | absence_justification | ✅ | Parent submits, admin/teacher reviews, SMS on status change |
@@ -172,6 +173,36 @@ Last updated: 2026-03-13
 
 ---
 
+### ✅ DONE: Curriculum — Parent Programme View (shipped 2026-03-08)
+
+**Data layer:**
+- 5 global tables: `curriculum_frameworks`, `curriculum_domains`, `curriculum_competencies`, `learning_objectives`, `objective_content`
+- PDF extraction tool (`pdfplumber`) — Cycle 1 (Maternelle) seeded: 1 framework, 5 domains, 77 competencies
+- Seed script: `scripts/seed_curriculum.py` — downloads eduscol PDF, extracts competencies, inserts globally
+
+**API:**
+- `GET /api/v1/curriculum/for-level/{level}` — public, returns gov competencies for PS/MS/GS/etc.
+- `GET /api/v1/curriculum/student/{student_id}` — auth, returns competencies + school plan overlay + content links
+
+**Frontend:**
+- `ProgrammePage` — color-coded domain blocks, expandable competencies, school plan badge, resource links, progress bar
+- `ChildrenPage` — "Programme scolaire" quick link per child
+- Router: `/children/:studentId/programme`
+
+**Demo data for Mon Ecole:**
+- Student: Léa Rousseau (PS, age 3) — `lea.rousseau@demo.edulia.io`
+- Parent: Sophie Rousseau — `parent.rousseau@demo.edulia.io / demo2026`
+- 6 school learning objectives + 4 external resource links (Lumni, Mathador)
+
+**Backlog (curriculum phases 4-7):**
+- Seed Cycle 2 (CP–CE2, ages 6-9) and Cycle 3 (CM1–6e, ages 9-12) — PDFs identified
+- Seed Cycle 4 (5e–3e) and Lycée up to Baccalauréat — possible, per-subject PDFs needed
+- Teacher UI to plan competencies + add content links
+- EduliaHub public curriculum browser (no auth)
+- Activity/homework competency tagging
+
+---
+
 ### 🔵 BACKLOG: Interactive Teaching — Phase D
 
 Game types beyond QCM:
@@ -205,6 +236,7 @@ For tutor accounts (already have role):
 | PWA + Mobile/Tablet Layout | ✅ Shipped 2026-03-12 |
 | School Gaps + Tutor CRM | ✅ Shipped 2026-03-13 |
 | Billing UX + Private Tutor Polish | ✅ Shipped 2026-03-08 |
+| Curriculum — Parent Programme View (Cycle 1) | ✅ Shipped 2026-03-08 |
 
 ---
 
