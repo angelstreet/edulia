@@ -54,6 +54,7 @@ const NAV_BY_ROLE: Record<string, NavItem[]> = {
   ],
   teacher: [
     { to: '/dashboard', label: 'dashboard', icon: LayoutGrid },
+    { to: '/admin/users', label: 'users', icon: Users },
     { to: '/timetable', label: 'timetable', icon: Calendar },
     { to: '/attendance', label: 'attendance', icon: ClipboardCheck },
     { to: '/absences', label: 'absences', icon: ClipboardCheck },
@@ -94,6 +95,7 @@ const NAV_BY_ROLE: Record<string, NavItem[]> = {
   ],
   tutor: [
     { to: '/dashboard', label: 'dashboard', icon: LayoutGrid },
+    { to: '/admin/users', label: 'users', icon: Users },
     { to: '/timetable', label: 'timetable', icon: Calendar },
     { to: '/tutoring', label: 'tutoringCRM', icon: Users },
     { to: '/calendar', label: 'calendar', icon: Calendar },

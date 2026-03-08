@@ -190,6 +190,8 @@ def seed(db):
             "attendance.record.create",
             "messaging.thread.send",
             "admin.user.view",
+            "admin.user.create",
+            "admin.user.edit",
         ],
     )
     student_role = Role(
