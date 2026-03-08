@@ -187,8 +187,8 @@ def test_student_sees_only_published_for_their_group(api, teacher, student):
     - Create a published activity for a different group (student should NOT see it)
     - Assert student list contains exactly the correct published activity
     """
-    # Resolve student's group — pick the first group the student can see
-    student_groups_r = api.get("/api/v1/groups", token=student["token"])
+    # Resolve student's actual group memberships
+    student_groups_r = api.get("/api/v1/groups/my", token=student["token"])
     student_groups = student_groups_r.json() if student_groups_r.status_code == 200 else []
     if not (isinstance(student_groups, list) and student_groups):
         pytest.skip("No groups found for student — seed data required")
@@ -261,7 +261,7 @@ def test_student_sees_only_published_for_their_group(api, teacher, student):
 
 def test_student_does_not_see_draft_activities(api, teacher, student):
     """Student sees 0 results when only a draft exists for their group."""
-    student_groups_r = api.get("/api/v1/groups", token=student["token"])
+    student_groups_r = api.get("/api/v1/groups/my", token=student["token"])
     student_groups = student_groups_r.json() if student_groups_r.status_code == 200 else []
     if not (isinstance(student_groups, list) and student_groups):
         pytest.skip("No groups found for student — seed data required")
