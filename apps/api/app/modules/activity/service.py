@@ -8,6 +8,7 @@ from app.core.exceptions import BadRequestException, ConflictException, Forbidde
 from app.db.models.activity import Activity
 from app.db.models.activity_attempt import ActivityAttempt
 from app.db.models.gradebook import Assessment, Grade
+from app.db.models.group import GroupMembership
 from app.modules.activity.scoring import score_attempt
 
 
@@ -21,10 +22,17 @@ def list_activities(
     query = db.query(Activity).filter(Activity.tenant_id == tenant_id)
 
     if role == "student":
-        # Students see only published activities where group_id matches their group
+        # Students see only published activities assigned to their own groups
         query = query.filter(Activity.status == "published")
         if group_id:
             query = query.filter(Activity.group_id == group_id)
+        else:
+            # Auto-restrict to groups the student belongs to
+            student_group_ids = [
+                gm.group_id
+                for gm in db.query(GroupMembership).filter(GroupMembership.user_id == user_id).all()
+            ]
+            query = query.filter(Activity.group_id.in_(student_group_ids))
     else:
         # Teachers and admins see all activities for the tenant
         if group_id:
