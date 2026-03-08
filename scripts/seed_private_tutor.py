@@ -1,0 +1,309 @@
+#!/usr/bin/env python3
+"""Seed a minimal private tutor profile: 1 tutor, 1 student, 1 parent.
+
+This creates the smallest possible tutoring tenant — a single teacher
+working with one child, with the parent informed at each step.
+
+Usage:
+    python scripts/seed_private_tutor.py
+    python scripts/seed_private_tutor.py --reset   # delete & recreate
+
+Tenant slug: private-tutor-demo
+Login password for all accounts: demo2026
+"""
+import argparse
+import os
+import sys
+from datetime import date, time
+from decimal import Decimal
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "apps", "api"))
+
+from app.core.security import hash_password
+from app.db.database import SessionLocal
+from app.db.models import (
+    AcademicYear, Assessment, Campus, Grade,
+    Group, GroupMembership, Message, Relationship,
+    Role, Session, Subject, Term, Thread, ThreadParticipant,
+    Tenant, User, UserRole,
+)
+
+SLUG = "private-tutor-demo"
+PASSWORD = hash_password("demo2026")
+
+
+def delete_existing(db):
+    from sqlalchemy import text
+    tenant = db.query(Tenant).filter(Tenant.slug == SLUG).first()
+    if not tenant:
+        return
+    tid = str(tenant.id)
+    steps = [
+        ("grades", f"DELETE FROM grades WHERE assessment_id IN (SELECT id FROM assessments WHERE tenant_id = :tid)"),
+        ("assessments", f"DELETE FROM assessments WHERE tenant_id = :tid"),
+        ("messages", f"DELETE FROM messages WHERE thread_id IN (SELECT id FROM threads WHERE tenant_id = :tid)"),
+        ("thread_participants", f"DELETE FROM thread_participants WHERE thread_id IN (SELECT id FROM threads WHERE tenant_id = :tid)"),
+        ("threads", f"DELETE FROM threads WHERE tenant_id = :tid"),
+        ("sessions", f"DELETE FROM sessions WHERE tenant_id = :tid"),
+        ("group_memberships", f"DELETE FROM group_memberships WHERE group_id IN (SELECT id FROM groups WHERE tenant_id = :tid)"),
+        ("groups", f"DELETE FROM groups WHERE tenant_id = :tid"),
+        ("relationships", f"DELETE FROM relationships WHERE tenant_id = :tid"),
+        ("user_roles", f"DELETE FROM user_roles WHERE user_id IN (SELECT id FROM users WHERE tenant_id = :tid)"),
+        ("users", f"DELETE FROM users WHERE tenant_id = :tid"),
+        ("subjects", f"DELETE FROM subjects WHERE tenant_id = :tid"),
+        ("terms", f"DELETE FROM terms WHERE academic_year_id IN (SELECT id FROM academic_years WHERE tenant_id = :tid)"),
+        ("academic_years", f"DELETE FROM academic_years WHERE tenant_id = :tid"),
+        ("campuses", f"DELETE FROM campuses WHERE tenant_id = :tid"),
+        ("roles", f"DELETE FROM roles WHERE tenant_id = :tid"),
+        ("tenants", f"DELETE FROM tenants WHERE id = :tid"),
+    ]
+    for label, sql in steps:
+        try:
+            db.execute(text(sql), {"tid": tid})
+        except Exception:
+            pass
+    db.commit()
+    print(f"Deleted existing tenant '{SLUG}'")
+
+
+def seed(db):
+    print("Creating private tutor profile...")
+
+    # ── Tenant ──────────────────────────────────────────────────────────────
+    tenant = Tenant(
+        name="Cours Particuliers — M. Rousseau",
+        slug=SLUG,
+        type="tutoring_center",
+        settings={
+            "timezone": "Europe/Paris",
+            "locale": "fr",
+            "currency": "EUR",
+            # Minimal module set for a private tutor
+            "enabled_modules": ["gradebook", "homework", "messaging", "billing", "calendar"],
+            "grading_scale": 20,
+            "labels": {
+                "teacher": "Professeur",
+                "learner": "Élève",
+                "supervisor": "Parent",
+            },
+        },
+        branding={
+            "display_name": "Cours Particuliers Rousseau",
+        },
+    )
+    db.add(tenant)
+    db.flush()
+    tid = tenant.id
+
+    # ── Campus (home-based — no physical room needed) ───────────────────────
+    campus = Campus(tenant_id=tid, name="Domicile", is_default=True)
+    db.add(campus)
+    db.flush()
+
+    # ── Roles ────────────────────────────────────────────────────────────────
+    tutor_role = Role(
+        tenant_id=tid, code="teacher", display_name="Professeur", is_system=True,
+        permissions=[
+            "gradebook.grade.create", "gradebook.grade.edit",
+            "homework.create", "homework.edit",
+            "attendance.record.create",
+            "messaging.thread.send",
+            "admin.user.view",
+        ],
+    )
+    student_role = Role(
+        tenant_id=tid, code="student", display_name="Élève", is_system=True,
+        permissions=[
+            "gradebook.grade.view",
+            "homework.submit",
+            "messaging.thread.send",
+        ],
+    )
+    parent_role = Role(
+        tenant_id=tid, code="parent", display_name="Parent", is_system=True,
+        permissions=[
+            "gradebook.grade.view",
+            "attendance.record.view",
+            "messaging.thread.send",
+        ],
+    )
+    db.add(tutor_role)
+    db.add(student_role)
+    db.add(parent_role)
+    db.flush()
+
+    # ── Academic year ────────────────────────────────────────────────────────
+    year = AcademicYear(
+        tenant_id=tid, name="2025-2026",
+        start_date=date(2025, 9, 1), end_date=date(2026, 7, 4), is_current=True,
+    )
+    db.add(year)
+    db.flush()
+
+    term = Term(
+        academic_year_id=year.id, name="Trimestre 1", order=1,
+        start_date=date(2025, 9, 1), end_date=date(2025, 12, 20),
+    )
+    db.add(term)
+    db.flush()
+
+    # ── Subject ──────────────────────────────────────────────────────────────
+    maths = Subject(
+        tenant_id=tid, code="MATH", name="Mathématiques", color="#4A90D9", coefficient=1,
+    )
+    db.add(maths)
+    db.flush()
+
+    # ── Users ────────────────────────────────────────────────────────────────
+    def make_user(email, first, last, role):
+        u = User(
+            tenant_id=tid, email=email, password_hash=PASSWORD,
+            first_name=first, last_name=last,
+            display_name=f"{first} {last}", status="active",
+        )
+        db.add(u)
+        db.flush()
+        db.add(UserRole(user_id=u.id, role_id=role.id, scope_type="tenant"))
+        return u
+
+    tutor   = make_user("prof.rousseau@demo.edulia.io", "Antoine",  "Rousseau", tutor_role)
+    student = make_user("leo.martin@demo.edulia.io",    "Léo",      "Martin",   student_role)
+    parent  = make_user("parent.martin@demo.edulia.io", "Isabelle", "Martin",   parent_role)
+
+    # Parent → child relationship
+    db.add(Relationship(
+        tenant_id=tid,
+        from_user_id=parent.id,
+        to_user_id=student.id,
+        type="guardian",
+        is_primary=True,
+    ))
+
+    # ── Group (1-to-1 tutoring session) ─────────────────────────────────────
+    group = Group(
+        tenant_id=tid, campus_id=campus.id, academic_year_id=year.id,
+        type="tutoring_group", name="Cours Particuliers — Léo Martin",
+        description="Soutien en mathématiques, niveau 5ème",
+        capacity=2,
+    )
+    db.add(group)
+    db.flush()
+
+    db.add(GroupMembership(group_id=group.id, user_id=tutor.id,   role_in_group="tutor"))
+    db.add(GroupMembership(group_id=group.id, user_id=student.id, role_in_group="member"))
+
+    # ── Weekly sessions (Mercredi 14h + Samedi 10h) ──────────────────────────
+    for day, start, end in [(2, "14:00", "15:30"), (5, "10:00", "11:30")]:
+        h1, m1 = map(int, start.split(":"))
+        h2, m2 = map(int, end.split(":"))
+        db.add(Session(
+            tenant_id=tid, academic_year_id=year.id, group_id=group.id,
+            subject_id=maths.id, teacher_id=tutor.id, room_id=None,
+            day_of_week=day, start_time=time(h1, m1), end_time=time(h2, m2),
+            recurrence="weekly", status="active",
+        ))
+    db.flush()
+
+    # ── Assessments + grades (3 controls during T1) ──────────────────────────
+    assessment_defs = [
+        ("Contrôle — Fractions", date(2025, 9, 27), 20, 1,  12, "Des progrès à faire sur les divisions"),
+        ("Contrôle — Équations", date(2025, 10, 25), 20, 2, 15, "Bon travail, méthode acquise"),
+        ("Bilan T1",             date(2025, 12, 6),  20, 2, 17, "Excellent trimestre, Léo a bien progressé !"),
+    ]
+    for title, dt, max_s, coeff, score, comment in assessment_defs:
+        a = Assessment(
+            tenant_id=tid, subject_id=maths.id, group_id=group.id,
+            term_id=term.id, category_id=None, teacher_id=tutor.id,
+            title=title, date=dt, max_score=max_s,
+            coefficient=Decimal(str(coeff)), is_published=True,
+        )
+        db.add(a)
+        db.flush()
+        db.add(Grade(
+            assessment_id=a.id, student_id=student.id,
+            score=Decimal(str(score)), comment=comment,
+        ))
+    db.flush()
+
+    # ── Messages ─────────────────────────────────────────────────────────────
+    # Thread 1: tutor → parent (progress report)
+    th1 = Thread(
+        tenant_id=tid, type="direct",
+        subject="Bilan de Léo — Trimestre 1",
+        created_by=tutor.id,
+    )
+    db.add(th1)
+    db.flush()
+    db.add(ThreadParticipant(thread_id=th1.id, user_id=tutor.id,  role="sender"))
+    db.add(ThreadParticipant(thread_id=th1.id, user_id=parent.id, role="recipient"))
+    db.add(Message(
+        thread_id=th1.id, sender_id=tutor.id,
+        body=(
+            "Bonjour Mme Martin,\n\n"
+            "Je vous envoie le bilan de Léo pour ce premier trimestre. "
+            "Il a fait d'excellents progrès — il est passé de 12/20 en septembre à 17/20 au bilan. "
+            "Sa méthode sur les équations est désormais solide.\n\n"
+            "Je vous propose de continuer au même rythme en janvier (mercredi + samedi).\n\n"
+            "Bonne fête de fin d'année,\nAntoine Rousseau"
+        ),
+    ))
+    db.add(Message(
+        thread_id=th1.id, sender_id=parent.id,
+        body=(
+            "Merci beaucoup M. Rousseau ! Léo est vraiment motivé depuis le début de vos séances. "
+            "Oui, on continue en janvier, avec plaisir !"
+        ),
+    ))
+    db.flush()
+
+    # Thread 2: tutor → student (homework reminder)
+    th2 = Thread(
+        tenant_id=tid, type="direct",
+        subject="Exercices avant samedi",
+        created_by=tutor.id,
+    )
+    db.add(th2)
+    db.flush()
+    db.add(ThreadParticipant(thread_id=th2.id, user_id=tutor.id,    role="sender"))
+    db.add(ThreadParticipant(thread_id=th2.id, user_id=student.id,  role="recipient"))
+    db.add(Message(
+        thread_id=th2.id, sender_id=tutor.id,
+        body="Bonjour Léo ! N'oublie pas les exercices p.47 (ex. 3, 4, 5) avant samedi. À samedi !",
+    ))
+    db.add(Message(
+        thread_id=th2.id, sender_id=student.id,
+        body="Ok M. Rousseau, j'ai déjà fait les ex. 3 et 4. Je finirai le 5 ce soir.",
+    ))
+    db.flush()
+
+    print(f"  Tenant  : {tenant.name} (slug: {SLUG})")
+    print(f"  Tutor   : {tutor.email}")
+    print(f"  Student : {student.email}")
+    print(f"  Parent  : {parent.email}")
+    print(f"  Group   : {group.name}")
+    print(f"  Modules : {tenant.settings['enabled_modules']}")
+    print(f"  Password: demo2026")
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Seed a private tutor demo profile")
+    parser.add_argument("--reset", action="store_true", help="Delete existing data before seeding")
+    args = parser.parse_args()
+
+    db = SessionLocal()
+    try:
+        delete_existing(db)
+        seed(db)
+        db.commit()
+        print("\nPrivate tutor profile created successfully!")
+    except Exception as e:
+        db.rollback()
+        print(f"Error: {e}")
+        import traceback; traceback.print_exc()
+        sys.exit(1)
+    finally:
+        db.close()
+
+
+if __name__ == "__main__":
+    main()
