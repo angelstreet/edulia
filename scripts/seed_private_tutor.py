@@ -27,6 +27,7 @@ from app.db.models import (
     Role, Session, Subject, Term, Thread, ThreadParticipant,
     Tenant, User, UserRole,
 )
+from app.db.models.billing import SchoolInvoice
 
 SLUG = "private-tutor-demo"
 PASSWORD = hash_password("demo2026")
@@ -47,6 +48,7 @@ def delete_existing(db):
         ("sessions", f"DELETE FROM sessions WHERE tenant_id = :tid"),
         ("group_memberships", f"DELETE FROM group_memberships WHERE group_id IN (SELECT id FROM groups WHERE tenant_id = :tid)"),
         ("groups", f"DELETE FROM groups WHERE tenant_id = :tid"),
+        ("school_invoices", f"DELETE FROM school_invoices WHERE tenant_id = :tid"),
         ("relationships", f"DELETE FROM relationships WHERE tenant_id = :tid"),
         ("user_roles", f"DELETE FROM user_roles WHERE user_id IN (SELECT id FROM users WHERE tenant_id = :tid)"),
         ("users", f"DELETE FROM users WHERE tenant_id = :tid"),
@@ -274,6 +276,62 @@ def seed(db):
         thread_id=th2.id, sender_id=student.id,
         body="Ok M. Rousseau, j'ai déjà fait les ex. 3 et 4. Je finirai le 5 ce soir.",
     ))
+    db.flush()
+
+    # ── Invoices ─────────────────────────────────────────────────────────────
+    # Invoice 1: T1 — sent & paid
+    inv1 = SchoolInvoice(
+        tenant_id=tid,
+        invoice_number="FACT-202509-0001",
+        created_by=tutor.id,
+        student_id=student.id,
+        student_name="Léo Martin",
+        student_class="5ème — Cours particuliers Mathématiques",
+        parent_name="Isabelle Martin",
+        parent_address={"line1": "14 rue des Acacias", "city": "Lyon", "postal_code": "69003"},
+        academic_year="2025-2026",
+        issue_date=date(2025, 9, 1),
+        status="paid",
+        line_items=[
+            {"description": "Séances de mathématiques — Septembre 2025 (4 séances × 1h30)", "qty": 4, "unit_price_cents": 5000, "total_cents": 20000},
+        ],
+        subtotal_cents=20000,
+        previous_balance_cents=0,
+        total_due_cents=20000,
+        paid_cents=20000,
+        payment_schedule=[{"date": "2025-09-05", "amount_cents": 20000}],
+        payment_method="Virement",
+        contact_info="Antoine Rousseau — IBAN FR76 3000 6000 0112 3456 7890 189",
+        notes="Merci pour votre confiance !",
+    )
+    db.add(inv1)
+
+    # Invoice 2: T1 continuation — sent, awaiting payment
+    inv2 = SchoolInvoice(
+        tenant_id=tid,
+        invoice_number="FACT-202510-0002",
+        created_by=tutor.id,
+        student_id=student.id,
+        student_name="Léo Martin",
+        student_class="5ème — Cours particuliers Mathématiques",
+        parent_name="Isabelle Martin",
+        parent_address={"line1": "14 rue des Acacias", "city": "Lyon", "postal_code": "69003"},
+        academic_year="2025-2026",
+        issue_date=date(2025, 10, 1),
+        status="sent",
+        line_items=[
+            {"description": "Séances de mathématiques — Octobre 2025 (4 séances × 1h30)", "qty": 4, "unit_price_cents": 5000, "total_cents": 20000},
+            {"description": "Support pédagogique — fascicule exercices", "qty": 1, "unit_price_cents": 1500, "total_cents": 1500},
+        ],
+        subtotal_cents=21500,
+        previous_balance_cents=0,
+        total_due_cents=21500,
+        paid_cents=0,
+        payment_schedule=[{"date": "2025-10-05", "amount_cents": 21500}],
+        payment_method="Virement",
+        contact_info="Antoine Rousseau — IBAN FR76 3000 6000 0112 3456 7890 189",
+    )
+    db.add(inv2)
     db.flush()
 
     print(f"  Tenant  : {tenant.name} (slug: {SLUG})")
