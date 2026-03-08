@@ -154,7 +154,7 @@ def generate_pdf(invoice: SchoolInvoice, tenant: Tenant) -> bytes:
             ty -= 0.45 * cm
 
     # ── Invoice header bar ───────────────────────────────────
-    bar_y = h - 7.5 * cm
+    bar_y = h - 8.2 * cm
     c.setFillColorRGB(0.2, 0.2, 0.2)
     c.rect(2 * cm, bar_y, w - 4 * cm, 0.65 * cm, fill=1, stroke=0)
     c.setFillColorRGB(1, 1, 1)
