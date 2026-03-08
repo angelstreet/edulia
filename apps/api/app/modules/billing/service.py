@@ -226,9 +226,8 @@ def generate_pdf(invoice: SchoolInvoice, tenant: Tenant) -> bytes:
 
     tbl_w = sum(col_widths)
     tbl_x = 2 * cm
-    tbl_h = len(table_data) * 0.42 * cm
-    tbl.wrapOn(c, tbl_w, tbl_h)
-    tbl_bottom = table_y - tbl_h
+    _actual_w, actual_tbl_h = tbl.wrapOn(c, tbl_w, 600)
+    tbl_bottom = table_y - actual_tbl_h
     tbl.drawOn(c, tbl_x, tbl_bottom)
 
     # ── Footer: 2 columns ────────────────────────────────────
