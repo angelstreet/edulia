@@ -10,7 +10,7 @@ jobs:
   # ─── 1. Frontend: build + typecheck ─────────────────────────────────────────
   build-web:
     name: Build & Typecheck (Web)
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -28,7 +28,7 @@ jobs:
   # ─── 2. API: integration tests against seeded DB ────────────────────────────
   test-api:
     name: API Tests (pytest)
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64]
     services:
       postgres:
         image: postgres:16
@@ -93,7 +93,7 @@ jobs:
   # ─── 3. E2E: Playwright against staging ─────────────────────────────────────
   test-e2e:
     name: E2E Tests (Playwright)
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64]
     needs: build-web
     defaults:
       run:
