@@ -11,7 +11,8 @@
     "typecheck:web": "cd apps/web && npx tsc --noEmit",
     "test:api": "cd apps/api && python -m pytest app/tests/ -v --tb=short",
     "test:e2e": "cd apps/web && npx playwright test",
-    "prepare": "husky"
+    "prepare": "husky",
+    "start:api": "cd apps/api && source ../.venv/bin/activate && set -a && source ../.env && set +a && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
   },
   "repository": {
     "type": "git",
